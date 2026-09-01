@@ -722,30 +722,58 @@ if (customerSignupForm) {
 }
 
 
-// =====================================================
-// FORGOT PASSWORD
-// Still placeholder for now
-// =====================================================
+// ==========================================
+// FORGOT PASSWORD - CUSTOMER
+// ==========================================
 
-const forgotPasswordForm =
-    document.getElementById("forgotPasswordForm");
+const forgotPasswordForm = document.getElementById("forgotPasswordForm");
 
 if (forgotPasswordForm) {
 
-    forgotPasswordForm.addEventListener(
-        "submit",
-        (e) => {
+    forgotPasswordForm.addEventListener("submit", async function (event) {
 
-            e.preventDefault();
+        event.preventDefault();
 
-            alert(
-                "If this email is registered, a reset link has been sent — connect this to your backend."
+        const email = document.getElementById("fpEmail").value.trim();
+
+        if (!email) {
+            alert("Please enter your email address.");
+            return;
+        }
+
+        try {
+
+            const response = await fetch(
+                "http://localhost:5000/api/forgot-password/customer/forgot",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        email: email
+                    })
+                }
             );
 
-            forgotPasswordForm.reset();
+            const data = await response.json();
 
+            alert(data.message);
+
+            if (response.ok) {
+                forgotPasswordForm.reset();
+            }
+
+        } catch (error) {
+
+            console.error("Forgot password error:", error);
+
+            alert("Unable to connect to the server.");
         }
-    );
+
+    });
 
 }
 
@@ -829,8 +857,7 @@ if (catererSignupForm) {
 
 
 // =====================================================
-// ADMIN LOGIN
-// Still placeholder for now
+// ADMIN LOGIN - BACKEND CONNECTION
 // =====================================================
 
 const adminLoginForm =
@@ -840,15 +867,94 @@ if (adminLoginForm) {
 
     adminLoginForm.addEventListener(
         "submit",
-        (e) => {
+        async (e) => {
 
             e.preventDefault();
 
-            alert(
-                "Admin login submitted — connect this to your backend."
-            );
+            const username =
+                document.getElementById("aUsername").value.trim();
 
+            const password =
+                document.getElementById("aPassword").value;
+
+            // Check empty fields
+            if (!username || !password) {
+                alert("Please enter username and password.");
+                return;
+            }
+
+            try {
+
+                const response = await fetch(
+                    "http://localhost:5000/api/admin/login",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            username: username,
+                            password: password
+                        })
+                    }
+                );
+
+                const data = await response.json();
+
+                // Login failed
+                if (!response.ok) {
+
+                    alert(
+                        data.message ||
+                        "Invalid username or password."
+                    );
+
+                    return;
+                }
+
+                // Login successful
+                console.log(
+                    "Admin login successful:",
+                    data
+                );
+
+                // Save JWT token
+                localStorage.setItem(
+                    "adminToken",
+                    data.token
+                );
+
+                // Save admin details
+                localStorage.setItem(
+                    "admin",
+                    JSON.stringify(data.admin)
+                );
+
+                alert("Admin login successful!");
+
+                // Close login popup
+                if (typeof closeAuth === "function") {
+                    closeAuth();
+                }
+
+                // Open admin dashboard
+                window.location.href =
+                    "admindashboard.html";
+
+            } catch (error) {
+
+                console.error(
+                    "Admin login error:",
+                    error
+                );
+
+                alert(
+                    "Unable to connect to the backend. " +
+                    "Make sure your backend server is running."
+                );
+            }
         }
     );
-
 }

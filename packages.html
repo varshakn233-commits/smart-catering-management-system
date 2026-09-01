@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Packages | Annapriya</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .subpage-header {
+            background: #1C1C1C;
+            color: #FFFDF9;
+            padding: 22px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .subpage-header .logo { display: flex; align-items: center; gap: 10px; }
+        .subpage-header .logo h2 { font-family: "Fraunces", serif; font-weight: 600; font-size: 20px; }
+        .subpage-header nav { display: flex; gap: 24px; font-size: 14px; font-weight: 500; }
+        .subpage-header nav a { color: #FFFDF9; }
+        .subpage-header nav a:hover { color: #D4A373; }
+    </style>
+</head>
+<body>
+
+    <header class="subpage-header">
+        <div class="logo"><span>🪔</span><h2>Annapriya</h2></div>
+        <nav>
+            <a href="dashboard.html">← Dashboard</a>
+            <a href="index.html">Home</a>
+        </nav>
+    </header>
+
+    <section id="packages" class="packages-section">
+        <div class="section-heading center">
+            <p class="section-label">Catering Packages</p>
+            <h2>Pick a tier, <span>then a full day of food</span></h2>
+            <p>Each package covers morning tiffin through night dinner. Pricing matches the caterer paired with it above.</p>
+        </div>
+
+        <div class="tier-grid">
+
+            <div class="tier-card">
+                <div class="tier-head">
+                    <span class="tier-label">Bronze</span>
+                    <h3>₹10,000<small> / event</small></h3>
+                    <p class="tier-partner">Paired with Saraswathi Catering</p>
+                </div>
+                <ul class="tier-meals">
+                    <li><span>Morning Tiffin</span><em>₹150 / plate</em></li>
+                    <li><span>Afternoon Lunch</span><em>₹250 / plate</em></li>
+                    <li><span>Evening Snacks</span><em>₹120 / plate</em></li>
+                    <li><span>Night Dinner</span><em>₹280 / plate</em></li>
+                </ul>
+                <button class="outline-btn full">Choose Bronze</button>
+            </div>
+
+            <div class="tier-card featured">
+                <span class="tier-tag">Most Booked</span>
+                <div class="tier-head">
+                    <span class="tier-label">Silver</span>
+                    <h3>₹12,500<small> / event</small></h3>
+                    <p class="tier-partner">Paired with Meenakshi Grand Catering</p>
+                </div>
+                <ul class="tier-meals">
+                    <li><span>Morning Tiffin</span><em>₹200 / plate</em></li>
+                    <li><span>Afternoon Lunch</span><em>₹320 / plate</em></li>
+                    <li><span>Evening Snacks</span><em>₹160 / plate</em></li>
+                    <li><span>Night Dinner</span><em>₹360 / plate</em></li>
+                </ul>
+                <button class="primary-btn full">Choose Silver</button>
+            </div>
+
+            <div class="tier-card">
+                <div class="tier-head">
+                    <span class="tier-label">Gold</span>
+                    <h3>₹16,000<small> / event</small></h3>
+                    <p class="tier-partner">Paired with Royal Thanjavur Feast</p>
+                </div>
+                <ul class="tier-meals">
+                    <li><span>Morning Tiffin</span><em>₹280 / plate</em></li>
+                    <li><span>Afternoon Lunch</span><em>₹420 / plate</em></li>
+                    <li><span>Evening Snacks</span><em>₹220 / plate</em></li>
+                    <li><span>Night Dinner</span><em>₹480 / plate</em></li>
+                </ul>
+                <button class="outline-btn full">Choose Gold</button>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

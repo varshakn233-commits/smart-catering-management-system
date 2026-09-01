@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Annapriya</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .subpage-header {
+            background: #1C1C1C;
+            color: #FFFDF9;
+            padding: 22px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .subpage-header .logo { display: flex; align-items: center; gap: 10px; }
+        .subpage-header .logo h2 { font-family: "Fraunces", serif; font-weight: 600; font-size: 20px; }
+        .subpage-header nav { display: flex; gap: 24px; font-size: 14px; font-weight: 500; }
+        .subpage-header nav a { color: #FFFDF9; }
+        .subpage-header nav a:hover { color: #D4A373; }
+    </style>
+</head>
+<body>
+
+    <header class="subpage-header">
+        <div class="logo"><span>🪔</span><h2>Annapriya</h2></div>
+        <nav>
+            <a href="dashboard.html">← Dashboard</a>
+            <a href="index.html">Home</a>
+        </nav>
+    </header>
+
+    <section id="contact" class="contact-section">
+        <div class="section-heading center">
+            <p class="section-label">Get In Touch</p>
+            <h2>Let's talk about <span>your event</span></h2>
+        </div>
+
+        <div class="contact-wrap">
+            <form class="contact-form" id="contactForm">
+                <div class="form-row">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="tel" placeholder="Phone Number" required>
+                </div>
+                <div class="form-row">
+                    <input type="email" placeholder="Email Address" required>
+                    <input type="date" placeholder="Event Date">
+                </div>
+                <textarea rows="4" placeholder="Tell us about your event..."></textarea>
+                <button type="submit" class="primary-btn full">Send Request →</button>
+            </form>
+
+            <div class="contact-info">
+                <div><span>📍</span><p>Bengaluru, Karnataka, India</p></div>
+                <div><span>📞</span><p>+91 98765 43210</p></div>
+                <div><span>✉️</span><p>hello@annapriya.in</p></div>
+                <div><span>🕒</span><p>Mon – Sun, 9 AM – 9 PM</p></div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

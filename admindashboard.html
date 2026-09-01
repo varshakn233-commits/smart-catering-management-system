@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Annapriya</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Work Sans", sans-serif;
+            background: #F5E9DA;
+            color: #1C1C1C;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #1C1C1C;
+            color: #FFFDF9;
+            padding: 20px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header h2 {
+            font-family: "Fraunces", serif;
+        }
+
+        header a {
+            color: #D4A373;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .wrap {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .wrap h1 {
+            font-family: "Fraunces", serif;
+            font-weight: 500;
+            font-size: 28px;
+            margin-bottom: 6px;
+        }
+
+        .wrap > p {
+            color: #7a6f62;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .tab-btn {
+            padding: 10px 18px;
+            border-radius: 20px;
+            border: 1px solid #e2d3ba;
+            background: #FFFDF9;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #4a3f37;
+        }
+
+        .tab-btn.active {
+            background: #1C1C1C;
+            color: #FFFDF9;
+            border-color: #1C1C1C;
+        }
+
+        .table-wrap {
+            background: #FFFDF9;
+            border-radius: 8px;
+            overflow-x: auto;
+            box-shadow: 0 6px 20px rgba(28, 20, 17, 0.06);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        thead {
+            background: #1C1C1C;
+            color: #FFFDF9;
+        }
+
+        th,
+        td {
+            padding: 14px 16px;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        th {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #F5E9DA;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: #FBF6EE;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: #f5e0b0;
+            color: #8a6300;
+        }
+
+        .status-approved {
+            background: #cdeacb;
+            color: #1c6b1a;
+        }
+
+        .status-rejected {
+            background: #f3c9c9;
+            color: #8b1e1e;
+        }
+
+        .decision-cell {
+            display: flex;
+            gap: 16px;
+        }
+
+        .decision-option {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .decision-option input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .decision-option.accept input {
+            accent-color: #1c6b1a;
+        }
+
+        .decision-option.reject input {
+            accent-color: #8b1e1e;
+        }
+
+        .empty-msg {
+            color: #7a6f62;
+            font-size: 14px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .error-msg {
+            color: #8b1e1e;
+            font-size: 14px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .success-msg {
+            color: #1c6b1a;
+            font-size: 14px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        @media (max-width: 700px) {
+            header {
+                padding: 18px 20px;
+            }
+
+            .wrap {
+                margin: 30px auto;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+            .decision-cell {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>🪔 Annapriya · Admin</h2>
+    <a onclick="logout()">Logout</a>
+</header>
+
+<div class="wrap">
+
+    <h1>Caterer Applications</h1>
+
+    <p>
+        Review new caterer sign-ups and accept or reject each one.
+    </p>
+
+    <div class="tabs">
+
+        <button
+            class="tab-btn active"
+            data-status="pending"
+            onclick="loadCaterers('pending', this)"
+        >
+            Pending
+        </button>
+
+        <button
+            class="tab-btn"
+            data-status="approved"
+            onclick="loadCaterers('approved', this)"
+        >
+            Approved
+        </button>
+
+        <button
+            class="tab-btn"
+            data-status="rejected"
+            onclick="loadCaterers('rejected', this)"
+        >
+            Rejected
+        </button>
+
+    </div>
+
+    <div class="table-wrap">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Brand Name</th>
+                    <th>Owner</th>
+                    <th>Contact</th>
+                    <th>Helpers</th>
+                    <th>Events Served</th>
+                    <th>Status</th>
+                    <th>Decision</th>
+                </tr>
+            </thead>
+
+            <tbody id="catererTableBody">
+
+                <tr>
+                    <td colspan="7" class="empty-msg">
+                        Loading...
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /*
+     * ============================================================
+     * ADMIN DASHBOARD
+     * ============================================================
+     */
+
+    const API_BASE = "http://localhost:5000/api";
+
+
+    /*
+     * ============================================================
+     * GET ADMIN LOGIN INFORMATION
+     * ============================================================
+     *
+     * Your login page previously used:
+     *
+     * adminToken
+     * adminUsername
+     *
+     * The dashboard previously expected:
+     *
+     * annapriya_admin_token
+     * annapriya_admin
+     *
+     * This version supports BOTH so the dashboard does not fail
+     * because of a localStorage key mismatch.
+     */
+
+    let token =
+        localStorage.getItem("adminToken") ||
+        localStorage.getItem("annapriya_admin_token");
+
+    let admin = null;
+
+    try {
+
+        const storedAdmin =
+            localStorage.getItem("annapriya_admin");
+
+        if (storedAdmin) {
+            admin = JSON.parse(storedAdmin);
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Could not read stored admin information:",
+            error
+        );
+
+    }
+
+
+    /*
+     * If the login page only stored adminUsername,
+     * create a small admin object from it.
+     */
+
+    if (!admin) {
+
+        const adminUsername =
+            localStorage.getItem("adminUsername");
+
+        if (adminUsername) {
+
+            admin = {
+                username: adminUsername
+            };
+
+        }
+
+    }
+
+
+    /*
+     * Keep both storage formats synchronized.
+     */
+
+    if (token) {
+
+        localStorage.setItem(
+            "annapriya_admin_token",
+            token
+        );
+
+    }
+
+    if (admin) {
+
+        localStorage.setItem(
+            "annapriya_admin",
+            JSON.stringify(admin)
+        );
+
+    }
+
+
+    /*
+     * ============================================================
+     * CHECK LOGIN
+     * ============================================================
+     */
+
+    if (!token) {
+
+        alert("Please log in as administrator.");
+
+        window.location.href = "index.html";
+
+    }
+
+
+    /*
+     * ============================================================
+     * LOGOUT
+     * ============================================================
+     */
+
+    function logout() {
+
+        localStorage.removeItem("adminToken");
+        localStorage.removeItem("adminUsername");
+
+        localStorage.removeItem("annapriya_admin_token");
+        localStorage.removeItem("annapriya_admin");
+
+        window.location.href = "index.html";
+
+    }
+
+
+    /*
+     * ============================================================
+     * LOAD CATERERS
+     * ============================================================
+     */
+
+    async function loadCaterers(status, btn) {
+
+        /*
+         * Update active tab.
+         */
+
+        document
+            .querySelectorAll(".tab-btn")
+            .forEach(button => {
+                button.classList.remove("active");
+            });
+
+
+        if (btn) {
+            btn.classList.add("active");
+        }
+
+
+        const tbody =
+            document.getElementById("catererTableBody");
+
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" class="empty-msg">
+                    Loading...
+                </td>
+            </tr>
+        `;
+
+
+        /*
+         * Make sure token still exists.
+         */
+
+        if (!token) {
+
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="7" class="error-msg">
+                        Admin session not found. Please log in again.
+                    </td>
+                </tr>
+            `;
+
+            return;
+
+        }
+
+
+        try {
+
+            const res = await fetch(
+                `${API_BASE}/admin/caterers?status=${encodeURIComponent(status)}`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    }
+                }
+            );
+
+
+            /*
+             * Read response safely.
+             */
+
+            let data = {};
+
+            try {
+
+                data = await res.json();
+
+            } catch (jsonError) {
+
+                console.error(
+                    "Server did not return valid JSON:",
+                    jsonError
+                );
+
+            }
+
+
+            /*
+             * Authentication failure.
+             */
+
+            if (res.status === 401 || res.status === 403) {
+
+                console.error(
+                    "Admin authentication failed:",
+                    data
+                );
+
+
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="error-msg">
+                            Admin session was rejected by the server.
+                            Please log in again.
+                        </td>
+                    </tr>
+                `;
+
+
+                /*
+                 * Remove old token so the next login
+                 * can create a fresh session.
+                 */
+
+                localStorage.removeItem("adminToken");
+                localStorage.removeItem("annapriya_admin_token");
+
+                return;
+
+            }
+
+
+            /*
+             * Other server errors.
+             */
+
+            if (!res.ok) {
+
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="error-msg">
+                            ${
+                                data.message ||
+                                "Could not load caterers."
+                            }
+                        </td>
+                    </tr>
+                `;
+
+                return;
+
+            }
+
+
+            /*
+             * Render caterer data.
+             */
+
+            renderTable(
+                data.caterers || [],
+                status
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Could not connect to backend:",
+                error
+            );
+
+
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="7" class="error-msg">
+                        Could not reach the server.
+                        Please make sure the backend is running on
+                        http://localhost:5000
+                    </td>
+                </tr>
+            `;
+
+        }
+
+    }
+
+
+    /*
+     * ============================================================
+     * RENDER CATERER TABLE
+     * ============================================================
+     */
+
+    function renderTable(caterers, status) {
+
+        const tbody =
+            document.getElementById("catererTableBody");
+
+
+        if (!caterers || caterers.length === 0) {
+
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="7" class="empty-msg">
+                        No ${status} caterers.
+                    </td>
+                </tr>
+            `;
+
+            return;
+
+        }
+
+
+        tbody.innerHTML = caterers.map(caterer => {
+
+            const brandName =
+                caterer.brand_name || "—";
+
+            const owner =
+                caterer.head_name || "—";
+
+            const email =
+                caterer.email || "—";
+
+            const phone =
+                caterer.phone || "—";
+
+            const helpers =
+                caterer.helpers ?? "—";
+
+            const eventsServed =
+                caterer.events_served ?? "—";
+
+            const catererStatus =
+                caterer.status || "pending";
+
+            const catererId =
+                caterer.caterer_id;
+
+
+            return `
+
+                <tr>
+
+                    <td>
+                        ${brandName}
+                    </td>
+
+                    <td>
+                        ${owner}
+                    </td>
+
+                    <td>
+                        ${email}
+                        <br>
+                        ${phone}
+                    </td>
+
+                    <td>
+                        ${helpers}
+                    </td>
+
+                    <td>
+                        ${eventsServed}
+                    </td>
+
+                    <td>
+                        <span
+                            class="status-badge status-${catererStatus}"
+                        >
+                            ${catererStatus}
+                        </span>
+                    </td>
+
+                    <td>
+
+                        ${
+                            catererStatus === "pending"
+                            ?
+                            `
+
+                            <div class="decision-cell">
+
+                                <label class="decision-option accept">
+
+                                    <input
+                                        type="checkbox"
+                                        onchange="handleDecision(
+                                            ${catererId},
+                                            'approved',
+                                            this
+                                        )"
+                                    >
+
+                                    Accept
+
+                                </label>
+
+
+                                <label class="decision-option reject">
+
+                                    <input
+                                        type="checkbox"
+                                        onchange="handleDecision(
+                                            ${catererId},
+                                            'rejected',
+                                            this
+                                        )"
+                                    >
+
+                                    Reject
+
+                                </label>
+
+                            </div>
+
+                            `
+                            :
+                            "—"
+                        }
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }).join("");
+
+    }
+
+
+    /*
+     * ============================================================
+     * ACCEPT / REJECT CHECKBOX
+     * ============================================================
+     */
+
+    function handleDecision(
+        catererId,
+        newStatus,
+        checkboxEl
+    ) {
+
+        /*
+         * If checkbox was unchecked,
+         * do nothing.
+         */
+
+        if (!checkboxEl.checked) {
+            return;
+        }
+
+
+        /*
+         * Find the current row.
+         */
+
+        const row =
+            checkboxEl.closest("tr");
+
+
+        /*
+         * Make sure only one decision
+         * can be selected.
+         */
+
+        row
+            .querySelectorAll(
+                'input[type="checkbox"]'
+            )
+            .forEach(box => {
+
+                if (box !== checkboxEl) {
+                    box.checked = false;
+                }
+
+            });
+
+
+        /*
+         * Send decision to backend.
+         */
+
+        updateStatus(
+            catererId,
+            newStatus
+        );
+
+    }
+
+
+    /*
+     * ============================================================
+     * UPDATE CATERER STATUS
+     * ============================================================
+     */
+
+    async function updateStatus(
+        catererId,
+        newStatus
+    ) {
+
+        if (!token) {
+
+            alert(
+                "Admin session is missing. Please log in again."
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            const res = await fetch(
+                `${API_BASE}/admin/caterers/${catererId}/status`,
+                {
+                    method: "PUT",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${token}`
+
+                    },
+
+                    body: JSON.stringify({
+                        status: newStatus
+                    })
+
+                }
+            );
+
+
+            let data = {};
+
+            try {
+
+                data = await res.json();
+
+            } catch (jsonError) {
+
+                console.error(
+                    "Invalid server response:",
+                    jsonError
+                );
+
+            }
+
+
+            /*
+             * Authentication failed.
+             */
+
+            if (
+                res.status === 401 ||
+                res.status === 403
+            ) {
+
+                alert(
+                    "Your admin session is no longer valid. Please log in again."
+                );
+
+                localStorage.removeItem("adminToken");
+                localStorage.removeItem("annapriya_admin_token");
+
+                return;
+
+            }
+
+
+            /*
+             * Other failure.
+             */
+
+            if (!res.ok) {
+
+                alert(
+                    data.message ||
+                    "Could not update caterer status."
+                );
+
+                return;
+
+            }
+
+
+            /*
+             * Successfully updated.
+             */
+
+            alert(
+                `Caterer ${newStatus} successfully.`
+            );
+
+
+            /*
+             * Reload the Pending tab.
+             */
+
+            loadCaterers(
+                "pending",
+                document.querySelector(
+                    '.tab-btn[data-status="pending"]'
+                )
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Status update error:",
+                error
+            );
+
+            alert(
+                "Could not reach the backend server."
+            );
+
+        }
+
+    }
+
+
+    /*
+     * ============================================================
+     * LOAD PENDING CATERERS WHEN PAGE OPENS
+     * ============================================================
+     */
+
+    if (token) {
+
+        loadCaterers(
+            "pending",
+            document.querySelector(
+                '.tab-btn[data-status="pending"]'
+            )
+        );
+
+    }
+
+</script>
+
+</body>
+</html>
