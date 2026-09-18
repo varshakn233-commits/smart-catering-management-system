@@ -613,8 +613,12 @@ footer a:hover { color: #D4A373; transform: translateX(4px); }
     position: fixed;
     inset: 0;
     z-index: 1000;
+    overflow-y: auto;
 }
-.auth-overlay-wrap.open { display: block; }
+
+.auth-overlay-wrap.open {
+    display: block;
+}
 
 .auth-page {
     min-height: 100vh;
@@ -623,8 +627,17 @@ footer a:hover { color: #D4A373; transform: translateX(4px); }
     justify-content: center;
     position: relative;
     padding: 40px 20px;
-    overflow-y: auto;
 }
+
+.auth-bg {
+    position: fixed;
+    inset: 0;
+    background-image: url("image/image1.avif");
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+}
+
 
 .auth-bg {
     position: fixed;

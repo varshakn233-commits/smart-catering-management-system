@@ -3,92 +3,740 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caterers | Annapriya</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+
+    <title>Caterer Dashboard | Annapriya</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
     <style>
-        .subpage-header {
+
+        /* ================= GENERAL ================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Work Sans", sans-serif;
+            background: #F5E9DA;
+            color: #1C1C1C;
+        }
+
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+
+            position: fixed;
+            left: 0;
+            top: 0;
+
             background: #1C1C1C;
             color: #FFFDF9;
-            padding: 22px 6%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+
+            padding: 30px 20px;
         }
-        .subpage-header .logo { display: flex; align-items: center; gap: 10px; }
-        .subpage-header .logo h2 { font-family: "Fraunces", serif; font-weight: 600; font-size: 20px; }
-        .subpage-header nav { display: flex; gap: 24px; font-size: 14px; font-weight: 500; }
-        .subpage-header nav a { color: #FFFDF9; }
-        .subpage-header nav a:hover { color: #D4A373; }
+
+        .logo {
+            font-family: "Fraunces", serif;
+            font-size: 26px;
+            color: #D4A373;
+
+            margin-bottom: 35px;
+        }
+
+        .sidebar a {
+            display: block;
+
+            color: #FFFDF9;
+            text-decoration: none;
+
+            padding: 13px 12px;
+            margin-bottom: 8px;
+
+            border-radius: 8px;
+
+            transition: 0.2s;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #8B1E3F;
+        }
+
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 220px;
+            padding: 40px;
+        }
+
+
+        /* ================= WELCOME ================= */
+
+        .welcome {
+            background: #FFFDF9;
+
+            padding: 30px;
+
+            border-radius: 14px;
+
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+
+            margin-bottom: 30px;
+        }
+
+        .welcome p {
+            color: #777;
+            margin-bottom: 8px;
+        }
+
+        .welcome h1 {
+            font-family: "Fraunces", serif;
+            font-size: 38px;
+            color: #8B1E3F;
+        }
+
+
+        /* ================= SECTION TITLES ================= */
+
+        .section-title {
+            font-family: "Fraunces", serif;
+
+            font-size: 28px;
+
+            color: #8B1E3F;
+
+            margin-bottom: 18px;
+        }
+
+
+        /* ================= BUSINESS DETAILS ================= */
+
+        .details-card {
+            background: #FFFDF9;
+
+            padding: 28px;
+
+            border-radius: 14px;
+
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+
+            margin-bottom: 30px;
+        }
+
+        .details-grid {
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 18px;
+        }
+
+        .detail-box {
+            background: #F5E9DA;
+
+            padding: 18px;
+
+            border-radius: 10px;
+        }
+
+        .detail-box span {
+            display: block;
+
+            color: #777;
+
+            font-size: 14px;
+
+            margin-bottom: 6px;
+        }
+
+        .detail-box strong {
+            font-size: 17px;
+        }
+
+
+        /* ================= STATUS ================= */
+
+        .status-badge {
+            display: inline-block;
+
+            padding: 6px 14px;
+
+            border-radius: 20px;
+
+            background: #D4A373;
+
+            color: #1C1C1C;
+
+            font-weight: 600;
+
+            text-transform: capitalize;
+        }
+
+        .status-badge.approved {
+            background: #D4A373;
+        }
+
+        .status-badge.pending {
+            background: #E6C98A;
+        }
+
+        .status-badge.rejected {
+            background: #D8A0A0;
+        }
+
+
+        /* ================= QUICK LINKS ================= */
+
+        .quick-links {
+            display: grid;
+
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 35px;
+        }
+
+        .quick-card {
+            background: #FFFDF9;
+
+            padding: 25px;
+
+            border-radius: 14px;
+
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+
+            text-decoration: none;
+
+            color: #1C1C1C;
+
+            transition: 0.2s;
+        }
+
+        .quick-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .quick-icon {
+            font-size: 30px;
+
+            margin-bottom: 12px;
+        }
+
+        .quick-card h3 {
+            font-family: "Fraunces", serif;
+
+            color: #8B1E3F;
+
+            margin-bottom: 7px;
+        }
+
+        .quick-card p {
+            color: #666;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+
+        /* ================= EMPTY CARDS ================= */
+
+        .empty-card {
+            background: #FFFDF9;
+
+            padding: 30px;
+
+            border-radius: 14px;
+
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+
+            margin-bottom: 30px;
+
+            text-align: center;
+        }
+
+        .empty-card .icon {
+            font-size: 42px;
+
+            margin-bottom: 12px;
+        }
+
+        .empty-card h3 {
+            font-family: "Fraunces", serif;
+
+            color: #8B1E3F;
+
+            margin-bottom: 8px;
+        }
+
+        .empty-card p {
+            color: #777;
+        }
+
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 900px) {
+
+            .quick-links {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                position: relative;
+
+                width: 100%;
+
+                height: auto;
+
+                padding: 20px;
+            }
+
+            .main {
+                margin-left: 0;
+
+                padding: 25px;
+            }
+
+            .quick-links {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
     </style>
 </head>
+
+
 <body>
 
-    <header class="subpage-header">
-        <div class="logo"><span>🪔</span><h2>Annapriya</h2></div>
-        <nav>
-            <a href="dashboard.html">← Dashboard</a>
-            <a href="index.html">Home</a>
-        </nav>
-    </header>
 
-    <section id="caterers" class="caterers-section">
-        <div class="section-heading center">
-            <p class="section-label">Our Catering Partners</p>
-            <h2>Three kitchens, <span>three traditions</span></h2>
-            <p>Each brand below is paired with a package tier further down the page, so pricing always lines up.</p>
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            Annapriya
         </div>
 
-        <div class="caterer-grid">
-            <div class="caterer-card">
-                <div class="image-container">
-                    <img src="image/image4.avif" alt="Saraswathi Catering traditional spread">
-                    <span class="rating">★ 4.7</span>
-                </div>
-                <div class="card-content">
-                    <p class="category">Everyday · South Indian</p>
-                    <h3>Saraswathi Catering</h3>
-                    <p>Simple, home-style vegetarian cooking for daily functions and modest gatherings.</p>
-                    <div class="card-bottom">
-                        <span>From ₹10,000</span>
-                        <button>View →</button>
+
+        <a
+            href="catererdashboard.html"
+            class="active"
+        >
+            Dashboard
+        </a>
+
+
+        <a href="catererspackages.html">
+            Packages
+        </a>
+
+
+        <a href="catererrequests.html">
+            Event Requests
+        </a>
+
+
+        <a href="Catererscustomers.html">
+            Customers
+        </a>
+
+
+        <a href="catererevents.html">
+            Events
+        </a>
+
+
+        <a
+            href="#"
+            onclick="logout(); return false;"
+        >
+            Logout
+        </a>
+
+    </aside>
+
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main">
+
+
+        <!-- WELCOME -->
+
+        <section class="welcome">
+
+            <p>
+                Welcome back
+            </p>
+
+            <h1 id="catererName">
+                Caterer
+            </h1>
+
+        </section>
+
+
+
+        <!-- BUSINESS DETAILS -->
+
+        <section>
+
+            <h2 class="section-title">
+                Business Details
+            </h2>
+
+
+            <div class="details-card">
+
+                <div class="details-grid">
+
+
+                    <div class="detail-box">
+
+                        <span>
+                            Head Name
+                        </span>
+
+                        <strong id="infoHeadName">
+                            -
+                        </strong>
+
                     </div>
+
+
+
+                    <div class="detail-box">
+
+                        <span>
+                            Brand Name
+                        </span>
+
+                        <strong id="infoBrandName">
+                            -
+                        </strong>
+
+                    </div>
+
+
+
+                    <div class="detail-box">
+
+                        <span>
+                            Email
+                        </span>
+
+                        <strong id="infoEmail">
+                            -
+                        </strong>
+
+                    </div>
+
+
+
+                    <div class="detail-box">
+
+                        <span>
+                            Account Status
+                        </span>
+
+                        <strong>
+
+                            <span
+                                id="accountStatus"
+                                class="status-badge approved"
+                            >
+                                Approved
+                            </span>
+
+                        </strong>
+
+                    </div>
+
+
                 </div>
+
             </div>
 
-            <div class="caterer-card">
-                <div class="image-container">
-                    <img src="image/image3.jpg" alt="Meenakshi Grand Catering festive spread">
-                    <span class="rating">★ 4.8</span>
-                </div>
-                <div class="card-content">
-                    <p class="category">Festive · Weddings</p>
-                    <h3>Meenakshi Grand Catering</h3>
-                    <p>Wedding and festival specialists known for elaborate, well-paced spreads.</p>
-                    <div class="card-bottom">
-                        <span>From ₹12,500</span>
-                        <button>View →</button>
+        </section>
+
+
+
+        <!-- QUICK LINKS -->
+
+        <section>
+
+            <h2 class="section-title">
+                Quick Links
+            </h2>
+
+
+            <div class="quick-links">
+
+
+                <!-- PACKAGES -->
+
+                <a
+                    href="catererspackages.html"
+                    class="quick-card"
+                >
+
+                    <div class="quick-icon">
+                        📦
                     </div>
-                </div>
+
+                    <h3>
+                        Packages
+                    </h3>
+
+                    <p>
+                        View and manage your catering packages.
+                    </p>
+
+                </a>
+
+
+
+                <!-- REQUESTS -->
+
+                <a
+                    href="catererrequests.html"
+                    class="quick-card"
+                >
+
+                    <div class="quick-icon">
+                        📩
+                    </div>
+
+                    <h3>
+                        Event Requests
+                    </h3>
+
+                    <p>
+                        Check customer requests for upcoming events.
+                    </p>
+
+                </a>
+
+
+
+                <!-- CUSTOMERS -->
+
+                <a
+                    href="Catererscustomers.html"
+                    class="quick-card"
+                >
+
+                    <div class="quick-icon">
+                        👥
+                    </div>
+
+                    <h3>
+                        Customers
+                    </h3>
+
+                    <p>
+                        View customers and their event information.
+                    </p>
+
+                </a>
+
+
+
+                <!-- EVENTS -->
+
+                <a
+                    href="catererevents.html"
+                    class="quick-card"
+                >
+
+                    <div class="quick-icon">
+                        🎉
+                    </div>
+
+                    <h3>
+                        Events
+                    </h3>
+
+                    <p>
+                        Keep track of your upcoming catering events.
+                    </p>
+
+                </a>
+
+
             </div>
 
-            <div class="caterer-card">
-                <div class="image-container">
-                    <img src="image/image2.jpg" alt="Royal Thanjavur Feast premium spread">
-                    <span class="rating">★ 4.9</span>
+        </section>
+
+
+
+        <!-- EVENT REQUESTS -->
+
+        <section>
+
+            <h2 class="section-title">
+                Event Requests
+            </h2>
+
+
+            <div class="empty-card">
+
+                <div class="icon">
+                    📩
                 </div>
-                <div class="card-content">
-                    <p class="category">Premium · Banquets</p>
-                    <h3>Royal Thanjavur Feast</h3>
-                    <p>Premium banquet-style catering for occasions that call for the finest spread.</p>
-                    <div class="card-bottom">
-                        <span>From ₹16,000</span>
-                        <button>View →</button>
-                    </div>
-                </div>
+
+                <h3>
+                    No New Requests
+                </h3>
+
+                <p>
+                    New customer event requests will appear here.
+                </p>
+
             </div>
-        </div>
-    </section>
+
+        </section>
+
+
+
+        <!-- UPCOMING EVENTS -->
+
+        <section>
+
+            <h2 class="section-title">
+                Upcoming Events
+            </h2>
+
+
+            <div class="empty-card">
+
+                <div class="icon">
+                    📅
+                </div>
+
+                <h3>
+                    No Upcoming Events
+                </h3>
+
+                <p>
+                    Confirmed events will appear here.
+                </p>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        const token =
+            localStorage.getItem("annapriya_caterer_token");
+
+
+        const caterer =
+            JSON.parse(
+                localStorage.getItem("annapriya_caterer") || "null"
+            );
+
+
+        /*
+         * If caterer is not logged in,
+         * return to the main website.
+         */
+
+        if (!token || !caterer) {
+
+            window.location.href = "index.html";
+
+        } else {
+
+            document.getElementById("catererName").textContent =
+                caterer.headName || "Caterer";
+
+
+            document.getElementById("infoHeadName").textContent =
+                caterer.headName || "-";
+
+
+            document.getElementById("infoBrandName").textContent =
+                caterer.brandName || "-";
+
+
+            document.getElementById("infoEmail").textContent =
+                caterer.email || "-";
+
+
+            if (caterer.status) {
+
+                const statusElement =
+                    document.getElementById("accountStatus");
+
+
+                statusElement.textContent =
+                    caterer.status;
+
+
+                statusElement.className =
+                    "status-badge " + caterer.status;
+
+            }
+
+        }
+
+
+        /*
+         * Logout
+         */
+
+        function logout() {
+
+            localStorage.removeItem(
+                "annapriya_caterer_token"
+            );
+
+            localStorage.removeItem(
+                "annapriya_caterer"
+            );
+
+            window.location.href = "index.html";
+
+        }
+
+    </script>
+
 
 </body>
 </html>

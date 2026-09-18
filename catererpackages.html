@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Packages | Annapriya</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Work Sans", sans-serif;
+            background: #F5E9DA;
+            color: #1C1C1C;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #1C1C1C;
+            color: white;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            font-family: "Fraunces", serif;
+            font-size: 27px;
+            color: #D4A373;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #ddd;
+            padding: 13px 15px;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            background: #8B1E3F;
+            color: white;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .profile-link,
+        .logout {
+            text-decoration: none;
+            padding: 13px 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .profile-link {
+            color: #D4A373;
+            border: 1px solid #D4A373;
+        }
+
+        .profile-link:hover {
+            background: #D4A373;
+            color: #1C1C1C;
+        }
+
+        .logout {
+            color: white;
+            background: #8B1E3F;
+        }
+
+        .logout:hover {
+            background: #a7284f;
+        }
+
+        .main {
+            margin-left: 240px;
+            padding: 40px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+        }
+
+        h1 {
+            font-family: "Fraunces", serif;
+            font-size: 38px;
+            color: #8B1E3F;
+        }
+
+        .subtitle {
+            margin-top: 7px;
+            color: #666;
+        }
+
+        .dashboard-btn {
+            text-decoration: none;
+            background: #1C1C1C;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .dashboard-btn:hover {
+            background: #8B1E3F;
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .package-card {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .package-card h2 {
+            font-family: "Fraunces", serif;
+            color: #8B1E3F;
+            margin-bottom: 12px;
+        }
+
+        .price {
+            font-size: 23px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .package-card p {
+            margin: 8px 0;
+            color: #555;
+        }
+
+        .details-btn {
+            margin-top: 18px;
+            width: 100%;
+            padding: 11px;
+            border: none;
+            border-radius: 7px;
+            background: #D4A373;
+            color: #1C1C1C;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .details-btn:hover {
+            background: #c38e59;
+        }
+
+        @media (max-width: 1000px) {
+            .packages-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 25px;
+            }
+
+            .packages-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+
+        <div class="logo">Annapriya</div>
+
+        <nav class="nav">
+            <a href="catererdashboard.html">Dashboard</a>
+            <a href="catererpackages.html" class="active">My Packages</a>
+            <a href="catererrequests.html">Event Requests</a>
+            <a href="catererevents.html">My Events</a>
+            <a href="caterercustomers.html">My Customers</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="caterer-profile.html" class="profile-link">
+                Caterer Profile
+            </a>
+
+            <a href="#" class="logout" onclick="logout()">
+                Logout
+            </a>
+        </div>
+
+    </aside>
+
+
+    <main class="main">
+
+        <div class="top-bar">
+            <div>
+                <h1>My Packages</h1>
+                <p class="subtitle">
+                    Manage and view your catering packages.
+                </p>
+            </div>
+
+            <a href="catererdashboard.html" class="dashboard-btn">
+                Dashboard
+            </a>
+        </div>
+
+
+        <div class="packages-grid">
+
+            <div class="package-card">
+                <h2>Wedding Premium</h2>
+                <div class="price">₹85,000</div>
+                <p>👥 Up to 250 guests</p>
+                <p>🍽️ Full Catering</p>
+
+                <button class="details-btn"
+                    onclick="viewDetails('Wedding Premium')">
+                    View Details
+                </button>
+            </div>
+
+
+            <div class="package-card">
+                <h2>Birthday Celebration</h2>
+                <div class="price">₹25,000</div>
+                <p>👥 Up to 80 guests</p>
+                <p>🍽️ Buffet</p>
+
+                <button class="details-btn"
+                    onclick="viewDetails('Birthday Celebration')">
+                    View Details
+                </button>
+            </div>
+
+
+            <div class="package-card">
+                <h2>Corporate Lunch</h2>
+                <div class="price">₹40,000</div>
+                <p>👥 Up to 120 guests</p>
+                <p>🍽️ Buffet</p>
+
+                <button class="details-btn"
+                    onclick="viewDetails('Corporate Lunch')">
+                    View Details
+                </button>
+            </div>
+
+
+            <div class="package-card">
+                <h2>Engagement Special</h2>
+                <div class="price">₹55,000</div>
+                <p>👥 Up to 150 guests</p>
+                <p>🍽️ Full Catering</p>
+
+                <button class="details-btn"
+                    onclick="viewDetails('Engagement Special')">
+                    View Details
+                </button>
+            </div>
+
+
+            <div class="package-card">
+                <h2>Traditional Kerala Feast</h2>
+                <div class="price">₹60,000</div>
+                <p>👥 Up to 200 guests</p>
+                <p>🍽️ Traditional Feast</p>
+
+                <button class="details-btn"
+                    onclick="viewDetails('Traditional Kerala Feast')">
+                    View Details
+                </button>
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        function viewDetails(packageName) {
+            alert("Package: " + packageName);
+        }
+
+        function logout() {
+            localStorage.removeItem("annapriya_caterer_token");
+            localStorage.removeItem("annapriya_caterer");
+
+            window.location.href = "index.html";
+        }
+
+    </script>
+
+</body>
+</html>

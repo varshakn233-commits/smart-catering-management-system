@@ -2,43 +2,69 @@
 // ANNAPRIYA — SITE SCRIPTS
 // ==========================================
 
+
 // ---------- Mobile nav toggle ----------
+
 const menuToggle = document.getElementById("menuToggle");
 const navLinks = document.querySelector(".navbar nav");
 
-if (menuToggle) {
+if (menuToggle && navLinks) {
+
     menuToggle.addEventListener("click", () => {
+
         navLinks.classList.toggle("nav-open");
+
     });
+
 }
 
 
 // ---------- Solid navbar on scroll ----------
+
 const navbar = document.querySelector(".navbar");
 
 function updateNavbarOnScroll() {
+
+    if (!navbar) return;
+
     if (window.scrollY > 80) {
-        navbar.style.background = "rgba(28, 20, 17, 0.92)";
+
+        navbar.style.background =
+            "rgba(28, 20, 17, 0.92)";
+
     } else {
+
         navbar.style.background =
             "linear-gradient(to bottom, rgba(28,20,17,0.55), rgba(28,20,17,0))";
+
     }
+
 }
 
 window.addEventListener("scroll", updateNavbarOnScroll);
+
 updateNavbarOnScroll();
 
 
 // ---------- Login dropdown ----------
-const loginToggle = document.getElementById("loginToggle");
-const loginMenu = document.getElementById("loginMenu");
+
+const loginToggle =
+    document.getElementById("loginToggle");
+
+const loginMenu =
+    document.getElementById("loginMenu");
+
 
 if (loginToggle && loginMenu) {
 
     loginToggle.addEventListener("click", (e) => {
+
         e.preventDefault();
+
         loginMenu.classList.toggle("open");
+
     });
+
 
     document.addEventListener("click", (e) => {
 
@@ -46,128 +72,203 @@ if (loginToggle && loginMenu) {
             !loginToggle.contains(e.target) &&
             !loginMenu.contains(e.target)
         ) {
+
             loginMenu.classList.remove("open");
+
         }
 
     });
+
 }
 
 
-// ---------- Auth overlays ----------
+// =====================================================
+// AUTH OVERLAYS
+// =====================================================
+
 function openAuth(type) {
 
     closeAuth();
 
+
     if (type === "customer") {
 
-        document
-            .getElementById("authCustomer")
-            .classList.add("open");
+        const element =
+            document.getElementById("authCustomer");
 
-    } else if (type === "customer-signup") {
+        if (element) {
+            element.classList.add("open");
+        }
 
-        document
-            .getElementById("authCustomerSignup")
-            .classList.add("open");
-
-    } else if (type === "forgot") {
-
-        document
-            .getElementById("authForgot")
-            .classList.add("open");
-
-    } else if (type === "caterer") {
-
-        document
-            .getElementById("authCaterer")
-            .classList.add("open");
-
-    } else if (type === "caterer-signup") {
-
-        document
-            .getElementById("authCatererSignup")
-            .classList.add("open");
-
-    } else if (type === "admin") {
-
-        document
-            .getElementById("authAdmin")
-            .classList.add("open");
     }
+
+
+    else if (type === "customer-signup") {
+
+        const element =
+            document.getElementById("authCustomerSignup");
+
+        if (element) {
+            element.classList.add("open");
+        }
+
+    }
+
+
+    else if (type === "forgot") {
+
+        const element =
+            document.getElementById("authForgot");
+
+        if (element) {
+            element.classList.add("open");
+        }
+
+    }
+
+
+    else if (type === "caterer") {
+
+        const element =
+            document.getElementById("authCaterer");
+
+        if (element) {
+            element.classList.add("open");
+        }
+
+    }
+
+
+    else if (type === "caterer-signup") {
+
+        const element =
+            document.getElementById("authCatererSignup");
+
+        if (element) {
+            element.classList.add("open");
+        }
+
+    }
+
+
+    else if (type === "admin") {
+
+        const element =
+            document.getElementById("authAdmin");
+
+        if (element) {
+            element.classList.add("open");
+        }
+
+    }
+
 
     document.body.style.overflow = "hidden";
 
+
     if (loginMenu) {
+
         loginMenu.classList.remove("open");
+
     }
+
 }
 
 
 // ---------- Close auth ----------
+
 function closeAuth() {
 
     document
         .querySelectorAll(".auth-overlay-wrap")
-        .forEach(el => el.classList.remove("open"));
+        .forEach(el => {
+
+            el.classList.remove("open");
+
+        });
+
 
     document.body.style.overflow = "";
+
 }
 
 
 // ---------- Close overlay by clicking outside ----------
-document.querySelectorAll(".auth-page").forEach(page => {
 
-    page.addEventListener("click", (e) => {
+document
+    .querySelectorAll(".auth-page")
+    .forEach(page => {
 
-        if (e.target === page) {
-            closeAuth();
-        }
+        page.addEventListener("click", (e) => {
+
+            if (e.target === page) {
+
+                closeAuth();
+
+            }
+
+        });
 
     });
 
-});
-
 
 // ---------- Close auth with Escape ----------
+
 document.addEventListener("keydown", (e) => {
 
     if (e.key === "Escape") {
+
         closeAuth();
+
     }
 
 });
 
 
 // ---------- Password show/hide ----------
-document.querySelectorAll(".password-toggle").forEach(btn => {
 
-    btn.addEventListener("click", () => {
+document
+    .querySelectorAll(".password-toggle")
+    .forEach(btn => {
 
-        const input = btn.previousElementSibling;
+        btn.addEventListener("click", () => {
 
-        if (input.type === "password") {
+            const input =
+                btn.previousElementSibling;
 
-            input.type = "text";
-            btn.textContent = "🙈";
 
-        } else {
+            if (!input) return;
 
-            input.type = "password";
-            btn.textContent = "👁️";
 
-        }
+            if (input.type === "password") {
+
+                input.type = "text";
+
+                btn.textContent = "🙈";
+
+            } else {
+
+                input.type = "password";
+
+                btn.textContent = "👁️";
+
+            }
+
+        });
 
     });
-
-});
 
 
 // =====================================================
 // SITE SEARCH
 // =====================================================
 
-const searchInput = document.getElementById("siteSearch");
-const searchBtn = document.getElementById("searchBtn");
+const searchInput =
+    document.getElementById("siteSearch");
+
+const searchBtn =
+    document.getElementById("searchBtn");
+
 
 const searchIndex = [
 
@@ -286,35 +387,65 @@ const searchIndex = [
 
 function runSiteSearch() {
 
-    const query = searchInput.value.trim().toLowerCase();
+    if (!searchInput) return;
+
+
+    const query =
+        searchInput.value
+            .trim()
+            .toLowerCase();
+
 
     if (!query) return;
 
-    const match = searchIndex.find(item =>
-        item.text.toLowerCase().includes(query)
-    );
+
+    const match =
+        searchIndex.find(item =>
+            item.text
+                .toLowerCase()
+                .includes(query)
+        );
+
 
     if (match) {
 
-        document
-            .getElementById(match.target)
-            .scrollIntoView({
+        const target =
+            document.getElementById(match.target);
+
+
+        if (target) {
+
+            target.scrollIntoView({
                 behavior: "smooth"
             });
 
-    } else if (
+        }
+
+    }
+
+
+    else if (
         query.includes("event") ||
         query.includes("wedding") ||
         query.includes("party")
     ) {
 
-        document
-            .getElementById("events")
-            .scrollIntoView({
+        const target =
+            document.getElementById("events");
+
+
+        if (target) {
+
+            target.scrollIntoView({
                 behavior: "smooth"
             });
 
-    } else if (
+        }
+
+    }
+
+
+    else if (
         query.includes("package") ||
         query.includes("price") ||
         query.includes("gold") ||
@@ -322,37 +453,64 @@ function runSiteSearch() {
         query.includes("bronze")
     ) {
 
-        document
-            .getElementById("packages")
-            .scrollIntoView({
+        const target =
+            document.getElementById("packages");
+
+
+        if (target) {
+
+            target.scrollIntoView({
                 behavior: "smooth"
             });
 
-    } else {
+        }
 
-        document
-            .getElementById("caterers")
-            .scrollIntoView({
-                behavior: "smooth"
-            });
     }
+
+
+    else {
+
+        const target =
+            document.getElementById("caterers");
+
+
+        if (target) {
+
+            target.scrollIntoView({
+                behavior: "smooth"
+            });
+
+        }
+
+    }
+
 }
 
 
 if (searchBtn) {
-    searchBtn.addEventListener("click", runSiteSearch);
+
+    searchBtn.addEventListener(
+        "click",
+        runSiteSearch
+    );
+
 }
 
 
 if (searchInput) {
 
-    searchInput.addEventListener("keydown", (e) => {
+    searchInput.addEventListener(
+        "keydown",
+        (e) => {
 
-        if (e.key === "Enter") {
-            runSiteSearch();
+            if (e.key === "Enter") {
+
+                runSiteSearch();
+
+            }
+
         }
-
-    });
+    );
 
 }
 
@@ -361,16 +519,18 @@ if (searchInput) {
 // SCROLL REVEAL
 // =====================================================
 
-const revealTargets = document.querySelectorAll(
-    ".point-card, .caterer-card, .process-card, .tier-card, .event-row"
-);
+const revealTargets =
+    document.querySelectorAll(
+        ".point-card, .caterer-card, .process-card, .tier-card, .event-row"
+    );
 
 
 revealTargets.forEach(el => {
 
     el.style.opacity = "0";
 
-    el.style.transform = "translateY(24px)";
+    el.style.transform =
+        "translateY(24px)";
 
     el.style.transition =
         "opacity 0.6s ease, transform 0.6s ease";
@@ -378,62 +538,164 @@ revealTargets.forEach(el => {
 });
 
 
-const observer = new IntersectionObserver(
+const observer =
+    new IntersectionObserver(
 
-    (entries) => {
+        (entries) => {
 
-        entries.forEach(entry => {
+            entries.forEach(entry => {
 
-            if (entry.isIntersecting) {
+                if (entry.isIntersecting) {
 
-                entry.target.style.opacity = "1";
+                    entry.target.style.opacity = "1";
 
-                entry.target.style.transform =
-                    "translateY(0)";
+                    entry.target.style.transform =
+                        "translateY(0)";
 
-                observer.unobserve(entry.target);
-            }
+                    observer.unobserve(
+                        entry.target
+                    );
 
-        });
+                }
 
-    },
+            });
 
-    {
-        threshold: 0.12
-    }
+        },
 
-);
+        {
+            threshold: 0.12
+        }
+
+    );
 
 
 revealTargets.forEach(el => {
+
     observer.observe(el);
+
 });
 
 
 // =====================================================
-// FORM SUBMIT HANDLERS
+// CONTACT FORM
+// Connected to Node.js + MySQL
 // =====================================================
 
-
-// ---------- Contact form ----------
-const contactForm = document.getElementById("contactForm");
+const contactForm =
+    document.getElementById("contactForm");
 
 if (contactForm) {
 
-    contactForm.addEventListener("submit", (e) => {
+    contactForm.addEventListener("submit", async (e) => {
 
         e.preventDefault();
 
-        alert(
-            "Thanks! Your request has been noted. We'll get back to you shortly."
-        );
+        const nameInput =
+            contactForm.querySelector('input[placeholder="Your Name"]');
 
-        contactForm.reset();
+        const phoneInput =
+            contactForm.querySelector('input[placeholder="Phone Number"]');
+
+        const emailInput =
+            contactForm.querySelector('input[placeholder="Email Address"]');
+
+        const dateInput =
+            contactForm.querySelector('input[type="date"]');
+
+        const messageInput =
+            contactForm.querySelector("textarea");
+
+
+        const customer =
+            JSON.parse(
+                localStorage.getItem("annapriya_customer") || "null"
+            );
+
+
+        const customerId =
+            customer ? customer.id : null;
+
+
+        const customerName =
+            nameInput.value.trim();
+
+        const phone =
+            phoneInput.value.trim();
+
+        const email =
+            emailInput.value.trim();
+
+        const eventDate =
+            dateInput.value;
+
+        const message =
+            messageInput.value.trim();
+
+
+        if (!customerName || !phone || !email) {
+            alert("Please fill in all required fields.");
+            return;
+        }
+
+
+        try {
+
+            const response = await fetch(
+                "http://localhost:5000/api/requests",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        customerId,
+                        customerName,
+                        phone,
+                        email,
+                        eventDate,
+                        message
+                    })
+                }
+            );
+
+
+            const data = await response.json();
+
+
+            if (!response.ok) {
+                alert(
+                    data.message ||
+                    "Could not send request."
+                );
+                return;
+            }
+
+
+            alert(
+                "Event request sent successfully!"
+            );
+
+
+            contactForm.reset();
+
+
+        } catch (error) {
+
+            console.error(
+                "Contact form error:",
+                error
+            );
+
+            alert(
+                "Unable to connect to the backend. Make sure Node.js is running."
+            );
+        }
 
     });
 
 }
-
 
 // =====================================================
 // CUSTOMER LOGIN
@@ -442,7 +704,10 @@ if (contactForm) {
 // =====================================================
 
 const customerLoginForm =
-    document.getElementById("customerLoginForm");
+    document.getElementById(
+        "customerLoginForm"
+    );
+
 
 if (customerLoginForm) {
 
@@ -452,11 +717,13 @@ if (customerLoginForm) {
 
             e.preventDefault();
 
+
             const email =
                 document
                     .getElementById("cEmail")
                     .value
                     .trim();
+
 
             const password =
                 document
@@ -464,7 +731,8 @@ if (customerLoginForm) {
                     .value;
 
 
-            // Basic frontend validation
+            // Basic validation
+
             if (!email || !password) {
 
                 alert(
@@ -472,35 +740,39 @@ if (customerLoginForm) {
                 );
 
                 return;
+
             }
 
 
             try {
 
-                const response = await fetch(
-                    "http://localhost:5000/api/customer/login",
-                    {
-                        method: "POST",
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/customer/login",
+                        {
+                            method: "POST",
 
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
 
-                        body: JSON.stringify({
+                            body: JSON.stringify({
 
-                            email: email,
+                                email: email,
 
-                            password: password
+                                password: password
 
-                        })
-                    }
-                );
+                            })
 
-
-                const data = await response.json();
+                        }
+                    );
 
 
-                // Backend returned an error
+                const data =
+                    await response.json();
+
+
                 if (!response.ok) {
 
                     alert(
@@ -509,20 +781,25 @@ if (customerLoginForm) {
                     );
 
                     return;
+
                 }
 
 
                 // Save JWT token
+
                 localStorage.setItem(
                     "annapriya_token",
                     data.token
                 );
 
 
-                // Save customer information
+                // Save customer details
+
                 localStorage.setItem(
                     "annapriya_customer",
-                    JSON.stringify(data.customer)
+                    JSON.stringify(
+                        data.customer
+                    )
                 );
 
 
@@ -532,8 +809,10 @@ if (customerLoginForm) {
                 );
 
 
-                // Redirect to the dashboard page instead of an alert
-                window.location.href = "dashboard.html";
+                // Redirect to customer dashboard
+
+                window.location.href =
+                    "dashboard.html";
 
 
             } catch (error) {
@@ -547,6 +826,7 @@ if (customerLoginForm) {
                 alert(
                     "Could not connect to the server. Please make sure the backend is running on port 5000."
                 );
+
             }
 
         }
@@ -562,7 +842,9 @@ if (customerLoginForm) {
 // =====================================================
 
 const customerSignupForm =
-    document.getElementById("customerSignupForm");
+    document.getElementById(
+        "customerSignupForm"
+    );
 
 
 if (customerSignupForm) {
@@ -574,7 +856,6 @@ if (customerSignupForm) {
             e.preventDefault();
 
 
-            // Get values from HTML form
             const fullName =
                 document
                     .getElementById("suName")
@@ -622,6 +903,7 @@ if (customerSignupForm) {
 
 
             // Check passwords
+
             if (password !== confirmPassword) {
 
                 alert(
@@ -629,10 +911,12 @@ if (customerSignupForm) {
                 );
 
                 return;
+
             }
 
 
             // Check password length
+
             if (password.length < 6) {
 
                 alert(
@@ -640,45 +924,50 @@ if (customerSignupForm) {
                 );
 
                 return;
+
             }
 
 
             try {
 
-                const response = await fetch(
-                    "http://localhost:5000/api/customer/signup",
-                    {
-                        method: "POST",
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/customer/signup",
+                        {
+                            method: "POST",
 
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
 
-                        body: JSON.stringify({
+                            body: JSON.stringify({
 
-                            fullName: fullName,
+                                fullName: fullName,
 
-                            gender: gender,
+                                gender: gender,
 
-                            address: address,
+                                address: address,
 
-                            phone: phone,
+                                phone: phone,
 
-                            email: email,
+                                email: email,
 
-                            password: password,
+                                password: password,
 
-                            confirmPassword: confirmPassword
+                                confirmPassword:
+                                    confirmPassword
 
-                        })
-                    }
-                );
+                            })
+
+                        }
+                    );
 
 
-                const data = await response.json();
+                const data =
+                    await response.json();
 
 
-                // Backend returned an error
                 if (!response.ok) {
 
                     alert(
@@ -687,10 +976,10 @@ if (customerSignupForm) {
                     );
 
                     return;
+
                 }
 
 
-                // Successful signup
                 alert(
                     "Account created successfully! Please log in."
                 );
@@ -699,7 +988,6 @@ if (customerSignupForm) {
                 customerSignupForm.reset();
 
 
-                // Open customer login
                 openAuth("customer");
 
 
@@ -714,6 +1002,7 @@ if (customerSignupForm) {
                 alert(
                     "Could not connect to the server. Please make sure the backend is running on port 5000."
                 );
+
             }
 
         }
@@ -726,54 +1015,92 @@ if (customerSignupForm) {
 // FORGOT PASSWORD - CUSTOMER
 // ==========================================
 
-const forgotPasswordForm = document.getElementById("forgotPasswordForm");
+const forgotPasswordForm =
+    document.getElementById(
+        "forgotPasswordForm"
+    );
+
 
 if (forgotPasswordForm) {
 
-    forgotPasswordForm.addEventListener("submit", async function (event) {
+    forgotPasswordForm.addEventListener(
+        "submit",
+        async function (event) {
 
-        event.preventDefault();
+            event.preventDefault();
 
-        const email = document.getElementById("fpEmail").value.trim();
 
-        if (!email) {
-            alert("Please enter your email address.");
-            return;
-        }
+            const email =
+                document
+                    .getElementById("fpEmail")
+                    .value
+                    .trim();
 
-        try {
 
-            const response = await fetch(
-                "http://localhost:5000/api/forgot-password/customer/forgot",
-                {
-                    method: "POST",
+            if (!email) {
 
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+                alert(
+                    "Please enter your email address."
+                );
 
-                    body: JSON.stringify({
-                        email: email
-                    })
-                }
-            );
+                return;
 
-            const data = await response.json();
-
-            alert(data.message);
-
-            if (response.ok) {
-                forgotPasswordForm.reset();
             }
 
-        } catch (error) {
 
-            console.error("Forgot password error:", error);
+            try {
 
-            alert("Unable to connect to the server.");
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/forgot-password/customer/forgot",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                email: email
+
+                            })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                alert(data.message);
+
+
+                if (response.ok) {
+
+                    forgotPasswordForm.reset();
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Forgot password error:",
+                    error
+                );
+
+
+                alert(
+                    "Unable to connect to the server."
+                );
+
+            }
+
         }
-
-    });
+    );
 
 }
 
@@ -784,71 +1111,281 @@ if (forgotPasswordForm) {
 // =====================================================
 
 const catererLoginForm =
-    document.getElementById("catererLoginForm");
-
-if (catererLoginForm) {
-
-    catererLoginForm.addEventListener(
-        "submit",
-        (e) => {
-
-            e.preventDefault();
-
-            alert(
-                "Caterer login submitted — connect this to your backend."
-            );
-
-        }
+    document.getElementById(
+        "catererLoginForm"
     );
 
+
+if (catererLoginForm) {
+    catererLoginForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        alert("caterer login button clicked");
+
+        const emailInput = catererLoginForm.querySelector('input[type="email"]');
+const passwordInput = catererLoginForm.querySelector('input[type="password"]');
+
+const email = emailInput.value.trim().toLowerCase();
+const password = passwordInput.value;
+
+        if (!email || !password) {
+            alert("Email and password are required.");
+            return;
+        }
+
+        const gmailRegex = /^[^\s@]+@gmail\.com$/i;
+
+        if (!gmailRegex.test(email)) {
+            alert("Please use a valid Gmail address ending with @gmail.com.");
+            return;
+        }
+
+        try {
+            const response = await fetch(
+                "http://localhost:5000/api/caterer/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                alert(data.message || "Login failed.");
+                return;
+            }
+
+            localStorage.setItem("annapriya_caterer_token", data.token);
+            localStorage.setItem(
+                "annapriya_caterer",
+                JSON.stringify(data.caterer)
+            );
+
+            alert("Caterer login successful!");
+
+            window.location.href = "catererdashboard.html";
+        } catch (error) {
+            console.error("Caterer login error:", error);
+
+            alert(
+                "Unable to connect to the backend. Make sure the Node.js server is running."
+            );
+        }
+    });
 }
-
-
 // =====================================================
 // CATERER SIGNUP
-// Still placeholder for now
+// Connected to Node.js + MySQL backend
+// POST /api/caterer/signup
 // =====================================================
 
 const catererSignupForm =
-    document.getElementById("catererSignupForm");
+    document.getElementById(
+        "catererSignupForm"
+    );
+
 
 if (catererSignupForm) {
 
     catererSignupForm.addEventListener(
         "submit",
-        (e) => {
+        async (e) => {
 
             e.preventDefault();
 
 
-            const pass =
+            // Get values from caterer signup form
+
+            const headName =
+                document
+                    .getElementById("csHead")
+                    .value
+                    .trim();
+
+
+            const brandName =
+                document
+                    .getElementById("csBrand")
+                    .value
+                    .trim();
+
+
+            const phone =
+                document
+                    .getElementById("csPhone")
+                    .value
+                    .trim();
+
+
+            const email =
+                document
+                    .getElementById("csEmail")
+                    .value
+                    .trim();
+
+
+            const helpers =
+                document
+                    .getElementById("csHelpers")
+                    .value;
+
+
+            const eventsServed =
+                document
+                    .getElementById("csEvents")
+                    .value;
+
+
+            const password =
                 document
                     .getElementById("csPassword")
                     .value;
 
 
-            const confirm =
+            const confirmPassword =
                 document
                     .getElementById("csConfirm")
                     .value;
 
 
-            if (pass !== confirm) {
+            // Check required fields
+
+            if (
+                !headName ||
+                !brandName ||
+                !phone ||
+                !email ||
+                !helpers ||
+                !eventsServed ||
+                !password ||
+                !confirmPassword
+            ) {
+
+                alert(
+                    "Please fill in all fields."
+                );
+
+                return;
+
+            }
+
+
+            // Check password confirmation
+
+            if (password !== confirmPassword) {
 
                 alert(
                     "Passwords don't match — please check and try again."
                 );
 
                 return;
+
             }
 
 
-            alert(
-                "Application submitted — connect this to your backend. It should save with status = pending until admin approves."
-            );
+            try {
+
+                // Send caterer details to backend
+
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/caterer/signup",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                headName:
+                                    headName,
+
+                                brandName:
+                                    brandName,
+
+                                phone:
+                                    phone,
+
+                                email:
+                                    email,
+
+                                helpers:
+                                    helpers,
+
+                                eventsServed:
+                                    eventsServed,
+
+                                password:
+                                    password,
+
+                                confirmPassword:
+                                    confirmPassword
+
+                            })
+
+                        }
+                    );
 
 
-            catererSignupForm.reset();
+                const data =
+                    await response.json();
+
+
+                // Backend returned an error
+
+                if (!response.ok) {
+
+                    alert(
+                        data.message ||
+                        "Could not submit caterer application."
+                    );
+
+                    return;
+
+                }
+
+
+                // Successful application
+
+                alert(
+                    data.message ||
+                    "Application submitted successfully!"
+                );
+
+
+                // Clear form
+
+                catererSignupForm.reset();
+
+
+                // Open caterer login
+
+                openAuth("caterer");
+
+
+            } catch (error) {
+
+                console.error(
+                    "Caterer signup error:",
+                    error
+                );
+
+
+                alert(
+                    "Could not connect to the server. Please make sure the backend is running on port 5000."
+                );
+
+            }
 
         }
     );
@@ -857,11 +1394,16 @@ if (catererSignupForm) {
 
 
 // =====================================================
-// ADMIN LOGIN - BACKEND CONNECTION
+// ADMIN LOGIN
+// Connected to Node.js + MySQL backend
+// POST /api/admin/login
 // =====================================================
 
 const adminLoginForm =
-    document.getElementById("adminLoginForm");
+    document.getElementById(
+        "adminLoginForm"
+    );
+
 
 if (adminLoginForm) {
 
@@ -871,39 +1413,66 @@ if (adminLoginForm) {
 
             e.preventDefault();
 
+
             const username =
-                document.getElementById("aUsername").value.trim();
+                document
+                    .getElementById("aUsername")
+                    .value
+                    .trim();
+
 
             const password =
-                document.getElementById("aPassword").value;
+                document
+                    .getElementById("aPassword")
+                    .value;
+
 
             // Check empty fields
+
             if (!username || !password) {
-                alert("Please enter username and password.");
+
+                alert(
+                    "Please enter username and password."
+                );
+
                 return;
+
             }
+
 
             try {
 
-                const response = await fetch(
-                    "http://localhost:5000/api/admin/login",
-                    {
-                        method: "POST",
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/admin/login",
+                        {
+                            method: "POST",
 
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
 
-                        body: JSON.stringify({
-                            username: username,
-                            password: password
-                        })
-                    }
-                );
+                            body: JSON.stringify({
 
-                const data = await response.json();
+                                username:
+                                    username,
+
+                                password:
+                                    password
+
+                            })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
 
                 // Login failed
+
                 if (!response.ok) {
 
                     alert(
@@ -912,36 +1481,58 @@ if (adminLoginForm) {
                     );
 
                     return;
+
                 }
 
+
                 // Login successful
+
                 console.log(
                     "Admin login successful:",
                     data
                 );
 
+
                 // Save JWT token
+
                 localStorage.setItem(
                     "adminToken",
                     data.token
                 );
 
+
                 // Save admin details
+
                 localStorage.setItem(
                     "admin",
-                    JSON.stringify(data.admin)
+                    JSON.stringify(
+                        data.admin
+                    )
                 );
 
-                alert("Admin login successful!");
+
+                alert(
+                    "Admin login successful!"
+                );
+
 
                 // Close login popup
-                if (typeof closeAuth === "function") {
+
+                if (
+                    typeof closeAuth ===
+                    "function"
+                ) {
+
                     closeAuth();
+
                 }
 
+
                 // Open admin dashboard
+
                 window.location.href =
                     "admindashboard.html";
+
 
             } catch (error) {
 
@@ -950,11 +1541,14 @@ if (adminLoginForm) {
                     error
                 );
 
+
                 alert(
-                    "Unable to connect to the backend. " +
-                    "Make sure your backend server is running."
+                    "Unable to connect to the backend. Make sure your backend server is running."
                 );
+
             }
+
         }
     );
+
 }

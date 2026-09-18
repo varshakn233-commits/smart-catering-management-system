@@ -160,37 +160,7 @@
             font-weight: 600;
         }
 
-        /* ---------- Quick Links ---------- */
-
-        .stat-tiles {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .stat-tile {
-            background: #F5E9DA;
-            border-radius: 8px;
-            padding: 16px;
-            text-align: center;
-            transition: 0.2s;
-        }
-
-        .stat-tile:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 12px rgba(28,20,17,0.08);
-        }
-
-        .stat-tile .stat-icon {
-            font-size: 20px;
-            margin-bottom: 6px;
-        }
-
-        .stat-tile p {
-            font-size: 12px;
-            color: #4a3f37;
-            font-weight: 600;
-        }
+       
 
         /* ---------- Bookings ---------- */
 
@@ -376,67 +346,29 @@
             </div>
 
 
-            <!-- Quick Links -->
-
-            <div class="card">
-
-                <h3>Quick Links</h3>
-
-                <div class="stat-tiles">
-
-                    <!-- Caterers -->
-                    <a class="stat-tile" href="caterers.html">
-                        <div class="stat-icon">🍽️</div>
-                        <p>Caterers</p>
-                    </a>
-
-                    <!-- Packages -->
-                    <a class="stat-tile" href="packages.html">
-                        <div class="stat-icon">🏷️</div>
-                        <p>Packages</p>
-                    </a>
-
-                    <!-- Events -->
-                    <a class="stat-tile" href="events.html">
-                        <div class="stat-icon">📅</div>
-                        <p>Events</p>
-                    </a>
-
-                    <!-- Contact -->
-                    <a class="stat-tile" href="contact.html">
-                        <div class="stat-icon">✉️</div>
-                        <p>Contact</p>
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
+            
         <!-- ==================== BOOKINGS ==================== -->
 
-        <div class="card bookings-card">
+       <div class="card bookings-card" id="bookingsCard">
 
-            <div class="icon">📋</div>
+    <div class="icon">📋</div>
 
-            <h3>No bookings yet</h3>
+    <h3>My Event Requests</h3>
 
-            <p class="desc">
-                Once you select a caterer and submit an event request,
-                it will show up here — from pending, to accepted, to confirmed.
-            </p>
+    <div id="bookingsList">
+        <p class="desc">Loading your requests...</p>
+    </div>
 
-            <a class="cta-btn" href="caterers.html">
-                Explore Caterers →
-            </a>
+    <a class="cta-btn" href="caterers.html">
+        Explore Caterers →
+    </a>
 
-        </div>
-
+</div>
     </div>
 
 
+    
+    
     <!-- ==================== JAVASCRIPT ==================== -->
 
     <script>
@@ -477,6 +409,138 @@
 
             window.location.href = "index.html";
         }
+        async function loadBookings() {
+
+    const bookingsList =
+        document.getElementById("bookingsList");
+
+    if (!bookingsList || !customer) return;
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:5000/api/requests"
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            bookingsList.innerHTML =
+                "<p class='desc'>Could not load your requests.</p>";
+            return;
+        }
+
+        const myRequests =
+            data.requests.filter(request =>
+                Number(request.customer_id) === Number(customer.id)
+            );
+
+        if (myRequests.length === 0) {
+
+            bookingsList.innerHTML = `
+                <p class="desc">
+                    You haven't submitted any event requests yet.
+                </p>
+            `;
+
+            return;
+        }
+
+        bookingsList.innerHTML = "";
+
+        myRequests.forEach(request => {
+
+            let message = "";
+            let statusText = "";
+
+            if (request.status === "accepted") {
+
+                statusText = "✅ ACCEPTED";
+
+                message = `
+                    <div class="info-row">
+                        <span>Status</span>
+                        <span>${statusText}</span>
+                    </div>
+
+                    <p class="desc">
+                        🎉 Your event request has been accepted
+                        by ${request.caterer_name || "the caterer"}!
+                        Your booking is confirmed.
+                    </p>
+                `;
+
+            } else if (request.status === "rejected") {
+
+                statusText = "❌ REJECTED";
+
+                message = `
+                    <div class="info-row">
+                        <span>Status</span>
+                        <span>${statusText}</span>
+                    </div>
+
+                    <p class="desc">
+                        Your event request was rejected by the caterer.
+                    </p>
+                `;
+
+            } else {
+
+                statusText = "⏳ PENDING";
+
+                message = `
+                    <div class="info-row">
+                        <span>Status</span>
+                        <span>${statusText}</span>
+                    </div>
+
+                    <p class="desc">
+                        Your request has been sent to the caterer.
+                        Waiting for confirmation.
+                    </p>
+                `;
+            }
+
+            const booking = document.createElement("div");
+
+            booking.className = "booking-item";
+
+            booking.innerHTML = `
+                ${message}
+
+                <div class="info-row">
+                    <span>Event Date</span>
+                    <span>${request.event_date || "-"}</span>
+                </div>
+
+                <div class="info-row">
+                    <span>Message</span>
+                    <span>${request.message || "-"}</span>
+                </div>
+            `;
+
+            bookingsList.appendChild(booking);
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Load bookings error:",
+            error
+        );
+
+        bookingsList.innerHTML = `
+            <p class="desc">
+                Unable to connect to the backend.
+            </p>
+        `;
+    }
+}
+
+
+loadBookings();
 
     </script>
 

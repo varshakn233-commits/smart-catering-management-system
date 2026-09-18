@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Events | Annapriya</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5e9da;
+            color: #1c1c1c;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #1c1c1c;
+            color: white;
+            padding: 25px 18px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #d4a373;
+            margin-bottom: 35px;
+            text-align: center;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .nav-links a,
+        .bottom-links a {
+            text-decoration: none;
+            color: #ddd;
+            padding: 13px 15px;
+            border-radius: 8px;
+            display: block;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active,
+        .bottom-links a:hover {
+            background: #8b1e3f;
+            color: white;
+        }
+
+        .bottom-links {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .logout {
+            color: #ffb3b3 !important;
+        }
+
+        .main {
+            margin-left: 240px;
+            padding: 35px 45px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-top: 6px;
+        }
+
+        .dashboard-btn {
+            background: #8b1e3f;
+            color: white;
+            text-decoration: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        .table-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        th {
+            background: #1c1c1c;
+            color: white;
+            padding: 15px 12px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        td {
+            padding: 15px 12px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #faf7f2;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: #d4edda;
+            color: #155724;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 800px) {
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+
+        <div class="logo">ANNAPRIYA</div>
+
+        <nav class="nav-links">
+            <a href="catererdashboard.html">Dashboard</a>
+            <a href="catererpackages.html">My Packages</a>
+            <a href="catererrequests.html">Event Requests</a>
+            <a href="catererevents.html" class="active">My Events</a>
+            <a href="caterercustomers.html">My Customers</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+
+        <div class="bottom-links">
+            <a href="caterer-profile.html">👤 Caterer Profile</a>
+            <a href="#" class="logout" onclick="logout()">↪ Logout</a>
+        </div>
+
+    </aside>
+
+
+    <main class="main">
+
+        <div class="top-bar">
+
+            <div>
+                <h1>My Events</h1>
+                <p class="subtitle">
+                    View your confirmed upcoming events.
+                </p>
+            </div>
+
+            <a href="catererdashboard.html" class="dashboard-btn">
+                Dashboard
+            </a>
+
+        </div>
+
+
+        <div class="table-card">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Customer</th>
+                        <th>Date</th>
+                        <th>Guests</th>
+                        <th>Location</th>
+                        <th>Package</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Sharma Wedding</td>
+                        <td>Ananya Sharma</td>
+                        <td>20 Oct 2026</td>
+                        <td>250</td>
+                        <td>Kochi</td>
+                        <td>Wedding Premium</td>
+                        <td>+91 98765 43210</td>
+                        <td>
+                            <span class="status">Confirmed</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Rahul Birthday Celebration</td>
+                        <td>Rahul Kumar</td>
+                        <td>25 Oct 2026</td>
+                        <td>80</td>
+                        <td>Ernakulam</td>
+                        <td>Birthday Celebration</td>
+                        <td>+91 91234 56780</td>
+                        <td>
+                            <span class="status">Confirmed</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Nair Engagement</td>
+                        <td>Priya Nair</td>
+                        <td>02 Nov 2026</td>
+                        <td>150</td>
+                        <td>Thrissur</td>
+                        <td>Engagement Special</td>
+                        <td>+91 99887 66554</td>
+                        <td>
+                            <span class="status">Confirmed</span>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        const token = localStorage.getItem("annapriya_caterer_token");
+
+        if (!token) {
+            window.location.href = "index.html";
+        }
+
+        function logout() {
+            localStorage.removeItem("annapriya_caterer_token");
+            localStorage.removeItem("annapriya_caterer");
+            window.location.href = "index.html";
+        }
+
+    </script>
+
+</body>
+</html>

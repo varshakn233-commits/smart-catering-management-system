@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Caterer Profile | Annapriya</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Work Sans", sans-serif;
+            background: #F5E9DA;
+            color: #1C1C1C;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            background: #1C1C1C;
+            color: #FFFDF9;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            font-family: "Fraunces", serif;
+            font-size: 26px;
+            color: #D4A373;
+            margin-bottom: 35px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #FFFDF9;
+            text-decoration: none;
+            padding: 12px;
+            margin-bottom: 7px;
+            border-radius: 8px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #8B1E3F;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+        }
+
+        .profile-link {
+            border-top: 1px solid #444;
+            padding-top: 15px !important;
+        }
+
+        /* MAIN */
+
+        .main {
+            margin-left: 220px;
+            padding: 40px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-family: "Fraunces", serif;
+            color: #8B1E3F;
+            font-size: 38px;
+        }
+
+        .subtitle {
+            color: #555;
+            margin-top: 8px;
+        }
+
+        .dashboard-btn {
+            background: #8B1E3F;
+            color: white;
+            text-decoration: none;
+            padding: 11px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .dashboard-btn:hover {
+            background: #6f1732;
+        }
+
+        /* PROFILE CARD */
+
+        .profile-card {
+            max-width: 850px;
+            background: #FFFDF9;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .profile-card h2 {
+            font-family: "Fraunces", serif;
+            color: #8B1E3F;
+            margin-bottom: 25px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        input {
+            padding: 13px;
+            border: 1px solid #D8C7B5;
+            border-radius: 8px;
+            font-family: "Work Sans", sans-serif;
+            font-size: 15px;
+            background: #FFFDF9;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #8B1E3F;
+        }
+
+        input:disabled {
+            background: #eee8e0;
+            color: #666;
+        }
+
+        .email-note {
+            font-size: 12px;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .save-btn {
+            margin-top: 28px;
+            background: #8B1E3F;
+            color: white;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .save-btn:hover {
+            background: #6f1732;
+        }
+
+        .message {
+            display: none;
+            margin-top: 18px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #E3F2E3;
+            color: #286028;
+            font-weight: 600;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                padding: 20px;
+            }
+
+            .sidebar-bottom {
+                margin-top: 10px;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 25px;
+            }
+
+            .top-bar {
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            h1 {
+                font-size: 30px;
+            }
+
+            .dashboard-btn {
+                white-space: nowrap;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .profile-card {
+                padding: 25px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            Annapriya
+        </div>
+
+        <a href="catererdashboard.html">
+            Dashboard
+        </a>
+
+        <a href="catererpackages.html">
+            My Packages
+        </a>
+
+        <a href="catererrequests.html">
+            Event Requests
+        </a>
+
+        <a href="catererevents.html">
+            My Events
+        </a>
+
+        <div class="sidebar-bottom">
+
+            <a href="caterer-profile.html" class="active profile-link">
+                Caterer Profile
+            </a>
+
+            <a href="#" onclick="logout()">
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <div class="top-bar">
+
+            <div>
+                <h1>Caterer Profile</h1>
+
+                <p class="subtitle">
+                    Manage your catering business details.
+                </p>
+            </div>
+
+            <a href="catererdashboard.html" class="dashboard-btn">
+                Dashboard
+            </a>
+
+        </div>
+
+
+        <!-- PROFILE -->
+
+        <div class="profile-card">
+
+            <h2>Business Information</h2>
+
+            <form id="profileForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="headName">
+                            Head / Owner Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="headName"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="brandName">
+                            Brand Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="brandName"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="phone">
+                            Phone Number
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="phone"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Business Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            disabled
+                        >
+
+                        <span class="email-note">
+                            Email cannot be changed here.
+                        </span>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="helpers">
+                            Number of Helpers
+                        </label>
+
+                        <input
+                            type="number"
+                            id="helpers"
+                            min="0"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="eventsServed">
+                            Events Served
+                        </label>
+
+                        <input
+                            type="number"
+                            id="eventsServed"
+                            min="0"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    Save Changes
+                </button>
+
+                <div
+                    id="message"
+                    class="message"
+                >
+                    Profile updated successfully!
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        /* GET CATERER DATA */
+
+        const token =
+            localStorage.getItem("annapriya_caterer_token");
+
+        const caterer =
+            JSON.parse(
+                localStorage.getItem("annapriya_caterer") || "null"
+            );
+
+
+        /* LOGIN CHECK */
+
+        if (!token || !caterer) {
+
+            window.location.href = "index.html";
+
+        }
+
+
+        /* LOAD PROFILE DATA */
+
+        if (caterer) {
+
+            document.getElementById("headName").value =
+                caterer.headName || "";
+
+            document.getElementById("brandName").value =
+                caterer.brandName || "";
+
+            document.getElementById("phone").value =
+                caterer.phone || "";
+
+            document.getElementById("email").value =
+                caterer.email || "";
+
+            document.getElementById("helpers").value =
+                caterer.helpers || "";
+
+            document.getElementById("eventsServed").value =
+                caterer.eventsServed || "";
+
+        }
+
+
+        /* SAVE CHANGES */
+
+        document
+            .getElementById("profileForm")
+            .addEventListener("submit", function(event) {
+
+                event.preventDefault();
+
+
+                caterer.headName =
+                    document.getElementById("headName").value.trim();
+
+                caterer.brandName =
+                    document.getElementById("brandName").value.trim();
+
+                caterer.phone =
+                    document.getElementById("phone").value.trim();
+
+                caterer.helpers =
+                    document.getElementById("helpers").value;
+
+                caterer.eventsServed =
+                    document.getElementById("eventsServed").value;
+
+
+                localStorage.setItem(
+                    "annapriya_caterer",
+                    JSON.stringify(caterer)
+                );
+
+
+                const message =
+                    document.getElementById("message");
+
+                message.style.display = "block";
+
+
+                setTimeout(function() {
+
+                    message.style.display = "none";
+
+                }, 3000);
+
+            });
+
+
+        /* LOGOUT */
+
+        function logout() {
+
+            localStorage.removeItem(
+                "annapriya_caterer_token"
+            );
+
+            localStorage.removeItem(
+                "annapriya_caterer"
+            );
+
+            window.location.href = "index.html";
+
+        }
+
+    </script>
+
+</body>
+
+</html>

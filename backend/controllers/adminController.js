@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const db = require("../config/db");
 
 async function login(req, res) {
-    try {
+    try { 
         const { username, password } = req.body;
 
         if (!username || !password) {
