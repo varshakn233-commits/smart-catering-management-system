@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Requests | Annapriya</title>
+
+    <link rel="stylesheet" href="myrequests.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="top-navbar">
+
+        <div class="logo">
+            Annapriya
+        </div>
+
+        <a href="customerdashboard.html" class="back-button">
+            ← Dashboard
+        </a>
+
+    </header>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="requests-container">
+
+        <!-- PAGE HEADER -->
+        <section class="page-header">
+
+            <div>
+                <p class="small-heading">
+                    CUSTOMER
+                </p>
+
+                <h1>
+                    My Requests
+                </h1>
+
+                <p class="page-description">
+                    View the event enquiries you have sent to caterers.
+                </p>
+            </div>
+
+            <button
+                id="refreshButton"
+                class="refresh-button"
+                type="button">
+                ↻ Refresh
+            </button>
+
+        </section>
+
+
+        <!-- LOADING -->
+        <div
+            id="loadingMessage"
+            class="message-box loading-box">
+
+            <div class="loader"></div>
+
+            <p>
+                Loading your requests...
+            </p>
+
+        </div>
+
+
+        <!-- ERROR -->
+        <div
+            id="errorMessage"
+            class="message-box error-box"
+            style="display: none;">
+
+            <div class="message-icon">
+                ⚠️
+            </div>
+
+            <h3>
+                Something went wrong
+            </h3>
+
+            <p id="errorText">
+                Could not load your requests.
+            </p>
+
+            <button
+                id="retryButton"
+                type="button"
+                class="retry-button">
+
+                Try Again
+
+            </button>
+
+        </div>
+
+
+        <!-- EMPTY -->
+        <div
+            id="emptyMessage"
+            class="message-box empty-box"
+            style="display: none;">
+
+            <div class="empty-icon">
+                📋
+            </div>
+
+            <h3>
+                No Requests Yet
+            </h3>
+
+            <p>
+                You haven't sent any event enquiries yet.
+            </p>
+
+            <a
+                href="customercaterers.html"
+                class="browse-button">
+
+                Browse Caterers
+
+            </a>
+
+        </div>
+
+
+        <!-- REQUESTS -->
+        <section
+            id="requestsSection"
+            class="requests-section"
+            style="display: none;">
+
+            <div class="requests-count">
+                <span id="requestCount">
+                    0
+                </span>
+
+                Requests
+            </div>
+
+
+            <div class="requests-list" id="requestsList">
+                <!-- Requests will be added here by JavaScript -->
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="myrequests.js"></script>
+
+</body>
+</html>

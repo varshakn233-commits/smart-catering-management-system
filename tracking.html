@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Your Event | Annapriya</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#F5E9DA;color:#1C1C1C;min-height:100vh}
+.top-navbar{background:#8B1E3F;color:white;padding:16px 22px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:23px;font-weight:bold}.back-button{color:white;text-decoration:none;font-size:14px}
+.container{max-width:760px;margin:30px auto;padding:0 14px 40px}
+.card{background:white;border-radius:22px;padding:28px 30px;box-shadow:0 6px 22px rgba(0,0,0,.08)}
+.head{display:flex;justify-content:space-between;gap:15px;margin-bottom:30px}
+.head h1{font-size:25px;margin-bottom:7px}.sub{color:#777;font-size:14px}
+.badge{background:#F9E6EE;color:#8B1E3F;padding:9px 14px;border-radius:22px;font-size:13px;font-weight:bold;height:max-content;white-space:nowrap}
+.progress{position:relative;display:grid;grid-template-columns:repeat(4,1fr);min-width:500px}
+.progress-wrap{overflow-x:auto;padding:4px 0 8px}
+.line,.filled{position:absolute;top:18px;left:12.5%;height:4px;border-radius:10px;width:75%}
+.line{background:#E8DDCC}.filled{background:#8B1E3F;width:0;transition:.3s}
+.stage{text-align:center;position:relative;z-index:2}
+.circle{width:38px;height:38px;margin:auto auto 9px;border-radius:50%;background:#F4EEE5;border:3px solid #E8DDCC;display:flex;align-items:center;justify-content:center;font-size:17px}
+.stage.done .circle{background:#8B1E3F;border-color:#8B1E3F;color:white}
+.stage.current .circle{background:white;border-color:#8B1E3F;box-shadow:0 0 0 7px #F9E6EE}
+.title{font-size:13px;font-weight:bold;color:#777;margin-bottom:4px}
+.stage.done .title,.stage.current .title{color:#1C1C1C}
+.time{font-size:11px;color:#999}
+.message{background:#F9E6EE;color:#8B1E3F;border-radius:12px;padding:14px 16px;font-size:14px;font-weight:bold;margin-top:25px}
+.divider{height:1px;background:#E9E0D4;margin:28px 0}
+.booking{display:flex;align-items:center;gap:16px}.icon{width:70px;height:70px;border-radius:15px;background:linear-gradient(135deg,#D4A373,#8B1E3F);flex-shrink:0}
+.booking h2{font-size:17px;margin-bottom:7px}.booking p{color:#777;font-size:13px;line-height:1.5}
+.loading,.error{background:white;border-radius:16px;padding:40px;text-align:center}.error{color:#B00020}
+@media(max-width:600px){.container{margin:20px auto}.card{padding:23px 18px}.head h1{font-size:22px}.badge{font-size:12px;padding:8px 10px}.booking h2{font-size:15px}.icon{width:62px;height:62px}}
+</style>
+</head>
+<body>
+<header class="top-navbar"><div class="logo">Annapriya</div><a href="myrequests.html" class="back-button">← My Requests</a></header>
+<main class="container"><div id="content"><div class="loading">Loading event tracking...</div></div></main>
+
+<script>
+const requestId=new URLSearchParams(location.search).get("requestId");
+
+const stages=[
+ {title:"Confirmed",icon:"✓"},
+ {title:"Preparing",icon:"👨‍🍳"},
+ {title:"On the Way",icon:"🚚"},
+ {title:"Completed",icon:"🍽️"}
+];
+
+function visualIndex(status){
+ if(["request_submitted","caterer_accepted","payment_completed"].includes(status)) return 0;
+ if(status==="preparing") return 1;
+ if(["on_the_way","event_started"].includes(status)) return 2;
+ if(status==="event_completed") return 3;
+ return 0;
+}
+
+function date(v){
+ if(!v)return "Date not available";
+ const d=new Date(v);
+ return isNaN(d)?"Date not available":d.toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"});
+}
+
+function message(status){
+ if(status==="preparing")return "👨‍🍳 Your caterer's team is preparing everything for your event.";
+ if(["on_the_way","event_started"].includes(status))return "🚚 Your caterer's team is on the way to your venue!";
+ if(status==="event_completed")return "🎉 Your catering event has been completed successfully!";
+ if(status==="payment_completed")return "💳 Payment completed. Your booking is confirmed!";
+ if(status==="caterer_accepted")return "✅ Your caterer has accepted your event request.";
+ return "📋 Your event request has been submitted.";
+}
+
+async function loadTracking(){
+ const content=document.getElementById("content");
+ if(!requestId){content.innerHTML='<div class="error">Request ID is missing.</div>';return;}
+ try{
+  const response=await fetch("http://localhost:5000/api/tracking/"+requestId);
+  const data=await response.json();
+  if(!response.ok)throw new Error(data.message||"Could not load tracking.");
+  const request=data.request, tracking=data.tracking;
+  const status=tracking?.tracking_status||"request_submitted";
+  const current=visualIndex(status);
+  const width=current===1?25:current===2?50:current===3?75:0;
+
+  let stagesHTML="";
+  stages.forEach((s,i)=>{
+   const cls=i<current?"done":i===current?"current":"";
+   stagesHTML+=`<div class="stage ${cls}"><div class="circle">${i<current?"✓":s.icon}</div><div class="title">${s.title}</div><div class="time">${i<current?"Completed":i===current?"Now":"—"}</div></div>`;
+  });
+
+  content.innerHTML=`
+  <section class="card">
+   <div class="head">
+    <div><h1>Track Your Event</h1><p class="sub">${request.event_type||"Catering Event"} · Annapriya Catering</p></div>
+    <div class="badge">${stages[current].title}</div>
+   </div>
+   <div class="progress-wrap"><div class="progress"><div class="line"></div><div class="filled" style="width:${width}%"></div>${stagesHTML}</div></div>
+   <div class="message">${message(status)}</div>
+   <div class="divider"></div>
+   <div class="booking">
+    <div class="icon"></div>
+    <div><h2>Booking #${request.request_id} · ${request.guest_count||"—"} guests</h2><p>${date(request.event_date)} · ${request.venue_location||"Venue not available"}</p></div>
+   </div>
+  </section>`;
+ }catch(error){
+  console.error(error);
+  content.innerHTML=`<div class="error">❌ ${error.message}</div>`;
+ }
+}
+loadTracking();
+</script>
+</body>
+</html>

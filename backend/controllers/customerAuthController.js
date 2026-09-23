@@ -3,7 +3,9 @@ const jwt = require("jsonwebtoken");
 const db = require("../config/db");
 
 const GMAIL_REGEX = /^[^\s@]+@gmail\.com$/i;
-const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{6,}$/;
+
+const PASSWORD_REGEX =
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{6,}$/;
 
 async function signup(req, res) {
     try {
@@ -35,7 +37,8 @@ async function signup(req, res) {
         // Gmail validation
         if (!GMAIL_REGEX.test(email.trim())) {
             return res.status(400).json({
-                message: "Please use a valid Gmail address ending with @gmail.com."
+                message:
+                    "Please use a valid Gmail address ending with @gmail.com."
             });
         }
 
@@ -126,6 +129,7 @@ async function login(req, res) {
 
         const customer = rows[0];
 
+        // Check password
         const passwordMatch = await bcrypt.compare(
             password,
             customer.password_hash
@@ -137,6 +141,7 @@ async function login(req, res) {
             });
         }
 
+        // Create JWT token
         const token = jwt.sign(
             {
                 customerId: customer.customer_id,
@@ -148,13 +153,17 @@ async function login(req, res) {
             }
         );
 
+        // Return customer details after successful login
         return res.status(200).json({
             message: "Login successful.",
+
             token: token,
+
             customer: {
                 id: customer.customer_id,
                 fullName: customer.full_name,
-                email: customer.email
+                email: customer.email,
+                phone: customer.phone
             }
         });
 
@@ -167,8 +176,155 @@ async function login(req, res) {
     }
 }
 
+// =====================================================
+// GET CUSTOMER PROFILE
+// =====================================================
+
+async function getCustomerProfile(req, res) {
+    try {
+
+        const { customerId } = req.params;
+
+        if (!customerId) {
+            return res.status(400).json({
+                message: "Customer ID is required."
+            });
+        }
+
+        const [rows] = await db.query(
+            `SELECT
+                customer_id,
+                full_name,
+                gender,
+                address,
+                phone,
+                email
+             FROM customers
+             WHERE customer_id = ?`,
+            [customerId]
+        );
+
+        if (rows.length === 0) {
+            return res.status(404).json({
+                message: "Customer not found."
+            });
+        }
+
+        return res.status(200).json({
+            customer: rows[0]
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Get customer profile error:",
+            error
+        );
+
+        return res.status(500).json({
+            message: "Could not load customer profile."
+        });
+    }
+}
+
+
+// =====================================================
+// UPDATE CUSTOMER PROFILE
+// =====================================================
+
+async function updateCustomerProfile(req, res) {
+    try {
+
+        const { customerId } = req.params;
+
+        const {
+            fullName,
+            gender,
+            address,
+            phone
+        } = req.body;
+
+
+        if (!customerId) {
+            return res.status(400).json({
+                message: "Customer ID is required."
+            });
+        }
+
+
+        if (
+            !fullName ||
+            !gender ||
+            !address ||
+            !phone
+        ) {
+            return res.status(400).json({
+                message: "All profile fields are required."
+            });
+        }
+
+
+        const [result] = await db.query(
+            `UPDATE customers
+             SET
+                full_name = ?,
+                gender = ?,
+                address = ?,
+                phone = ?
+             WHERE customer_id = ?`,
+            [
+                fullName.trim(),
+                gender,
+                address.trim(),
+                phone.trim(),
+                customerId
+            ]
+        );
+
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({
+                message: "Customer not found."
+            });
+        }
+
+
+        const [rows] = await db.query(
+            `SELECT
+                customer_id,
+                full_name,
+                gender,
+                address,
+                phone,
+                email
+             FROM customers
+             WHERE customer_id = ?`,
+            [customerId]
+        );
+
+
+        return res.status(200).json({
+            message: "Profile updated successfully.",
+            customer: rows[0]
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Update customer profile error:",
+            error
+        );
+
+        return res.status(500).json({
+            message: "Could not update customer profile."
+        });
+    }
+}
 
 module.exports = {
     signup,
-    login
+    login,
+    getCustomerProfile,
+    updateCustomerProfile
 };

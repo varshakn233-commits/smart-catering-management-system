@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Annapriya | Customer Dashboard</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Customer Dashboard CSS -->
+    <link rel="stylesheet" href="customerdashboard.css">
+</head>
+
+<body>
+
+
+    <!-- =====================================================
+         CUSTOMER NAVBAR
+    ====================================================== -->
+
+    <header class="customer-navbar">
+
+        <!-- Annapriya Logo -->
+        <a
+            href="customerdashboard.html"
+            class="brand-logo"
+        >
+            <span class="brand-symbol">✦</span>
+            <span>Annapriya</span>
+        </a>
+
+
+        <!-- Navbar Right Side -->
+        <div class="navbar-right">
+
+
+            <!-- =================================================
+                 NOTIFICATION
+            ================================================== -->
+
+            <button
+                class="notification-button"
+                id="notificationButton"
+                title="Notifications"
+                type="button"
+            >
+
+                <span class="notification-icon">
+                    🔔
+                </span>
+
+                <span
+                    class="notification-badge"
+                    id="notificationBadge"
+                >
+                    3
+                </span>
+
+            </button>
+
+
+
+            <!-- =================================================
+                 CUSTOMER PROFILE
+                 
+                 CLICKING PROFILE:
+                 ONLY MY PROFILE
+            ================================================== -->
+
+            <button
+                class="profile-button"
+                id="profileButton"
+                type="button"
+                title="My Profile"
+            >
+
+                <span
+                    class="profile-avatar"
+                    id="headerAvatar"
+                >
+                    C
+                </span>
+
+                <span
+                    class="profile-name"
+                    id="headerCustomerName"
+                >
+                    Customer
+                </span>
+
+            </button>
+
+
+
+            <!-- =================================================
+                 HAMBURGER MENU
+                 
+                 CLICKING ☰:
+                 ALL 9 OPTIONS
+            ================================================== -->
+
+            <button
+                class="menu-button"
+                id="menuButton"
+                title="Customer Menu"
+                type="button"
+                aria-label="Open customer menu"
+            >
+                ☰
+            </button>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         PROFILE BUTTON MENU
+         
+         ONLY:
+         👤 My Profile
+    ====================================================== -->
+
+    <div
+        class="profile-button-menu"
+        id="profileButtonMenu"
+    >
+
+        <a
+            href="myprofile.html"
+            class="profile-button-menu-item"
+        >
+
+            <span class="menu-icon">
+                👤
+            </span>
+
+            <span>
+                My Profile
+            </span>
+
+        </a>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         HAMBURGER MENU
+         
+         ALL 9 OPTIONS
+    ====================================================== -->
+
+    <div
+        class="profile-menu"
+        id="profileMenu"
+    >
+
+
+        <!-- Customer Menu Header -->
+
+        <div class="menu-profile-header">
+
+            <div
+                class="menu-avatar"
+                id="menuAvatar"
+            >
+                C
+            </div>
+
+            <div>
+
+                <h3 id="menuCustomerName">
+                    Customer
+                </h3>
+
+                <p>
+                    Customer Account
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             1. MY PROFILE
+        ================================================== -->
+
+        <a
+            href="myprofile.html"
+            class="menu-item"
+        >
+
+            <span class="menu-icon">
+                👤
+            </span>
+
+            <span>
+                My Profile
+            </span>
+
+        </a>
+
+
+
+        <!-- =================================================
+             2. ENQUIRY
+        ================================================== -->
+
+        <a
+            href="customercaterers.html"
+            class="menu-item"
+        >
+
+            <span class="menu-icon">
+                ✉️
+            </span>
+
+            <span>
+                Enquiry
+            </span>
+
+        </a>
+
+
+
+        <!-- =================================================
+             3. BOOK MY EVENTS
+        ================================================== -->
+
+        <a
+            href="bookmyevents.html"
+            class="menu-item"
+        >
+
+            <span class="menu-icon">
+                📅
+            </span>
+
+            <span>
+                Book My Events
+            </span>
+
+        </a>
+
+
+
+        <!-- =================================================
+             4. MY REQUESTS
+        ================================================== -->
+
+        <a
+            href="myrequests.html"
+            class="menu-item"
+        >
+
+            <span class="menu-icon">
+                📋
+            </span>
+
+            <span>
+                My Requests
+            </span>
+
+        </a>
+
+
+
+        <!-- =================================================
+             5. SAVED CATERERS
+        ================================================== -->
+
+        <a
+            href="savedcaterers.html"
+            class="menu-item"
+        >
+
+            <span class="menu-icon">
+                ❤️
+            </span>
+
+            <span>
+                Saved Caterers
+            </span>
+
+        </a>
+
+
+
+        <!-- =================================================
+             6. MY REVIEWS
+        ================================================== -->
+
+        <a
+            href="myreviews.html"
+            class="menu-item"
+        >
+
+            <span class="menu-icon">
+                ⭐
+            </span>
+
+            <span>
+                My Reviews
+            </span>
+
+        </a>
+
+
+
+        <!-- Divider -->
+
+        <div class="menu-divider"></div>
+
+
+
+        <!-- =================================================
+             7. EDIT PROFILE
+        ================================================== -->
+
+        <a
+            href="editprofile.html"
+            class="menu-item"
+        >
+
+            <span class="menu-icon">
+                ✏️
+            </span>
+
+            <span>
+                Edit Profile
+            </span>
+
+        </a>
+
+
+
+        <!-- =================================================
+             8. ACCOUNT SETTINGS
+        ================================================== -->
+
+        <a
+            href="accountsettings.html"
+            class="menu-item"
+        >
+
+            <span class="menu-icon">
+                ⚙️
+            </span>
+
+            <span>
+                Account Settings
+            </span>
+
+        </a>
+
+
+
+        <!-- Divider -->
+
+        <div class="menu-divider"></div>
+
+
+
+        <!-- =================================================
+             9. LOGOUT
+        ================================================== -->
+
+        <button
+            class="menu-item logout-item"
+            id="logoutButton"
+            type="button"
+        >
+
+            <span class="menu-icon">
+                ↪
+            </span>
+
+            <span>
+                Logout
+            </span>
+
+        </button>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         NOTIFICATION PANEL
+    ====================================================== -->
+
+    <div
+        class="notification-panel"
+        id="notificationPanel"
+    >
+
+        <div class="notification-panel-header">
+
+            <h3>
+                Notifications
+            </h3>
+
+            <button
+                id="closeNotification"
+                type="button"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="notification-list">
+
+
+            <!-- Notification 1 -->
+
+            <div class="notification-item unread">
+
+                <div class="notification-item-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <strong>
+                        Your request has been accepted
+                    </strong>
+
+                    <p>
+                        Your caterer has accepted your enquiry.
+                    </p>
+
+                    <small>
+                        Just now
+                    </small>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Notification 2 -->
+
+            <div class="notification-item">
+
+                <div class="notification-item-icon">
+                    ♡
+                </div>
+
+                <div>
+
+                    <strong>
+                        New caterers available
+                    </strong>
+
+                    <p>
+                        Explore new catering options.
+                    </p>
+
+                    <small>
+                        2 hours ago
+                    </small>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Notification 3 -->
+
+            <div class="notification-item">
+
+                <div class="notification-item-icon">
+                    ★
+                </div>
+
+                <div>
+
+                    <strong>
+                        Special catering packages
+                    </strong>
+
+                    <p>
+                        New packages are available.
+                    </p>
+
+                    <small>
+                        Yesterday
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         MAIN CUSTOMER DASHBOARD
+    ====================================================== -->
+
+    <main class="customer-main">
+
+
+        <!-- =================================================
+             WELCOME SECTION
+        ================================================== -->
+
+        <section class="welcome-section">
+
+            <div class="welcome-content">
+
+                <p class="welcome-small">
+                    Welcome to Annapriya
+                </p>
+
+                <h1>
+                    Hello,
+                    <span id="customerName">
+                        Customer
+                    </span>!
+                </h1>
+
+                <p class="welcome-description">
+                    Good food makes every moment special.
+                    Let's make your next event memorable.
+                </p>
+
+            </div>
+
+
+            <!-- Search -->
+
+            <button
+                class="dashboard-search-button"
+                id="searchButton"
+                title="Search"
+                type="button"
+            >
+                ⌕
+            </button>
+
+        </section>
+
+
+
+        <!-- =================================================
+             QUICK ACTIONS
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-heading">
+
+                <p class="section-label">
+                    Explore
+                </p>
+
+                <h2>
+                    Quick Actions
+                </h2>
+
+                <p>
+                    What would you like to do?
+                </p>
+
+            </div>
+
+
+            <div class="quick-actions">
+
+
+                <!-- Browse Caterers -->
+
+                <button
+                    class="quick-action-card"
+                    id="browseCaterersButton"
+                    type="button"
+                >
+
+                    <div class="quick-action-icon">
+                        ♨
+                    </div>
+
+                    <div class="quick-action-content">
+
+                        <h3>
+                            Browse Caterers
+                        </h3>
+
+                        <p>
+                            View approved catering services
+                        </p>
+
+                    </div>
+
+                    <span class="quick-action-arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+
+                <!-- View Packages -->
+
+                <a
+                    href="packages.html"
+                    class="quick-action-card"
+                >
+
+                    <div class="quick-action-icon">
+                        ◈
+                    </div>
+
+                    <div class="quick-action-content">
+
+                        <h3>
+                            View Packages
+                        </h3>
+
+                        <p>
+                            Find the perfect menu
+                        </p>
+
+                    </div>
+
+                    <span class="quick-action-arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+
+                <!-- My Events -->
+
+                <a
+                    href="events.html"
+                    class="quick-action-card"
+                >
+
+                    <div class="quick-action-icon">
+                        ▣
+                    </div>
+
+                    <div class="quick-action-content">
+
+                        <h3>
+                            My Events
+                        </h3>
+
+                        <p>
+                            Check your bookings
+                        </p>
+
+                    </div>
+
+                    <span class="quick-action-arrow">
+                        →
+                    </span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             MOBILE BOTTOM NAVIGATION
+        ====================================================== -->
+
+        <nav class="mobile-bottom-navigation">
+
+
+            <!-- Dashboard -->
+
+            <a
+                href="customerdashboard.html"
+                class="mobile-nav-item active"
+            >
+
+                <span>
+                    ⌂
+                </span>
+
+                <small>
+                    Dashboard
+                </small>
+
+            </a>
+
+
+
+            <!-- Caterers -->
+
+            <button
+                class="mobile-nav-item"
+                id="mobileBrowseButton"
+                type="button"
+            >
+
+                <span>
+                    ♨
+                </span>
+
+                <small>
+                    Caterers
+                </small>
+
+            </button>
+
+
+
+            <!-- Events -->
+
+            <a
+                href="events.html"
+                class="mobile-nav-item"
+            >
+
+                <span>
+                    ▣
+                </span>
+
+                <small>
+                    Events
+                </small>
+
+            </a>
+
+
+
+            <!-- Profile -->
+
+            <button
+                class="mobile-nav-item"
+                id="mobileProfileButton"
+                type="button"
+            >
+
+                <span>
+                    ♙
+                </span>
+
+                <small>
+                    Profile
+                </small>
+
+            </button>
+
+        </nav>
+
+    </main>
+
+
+
+    <!-- Customer Dashboard JavaScript -->
+    <script src="customerdashboard.js"></script>
+
+</body>
+
+</html>

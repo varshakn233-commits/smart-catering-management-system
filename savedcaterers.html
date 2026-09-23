@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Saved Caterers | Annapriya</title>
+
+    <link
+        rel="stylesheet"
+        href="savedcaterers.css"
+    >
+</head>
+
+<body>
+
+    <!-- =================================================
+         HEADER
+    ================================================== -->
+
+    <header class="customer-header">
+
+        <div class="header-left">
+
+            <button
+                class="back-button"
+                id="backButton"
+                type="button"
+            >
+                ←
+            </button>
+
+            <div class="brand-name">
+                Annapriya
+            </div>
+
+        </div>
+
+
+        <div class="header-right">
+
+            <button
+                class="profile-button"
+                id="profileButton"
+                type="button"
+            >
+
+                <span
+                    class="avatar"
+                    id="headerAvatar"
+                >
+                    C
+                </span>
+
+                <span
+                    class="customer-name"
+                    id="headerCustomerName"
+                >
+                    Customer
+                </span>
+
+            </button>
+
+
+            <!-- PROFILE MENU -->
+
+            <div
+                class="profile-menu"
+                id="profileButtonMenu"
+            >
+
+                <a href="myprofile.html">
+                    👤 My Profile
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =================================================
+         MAIN CONTENT
+    ================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =================================================
+             PAGE HEADING
+        ================================================== -->
+
+        <section class="page-heading">
+
+            <span class="page-label">
+                CUSTOMER
+            </span>
+
+            <h1>
+                Saved Caterers
+            </h1>
+
+            <p>
+                Manage your saved caterers and browse approved
+                caterers for your events.
+            </p>
+
+        </section>
+
+
+
+        <!-- =================================================
+             LOADING
+        ================================================== -->
+
+        <section
+            class="state-section"
+            id="loadingSection"
+        >
+
+            <div class="loader"></div>
+
+            <p>
+                Loading caterers...
+            </p>
+
+        </section>
+
+
+
+        <!-- =================================================
+             ERROR
+        ================================================== -->
+
+        <section
+            class="state-section error-state"
+            id="errorSection"
+            style="display: none;"
+        >
+
+            <div class="state-icon">
+                ⚠️
+            </div>
+
+            <h2>
+                Something went wrong
+            </h2>
+
+            <p id="errorMessage">
+                Could not load caterers.
+            </p>
+
+            <button
+                class="primary-button"
+                id="retryButton"
+                type="button"
+            >
+                Try Again
+            </button>
+
+        </section>
+
+
+
+        <!-- =================================================
+             SAVED CATERERS
+        ================================================== -->
+
+        <section
+            class="saved-section"
+            id="savedSection"
+            style="display: none;"
+        >
+
+            <div class="section-top">
+
+                <div>
+
+                    <h2>
+                        ❤️ Your Saved Caterers
+                    </h2>
+
+                    <p>
+                        <span id="savedCount">
+                            0
+                        </span>
+                        caterers saved
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="refresh-button"
+                    id="refreshButton"
+                    type="button"
+                >
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+
+
+            <!-- SAVED CATERERS TABLE -->
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Caterer
+                            </th>
+
+                            <th>
+                                Phone
+                            </th>
+
+                            <th>
+                                Email
+                            </th>
+
+                            <th>
+                                Helpers
+                            </th>
+
+                            <th>
+                                Events Served
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="savedCatererTableBody">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             NO SAVED CATERERS
+        ================================================== -->
+
+        <section
+            class="state-section"
+            id="emptySection"
+            style="display: none;"
+        >
+
+            <div class="state-icon">
+                ❤️
+            </div>
+
+            <h2>
+                No Saved Caterers Yet
+            </h2>
+
+            <p>
+                You haven't saved any caterers yet.
+                Browse the approved caterers below and save
+                the ones you like.
+            </p>
+
+        </section>
+
+
+
+        <!-- =================================================
+             BROWSE CATERERS
+        ================================================== -->
+
+        <section
+            class="saved-section browse-section"
+            id="browseSection"
+            style="display: none;"
+        >
+
+            <div class="section-top">
+
+                <div>
+
+                    <h2>
+                        🍽️ Browse Caterers
+                    </h2>
+
+                    <p>
+                        Browse all approved caterers and save
+                        the ones you are interested in.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BROWSE CATERERS TABLE -->
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Caterer
+                            </th>
+
+                            <th>
+                                Rating
+                            </th>
+
+                            <th>
+                                Phone
+                            </th>
+
+                            <th>
+                                Email
+                            </th>
+
+                            <th>
+                                Helpers
+                            </th>
+
+                            <th>
+                                Events Served
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="browseCatererTableBody">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =================================================
+         JAVASCRIPT
+    ================================================== -->
+
+    <script src="savedcaterers.js"></script>
+
+</body>
+
+</html>

@@ -4,13 +4,50 @@ const router = express.Router();
 
 const {
     signup,
-    login
+    login,
+    getCustomerProfile,
+    updateCustomerProfile
 } = require("../controllers/customerAuthController");
 
 
-router.post("/signup", signup);
+// =====================================================
+// CUSTOMER SIGNUP
+// =====================================================
 
-router.post("/login", login);
+router.post(
+    "/signup",
+    signup
+);
+
+
+// =====================================================
+// CUSTOMER LOGIN
+// =====================================================
+
+router.post(
+    "/login",
+    login
+);
+
+
+// =====================================================
+// GET CUSTOMER PROFILE
+// =====================================================
+
+router.get(
+    "/:customerId",
+    getCustomerProfile
+);
+
+
+// =====================================================
+// UPDATE CUSTOMER PROFILE
+// =====================================================
+
+router.put(
+    "/:customerId",
+    updateCustomerProfile
+);
 
 
 module.exports = router;

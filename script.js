@@ -9,13 +9,9 @@ const menuToggle = document.getElementById("menuToggle");
 const navLinks = document.querySelector(".navbar nav");
 
 if (menuToggle && navLinks) {
-
     menuToggle.addEventListener("click", () => {
-
         navLinks.classList.toggle("nav-open");
-
     });
-
 }
 
 
@@ -36,9 +32,7 @@ function updateNavbarOnScroll() {
 
         navbar.style.background =
             "linear-gradient(to bottom, rgba(28,20,17,0.55), rgba(28,20,17,0))";
-
     }
-
 }
 
 window.addEventListener("scroll", updateNavbarOnScroll);
@@ -54,7 +48,6 @@ const loginToggle =
 const loginMenu =
     document.getElementById("loginMenu");
 
-
 if (loginToggle && loginMenu) {
 
     loginToggle.addEventListener("click", (e) => {
@@ -64,7 +57,6 @@ if (loginToggle && loginMenu) {
         loginMenu.classList.toggle("open");
 
     });
-
 
     document.addEventListener("click", (e) => {
 
@@ -90,7 +82,6 @@ function openAuth(type) {
 
     closeAuth();
 
-
     if (type === "customer") {
 
         const element =
@@ -101,7 +92,6 @@ function openAuth(type) {
         }
 
     }
-
 
     else if (type === "customer-signup") {
 
@@ -114,7 +104,6 @@ function openAuth(type) {
 
     }
 
-
     else if (type === "forgot") {
 
         const element =
@@ -125,7 +114,6 @@ function openAuth(type) {
         }
 
     }
-
 
     else if (type === "caterer") {
 
@@ -138,7 +126,6 @@ function openAuth(type) {
 
     }
 
-
     else if (type === "caterer-signup") {
 
         const element =
@@ -149,7 +136,6 @@ function openAuth(type) {
         }
 
     }
-
 
     else if (type === "admin") {
 
@@ -162,16 +148,11 @@ function openAuth(type) {
 
     }
 
-
     document.body.style.overflow = "hidden";
 
-
     if (loginMenu) {
-
         loginMenu.classList.remove("open");
-
     }
-
 }
 
 
@@ -187,9 +168,7 @@ function closeAuth() {
 
         });
 
-
     document.body.style.overflow = "";
-
 }
 
 
@@ -236,9 +215,7 @@ document
             const input =
                 btn.previousElementSibling;
 
-
             if (!input) return;
-
 
             if (input.type === "password") {
 
@@ -389,12 +366,10 @@ function runSiteSearch() {
 
     if (!searchInput) return;
 
-
     const query =
         searchInput.value
             .trim()
             .toLowerCase();
-
 
     if (!query) return;
 
@@ -412,7 +387,6 @@ function runSiteSearch() {
         const target =
             document.getElementById(match.target);
 
-
         if (target) {
 
             target.scrollIntoView({
@@ -425,15 +399,16 @@ function runSiteSearch() {
 
 
     else if (
+
         query.includes("event") ||
         query.includes("wedding") ||
         query.includes("party")
+
     ) {
 
         const target =
             document.getElementById("events");
 
-
         if (target) {
 
             target.scrollIntoView({
@@ -446,16 +421,17 @@ function runSiteSearch() {
 
 
     else if (
+
         query.includes("package") ||
         query.includes("price") ||
         query.includes("gold") ||
         query.includes("silver") ||
         query.includes("bronze")
+
     ) {
 
         const target =
             document.getElementById("packages");
-
 
         if (target) {
 
@@ -472,7 +448,6 @@ function runSiteSearch() {
 
         const target =
             document.getElementById("caterers");
-
 
         if (target) {
 
@@ -584,23 +559,33 @@ revealTargets.forEach(el => {
 const contactForm =
     document.getElementById("contactForm");
 
+
 if (contactForm) {
 
     contactForm.addEventListener("submit", async (e) => {
 
         e.preventDefault();
 
+
         const nameInput =
-            contactForm.querySelector('input[placeholder="Your Name"]');
+            contactForm.querySelector(
+                'input[placeholder="Your Name"]'
+            );
 
         const phoneInput =
-            contactForm.querySelector('input[placeholder="Phone Number"]');
+            contactForm.querySelector(
+                'input[placeholder="Phone Number"]'
+            );
 
         const emailInput =
-            contactForm.querySelector('input[placeholder="Email Address"]');
+            contactForm.querySelector(
+                'input[placeholder="Email Address"]'
+            );
 
         const dateInput =
-            contactForm.querySelector('input[type="date"]');
+            contactForm.querySelector(
+                'input[type="date"]'
+            );
 
         const messageInput =
             contactForm.querySelector("textarea");
@@ -608,7 +593,9 @@ if (contactForm) {
 
         const customer =
             JSON.parse(
-                localStorage.getItem("annapriya_customer") || "null"
+                localStorage.getItem(
+                    "annapriya_customer"
+                ) || "null"
             );
 
 
@@ -633,43 +620,57 @@ if (contactForm) {
 
 
         if (!customerName || !phone || !email) {
-            alert("Please fill in all required fields.");
+
+            alert(
+                "Please fill in all required fields."
+            );
+
             return;
+
         }
 
 
         try {
 
-            const response = await fetch(
-                "http://localhost:5000/api/requests",
-                {
-                    method: "POST",
+            const response =
+                await fetch(
+                    "http://localhost:5000/api/requests",
+                    {
+                        method: "POST",
 
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
 
-                    body: JSON.stringify({
-                        customerId,
-                        customerName,
-                        phone,
-                        email,
-                        eventDate,
-                        message
-                    })
-                }
-            );
+                        body: JSON.stringify({
+
+                            customerId,
+                            customerName,
+                            phone,
+                            email,
+                            eventDate,
+                            message
+
+                        })
+
+                    }
+                );
 
 
-            const data = await response.json();
+            const data =
+                await response.json();
 
 
             if (!response.ok) {
+
                 alert(
                     data.message ||
                     "Could not send request."
                 );
+
                 return;
+
             }
 
 
@@ -691,11 +692,13 @@ if (contactForm) {
             alert(
                 "Unable to connect to the backend. Make sure Node.js is running."
             );
+
         }
 
     });
 
 }
+
 
 // =====================================================
 // CUSTOMER LOGIN
@@ -731,8 +734,6 @@ if (customerLoginForm) {
                     .value;
 
 
-            // Basic validation
-
             if (!email || !password) {
 
                 alert(
@@ -750,6 +751,7 @@ if (customerLoginForm) {
                     await fetch(
                         "http://localhost:5000/api/customer/login",
                         {
+
                             method: "POST",
 
                             headers: {
@@ -760,7 +762,6 @@ if (customerLoginForm) {
                             body: JSON.stringify({
 
                                 email: email,
-
                                 password: password
 
                             })
@@ -810,9 +811,7 @@ if (customerLoginForm) {
 
 
                 // Redirect to customer dashboard
-
-                window.location.href =
-                    "dashboard.html";
+                  window.location.href = "customerdashboard.html";
 
 
             } catch (error) {
@@ -934,6 +933,7 @@ if (customerSignupForm) {
                     await fetch(
                         "http://localhost:5000/api/customer/signup",
                         {
+
                             method: "POST",
 
                             headers: {
@@ -944,17 +944,11 @@ if (customerSignupForm) {
                             body: JSON.stringify({
 
                                 fullName: fullName,
-
                                 gender: gender,
-
                                 address: address,
-
                                 phone: phone,
-
                                 email: email,
-
                                 password: password,
-
                                 confirmPassword:
                                     confirmPassword
 
@@ -1054,6 +1048,7 @@ if (forgotPasswordForm) {
                     await fetch(
                         "http://localhost:5000/api/forgot-password/customer/forgot",
                         {
+
                             method: "POST",
 
                             headers: {
@@ -1062,9 +1057,7 @@ if (forgotPasswordForm) {
                             },
 
                             body: JSON.stringify({
-
                                 email: email
-
                             })
 
                         }
@@ -1107,7 +1100,8 @@ if (forgotPasswordForm) {
 
 // =====================================================
 // CATERER LOGIN
-// Still placeholder for now
+// Connected to Node.js backend
+// POST /api/caterer/login
 // =====================================================
 
 const catererLoginForm =
@@ -1117,69 +1111,164 @@ const catererLoginForm =
 
 
 if (catererLoginForm) {
-    catererLoginForm.addEventListener("submit", async function (event) {
-        event.preventDefault();
 
-        alert("caterer login button clicked");
+    catererLoginForm.addEventListener(
+        "submit",
+        async function (event) {
 
-        const emailInput = catererLoginForm.querySelector('input[type="email"]');
-const passwordInput = catererLoginForm.querySelector('input[type="password"]');
+            event.preventDefault();
 
-const email = emailInput.value.trim().toLowerCase();
-const password = passwordInput.value;
 
-        if (!email || !password) {
-            alert("Email and password are required.");
-            return;
-        }
+            const emailInput =
+                catererLoginForm.querySelector(
+                    'input[type="email"]'
+                );
 
-        const gmailRegex = /^[^\s@]+@gmail\.com$/i;
 
-        if (!gmailRegex.test(email)) {
-            alert("Please use a valid Gmail address ending with @gmail.com.");
-            return;
-        }
+            const passwordInput =
+                catererLoginForm.querySelector(
+                    'input[type="password"]'
+                );
 
-        try {
-            const response = await fetch(
-                "http://localhost:5000/api/caterer/login",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        password: password
-                    })
-                }
-            );
 
-            const data = await response.json();
+            const email =
+                emailInput.value
+                    .trim()
+                    .toLowerCase();
 
-            if (!response.ok) {
-                alert(data.message || "Login failed.");
+
+            const password =
+                passwordInput.value;
+
+
+            // Check empty fields
+
+            if (!email || !password) {
+
+                alert(
+                    "Email and password are required."
+                );
+
                 return;
+
             }
 
-            localStorage.setItem("annapriya_caterer_token", data.token);
-            localStorage.setItem(
-                "annapriya_caterer",
-                JSON.stringify(data.caterer)
-            );
 
-            alert("Caterer login successful!");
+            // Correct Gmail validation
 
-            window.location.href = "catererdashboard.html";
-        } catch (error) {
-            console.error("Caterer login error:", error);
+            const gmailRegex =
+                /^[^\s@]+@gmail\.com$/i;
 
-            alert(
-                "Unable to connect to the backend. Make sure the Node.js server is running."
-            );
+
+            if (!gmailRegex.test(email)) {
+
+                alert(
+                    "Please use a valid Gmail address ending with @gmail.com."
+                );
+
+                return;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/caterer/login",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                email: email,
+                                password: password
+
+                            })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                // Backend login failed
+
+                if (!response.ok) {
+
+                    alert(
+                        data.message ||
+                        "Login failed."
+                    );
+
+                    return;
+
+                }
+
+
+                // Save Caterer JWT token
+
+                localStorage.setItem(
+                    "annapriya_caterer_token",
+                    data.token
+                );
+
+
+                // Save Caterer details
+
+                localStorage.setItem(
+                    "annapriya_caterer",
+                    JSON.stringify(
+                        data.caterer
+                    )
+                );
+
+
+                console.log(
+                    "Caterer login successful:",
+                    data
+                );
+
+
+                alert(
+                    "Caterer login successful!"
+                );
+
+
+                // Redirect to Caterer Dashboard
+
+                window.location.href =
+                    "catererdashboard.html";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Caterer login error:",
+                    error
+                );
+
+
+                alert(
+                    "Unable to connect to the backend. Make sure the Node.js server is running."
+                );
+
+            }
+
         }
-    });
+    );
+
 }
+
+
 // =====================================================
 // CATERER SIGNUP
 // Connected to Node.js + MySQL backend
@@ -1298,6 +1387,7 @@ if (catererSignupForm) {
                     await fetch(
                         "http://localhost:5000/api/caterer/signup",
                         {
+
                             method: "POST",
 
                             headers: {
@@ -1446,6 +1536,7 @@ if (adminLoginForm) {
                     await fetch(
                         "http://localhost:5000/api/admin/login",
                         {
+
                             method: "POST",
 
                             headers: {

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Edit Profile | Annapriya</title>
+
+    <link
+        rel="stylesheet"
+        href="editprofile.css"
+    >
+</head>
+
+<body>
+
+    <!-- =====================================================
+         CUSTOMER HEADER
+    ====================================================== -->
+
+    <header class="customer-header">
+
+        <div class="header-left">
+
+            <button
+                class="back-button"
+                id="backButton"
+                type="button"
+            >
+                ←
+            </button>
+
+            <div class="brand-name">
+                Annapriya
+            </div>
+
+        </div>
+
+
+        <div class="header-right">
+
+            <button
+                class="profile-button"
+                id="profileButton"
+                type="button"
+            >
+
+                <span
+                    class="avatar"
+                    id="headerAvatar"
+                >
+                    C
+                </span>
+
+                <span
+                    class="customer-name"
+                    id="headerCustomerName"
+                >
+                    Customer
+                </span>
+
+            </button>
+
+
+            <!-- Profile Menu -->
+
+            <div
+                class="profile-menu"
+                id="profileButtonMenu"
+            >
+
+                <a href="myprofile.html">
+                    👤 My Profile
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- Page Heading -->
+
+        <section class="page-heading">
+
+            <span class="page-label">
+                CUSTOMER
+            </span>
+
+            <h1>
+                ✏️ Edit Profile
+            </h1>
+
+            <p>
+                Update your personal information and keep
+                your profile details up to date.
+            </p>
+
+        </section>
+
+
+
+        <!-- =================================================
+             LOADING
+        ================================================== -->
+
+        <section
+            class="state-section"
+            id="loadingSection"
+        >
+
+            <div class="loader"></div>
+
+            <p>
+                Loading your profile...
+            </p>
+
+        </section>
+
+
+
+        <!-- =================================================
+             ERROR
+        ================================================== -->
+
+        <section
+            class="state-section error-state"
+            id="errorSection"
+            style="display: none;"
+        >
+
+            <div class="state-icon">
+                ⚠️
+            </div>
+
+            <h2>
+                Something went wrong
+            </h2>
+
+            <p id="errorMessage">
+                Could not load your profile.
+            </p>
+
+            <button
+                class="primary-button"
+                id="retryButton"
+                type="button"
+            >
+                Try Again
+            </button>
+
+        </section>
+
+
+
+        <!-- =================================================
+             EDIT PROFILE FORM
+        ================================================== -->
+
+        <section
+            class="profile-section"
+            id="profileSection"
+            style="display: none;"
+        >
+
+            <form
+                id="editProfileForm"
+                class="profile-form"
+            >
+
+
+                <!-- Profile Avatar -->
+
+                <div class="profile-avatar-section">
+
+                    <div
+                        class="large-avatar"
+                        id="largeAvatar"
+                    >
+                        C
+                    </div>
+
+                    <div>
+
+                        <h2 id="formCustomerName">
+                            Customer
+                        </h2>
+
+                        <p>
+                            Customer Profile
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     FULL NAME
+                ================================================== -->
+
+                <div class="form-group">
+
+                    <label for="fullName">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="fullName"
+                        name="fullName"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- =================================================
+                     GENDER
+                ================================================== -->
+
+                <div class="form-group">
+
+                    <label for="gender">
+                        Gender
+                    </label>
+
+                    <select
+                        id="gender"
+                        name="gender"
+                        required
+                    >
+
+                        <option value="">
+                            Select Gender
+                        </option>
+
+                        <option value="Male">
+                            Male
+                        </option>
+
+                        <option value="Female">
+                            Female
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     ADDRESS
+                ================================================== -->
+
+                <div class="form-group">
+
+                    <label for="address">
+                        Address
+                    </label>
+
+                    <textarea
+                        id="address"
+                        name="address"
+                        rows="4"
+                        placeholder="Enter your address"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     PHONE
+                ================================================== -->
+
+                <div class="form-group">
+
+                    <label for="phone">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        placeholder="Enter your phone number"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- =================================================
+                     EMAIL
+                ================================================== -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        readonly
+                    >
+
+                    <small>
+                        Email address cannot be changed here.
+                    </small>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     MESSAGE
+                ================================================== -->
+
+                <div
+                    class="form-message"
+                    id="formMessage"
+                ></div>
+
+
+
+                <!-- =================================================
+                     BUTTONS
+                ================================================== -->
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-button"
+                        id="cancelButton"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-button"
+                        id="saveButton"
+                    >
+                        Save Changes
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </section>
+
+    </main>
+
+
+
+    <script src="editprofile.js"></script>
+
+</body>
+
+</html>

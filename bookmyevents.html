@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Book My Events | Annapriya</title>
+
+    <link
+        rel="stylesheet"
+        href="bookmyevents.css"
+    >
+
+</head>
+
+<body>
+
+
+    <!-- CUSTOMER HEADER -->
+
+    <header class="customer-header">
+
+        <div class="header-left">
+
+            <button
+                class="back-button"
+                id="backButton"
+                type="button"
+            >
+                ←
+            </button>
+
+            <div class="brand-name">
+                Annapriya
+            </div>
+
+        </div>
+
+
+        <div class="header-right">
+
+            <button
+                class="profile-button"
+                id="profileButton"
+                type="button"
+            >
+
+                <span
+                    class="avatar"
+                    id="headerAvatar"
+                >
+                    C
+                </span>
+
+                <span
+                    class="customer-name"
+                    id="headerCustomerName"
+                >
+                    Customer
+                </span>
+
+            </button>
+
+
+            <div
+                class="profile-menu"
+                id="profileButtonMenu"
+            >
+
+                <a href="myprofile.html">
+                    👤 My Profile
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+
+        <!-- PAGE HEADING -->
+
+        <section class="page-heading">
+
+            <span class="page-label">
+                CUSTOMER
+            </span>
+
+            <h1>
+                📅 Book My Events
+            </h1>
+
+            <p>
+                Tell us about your event and find the right
+                catering service for your special occasion.
+            </p>
+
+        </section>
+
+
+
+        <!-- BOOKING FORM -->
+
+        <form
+            id="eventBookingForm"
+            class="booking-form"
+        >
+
+
+            <!-- =================================================
+                 1. CUSTOMER DETAILS
+            ================================================== -->
+
+            <section class="form-section">
+
+                <div class="section-heading">
+
+                    <span class="section-number">
+                        1
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Customer Details
+                        </h2>
+
+                        <p>
+                            Your registered information
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="customerName">
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="customerName"
+                            readonly
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="customerPhone">
+                            Phone Number
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="customerPhone"
+                            readonly
+                        >
+
+                    </div>
+
+
+                    <div class="form-group full-width">
+
+                        <label for="customerEmail">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="customerEmail"
+                            readonly
+                        >
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 2. EVENT DETAILS
+            ================================================== -->
+
+            <section class="form-section">
+
+                <div class="section-heading">
+
+                    <span class="section-number">
+                        2
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Event Details
+                        </h2>
+
+                        <p>
+                            Tell us about your upcoming event
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="eventType">
+                            Event Type
+                        </label>
+
+                        <select
+                            id="eventType"
+                            required
+                        >
+
+                            <option value="">
+                                Select Event Type
+                            </option>
+
+                            <option value="Birthday">
+                                Birthday
+                            </option>
+
+                            <option value="Wedding">
+                                Wedding
+                            </option>
+
+                            <option value="Engagement">
+                                Engagement
+                            </option>
+
+                            <option value="Reception">
+                                Reception
+                            </option>
+
+                            <option value="Housewarming">
+                                Housewarming
+                            </option>
+
+                            <option value="Anniversary">
+                                Anniversary
+                            </option>
+
+                            <option value="Naming Ceremony">
+                                Naming Ceremony
+                            </option>
+
+                            <option value="Corporate Event">
+                                Corporate Event
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="guestCount">
+                            Number of Guests
+                        </label>
+
+                        <input
+                            type="number"
+                            id="guestCount"
+                            min="1"
+                            placeholder="Example: 100"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="eventDate">
+                            Event Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="eventDate"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="eventTime">
+                            Event Time
+                        </label>
+
+                        <input
+                            type="time"
+                            id="eventTime"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group full-width">
+
+                        <label for="venueLocation">
+                            Venue Location
+                        </label>
+
+                        <textarea
+                            id="venueLocation"
+                            rows="3"
+                            placeholder="Enter the complete event venue address"
+                            required
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 3. CATERING REQUIREMENTS
+            ================================================== -->
+
+            <section class="form-section">
+
+                <div class="section-heading">
+
+                    <span class="section-number">
+                        3
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Catering Requirements
+                        </h2>
+
+                        <p>
+                            Choose your food and service preferences
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="foodType">
+                            Food Type
+                        </label>
+
+                        <select
+                            id="foodType"
+                            required
+                        >
+
+                            <option value="">
+                                Select Food Type
+                            </option>
+
+                            <option value="Vegetarian">
+                                Vegetarian
+                            </option>
+
+                            <option value="Non-Vegetarian">
+                                Non-Vegetarian
+                            </option>
+
+                            <option value="Both">
+                                Vegetarian & Non-Vegetarian
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="packageName">
+                            Package
+                        </label>
+
+                        <select id="packageName">
+
+                            <option value="">
+                                Select Package
+                            </option>
+
+                            <option value="Bronze">
+                                Bronze
+                            </option>
+
+                            <option value="Silver">
+                                Silver
+                            </option>
+
+                            <option value="Gold">
+                                Gold
+                            </option>
+
+                            <option value="Custom">
+                                Custom Package
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="budget">
+                            Estimated Budget
+                        </label>
+
+                        <input
+                            type="number"
+                            id="budget"
+                            min="0"
+                            placeholder="Example: ₹25000"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="cateringService">
+                            Catering Service
+                        </label>
+
+                        <select id="cateringService">
+
+                            <option value="">
+                                Select Service
+                            </option>
+
+                            <option value="Full Catering">
+                                Full Catering
+                            </option>
+
+                            <option value="Food Only">
+                                Food Only
+                            </option>
+
+                            <option value="Custom Service">
+                                Custom Service
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 4. SELECT CATERER
+            ================================================== -->
+
+            <section class="form-section">
+
+                <div class="section-heading">
+
+                    <span class="section-number">
+                        4
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Select Caterer
+                        </h2>
+
+                        <p>
+                            Choose an approved caterer for your event
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="caterer-list"
+                    id="catererList"
+                >
+
+                    <div class="loading-caterers">
+
+                        <div class="small-loader"></div>
+
+                        <p>
+                            Loading approved caterers...
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 5. ADDITIONAL REQUIREMENTS
+            ================================================== -->
+
+            <section class="form-section">
+
+                <div class="section-heading">
+
+                    <span class="section-number">
+                        5
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Additional Requirements
+                        </h2>
+
+                        <p>
+                            Add any special instructions for the caterer
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="specialRequirements">
+                        Special Requirements
+                    </label>
+
+                    <textarea
+                        id="specialRequirements"
+                        rows="4"
+                        placeholder="Example: Decoration, serving staff, special dishes, seating arrangements..."
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="message">
+                        Message to Caterer
+                    </label>
+
+                    <textarea
+                        id="message"
+                        rows="4"
+                        placeholder="Write any additional message for the caterer..."
+                    ></textarea>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 6. BOOKING SUMMARY
+            ================================================== -->
+
+            <section class="form-section summary-section">
+
+                <div class="section-heading">
+
+                    <span class="section-number">
+                        6
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Booking Summary
+                        </h2>
+
+                        <p>
+                            Review your event request before submitting
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="summary-box"
+                    id="summaryBox"
+                >
+
+                    <p class="summary-placeholder">
+                        Your booking summary will appear here
+                        after you fill in the event details.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- FORM MESSAGE -->
+
+            <div
+                class="form-message"
+                id="formMessage"
+            ></div>
+
+
+
+            <!-- SUBMIT -->
+
+            <div class="submit-section">
+
+                <button
+                    type="submit"
+                    class="submit-button"
+                    id="submitButton"
+                >
+                    📅 Submit Event Request
+                </button>
+
+                <p>
+                    Your request will be sent to the selected caterer
+                    for approval.
+                </p>
+
+            </div>
+
+
+        </form>
+
+    </main>
+
+
+
+    <script src="bookmyevents.js"></script>
+
+</body>
+
+</html>

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Event Requests | Annapriya</title>
 
     <style>
@@ -10,136 +11,142 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: #f5e9da;
-            color: #1c1c1c;
+            background: #F5E9DA;
+            color: #1C1C1C;
         }
+
+        /* ================= SIDEBAR ================= */
 
         .sidebar {
             position: fixed;
             left: 0;
             top: 0;
-            width: 240px;
+            width: 250px;
             height: 100vh;
-            background: #1c1c1c;
+            background: #8B1E3F;
             color: white;
             padding: 25px 18px;
-            display: flex;
-            flex-direction: column;
         }
 
         .logo {
-            font-size: 25px;
+            font-size: 28px;
             font-weight: bold;
-            color: #d4a373;
-            margin-bottom: 35px;
             text-align: center;
+            margin-bottom: 35px;
         }
 
-        .nav-links {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+        .nav-menu {
+            list-style: none;
         }
 
-        .nav-links a,
-        .bottom-links a {
-            text-decoration: none;
-            color: #ddd;
-            padding: 13px 15px;
-            border-radius: 8px;
+        .nav-menu li {
+            margin-bottom: 8px;
+        }
+
+        .nav-menu a {
             display: block;
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active,
-        .bottom-links a:hover {
-            background: #8b1e3f;
+            text-decoration: none;
             color: white;
+            padding: 13px 15px;
+            border-radius: 10px;
+            transition: 0.2s;
+            font-size: 15px;
         }
 
-        .bottom-links {
-            margin-top: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background: rgba(255,255,255,0.15);
         }
 
-        .logout {
-            color: #ffb3b3 !important;
+        /* ================= MAIN ================= */
+
+        .main-content {
+            margin-left: 250px;
+            padding: 35px;
         }
 
-        .main {
-            margin-left: 240px;
-            padding: 35px 45px;
-        }
-
-        .top-bar {
+        .page-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
-        .top-bar h1 {
-            font-size: 32px;
+        .page-header h1 {
+            color: #8B1E3F;
+            font-size: 30px;
         }
 
-        .subtitle {
+        .page-header p {
             color: #666;
-            margin-top: 6px;
+            margin-top: 5px;
         }
 
-        .dashboard-btn {
-            background: #8b1e3f;
+        .logout-btn {
+            border: none;
+            background: #8B1E3F;
             color: white;
-            text-decoration: none;
             padding: 11px 18px;
-            border-radius: 7px;
+            border-radius: 8px;
+            cursor: pointer;
             font-weight: bold;
         }
 
-        .table-card {
+        .logout-btn:hover {
+            background: #6f1732;
+        }
+
+        /* ================= TABLE ================= */
+
+        .table-container {
             background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
             overflow-x: auto;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 900px;
+            min-width: 1050px;
         }
 
         th {
-            background: #1c1c1c;
+            background: #8B1E3F;
             color: white;
-            padding: 15px 12px;
+            padding: 14px 12px;
             text-align: left;
-            font-size: 13px;
-        }
-
-        td {
-            padding: 15px 12px;
-            border-bottom: 1px solid #eee;
             font-size: 14px;
         }
 
-        tr:hover {
-            background: #faf7f2;
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            vertical-align: middle;
         }
+
+        tr:hover td {
+            background: #fffaf5;
+        }
+
+        /* ================= STATUS ================= */
 
         .status {
             display: inline-block;
-            padding: 6px 10px;
+            padding: 6px 11px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .status.pending {
             background: #fff3cd;
             color: #856404;
         }
@@ -149,10 +156,42 @@
             color: #155724;
         }
 
+        .status.payment_pending {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status.confirmed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status.preparing {
+            background: #ede9fe;
+            color: #5b21b6;
+        }
+
+        .status.on_the_way {
+            background: #cffafe;
+            color: #155e75;
+        }
+
+        .status.event_started {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status.completed {
+            background: #dcfce7;
+            color: #166534;
+        }
+
         .status.rejected {
             background: #f8d7da;
             color: #721c24;
         }
+
+        /* ================= ACTION BUTTONS ================= */
 
         .actions {
             display: flex;
@@ -160,40 +199,91 @@
         }
 
         .action-btn {
-            width: 34px;
-            height: 34px;
+            width: 36px;
+            height: 36px;
             border: none;
-            border-radius: 7px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 17px;
+            font-size: 16px;
             font-weight: bold;
+            transition: 0.2s;
         }
 
-        .accept {
+        .action-btn.accept {
             background: #d4edda;
             color: #155724;
         }
 
-        .reject {
+        .action-btn.accept:hover {
+            background: #b9dfc2;
+        }
+
+        .action-btn.reject {
             background: #f8d7da;
             color: #721c24;
         }
 
-        .action-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
+        .action-btn.reject:hover {
+            background: #f1bfc4;
         }
 
-        @media (max-width: 800px) {
+        .action-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.45;
+        }
+
+        /* ================= LOADING ================= */
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 45px;
+            color: #777;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 900px) {
+
             .sidebar {
-                position: static;
+                position: relative;
                 width: 100%;
                 height: auto;
             }
 
-            .main {
+            .logo {
+                margin-bottom: 15px;
+            }
+
+            .nav-menu {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+
+            .nav-menu li {
+                margin-bottom: 0;
+            }
+
+            .nav-menu a {
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+
+            .main-content {
                 margin-left: 0;
-                padding: 25px;
+                padding: 20px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
             }
         }
     </style>
@@ -201,62 +291,108 @@
 
 <body>
 
+    <!-- ================= SIDEBAR ================= -->
+
     <aside class="sidebar">
 
-        <div class="logo">ANNAPRIYA</div>
-
-        <nav class="nav-links">
-            <a href="catererdashboard.html">Dashboard</a>
-            <a href="catererpackages.html">My Packages</a>
-            <a href="catererrequests.html" class="active">Event Requests</a>
-            <a href="catererevents.html">My Events</a>
-            <a href="caterercustomers.html">My Customers</a>
-            <a href="contact.html">Contact</a>
-        </nav>
-
-        <div class="bottom-links">
-            <a href="caterer-profile.html">👤 Caterer Profile</a>
-            <a href="#" class="logout" onclick="logout()">↪ Logout</a>
+        <div class="logo">
+            Annapriya
         </div>
+
+        <ul class="nav-menu">
+
+            <li>
+                <a href="catererdashboard.html">
+                    🏠 Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="catererrequests.html" class="active">
+                    📋 Event Requests
+                </a>
+            </li>
+
+            <li>
+                <a href="caterercustomers.html">
+                    👥 Customers
+                </a>
+            </li>
+
+            <li>
+                <a href="catererevents.html">
+                    📅 Events
+                </a>
+            </li>
+
+            <li>
+                <a href="caterer-profile.html">
+                    👤 My Profile
+                </a>
+            </li>
+
+        </ul>
 
     </aside>
 
 
-    <main class="main">
+    <!-- ================= MAIN CONTENT ================= -->
 
-        <div class="top-bar">
+    <main class="main-content">
+
+        <div class="page-header">
+
             <div>
                 <h1>Event Requests</h1>
-                <p class="subtitle">
-                    Review and manage customer event requests.
+
+                <p>
+                    View and manage customer event requests.
                 </p>
             </div>
 
-            <a href="catererdashboard.html" class="dashboard-btn">
-                Dashboard
-            </a>
+            <button
+                class="logout-btn"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
         </div>
 
 
-        <div class="table-card">
+        <!-- ================= REQUEST TABLE ================= -->
+
+        <div class="table-container">
 
             <table>
 
                 <thead>
+
                     <tr>
                         <th>Customer</th>
                         <th>Event</th>
                         <th>Date</th>
                         <th>Guests</th>
-                        <th>Location</th>
+                        <th>Venue</th>
                         <th>Package</th>
                         <th>Status</th>
-                        <th>Actions</th>
+                        <th>Action</th>
                     </tr>
+
                 </thead>
 
-             <tbody id="requestsBody">
-</tbody>
+                <tbody id="requestsBody">
+
+                    <tr>
+                        <td
+                            colspan="8"
+                            class="loading"
+                        >
+                            Loading requests...
+                        </td>
+                    </tr>
+
+                </tbody>
 
             </table>
 
@@ -265,220 +401,550 @@
     </main>
 
 
+    <!-- ================= JAVASCRIPT ================= -->
+
     <script>
 
-const token =
-    localStorage.getItem("annapriya_caterer_token");
+        /* ============================================
+           CHECK CATERER LOGIN
+        ============================================ */
 
-if (!token) {
-    window.location.href = "index.html";
-}
+        const token =
+            localStorage.getItem("annapriya_caterer_token");
 
+        if (!token) {
 
-const caterer =
-    JSON.parse(
-        localStorage.getItem("annapriya_caterer") || "null"
-    );
+            window.location.href = "index.html";
 
-
-const catererId =
-    caterer ? caterer.id : null;
-
-
-async function loadRequests() {
-
-    try {
-
-        const response = await fetch(
-            "http://localhost:5000/api/requests"
-        );
-
-        const data = await response.json();
-
-
-        if (!response.ok) {
-            alert(
-                data.message ||
-                "Could not load requests."
-            );
-            return;
         }
 
 
-        const tbody =
-            document.getElementById("requestsBody");
+        /* ============================================
+           GET CATERER INFORMATION
+        ============================================ */
+
+        const caterer =
+            JSON.parse(
+                localStorage.getItem("annapriya_caterer") || "null"
+            );
 
 
-        tbody.innerHTML = "";
+        /*
+            Different login versions may store
+            the caterer ID using different property names.
+
+            So we safely check all possible names.
+        */
+
+        const catererId =
+            caterer?.catererId ||
+            caterer?.caterer_id ||
+            caterer?.id ||
+            null;
 
 
-        data.requests.forEach(request => {
-
-            const row =
-                document.createElement("tr");
+        console.log("Logged-in caterer:", caterer);
+        console.log("Caterer ID:", catererId);
 
 
-            let statusClass = "";
+        /* ============================================
+           LOAD EVENT REQUESTS
+        ============================================ */
 
-            if (request.status === "accepted") {
-                statusClass = "accepted";
-            }
+        async function loadRequests() {
 
-            if (request.status === "rejected") {
-                statusClass = "rejected";
-            }
+            const requestsBody =
+                document.getElementById("requestsBody");
 
-
-            const formattedDate =
-                request.event_date
-                    ? new Date(request.event_date)
-                        .toLocaleDateString("en-IN")
-                    : "-";
-
-
-            row.innerHTML = `
-
-                <td>${request.customer_name}</td>
-
-                <td>Event Request</td>
-
-                <td>${formattedDate}</td>
-
-                <td>-</td>
-
-                <td>-</td>
-
-                <td>-</td>
-
-                <td>
-                    <span class="status ${statusClass}">
-                        ${request.status}
-                    </span>
-                </td>
-
-                <td>
-
-                    <div class="actions">
-
-                        <button
-                            class="action-btn accept"
-                            onclick="updateRequest(${request.request_id}, 'accepted')"
-                            ${request.status !== "pending" ? "disabled" : ""}
-                        >
-                            ✓
-                        </button>
-
-                        <button
-                            class="action-btn reject"
-                            onclick="updateRequest(${request.request_id}, 'rejected')"
-                            ${request.status !== "pending" ? "disabled" : ""}
-                        >
-                            ✕
-                        </button>
-
-                    </div>
-
-                </td>
+            requestsBody.innerHTML = `
+                <tr>
+                    <td colspan="8" class="loading">
+                        Loading requests...
+                    </td>
+                </tr>
             `;
 
+            try {
 
-            tbody.appendChild(row);
-
-        });
-
-
-    } catch (error) {
-
-        console.error(
-            "Load requests error:",
-            error
-        );
-
-        alert(
-            "Could not connect to backend."
-        );
-    }
-}
+                const response = await fetch(
+                    "http://localhost:5000/api/requests"
+                );
 
 
+                const data = await response.json();
 
-async function updateRequest(requestId, newStatus) {
 
-    try {
+                console.log("Requests response:", data);
 
-        const response = await fetch(
-            `http://localhost:5000/api/requests/${requestId}/status`,
-            {
-                method: "PUT",
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                if (!response.ok) {
 
-                body: JSON.stringify({
-                    status: newStatus,
-                    catererId: catererId
-                })
+                    throw new Error(
+                        data.message ||
+                        "Could not fetch requests."
+                    );
+
+                }
+
+
+                const requests =
+                    data.requests || [];
+
+
+                /* ====================================
+                   NO REQUESTS
+                ==================================== */
+
+                if (requests.length === 0) {
+
+                    requestsBody.innerHTML = `
+                        <tr>
+                            <td colspan="8" class="empty">
+                                No event requests found.
+                            </td>
+                        </tr>
+                    `;
+
+                    return;
+                }
+
+
+                /* ====================================
+                   DISPLAY REQUESTS
+                ==================================== */
+
+                requestsBody.innerHTML =
+                    requests.map(request => {
+
+
+                        const status =
+                            request.status || "pending";
+
+
+                        /*
+                            Status class:
+                            payment_pending etc.
+                            are already valid CSS class names.
+                        */
+
+                        const statusClass =
+                            status.toLowerCase();
+
+
+                        /*
+                            Only pending requests can be
+                            accepted or rejected.
+                        */
+
+                        const isPending =
+                            status === "pending";
+
+
+                        return `
+
+                            <tr>
+
+                                <!-- CUSTOMER -->
+
+                                <td>
+                                    <strong>
+                                        ${
+                                            request.customer_name ||
+                                            "Unknown Customer"
+                                        }
+                                    </strong>
+                                </td>
+
+
+                                <!-- EVENT -->
+
+                                <td>
+                                    ${
+                                        request.event_type ||
+                                        "-"
+                                    }
+                                </td>
+
+
+                                <!-- DATE -->
+
+                                <td>
+                                    ${
+                                        formatDate(
+                                            request.event_date
+                                        )
+                                    }
+                                </td>
+
+
+                                <!-- GUESTS -->
+
+                                <td>
+                                    ${
+                                        request.guest_count ||
+                                        "-"
+                                    }
+                                </td>
+
+
+                                <!-- VENUE -->
+
+                                <td>
+                                    ${
+                                        request.venue_location ||
+                                        "-"
+                                    }
+                                </td>
+
+
+                                <!-- PACKAGE -->
+
+                                <td>
+                                    ${
+                                        request.package_name ||
+                                        "-"
+                                    }
+                                </td>
+
+
+                                <!-- STATUS -->
+
+                                <td>
+
+                                    <span
+                                        class="status ${statusClass}"
+                                    >
+                                        ${formatStatus(status)}
+                                    </span>
+
+                                </td>
+
+
+                                <!-- ACTION -->
+
+                                <td>
+
+                                    <div class="actions">
+
+                                        <button
+                                            class="action-btn accept"
+                                            title="Accept Request"
+                                            onclick="updateRequest(
+                                                ${request.request_id},
+                                                'accepted'
+                                            )"
+                                            ${
+                                                !isPending
+                                                    ? "disabled"
+                                                    : ""
+                                            }
+                                        >
+                                            ✓
+                                        </button>
+
+
+                                        <button
+                                            class="action-btn reject"
+                                            title="Reject Request"
+                                            onclick="updateRequest(
+                                                ${request.request_id},
+                                                'rejected'
+                                            )"
+                                            ${
+                                                !isPending
+                                                    ? "disabled"
+                                                    : ""
+                                            }
+                                        >
+                                            ✕
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        `;
+
+                    }).join("");
+
+
+            } catch (error) {
+
+                console.error(
+                    "Load requests error:",
+                    error
+                );
+
+
+                requestsBody.innerHTML = `
+                    <tr>
+                        <td
+                            colspan="8"
+                            class="empty"
+                        >
+                            Unable to load event requests.
+                            <br><br>
+                            Please make sure the backend server is running.
+                        </td>
+                    </tr>
+                `;
+
             }
-        );
 
-
-        const data =
-            await response.json();
-
-
-        if (!response.ok) {
-
-            alert(
-                data.message ||
-                "Could not update request."
-            );
-
-            return;
         }
 
 
-        alert(
-            data.message
-        );
+        /* ============================================
+           UPDATE REQUEST STATUS
+        ============================================ */
 
+        async function updateRequest(
+            requestId,
+            newStatus
+        ) {
+
+            console.log(
+                "Updating request:",
+                requestId,
+                newStatus
+            );
+
+
+            /* ========================================
+               CHECK REQUEST ID
+            ======================================== */
+
+            if (!requestId) {
+
+                alert(
+                    "Request ID is missing."
+                );
+
+                return;
+            }
+
+
+            /* ========================================
+               CHECK CATERER ID
+            ======================================== */
+
+            if (!catererId) {
+
+                alert(
+                    "Caterer information was not found. " +
+                    "Please log out and log in again."
+                );
+
+                console.error(
+                    "Caterer ID missing.",
+                    caterer
+                );
+
+                return;
+            }
+
+
+            /* ========================================
+               CONFIRM ACTION
+            ======================================== */
+
+            const actionText =
+                newStatus === "accepted"
+                    ? "accept"
+                    : "reject";
+
+
+            const confirmed =
+                confirm(
+                    `Are you sure you want to ${actionText} this request?`
+                );
+
+
+            if (!confirmed) {
+
+                return;
+
+            }
+
+
+            try {
+
+                /* ====================================
+                   SEND REQUEST TO BACKEND
+                ==================================== */
+
+                const response = await fetch(
+                    `http://localhost:5000/api/requests/${requestId}/status`,
+                    {
+                        method: "PUT",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            status: newStatus,
+
+                            catererId: catererId
+
+                        })
+
+                    }
+                );
+
+
+                /* ====================================
+                   READ RESPONSE
+                ==================================== */
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Update response:",
+                    data
+                );
+
+
+                /* ====================================
+                   BACKEND ERROR
+                ==================================== */
+
+                if (!response.ok) {
+
+                    alert(
+                        data.message ||
+                        "Could not update request."
+                    );
+
+                    return;
+
+                }
+
+
+                /* ====================================
+                   SUCCESS
+                ==================================== */
+
+                alert(
+                    data.message ||
+                    "Request updated successfully."
+                );
+
+
+                /* ====================================
+                   RELOAD REQUESTS
+                ==================================== */
+
+                await loadRequests();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Update request error:",
+                    error
+                );
+
+
+                alert(
+                    "Unable to connect to backend. " +
+                    "Please make sure the server is running."
+                );
+
+            }
+
+        }
+
+
+        /* ============================================
+           FORMAT STATUS
+        ============================================ */
+
+        function formatStatus(status) {
+
+            if (!status) {
+                return "Pending";
+            }
+
+
+            return status
+                .replaceAll("_", " ")
+                .replace(/\b\w/g, letter =>
+                    letter.toUpperCase()
+                );
+
+        }
+
+
+        /* ============================================
+           FORMAT DATE
+        ============================================ */
+
+        function formatDate(dateValue) {
+
+            if (!dateValue) {
+
+                return "-";
+
+            }
+
+
+            const date =
+                new Date(dateValue);
+
+
+            if (isNaN(date.getTime())) {
+
+                return dateValue;
+
+            }
+
+
+            return date.toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        /* ============================================
+           LOGOUT
+        ============================================ */
+
+        function logout() {
+
+            localStorage.removeItem(
+                "annapriya_caterer_token"
+            );
+
+            localStorage.removeItem(
+                "annapriya_caterer"
+            );
+
+            window.location.href =
+                "index.html";
+
+        }
+
+
+        /* ============================================
+           LOAD REQUESTS WHEN PAGE OPENS
+        ============================================ */
 
         loadRequests();
 
-
-    } catch (error) {
-
-        console.error(
-            "Update request error:",
-            error
-        );
-
-        alert(
-            "Unable to connect to backend."
-        );
-    }
-}
-
-
-
-function logout() {
-
-    localStorage.removeItem(
-        "annapriya_caterer_token"
-    );
-
-    localStorage.removeItem(
-        "annapriya_caterer"
-    );
-
-    window.location.href =
-        "index.html";
-}
-
-
-loadRequests();
-
-</script>
+    </script>
 
 </body>
 </html>

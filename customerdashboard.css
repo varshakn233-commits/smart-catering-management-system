@@ -1,0 +1,1344 @@
+/* =====================================================
+   ANNAPRIYA CUSTOMER DASHBOARD
+   CUSTOMER SIDE CSS
+===================================================== */
+
+
+/* =====================================================
+   ROOT VARIABLES
+===================================================== */
+
+:root {
+    --maroon: #8B1E3F;
+    --maroon-dark: #701631;
+    --beige: #F5E9DA;
+    --white: #FFFFFF;
+    --black: #1C1C1C;
+    --gold: #D4A373;
+    --muted: #746C68;
+    --border: rgba(139, 30, 63, 0.10);
+    --shadow: 0 10px 30px rgba(28, 28, 28, 0.08);
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    min-height: 100vh;
+
+    background: var(--beige);
+
+    color: var(--black);
+
+    font-family: "Work Sans", sans-serif;
+
+    overflow-x: hidden;
+}
+
+
+button,
+a {
+    font-family: inherit;
+}
+
+
+button {
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   CUSTOMER NAVBAR
+===================================================== */
+
+.customer-navbar {
+    position: sticky;
+
+    top: 0;
+
+    z-index: 2000;
+
+    width: 100%;
+
+    height: 72px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 35px;
+
+    background: var(--maroon);
+
+    box-shadow:
+        0 4px 18px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =====================================================
+   BRAND LOGO
+===================================================== */
+
+.brand-logo {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    color: var(--white);
+
+    text-decoration: none;
+
+    font-family: "Fraunces", serif;
+
+    font-size: 25px;
+
+    font-weight: 700;
+}
+
+
+.brand-symbol {
+    color: var(--gold);
+
+    font-size: 24px;
+}
+
+
+/* =====================================================
+   NAVBAR RIGHT
+===================================================== */
+
+.navbar-right {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+/* =====================================================
+   NOTIFICATION BUTTON
+===================================================== */
+
+.notification-button {
+    position: relative;
+
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: var(--white);
+
+    transition: 0.2s ease;
+}
+
+
+.notification-button:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+
+.notification-icon {
+    font-size: 21px;
+
+    line-height: 1;
+}
+
+
+.notification-badge {
+    position: absolute;
+
+    top: 3px;
+
+    right: 2px;
+
+    min-width: 17px;
+
+    height: 17px;
+
+    padding: 0 4px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #D4A373;
+
+    color: var(--maroon);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    border: 2px solid var(--maroon);
+}
+
+
+/* =====================================================
+   CUSTOMER PROFILE BUTTON
+===================================================== */
+
+.profile-button {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 5px 9px 5px 5px;
+
+    border: none;
+
+    border-radius: 25px;
+
+    background: transparent;
+
+    color: var(--white);
+
+    transition: 0.2s ease;
+}
+
+
+.profile-button:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+
+/* =====================================================
+   PROFILE AVATAR
+===================================================== */
+
+.profile-avatar {
+    width: 39px;
+
+    height: 39px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--beige);
+
+    color: var(--maroon);
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    border: 2px solid rgba(255, 255, 255, 0.7);
+}
+
+
+.profile-name {
+    max-width: 130px;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+
+    color: var(--white);
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+/* =====================================================
+   HAMBURGER MENU BUTTON
+===================================================== */
+
+.menu-button {
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: transparent;
+
+    color: var(--white);
+
+    font-size: 25px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+
+.menu-button:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+
+/* =====================================================
+   PROFILE BUTTON MENU
+   ONLY MY PROFILE
+===================================================== */
+
+.profile-button-menu {
+    position: fixed;
+
+    top: 80px;
+
+    right: 70px;
+
+    width: 190px;
+
+    display: none;
+
+    padding: 8px;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.16);
+
+    z-index: 3000;
+}
+
+
+.profile-button-menu.show {
+    display: block;
+}
+
+
+.profile-button-menu-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    width: 100%;
+
+    padding: 12px 14px;
+
+    color: var(--black);
+
+    text-decoration: none;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition: 0.2s ease;
+}
+
+
+.profile-button-menu-item:hover {
+    background: var(--beige);
+
+    color: var(--maroon);
+}
+
+
+/* =====================================================
+   HAMBURGER CUSTOMER MENU
+   ALL 9 OPTIONS
+===================================================== */
+
+.profile-menu {
+    position: fixed;
+
+    top: 80px;
+
+    right: 20px;
+
+    width: 290px;
+
+    max-height: calc(100vh - 100px);
+
+    overflow-y: auto;
+
+    display: none;
+
+    padding: 10px;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 15px 45px rgba(0, 0, 0, 0.18);
+
+    z-index: 3000;
+}
+
+
+.profile-menu.show {
+    display: block;
+}
+
+
+/* =====================================================
+   MENU PROFILE HEADER
+===================================================== */
+
+.menu-profile-header {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 12px;
+
+    margin-bottom: 6px;
+
+    border-bottom: 1px solid rgba(28, 28, 28, 0.08);
+}
+
+
+.menu-avatar {
+    width: 43px;
+
+    height: 43px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--maroon);
+
+    color: var(--white);
+
+    font-size: 16px;
+
+    font-weight: 700;
+}
+
+
+.menu-profile-header h3 {
+    margin-bottom: 3px;
+
+    color: var(--black);
+
+    font-size: 15px;
+
+    font-weight: 700;
+}
+
+
+.menu-profile-header p {
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+
+/* =====================================================
+   MENU ITEMS
+===================================================== */
+
+.menu-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    width: 100%;
+
+    padding: 11px 12px;
+
+    margin: 2px 0;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: transparent;
+
+    color: var(--black);
+
+    text-decoration: none;
+
+    text-align: left;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.menu-item:hover {
+    background: var(--beige);
+
+    color: var(--maroon);
+}
+
+
+.menu-icon {
+    width: 24px;
+
+    flex-shrink: 0;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 17px;
+}
+
+
+/* =====================================================
+   MENU DIVIDER
+===================================================== */
+
+.menu-divider {
+    height: 1px;
+
+    margin: 7px 8px;
+
+    background: rgba(28, 28, 28, 0.08);
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+.logout-item {
+    color: var(--maroon);
+
+    cursor: pointer;
+}
+
+
+.logout-item:hover {
+    background: #f8e6eb;
+
+    color: var(--maroon-dark);
+}
+
+
+/* =====================================================
+   NOTIFICATION PANEL
+===================================================== */
+
+.notification-panel {
+    position: fixed;
+
+    top: 80px;
+
+    right: 125px;
+
+    width: 350px;
+
+    max-width: calc(100vw - 30px);
+
+    display: none;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 15px 45px rgba(0, 0, 0, 0.18);
+
+    overflow: hidden;
+
+    z-index: 3000;
+}
+
+
+.notification-panel.show {
+    display: block;
+}
+
+
+/* =====================================================
+   NOTIFICATION HEADER
+===================================================== */
+
+.notification-panel-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 16px 18px;
+
+    border-bottom: 1px solid rgba(28, 28, 28, 0.08);
+}
+
+
+.notification-panel-header h3 {
+    color: var(--black);
+
+    font-family: "Fraunces", serif;
+
+    font-size: 19px;
+}
+
+
+.notification-panel-header button {
+    width: 30px;
+
+    height: 30px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: var(--muted);
+
+    font-size: 22px;
+}
+
+
+.notification-panel-header button:hover {
+    background: var(--beige);
+
+    color: var(--maroon);
+}
+
+
+/* =====================================================
+   NOTIFICATION ITEMS
+===================================================== */
+
+.notification-list {
+    padding: 6px 0;
+}
+
+
+.notification-item {
+    display: flex;
+
+    gap: 12px;
+
+    padding: 14px 17px;
+
+    border-bottom: 1px solid rgba(28, 28, 28, 0.06);
+}
+
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+
+.notification-item.unread {
+    background: #fffaf6;
+}
+
+
+.notification-item-icon {
+    width: 34px;
+
+    height: 34px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--beige);
+
+    color: var(--maroon);
+
+    font-size: 15px;
+
+    font-weight: 700;
+}
+
+
+.notification-item strong {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--black);
+
+    font-size: 13px;
+}
+
+
+.notification-item p {
+    margin-bottom: 5px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+
+.notification-item small {
+    color: #999;
+
+    font-size: 10px;
+}
+
+
+/* =====================================================
+   MAIN DASHBOARD
+===================================================== */
+
+.customer-main {
+    width: min(1180px, calc(100% - 40px));
+
+    margin: 0 auto;
+
+    padding: 45px 0 100px;
+}
+
+
+/* =====================================================
+   WELCOME SECTION
+===================================================== */
+
+.welcome-section {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    padding: 42px;
+
+    margin-bottom: 42px;
+
+    background: var(--white);
+
+    border-radius: 20px;
+
+    box-shadow: var(--shadow);
+
+    border-left: 5px solid var(--maroon);
+}
+
+
+.welcome-small {
+    margin-bottom: 8px;
+
+    color: var(--maroon);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+}
+
+
+.welcome-section h1 {
+    margin-bottom: 10px;
+
+    color: var(--black);
+
+    font-family: "Fraunces", serif;
+
+    font-size: clamp(32px, 5vw, 48px);
+
+    line-height: 1.15;
+}
+
+
+.welcome-section h1 span {
+    color: var(--maroon);
+}
+
+
+.welcome-description {
+    max-width: 600px;
+
+    color: var(--muted);
+
+    font-size: 15px;
+
+    line-height: 1.7;
+}
+
+
+/* =====================================================
+   SEARCH BUTTON
+===================================================== */
+
+.dashboard-search-button {
+    width: 55px;
+
+    height: 55px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: var(--maroon);
+
+    color: var(--white);
+
+    font-size: 27px;
+
+    transition: 0.2s ease;
+
+    box-shadow:
+        0 7px 18px rgba(139, 30, 63, 0.22);
+}
+
+
+.dashboard-search-button:hover {
+    background: var(--maroon-dark);
+
+    transform: translateY(-2px);
+}
+
+
+/* =====================================================
+   DASHBOARD SECTION
+===================================================== */
+
+.dashboard-section {
+    margin-bottom: 40px;
+}
+
+
+.section-heading {
+    margin-bottom: 20px;
+}
+
+
+.section-label {
+    margin-bottom: 4px;
+
+    color: var(--gold);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+}
+
+
+.section-heading h2 {
+    margin-bottom: 5px;
+
+    color: var(--black);
+
+    font-family: "Fraunces", serif;
+
+    font-size: 29px;
+}
+
+
+.section-heading > p:last-child {
+    color: var(--muted);
+
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   QUICK ACTIONS
+===================================================== */
+
+.quick-actions {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+
+.quick-action-card {
+    position: relative;
+
+    min-height: 155px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    padding: 24px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    background: var(--white);
+
+    color: var(--black);
+
+    text-decoration: none;
+
+    text-align: left;
+
+    box-shadow: var(--shadow);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+button.quick-action-card {
+    width: 100%;
+}
+
+
+.quick-action-card:hover {
+    transform: translateY(-4px);
+
+    border-color: rgba(139, 30, 63, 0.25);
+
+    box-shadow:
+        0 15px 35px rgba(28, 28, 28, 0.12);
+}
+
+
+.quick-action-icon {
+    width: 52px;
+
+    height: 52px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background: var(--beige);
+
+    color: var(--maroon);
+
+    font-size: 25px;
+}
+
+
+.quick-action-content {
+    flex: 1;
+}
+
+
+.quick-action-content h3 {
+    margin-bottom: 5px;
+
+    color: var(--black);
+
+    font-size: 16px;
+
+    font-weight: 700;
+}
+
+
+.quick-action-content p {
+    color: var(--muted);
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+
+.quick-action-arrow {
+    align-self: flex-end;
+
+    color: var(--maroon);
+
+    font-size: 22px;
+
+    font-weight: 600;
+}
+
+
+/* =====================================================
+   MOBILE BOTTOM NAVIGATION
+===================================================== */
+
+.mobile-bottom-navigation {
+    display: none;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+
+
+    .quick-action-card {
+        min-height: 125px;
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .customer-navbar {
+        height: 64px;
+
+        padding: 0 15px;
+    }
+
+
+    .brand-logo {
+        font-size: 21px;
+    }
+
+
+    .brand-symbol {
+        font-size: 20px;
+    }
+
+
+    .navbar-right {
+        gap: 4px;
+    }
+
+
+    .profile-name {
+        display: none;
+    }
+
+
+    .profile-button {
+        padding: 3px;
+    }
+
+
+    .profile-avatar {
+        width: 36px;
+
+        height: 36px;
+    }
+
+
+    .notification-button,
+    .menu-button {
+        width: 38px;
+
+        height: 38px;
+    }
+
+
+    .menu-button {
+        font-size: 23px;
+    }
+
+
+    /* Profile menu */
+
+    .profile-button-menu {
+        top: 70px;
+
+        right: 15px;
+
+        width: 180px;
+    }
+
+
+    /* Hamburger menu */
+
+    .profile-menu {
+        top: 70px;
+
+        right: 10px;
+
+        width: min(290px, calc(100vw - 20px));
+    }
+
+
+    /* Notification */
+
+    .notification-panel {
+        top: 70px;
+
+        right: 10px;
+
+        width: calc(100vw - 20px);
+    }
+
+
+    /* Main */
+
+    .customer-main {
+        width: calc(100% - 24px);
+
+        padding: 25px 0 95px;
+    }
+
+
+    /* Welcome */
+
+    .welcome-section {
+        align-items: flex-start;
+
+        padding: 28px 22px;
+
+        margin-bottom: 30px;
+
+        border-radius: 16px;
+    }
+
+
+    .welcome-section h1 {
+        font-size: 34px;
+    }
+
+
+    .welcome-description {
+        font-size: 13px;
+    }
+
+
+    .dashboard-search-button {
+        width: 45px;
+
+        height: 45px;
+
+        font-size: 22px;
+    }
+
+
+    /* Quick actions */
+
+    .section-heading h2 {
+        font-size: 25px;
+    }
+
+
+    .quick-action-card {
+        min-height: 110px;
+
+        padding: 18px;
+    }
+
+
+    .quick-action-icon {
+        width: 46px;
+
+        height: 46px;
+
+        font-size: 21px;
+    }
+
+
+    /* Bottom navigation */
+
+    .mobile-bottom-navigation {
+        position: fixed;
+
+        bottom: 0;
+
+        left: 0;
+
+        z-index: 1900;
+
+        width: 100%;
+
+        height: 68px;
+
+        display: grid;
+
+        grid-template-columns: repeat(4, 1fr);
+
+        background: var(--white);
+
+        border-top: 1px solid var(--border);
+
+        box-shadow:
+            0 -5px 20px rgba(0, 0, 0, 0.08);
+    }
+
+
+    .mobile-nav-item {
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        flex-direction: column;
+
+        gap: 3px;
+
+        border: none;
+
+        background: transparent;
+
+        color: var(--muted);
+
+        text-decoration: none;
+
+        font-size: 20px;
+    }
+
+
+    .mobile-nav-item small {
+        font-size: 10px;
+
+        font-weight: 600;
+    }
+
+
+    .mobile-nav-item.active {
+        color: var(--maroon);
+    }
+
+
+    .mobile-nav-item:hover {
+        color: var(--maroon);
+    }
+
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 450px) {
+
+    .welcome-section {
+        padding: 24px 18px;
+    }
+
+
+    .welcome-section h1 {
+        font-size: 30px;
+    }
+
+
+    .welcome-description {
+        font-size: 12px;
+    }
+
+
+    .quick-action-card {
+        padding: 15px;
+    }
+
+
+    .quick-action-content h3 {
+        font-size: 14px;
+    }
+
+
+    .quick-action-content p {
+        font-size: 11px;
+    }
+
+
+    .quick-action-arrow {
+        font-size: 18px;
+    }
+
+}

@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Payment | Annapriya</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #F5E9DA;
+            color: #1C1C1C;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+
+        .header {
+            background: #8B1E3F;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        .header h1 {
+            font-size: 24px;
+        }
+
+        /* MAIN */
+
+        .container {
+            max-width: 850px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        /* TITLE */
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h2 {
+            color: #8B1E3F;
+            font-size: 28px;
+            margin-bottom: 7px;
+        }
+
+        .page-title p {
+            color: #666;
+        }
+
+        /* CARD */
+
+        .payment-card {
+            background: white;
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            color: #8B1E3F;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* DETAILS */
+
+        .details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .detail-box {
+            background: #fffaf5;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .detail-box span {
+            display: block;
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 5px;
+        }
+
+        .detail-box strong {
+            font-size: 15px;
+        }
+
+        /* AMOUNT */
+
+        .amount-box {
+            background: #8B1E3F;
+            color: white;
+            border-radius: 14px;
+            padding: 22px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .amount-box span {
+            font-size: 16px;
+        }
+
+        .amount {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* PAYMENT METHODS */
+
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .payment-option {
+            border: 2px solid #eee;
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.2s;
+        }
+
+        .payment-option:hover {
+            border-color: #D4A373;
+        }
+
+        .payment-option.selected {
+            border-color: #8B1E3F;
+            background: #fff8f2;
+        }
+
+        .payment-option input {
+            accent-color: #8B1E3F;
+        }
+
+        .payment-icon {
+            font-size: 24px;
+        }
+
+        .payment-info strong {
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .payment-info small {
+            color: #777;
+        }
+
+        /* PAY BUTTON */
+
+        .pay-btn {
+            width: 100%;
+            border: none;
+            background: #8B1E3F;
+            color: white;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .pay-btn:hover {
+            background: #701833;
+        }
+
+        .pay-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* NOTE */
+
+        .secure-note {
+            text-align: center;
+            color: #777;
+            font-size: 13px;
+            margin-top: 15px;
+        }
+
+        /* LOADING */
+
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+
+        .error {
+            text-align: center;
+            padding: 30px;
+            color: #a94442;
+        }
+
+        /* SUCCESS */
+
+        .success-box {
+            text-align: center;
+            padding: 35px 20px;
+        }
+
+        .success-icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        .success-box h2 {
+            color: #155724;
+            margin-bottom: 10px;
+        }
+
+        .success-box p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .continue-btn {
+            display: inline-block;
+            margin-top: 20px;
+            background: #8B1E3F;
+            color: white;
+            text-decoration: none;
+            padding: 13px 22px;
+            border-radius: 9px;
+            font-weight: bold;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 650px) {
+
+            .header {
+                padding: 15px 18px;
+            }
+
+            .container {
+                margin-top: 25px;
+            }
+
+            .payment-card {
+                padding: 20px;
+            }
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+
+            .amount-box {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <button
+            class="back-btn"
+            onclick="goBack()"
+        >
+            ←
+        </button>
+
+        <h1>Annapriya</h1>
+
+    </header>
+
+
+    <!-- MAIN -->
+
+    <main class="container">
+
+        <div class="page-title">
+
+            <h2>Complete Your Payment</h2>
+
+            <p>
+                Your caterer has accepted your event request.
+                Complete the payment to confirm your booking.
+            </p>
+
+        </div>
+
+
+        <!-- EVENT DETAILS -->
+
+        <section class="payment-card">
+
+            <h3 class="card-title">
+                📋 Booking Details
+            </h3>
+
+            <div id="bookingDetails">
+
+                <div class="loading">
+                    Loading booking details...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PAYMENT SECTION -->
+
+        <section
+            class="payment-card"
+            id="paymentSection"
+        >
+
+            <h3 class="card-title">
+                💳 Select Payment Method
+            </h3>
+
+
+            <div class="payment-methods">
+
+                <label
+                    class="payment-option"
+                    onclick="selectPayment(this)"
+                >
+
+                    <input
+                        type="radio"
+                        name="paymentMethod"
+                        value="UPI"
+                    >
+
+                    <span class="payment-icon">
+                        📱
+                    </span>
+
+                    <span class="payment-info">
+
+                        <strong>UPI</strong>
+
+                        <small>
+                            Google Pay, PhonePe, Paytm
+                        </small>
+
+                    </span>
+
+                </label>
+
+
+                <label
+                    class="payment-option"
+                    onclick="selectPayment(this)"
+                >
+
+                    <input
+                        type="radio"
+                        name="paymentMethod"
+                        value="Card"
+                    >
+
+                    <span class="payment-icon">
+                        💳
+                    </span>
+
+                    <span class="payment-info">
+
+                        <strong>Debit / Credit Card</strong>
+
+                        <small>
+                            Visa, Mastercard and other cards
+                        </small>
+
+                    </span>
+
+                </label>
+
+
+                <label
+                    class="payment-option"
+                    onclick="selectPayment(this)"
+                >
+
+                    <input
+                        type="radio"
+                        name="paymentMethod"
+                        value="Net Banking"
+                    >
+
+                    <span class="payment-icon">
+                        🏦
+                    </span>
+
+                    <span class="payment-info">
+
+                        <strong>Net Banking</strong>
+
+                        <small>
+                            Pay using your bank account
+                        </small>
+
+                    </span>
+
+                </label>
+
+            </div>
+
+
+            <button
+                class="pay-btn"
+                id="payBtn"
+                onclick="makePayment()"
+            >
+                Pay Now
+            </button>
+
+
+            <p class="secure-note">
+                🔒 Your payment information is secure.
+            </p>
+
+        </section>
+
+
+        <!-- SUCCESS -->
+
+        <section
+            class="payment-card"
+            id="successSection"
+            style="display:none;"
+        >
+
+            <div class="success-box">
+
+                <div class="success-icon">
+                    ✅
+                </div>
+
+                <h2>
+                    Payment Successful!
+                </h2>
+
+                <p>
+                    Your booking has been confirmed successfully.
+                    You can now track your event from your customer dashboard.
+                </p>
+
+                <a
+                    href="customerdashboard.html"
+                    class="continue-btn"
+                >
+                    Go to Dashboard
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        /* ============================================
+           VARIABLES
+        ============================================ */
+
+        let requestId = null;
+
+        let bookingData = null;
+
+        let selectedPaymentMethod = null;
+
+
+        /* ============================================
+           GET REQUEST ID
+        ============================================ */
+
+        const urlParams =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        requestId =
+            urlParams.get("requestId");
+
+
+        /* ============================================
+           BACK BUTTON
+        ============================================ */
+
+        function goBack() {
+
+            window.history.back();
+
+        }
+
+
+        /* ============================================
+           PAYMENT METHOD SELECTION
+        ============================================ */
+
+        function selectPayment(element) {
+
+            document
+                .querySelectorAll(".payment-option")
+                .forEach(option => {
+
+                    option.classList.remove(
+                        "selected"
+                    );
+
+                });
+
+
+            element.classList.add("selected");
+
+
+            const radio =
+                element.querySelector(
+                    "input[type='radio']"
+                );
+
+
+            if (radio) {
+
+                radio.checked = true;
+
+                selectedPaymentMethod =
+                    radio.value;
+
+            }
+
+        }
+
+
+        /* ============================================
+           LOAD BOOKING DETAILS
+        ============================================ */
+
+        async function loadBooking() {
+
+            const bookingDetails =
+                document.getElementById(
+                    "bookingDetails"
+                );
+
+
+            if (!requestId) {
+
+                bookingDetails.innerHTML = `
+                    <div class="error">
+                        Booking request was not found.
+                    </div>
+                `;
+
+                document.getElementById(
+                    "paymentSection"
+                ).style.display = "none";
+
+                return;
+            }
+
+
+            try {
+
+                /*
+                    We use the existing requests API
+                    to get the customer's booking.
+                */
+
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/requests"
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Could not load booking."
+                    );
+
+                }
+
+
+                const requests =
+                    data.requests || [];
+
+
+                bookingData =
+                    requests.find(
+                        request =>
+                            String(
+                                request.request_id
+                            ) === String(requestId)
+                    );
+
+
+                if (!bookingData) {
+
+                    bookingDetails.innerHTML = `
+                        <div class="error">
+                            Booking request not found.
+                        </div>
+                    `;
+
+                    document.getElementById(
+                        "paymentSection"
+                    ).style.display = "none";
+
+                    return;
+                }
+
+
+                /* ====================================
+                   CHECK STATUS
+                ==================================== */
+
+                if (
+                    bookingData.status !==
+                    "payment_pending"
+                ) {
+
+                    bookingDetails.innerHTML = `
+                        <div class="error">
+                            This booking is not currently
+                            waiting for payment.
+                        </div>
+                    `;
+
+                    document.getElementById(
+                        "paymentSection"
+                    ).style.display = "none";
+
+                    return;
+
+                }
+
+
+                /* ====================================
+                   DISPLAY DETAILS
+                ==================================== */
+
+                const amount =
+                    Number(
+                        bookingData.budget || 0
+                    );
+
+
+                bookingDetails.innerHTML = `
+
+                    <div class="details">
+
+                        <div class="detail-box">
+
+                            <span>
+                                Customer
+                            </span>
+
+                            <strong>
+                                ${
+                                    bookingData.customer_name ||
+                                    "-"
+                                }
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-box">
+
+                            <span>
+                                Event Type
+                            </span>
+
+                            <strong>
+                                ${
+                                    bookingData.event_type ||
+                                    "-"
+                                }
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-box">
+
+                            <span>
+                                Event Date
+                            </span>
+
+                            <strong>
+                                ${
+                                    formatDate(
+                                        bookingData.event_date
+                                    )
+                                }
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-box">
+
+                            <span>
+                                Event Time
+                            </span>
+
+                            <strong>
+                                ${
+                                    bookingData.event_time ||
+                                    "-"
+                                }
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-box">
+
+                            <span>
+                                Venue
+                            </span>
+
+                            <strong>
+                                ${
+                                    bookingData.venue_location ||
+                                    "-"
+                                }
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-box">
+
+                            <span>
+                                Guests
+                            </span>
+
+                            <strong>
+                                ${
+                                    bookingData.guest_count ||
+                                    "-"
+                                }
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-box">
+
+                            <span>
+                                Food Type
+                            </span>
+
+                            <strong>
+                                ${
+                                    bookingData.food_type ||
+                                    "-"
+                                }
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-box">
+
+                            <span>
+                                Package
+                            </span>
+
+                            <strong>
+                                ${
+                                    bookingData.package_name ||
+                                    "-"
+                                }
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="amount-box">
+
+                        <span>
+                            Total Amount
+                        </span>
+
+                        <span class="amount">
+                            ₹${amount.toLocaleString("en-IN")}
+                        </span>
+
+                    </div>
+
+                `;
+
+
+            } catch (error) {
+
+                console.error(
+                    "Load booking error:",
+                    error
+                );
+
+
+                bookingDetails.innerHTML = `
+                    <div class="error">
+                        Unable to load booking details.
+                        Please make sure the backend server is running.
+                    </div>
+                `;
+
+            }
+
+        }
+
+
+        /* ============================================
+           MAKE PAYMENT
+        ============================================ */
+
+        async function makePayment() {
+
+            if (!bookingData) {
+
+                alert(
+                    "Booking information is not available."
+                );
+
+                return;
+            }
+
+
+            const selected =
+                document.querySelector(
+                    "input[name='paymentMethod']:checked"
+                );
+
+
+            if (!selected) {
+
+                alert(
+                    "Please select a payment method."
+                );
+
+                return;
+            }
+
+
+            selectedPaymentMethod =
+                selected.value;
+
+
+            const payBtn =
+                document.getElementById(
+                    "payBtn"
+                );
+
+
+            payBtn.disabled = true;
+
+            payBtn.textContent =
+                "Processing Payment...";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/payment/complete",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                requestId:
+                                    requestId,
+
+                                paymentMethod:
+                                    selectedPaymentMethod
+                            })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Payment response:",
+                    data
+                );
+
+
+                if (!response.ok) {
+
+                    alert(
+                        data.message ||
+                        "Payment could not be completed."
+                    );
+
+                    payBtn.disabled = false;
+
+                    payBtn.textContent =
+                        "Pay Now";
+
+                    return;
+                }
+
+
+                document.getElementById(
+                    "paymentSection"
+                ).style.display = "none";
+
+
+                document.getElementById(
+                    "successSection"
+                ).style.display = "block";
+
+
+                alert(
+                    "Payment completed successfully!"
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Payment error:",
+                    error
+                );
+
+
+                alert(
+                    "Unable to connect to the payment server."
+                );
+
+
+                payBtn.disabled = false;
+
+                payBtn.textContent =
+                    "Pay Now";
+
+            }
+
+        }
+
+
+        /* ============================================
+           FORMAT DATE
+        ============================================ */
+
+        function formatDate(dateValue) {
+
+            if (!dateValue) {
+
+                return "-";
+
+            }
+
+
+            const date =
+                new Date(dateValue);
+
+
+            if (
+                isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return dateValue;
+
+            }
+
+
+            return date.toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        /* ============================================
+           LOAD PAGE
+        ============================================ */
+
+        loadBooking();
+
+    </script>
+
+</body>
+</html>

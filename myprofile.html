@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Annapriya | My Profile</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        :root {
+            --maroon: #8B1E3F;
+            --beige: #F5E9DA;
+            --black: #1C1C1C;
+            --gold: #D4A373;
+            --white: #FFFFFF;
+            --border: #eadbc9;
+            --muted: #777;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Work Sans", sans-serif;
+            background: var(--beige);
+            color: var(--black);
+            min-height: 100vh;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================== */
+
+        .customer-navbar {
+            height: 72px;
+            background: var(--maroon);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 42px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .brand-logo {
+            text-decoration: none;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: "Fraunces", serif;
+            font-size: 25px;
+            font-weight: 700;
+        }
+
+        .brand-symbol {
+            color: var(--gold);
+            font-size: 25px;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .notification-button,
+        .profile-button,
+        .menu-button {
+            border: none;
+            background: transparent;
+            color: var(--white);
+            cursor: pointer;
+        }
+
+        .notification-button {
+            position: relative;
+            font-size: 20px;
+            padding: 8px;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 1px;
+            right: 0;
+            min-width: 17px;
+            height: 17px;
+            padding: 0 4px;
+            border-radius: 20px;
+            background: var(--gold);
+            color: var(--black);
+            font-size: 10px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-button {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-family: "Work Sans", sans-serif;
+        }
+
+        .profile-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--gold);
+            color: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .profile-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .profile-chevron {
+            font-size: 10px;
+        }
+
+        .menu-button {
+            font-size: 27px;
+            line-height: 1;
+            padding: 4px;
+        }
+
+        /* =========================
+           PAGE
+        ========================== */
+
+        .profile-page {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 42px 25px 60px;
+        }
+
+        .back-button {
+            display: inline-block;
+            text-decoration: none;
+            color: var(--maroon);
+            font-weight: 600;
+            margin-bottom: 28px;
+        }
+
+        .back-button:hover {
+            text-decoration: underline;
+        }
+
+        .page-heading {
+            margin-bottom: 28px;
+        }
+
+        .section-label {
+            color: var(--gold);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .page-heading h1 {
+            font-family: "Fraunces", serif;
+            color: var(--maroon);
+            font-size: 38px;
+            margin-bottom: 8px;
+        }
+
+        .page-description {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* =========================
+           PROFILE CARD
+        ========================== */
+
+        .profile-card {
+            background: var(--white);
+            border-radius: 18px;
+            padding: 32px;
+            box-shadow: 0 8px 25px rgba(60, 30, 20, 0.08);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding-bottom: 25px;
+            margin-bottom: 28px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .large-avatar {
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            background: var(--maroon);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Fraunces", serif;
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .profile-header h2 {
+            font-family: "Fraunces", serif;
+            color: var(--maroon);
+            margin-bottom: 5px;
+        }
+
+        .profile-header p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* =========================
+           DETAILS
+        ========================== */
+
+        .profile-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .detail-box {
+            background: #fcf8f3;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px;
+        }
+
+        .detail-label {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 7px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-value {
+            color: var(--black);
+            font-size: 15px;
+            font-weight: 600;
+            word-break: break-word;
+        }
+
+        .edit-profile-button {
+            margin-top: 28px;
+            padding: 13px 22px;
+            border: none;
+            border-radius: 10px;
+            background: var(--maroon);
+            color: var(--white);
+            font-family: "Work Sans", sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .edit-profile-button:hover {
+            background: #701631;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 700px) {
+
+            .customer-navbar {
+                padding: 0 18px;
+            }
+
+            .profile-name {
+                display: none;
+            }
+
+            .profile-page {
+                padding: 30px 16px 45px;
+            }
+
+            .page-heading h1 {
+                font-size: 30px;
+            }
+
+            .profile-card {
+                padding: 22px;
+            }
+
+            .profile-details {
+                grid-template-columns: 1fr;
+            }
+
+            .large-avatar {
+                width: 65px;
+                height: 65px;
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <header class="customer-navbar">
+
+        <a href="customerdashboard.html" class="brand-logo">
+            <span class="brand-symbol">✦</span>
+            <span>Annapriya</span>
+        </a>
+
+        <div class="navbar-right">
+
+            <button
+                type="button"
+                class="notification-button"
+                title="Notifications"
+            >
+                🔔
+
+                <span class="notification-badge">
+                    3
+                </span>
+            </button>
+
+            <button
+                type="button"
+                class="profile-button"
+            >
+
+                <span
+                    class="profile-avatar"
+                    id="headerAvatar"
+                >
+                    C
+                </span>
+
+                <span
+                    class="profile-name"
+                    id="headerCustomerName"
+                >
+                    Customer
+                </span>
+
+                <span class="profile-chevron">
+                    ▾
+                </span>
+
+            </button>
+
+            <button
+                type="button"
+                class="menu-button"
+                title="Customer Menu"
+            >
+                ⋮
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="profile-page">
+
+        <a
+            href="customerdashboard.html"
+            class="back-button"
+        >
+            ← Back to Dashboard
+        </a>
+
+
+        <section class="page-heading">
+
+            <p class="section-label">
+                ACCOUNT
+            </p>
+
+            <h1>
+                My Profile
+            </h1>
+
+            <p class="page-description">
+                View your customer account information
+                registered with Annapriya.
+            </p>
+
+        </section>
+
+
+        <section class="profile-card">
+
+            <div class="profile-header">
+
+                <div
+                    class="large-avatar"
+                    id="profileAvatar"
+                >
+                    C
+                </div>
+
+                <div>
+
+                    <h2 id="profileName">
+                        Customer
+                    </h2>
+
+                    <p>
+                        Annapriya Customer
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="profile-details">
+
+                <div class="detail-box">
+
+                    <span class="detail-label">
+                        Full Name
+                    </span>
+
+                    <span
+                        class="detail-value"
+                        id="fullName"
+                    >
+                        Not available
+                    </span>
+
+                </div>
+
+
+                <div class="detail-box">
+
+                    <span class="detail-label">
+                        Gender
+                    </span>
+
+                    <span
+                        class="detail-value"
+                        id="gender"
+                    >
+                        Not available
+                    </span>
+
+                </div>
+
+
+                <div class="detail-box">
+
+                    <span class="detail-label">
+                        Email
+                    </span>
+
+                    <span
+                        class="detail-value"
+                        id="email"
+                    >
+                        Not available
+                    </span>
+
+                </div>
+
+
+                <div class="detail-box">
+
+                    <span class="detail-label">
+                        Phone
+                    </span>
+
+                    <span
+                        class="detail-value"
+                        id="phone"
+                    >
+                        Not available
+                    </span>
+
+                </div>
+
+
+                <div class="detail-box">
+
+                    <span class="detail-label">
+                        Address
+                    </span>
+
+                    <span
+                        class="detail-value"
+                        id="address"
+                    >
+                        Not available
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="edit-profile-button"
+                onclick="window.location.href='editprofile.html'"
+            >
+                Edit Profile
+            </button>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            () => {
+
+                const customer =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "annapriya_customer"
+                        ) || "null"
+                    );
+
+
+                if (!customer) {
+                    return;
+                }
+
+
+                const customerName =
+                    customer.fullName ||
+                    customer.name ||
+                    "Customer";
+
+
+                document.getElementById(
+                    "profileName"
+                ).textContent = customerName;
+
+
+                document.getElementById(
+                    "headerCustomerName"
+                ).textContent = customerName;
+
+
+                document.getElementById(
+                    "fullName"
+                ).textContent =
+                    customer.fullName ||
+                    customer.name ||
+                    "Not available";
+
+
+                document.getElementById(
+                    "gender"
+                ).textContent =
+                    customer.gender ||
+                    "Not available";
+
+
+                document.getElementById(
+                    "email"
+                ).textContent =
+                    customer.email ||
+                    "Not available";
+
+
+                document.getElementById(
+                    "phone"
+                ).textContent =
+                    customer.phone ||
+                    "Not available";
+
+
+                document.getElementById(
+                    "address"
+                ).textContent =
+                    customer.address ||
+                    "Not available";
+
+
+                const firstLetter =
+                    customerName
+                        .charAt(0)
+                        .toUpperCase();
+
+
+                document.getElementById(
+                    "headerAvatar"
+                ).textContent = firstLetter;
+
+
+                document.getElementById(
+                    "profileAvatar"
+                ).textContent = firstLetter;
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Reviews | Annapriya</title>
+
+    <link
+        rel="stylesheet"
+        href="myreviews.css"
+    >
+</head>
+
+<body>
+
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
+    <header class="customer-header">
+
+        <div class="header-left">
+
+            <button
+                class="back-button"
+                id="backButton"
+                type="button"
+            >
+                ←
+            </button>
+
+            <div class="brand-name">
+                Annapriya
+            </div>
+
+        </div>
+
+
+        <div class="header-right">
+
+            <button
+                class="profile-button"
+                id="profileButton"
+                type="button"
+            >
+
+                <span
+                    class="avatar"
+                    id="headerAvatar"
+                >
+                    C
+                </span>
+
+                <span
+                    class="customer-name"
+                    id="headerCustomerName"
+                >
+                    Customer
+                </span>
+
+            </button>
+
+
+            <!-- PROFILE MENU -->
+
+            <div
+                class="profile-menu"
+                id="profileButtonMenu"
+            >
+
+                <a href="customerprofile.html">
+                    👤 My Profile
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================== -->
+
+    <main class="main-content">
+
+
+        <!-- PAGE HEADING -->
+
+        <section class="page-heading">
+
+            <span class="page-label">
+                CUSTOMER
+            </span>
+
+            <h1>
+                ⭐ My Reviews
+            </h1>
+
+            <p>
+                View and manage the reviews you have given
+                to caterers.
+            </p>
+
+        </section>
+
+
+
+        <!-- =========================================
+             LOADING
+        ========================================== -->
+
+        <section
+            class="state-section"
+            id="loadingSection"
+        >
+
+            <div class="loader"></div>
+
+            <p>
+                Loading your reviews...
+            </p>
+
+        </section>
+
+
+
+        <!-- =========================================
+             ERROR
+        ========================================== -->
+
+        <section
+            class="state-section error-state"
+            id="errorSection"
+            style="display: none;"
+        >
+
+            <div class="state-icon">
+                ⚠️
+            </div>
+
+            <h2>
+                Something went wrong
+            </h2>
+
+            <p id="errorMessage">
+                Could not load your reviews.
+            </p>
+
+            <button
+                class="primary-button"
+                id="retryButton"
+                type="button"
+            >
+                Try Again
+            </button>
+
+        </section>
+
+
+
+        <!-- =========================================
+             NO REVIEWS
+        ========================================== -->
+
+        <section
+            class="state-section"
+            id="emptySection"
+            style="display: none;"
+        >
+
+            <div class="state-icon">
+                ⭐
+            </div>
+
+            <h2>
+                No Reviews Yet
+            </h2>
+
+            <p>
+                You haven't reviewed any caterers yet.
+            </p>
+
+        </section>
+
+
+
+        <!-- =========================================
+             REVIEWS
+        ========================================== -->
+
+        <section
+            class="reviews-section"
+            id="reviewsSection"
+            style="display: none;"
+        >
+
+            <div class="section-top">
+
+                <div>
+
+                    <h2>
+                        Your Reviews
+                    </h2>
+
+                    <p>
+                        <span id="reviewCount">
+                            0
+                        </span>
+                        reviews
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="refresh-button"
+                    id="refreshButton"
+                    type="button"
+                >
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+
+
+            <!-- REVIEWS CONTAINER -->
+
+            <div
+                class="reviews-container"
+                id="reviewsContainer"
+            >
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script src="myreviews.js"></script>
+
+</body>
+
+</html>
