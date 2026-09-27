@@ -5,9 +5,13 @@ const router = express.Router();
 const {
     signup,
     login,
+    changePassword,
     getCustomerProfile,
     updateCustomerProfile
 } = require("../controllers/customerAuthController");
+
+const verifyCustomerToken =
+    require("../middleware/verifyCustomerToken");
 
 
 // =====================================================
@@ -27,6 +31,17 @@ router.post(
 router.post(
     "/login",
     login
+);
+
+
+// =====================================================
+// CHANGE CUSTOMER PASSWORD
+// =====================================================
+
+router.put(
+    "/change-password",
+    verifyCustomerToken,
+    changePassword
 );
 
 

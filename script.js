@@ -3,7 +3,9 @@
 // ==========================================
 
 
-// ---------- Mobile nav toggle ----------
+// =====================================================
+// MOBILE NAV TOGGLE
+// =====================================================
 
 const menuToggle = document.getElementById("menuToggle");
 const navLinks = document.querySelector(".navbar nav");
@@ -15,7 +17,9 @@ if (menuToggle && navLinks) {
 }
 
 
-// ---------- Solid navbar on scroll ----------
+// =====================================================
+// SOLID NAVBAR ON SCROLL
+// =====================================================
 
 const navbar = document.querySelector(".navbar");
 
@@ -40,7 +44,9 @@ window.addEventListener("scroll", updateNavbarOnScroll);
 updateNavbarOnScroll();
 
 
-// ---------- Login dropdown ----------
+// =====================================================
+// LOGIN DROPDOWN
+// =====================================================
 
 const loginToggle =
     document.getElementById("loginToggle");
@@ -70,7 +76,6 @@ if (loginToggle && loginMenu) {
         }
 
     });
-
 }
 
 
@@ -106,12 +111,9 @@ function openAuth(type) {
 
     else if (type === "forgot") {
 
-        const element =
-            document.getElementById("authForgot");
+        openForgotPassword("customer");
 
-        if (element) {
-            element.classList.add("open");
-        }
+        return;
 
     }
 
@@ -156,7 +158,9 @@ function openAuth(type) {
 }
 
 
-// ---------- Close auth ----------
+// =====================================================
+// CLOSE AUTH
+// =====================================================
 
 function closeAuth() {
 
@@ -172,7 +176,9 @@ function closeAuth() {
 }
 
 
-// ---------- Close overlay by clicking outside ----------
+// =====================================================
+// CLOSE OVERLAY BY CLICKING OUTSIDE
+// =====================================================
 
 document
     .querySelectorAll(".auth-page")
@@ -191,7 +197,9 @@ document
     });
 
 
-// ---------- Close auth with Escape ----------
+// =====================================================
+// CLOSE AUTH WITH ESCAPE
+// =====================================================
 
 document.addEventListener("keydown", (e) => {
 
@@ -204,7 +212,9 @@ document.addEventListener("keydown", (e) => {
 });
 
 
-// ---------- Password show/hide ----------
+// =====================================================
+// PASSWORD SHOW / HIDE
+// =====================================================
 
 document
     .querySelectorAll(".password-toggle")
@@ -397,13 +407,10 @@ function runSiteSearch() {
 
     }
 
-
     else if (
-
         query.includes("event") ||
         query.includes("wedding") ||
         query.includes("party")
-
     ) {
 
         const target =
@@ -419,15 +426,12 @@ function runSiteSearch() {
 
     }
 
-
     else if (
-
         query.includes("package") ||
         query.includes("price") ||
         query.includes("gold") ||
         query.includes("silver") ||
         query.includes("bronze")
-
     ) {
 
         const target =
@@ -442,7 +446,6 @@ function runSiteSearch() {
         }
 
     }
-
 
     else {
 
@@ -553,7 +556,7 @@ revealTargets.forEach(el => {
 
 // =====================================================
 // CONTACT FORM
-// Connected to Node.js + MySQL
+// CONNECTED TO NODE.JS + MYSQL
 // =====================================================
 
 const contactForm =
@@ -702,7 +705,6 @@ if (contactForm) {
 
 // =====================================================
 // CUSTOMER LOGIN
-// Connected to Node.js backend
 // POST /api/customer/login
 // =====================================================
 
@@ -786,15 +788,11 @@ if (customerLoginForm) {
                 }
 
 
-                // Save JWT token
-
                 localStorage.setItem(
                     "annapriya_token",
                     data.token
                 );
 
-
-                // Save customer details
 
                 localStorage.setItem(
                     "annapriya_customer",
@@ -810,8 +808,8 @@ if (customerLoginForm) {
                 );
 
 
-                // Redirect to customer dashboard
-                  window.location.href = "customerdashboard.html";
+                window.location.href =
+                    "customerdashboard.html";
 
 
             } catch (error) {
@@ -836,7 +834,6 @@ if (customerLoginForm) {
 
 // =====================================================
 // CUSTOMER SIGNUP
-// Connected to Node.js + MySQL backend
 // POST /api/customer/signup
 // =====================================================
 
@@ -901,8 +898,6 @@ if (customerSignupForm) {
                     .value;
 
 
-            // Check passwords
-
             if (password !== confirmPassword) {
 
                 alert(
@@ -913,8 +908,6 @@ if (customerSignupForm) {
 
             }
 
-
-            // Check password length
 
             if (password.length < 6) {
 
@@ -1005,9 +998,286 @@ if (customerSignupForm) {
 }
 
 
-// ==========================================
-// FORGOT PASSWORD - CUSTOMER
-// ==========================================
+// =====================================================
+// FORGOT PASSWORD
+// CUSTOMER + CATERER + ADMIN
+// =====================================================
+
+let forgotAccountType = "customer";
+
+
+// =====================================================
+// RESET ID STORAGE
+// =====================================================
+
+let forgotResetId = "";
+
+
+// =====================================================
+// OPEN FORGOT PASSWORD
+// =====================================================
+
+function openForgotPassword(type = "customer") {
+
+    const forgotOverlay =
+        document.getElementById("authForgot");
+
+    const identityInput =
+        document.getElementById("fpEmail");
+
+    const identityLabel =
+        document.getElementById("forgotIdentityLabel");
+
+    const adminNote =
+        document.getElementById("adminResetNote");
+
+    const forgotForm =
+        document.getElementById("forgotPasswordForm");
+
+    const verifyForm =
+        document.getElementById("verifyOtpForm");
+
+    const resetForm =
+        document.getElementById("resetPasswordForm");
+
+    const message =
+        document.getElementById("forgotMessage");
+
+    const resetIdInput =
+        document.getElementById("fpResetId");
+
+
+    forgotAccountType = type;
+
+    forgotResetId = "";
+
+
+    // Clear old reset data
+    sessionStorage.removeItem(
+        "annapriya_reset_id"
+    );
+
+    sessionStorage.removeItem(
+        "annapriya_reset_token"
+    );
+
+
+    if (resetIdInput) {
+        resetIdInput.value = "";
+    }
+
+
+    if (identityInput) {
+
+        identityInput.value = "";
+
+    }
+
+
+    const otpInput =
+        document.getElementById("fpOtp");
+
+    if (otpInput) {
+
+        otpInput.value = "";
+
+    }
+
+
+    const newPassword =
+        document.getElementById("fpNewPassword");
+
+    if (newPassword) {
+
+        newPassword.value = "";
+
+    }
+
+
+    const confirmPassword =
+        document.getElementById("fpConfirmPassword");
+
+    if (confirmPassword) {
+
+        confirmPassword.value = "";
+
+    }
+
+
+    if (forgotForm) {
+
+        forgotForm.style.display = "block";
+
+    }
+
+
+    if (verifyForm) {
+
+        verifyForm.style.display = "none";
+
+    }
+
+
+    if (resetForm) {
+
+        resetForm.style.display = "none";
+
+    }
+
+
+    if (message) {
+
+        message.style.display = "none";
+
+        message.textContent = "";
+
+        message.className = "forgot-message";
+
+    }
+
+
+    updateForgotAccountUI();
+
+
+    closeAuth();
+
+
+    if (forgotOverlay) {
+
+        forgotOverlay.classList.add("open");
+
+    }
+
+
+    document.body.style.overflow = "hidden";
+}
+
+
+// =====================================================
+// UPDATE FORGOT PASSWORD UI
+// =====================================================
+
+function updateForgotAccountUI() {
+
+    const identityInput =
+        document.getElementById("fpEmail");
+
+    const identityLabel =
+        document.getElementById("forgotIdentityLabel");
+
+    const adminNote =
+        document.getElementById("adminResetNote");
+
+    const forgotBackLogin =
+        document.getElementById("forgotBackLogin");
+
+
+    if (forgotAccountType === "admin") {
+
+        if (identityLabel) {
+
+            identityLabel.textContent =
+                "Admin Username";
+
+        }
+
+
+        if (identityInput) {
+
+            identityInput.type = "text";
+
+            identityInput.placeholder =
+                "Enter admin username";
+
+            identityInput.removeAttribute(
+                "autocomplete"
+            );
+
+        }
+
+
+        if (adminNote) {
+
+            adminNote.style.display =
+                "block";
+
+        }
+
+
+        if (forgotBackLogin) {
+
+            forgotBackLogin.onclick = function () {
+
+                openAuth("admin");
+
+                return false;
+
+            };
+
+        }
+
+    }
+
+    else {
+
+        if (identityLabel) {
+
+            identityLabel.textContent =
+                "Email Address";
+
+        }
+
+
+        if (identityInput) {
+
+            identityInput.type = "email";
+
+            identityInput.placeholder =
+                "you@gmail.com";
+
+            identityInput.setAttribute(
+                "autocomplete",
+                "email"
+            );
+
+        }
+
+
+        if (adminNote) {
+
+            adminNote.style.display =
+                "none";
+
+        }
+
+
+        if (forgotBackLogin) {
+
+            forgotBackLogin.onclick = function () {
+
+                if (forgotAccountType === "caterer") {
+
+                    openAuth("caterer");
+
+                } else {
+
+                    openAuth("customer");
+
+                }
+
+                return false;
+
+            };
+
+        }
+
+    }
+}
+
+
+// =====================================================
+// FORGOT PASSWORD — SEND OTP
+// =====================================================
 
 const forgotPasswordForm =
     document.getElementById(
@@ -1024,17 +1294,290 @@ if (forgotPasswordForm) {
             event.preventDefault();
 
 
-            const email =
+            const identityInput =
+                document.getElementById("fpEmail");
+
+
+            const identity =
+                identityInput
+                    ? identityInput.value.trim()
+                    : "";
+
+
+            if (!identity) {
+
+                alert(
+                    forgotAccountType === "admin"
+                        ? "Please enter the admin username."
+                        : "Please enter your email address."
+                );
+
+                return;
+
+            }
+
+
+            try {
+
+                const requestBody = {};
+
+
+                if (forgotAccountType === "admin") {
+
+                    requestBody.username =
+                        identity;
+
+                } else {
+
+                    requestBody.email =
+                        identity;
+
+                }
+
+
+                const response =
+                    await fetch(
+                        `http://localhost:5000/api/forgot-password/${forgotAccountType}/forgot`,
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    requestBody
+                                )
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    alert(
+                        data.message ||
+                        "Unable to send verification code."
+                    );
+
+                    return;
+
+                }
+
+
+                /*
+                =================================================
+                IMPORTANT:
+                BACKEND RETURNS resetId HERE
+                =================================================
+                */
+
+                if (!data.resetId) {
+
+                    alert(
+                        "OTP was sent, but the reset ID was not received from the server."
+                    );
+
+                    console.error(
+                        "Backend response missing resetId:",
+                        data
+                    );
+
+                    return;
+
+                }
+
+
+                forgotResetId =
+                    data.resetId;
+
+
+                // Store reset ID
+                sessionStorage.setItem(
+                    "annapriya_reset_id",
+                    data.resetId
+                );
+
+
+                // Also store in hidden input
+                const resetIdInput =
+                    document.getElementById(
+                        "fpResetId"
+                    );
+
+
+                if (resetIdInput) {
+
+                    resetIdInput.value =
+                        data.resetId;
+
+                }
+
+
+                alert(
+                    data.message ||
+                    "Verification code sent successfully."
+                );
+
+
+                forgotPasswordForm.style.display =
+                    "none";
+
+
+                const verifyOtpForm =
+                    document.getElementById(
+                        "verifyOtpForm"
+                    );
+
+
+                if (verifyOtpForm) {
+
+                    verifyOtpForm.style.display =
+                        "block";
+
+                }
+
+
+                const otpInput =
+                    document.getElementById("fpOtp");
+
+
+                if (otpInput) {
+
+                    otpInput.focus();
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Forgot password error:",
+                    error
+                );
+
+
+                alert(
+                    "Unable to connect to the server. Make sure Node.js is running."
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// VERIFY OTP
+// =====================================================
+
+const verifyOtpForm =
+    document.getElementById(
+        "verifyOtpForm"
+    );
+
+
+if (verifyOtpForm) {
+
+    verifyOtpForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+
+            const otp =
                 document
-                    .getElementById("fpEmail")
+                    .getElementById("fpOtp")
                     .value
                     .trim();
 
 
-            if (!email) {
+            /*
+            =================================================
+            GET RESET ID
+            =================================================
+            */
+
+            const hiddenResetId =
+                document.getElementById(
+                    "fpResetId"
+                );
+
+
+            let resetId =
+                hiddenResetId
+                    ? hiddenResetId.value.trim()
+                    : "";
+
+
+            // If hidden field is empty, get from sessionStorage
+            if (!resetId) {
+
+                resetId =
+                    sessionStorage.getItem(
+                        "annapriya_reset_id"
+                    ) || "";
+
+            }
+
+
+            // If still empty, use memory variable
+            if (!resetId) {
+
+                resetId =
+                    forgotResetId;
+
+            }
+
+
+            if (!otp) {
 
                 alert(
-                    "Please enter your email address."
+                    "Please enter the verification code."
+                );
+
+                return;
+
+            }
+
+
+            if (!/^\d{6}$/.test(otp)) {
+
+                alert(
+                    "Please enter a valid 6-digit verification code."
+                );
+
+                return;
+
+            }
+
+
+            /*
+            =================================================
+            VERY IMPORTANT:
+            BACKEND EXPECTS:
+
+            {
+                resetId,
+                otp
+            }
+            =================================================
+            */
+
+            if (!resetId) {
+
+                alert(
+                    "Password reset session is missing. Please request a new verification code."
                 );
 
                 return;
@@ -1046,7 +1589,7 @@ if (forgotPasswordForm) {
 
                 const response =
                     await fetch(
-                        "http://localhost:5000/api/forgot-password/customer/forgot",
+                        `http://localhost:5000/api/forgot-password/${forgotAccountType}/verify`,
                         {
 
                             method: "POST",
@@ -1057,7 +1600,13 @@ if (forgotPasswordForm) {
                             },
 
                             body: JSON.stringify({
-                                email: email
+
+                                resetId:
+                                    resetId,
+
+                                otp:
+                                    otp
+
                             })
 
                         }
@@ -1068,12 +1617,80 @@ if (forgotPasswordForm) {
                     await response.json();
 
 
-                alert(data.message);
+                if (!response.ok) {
+
+                    alert(
+                        data.message ||
+                        "Invalid or expired verification code."
+                    );
+
+                    return;
+
+                }
 
 
-                if (response.ok) {
+                /*
+                =================================================
+                OTP VERIFIED SUCCESSFULLY
+                =================================================
+                */
 
-                    forgotPasswordForm.reset();
+                alert(
+                    data.message ||
+                    "Verification successful."
+                );
+
+
+                /*
+                =================================================
+                SAVE RESET TOKEN
+                =================================================
+                */
+
+                if (data.resetToken) {
+
+                    sessionStorage.setItem(
+                        "annapriya_reset_token",
+                        data.resetToken
+                    );
+
+                }
+
+
+                // Keep reset ID as well
+                sessionStorage.setItem(
+                    "annapriya_reset_id",
+                    resetId
+                );
+
+
+                verifyOtpForm.style.display =
+                    "none";
+
+
+                const resetPasswordForm =
+                    document.getElementById(
+                        "resetPasswordForm"
+                    );
+
+
+                if (resetPasswordForm) {
+
+                    resetPasswordForm.style.display =
+                        "block";
+
+                }
+
+
+                const newPassword =
+                    document.getElementById(
+                        "fpNewPassword"
+                    );
+
+
+                if (newPassword) {
+
+                    newPassword.focus();
 
                 }
 
@@ -1081,7 +1698,207 @@ if (forgotPasswordForm) {
             } catch (error) {
 
                 console.error(
-                    "Forgot password error:",
+                    "OTP verification error:",
+                    error
+                );
+
+
+                alert(
+                    "Unable to connect to the server."
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// RESET PASSWORD
+// =====================================================
+
+const resetPasswordForm =
+    document.getElementById(
+        "resetPasswordForm"
+    );
+
+
+if (resetPasswordForm) {
+
+    resetPasswordForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+
+            const newPassword =
+                document
+                    .getElementById("fpNewPassword")
+                    .value;
+
+
+            const confirmPassword =
+                document
+                    .getElementById("fpConfirmPassword")
+                    .value;
+
+
+            if (!newPassword || !confirmPassword) {
+
+                alert(
+                    "Please enter your new password."
+                );
+
+                return;
+
+            }
+
+
+            if (newPassword !== confirmPassword) {
+
+                alert(
+                    "Passwords don't match."
+                );
+
+                return;
+
+            }
+
+
+            if (newPassword.length < 6) {
+
+                alert(
+                    "Password must be at least 6 characters."
+                );
+
+                return;
+
+            }
+
+
+            const resetToken =
+                sessionStorage.getItem(
+                    "annapriya_reset_token"
+                );
+
+
+            if (!resetToken) {
+
+                alert(
+                    "Your password reset session is missing. Please request a new OTP."
+                );
+
+                return;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `http://localhost:5000/api/forgot-password/${forgotAccountType}/reset`,
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                newPassword:
+                                    newPassword,
+
+                                confirmPassword:
+                                    confirmPassword,
+
+                                resetToken:
+                                    resetToken
+
+                            })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    alert(
+                        data.message ||
+                        "Could not reset password."
+                    );
+
+                    return;
+
+                }
+
+
+                alert(
+                    data.message ||
+                    "Password changed successfully!"
+                );
+
+
+                /*
+                =================================================
+                CLEAR RESET DATA
+                =================================================
+                */
+
+                sessionStorage.removeItem(
+                    "annapriya_reset_token"
+                );
+
+                sessionStorage.removeItem(
+                    "annapriya_reset_id"
+                );
+
+
+                forgotResetId = "";
+
+
+                resetPasswordForm.reset();
+
+
+                /*
+                =================================================
+                RETURN TO CORRECT LOGIN
+                =================================================
+                */
+
+                if (forgotAccountType === "customer") {
+
+                    openAuth("customer");
+
+                }
+
+                else if (forgotAccountType === "caterer") {
+
+                    openAuth("caterer");
+
+                }
+
+                else if (forgotAccountType === "admin") {
+
+                    openAuth("admin");
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Reset password error:",
                     error
                 );
 
@@ -1100,7 +1917,6 @@ if (forgotPasswordForm) {
 
 // =====================================================
 // CATERER LOGIN
-// Connected to Node.js backend
 // POST /api/caterer/login
 // =====================================================
 
@@ -1141,8 +1957,6 @@ if (catererLoginForm) {
                 passwordInput.value;
 
 
-            // Check empty fields
-
             if (!email || !password) {
 
                 alert(
@@ -1153,8 +1967,6 @@ if (catererLoginForm) {
 
             }
 
-
-            // Correct Gmail validation
 
             const gmailRegex =
                 /^[^\s@]+@gmail\.com$/i;
@@ -1200,8 +2012,6 @@ if (catererLoginForm) {
                     await response.json();
 
 
-                // Backend login failed
-
                 if (!response.ok) {
 
                     alert(
@@ -1214,15 +2024,11 @@ if (catererLoginForm) {
                 }
 
 
-                // Save Caterer JWT token
-
                 localStorage.setItem(
                     "annapriya_caterer_token",
                     data.token
                 );
 
-
-                // Save Caterer details
 
                 localStorage.setItem(
                     "annapriya_caterer",
@@ -1242,8 +2048,6 @@ if (catererLoginForm) {
                     "Caterer login successful!"
                 );
 
-
-                // Redirect to Caterer Dashboard
 
                 window.location.href =
                     "catererdashboard.html";
@@ -1271,7 +2075,6 @@ if (catererLoginForm) {
 
 // =====================================================
 // CATERER SIGNUP
-// Connected to Node.js + MySQL backend
 // POST /api/caterer/signup
 // =====================================================
 
@@ -1289,8 +2092,6 @@ if (catererSignupForm) {
 
             e.preventDefault();
 
-
-            // Get values from caterer signup form
 
             const headName =
                 document
@@ -1344,8 +2145,6 @@ if (catererSignupForm) {
                     .value;
 
 
-            // Check required fields
-
             if (
                 !headName ||
                 !brandName ||
@@ -1366,8 +2165,6 @@ if (catererSignupForm) {
             }
 
 
-            // Check password confirmation
-
             if (password !== confirmPassword) {
 
                 alert(
@@ -1380,8 +2177,6 @@ if (catererSignupForm) {
 
 
             try {
-
-                // Send caterer details to backend
 
                 const response =
                     await fetch(
@@ -1431,8 +2226,6 @@ if (catererSignupForm) {
                     await response.json();
 
 
-                // Backend returned an error
-
                 if (!response.ok) {
 
                     alert(
@@ -1445,20 +2238,14 @@ if (catererSignupForm) {
                 }
 
 
-                // Successful application
-
                 alert(
                     data.message ||
                     "Application submitted successfully!"
                 );
 
 
-                // Clear form
-
                 catererSignupForm.reset();
 
-
-                // Open caterer login
 
                 openAuth("caterer");
 
@@ -1485,7 +2272,6 @@ if (catererSignupForm) {
 
 // =====================================================
 // ADMIN LOGIN
-// Connected to Node.js + MySQL backend
 // POST /api/admin/login
 // =====================================================
 
@@ -1516,8 +2302,6 @@ if (adminLoginForm) {
                     .getElementById("aPassword")
                     .value;
 
-
-            // Check empty fields
 
             if (!username || !password) {
 
@@ -1562,8 +2346,6 @@ if (adminLoginForm) {
                     await response.json();
 
 
-                // Login failed
-
                 if (!response.ok) {
 
                     alert(
@@ -1576,23 +2358,17 @@ if (adminLoginForm) {
                 }
 
 
-                // Login successful
-
                 console.log(
                     "Admin login successful:",
                     data
                 );
 
 
-                // Save JWT token
-
                 localStorage.setItem(
                     "adminToken",
                     data.token
                 );
 
-
-                // Save admin details
 
                 localStorage.setItem(
                     "admin",
@@ -1607,8 +2383,6 @@ if (adminLoginForm) {
                 );
 
 
-                // Close login popup
-
                 if (
                     typeof closeAuth ===
                     "function"
@@ -1618,8 +2392,6 @@ if (adminLoginForm) {
 
                 }
 
-
-                // Open admin dashboard
 
                 window.location.href =
                     "admindashboard.html";

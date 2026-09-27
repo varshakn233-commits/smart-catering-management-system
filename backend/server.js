@@ -7,6 +7,7 @@ const path = require("path");
 const customerAuthRoutes = require("./routes/customerAuthRoutes");
 const catererAuthRoutes = require("./routes/catererAuthRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const forgotPasswordRoutes = require("./routes/forgotPasswordRoutes");
 const eventRequestRoutes = require("./routes/eventRequestRoutes");
 const customerCatererRoutes = require("./routes/customerCatererRoutes");
 const savedCatererRoutes = require("./routes/savedCatererRoutes");
@@ -59,6 +60,10 @@ app.use(
     "/api/admin",
     adminRoutes
 );
+app.use(
+    "/api/forgot-password",
+    forgotPasswordRoutes
+);  
 
 app.use(
     "/api/requests",
