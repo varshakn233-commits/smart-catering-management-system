@@ -39,25 +39,40 @@ async function signup(req, res) {
             });
         }
 
-        // Validate events served
-       const eventsNumber = Number(eventsServed);
-
-if (isNaN(eventsNumber) || eventsNumber < 0) {
-    return res.status(400).json({
-        message: "Please enter a valid number of events served."
-    });
-}
+        
+      // Validate events served
+const VALID_EVENTS_SERVED = ["0-50", "50-100", "100-200", "200+"];
 
 let eventsServedRange;
 
-if (eventsNumber < 50) {
-    eventsServedRange = "0-50";
-} else if (eventsNumber <= 100) {
-    eventsServedRange = "50-100";
-} else if (eventsNumber <= 200) {
-    eventsServedRange = "100-200";
+if (typeof eventsServed === "string" && VALID_EVENTS_SERVED.includes(eventsServed.trim())) {
+    // Frontend already sends the range
+    eventsServedRange = eventsServed.trim();
+
+} else if (!isNaN(Number(eventsServed))) {
+    // Also support a numeric value if the frontend sends one
+    const eventsNumber = Number(eventsServed);
+
+    if (eventsNumber < 0) {
+        return res.status(400).json({
+            message: "Please enter a valid number of events served."
+        });
+    }
+
+    if (eventsNumber < 50) {
+        eventsServedRange = "0-50";
+    } else if (eventsNumber <= 100) {
+        eventsServedRange = "50-100";
+    } else if (eventsNumber <= 200) {
+        eventsServedRange = "100-200";
+    } else {
+        eventsServedRange = "200+";
+    }
+
 } else {
-    eventsServedRange = "200+";
+    return res.status(400).json({
+        message: "Please select a valid number of events served."
+    });
 }
 
         // Gmail validation

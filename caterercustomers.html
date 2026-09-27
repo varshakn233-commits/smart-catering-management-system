@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>My Customers | Annapriya</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -18,119 +20,214 @@
             font-family: "Work Sans", sans-serif;
             background: #F5E9DA;
             color: #1C1C1C;
+            min-height: 100vh;
         }
 
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 240px;
-            height: 100vh;
-            background: #1C1C1C;
-            color: white;
-            padding: 30px 20px;
+        /* ================= HEADER ================= */
+
+        .customer-header {
+            width: 100%;
+            height: 78px;
+            background: #FFFDF9;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            position: relative;
+            z-index: 100;
         }
 
-        .logo {
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .back-button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: #F5E9DA;
+            color: #1C1C1C;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background: #D4A373;
+        }
+
+        .brand-name {
             font-family: "Fraunces", serif;
-            font-size: 27px;
-            color: #D4A373;
-            margin-bottom: 40px;
-            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: #8B1E3F;
         }
 
-        .nav {
+        .header-right {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            align-items: center;
+            gap: 14px;
+            position: relative;
         }
 
-        .nav a {
-            text-decoration: none;
-            color: #ddd;
-            padding: 13px 15px;
-            border-radius: 8px;
+        /* ================= NOTIFICATION ================= */
+
+        .notification-button {
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 50%;
+            background: #F5E9DA;
+            cursor: pointer;
+            font-size: 19px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .notification-button:hover {
+            background: #D4A373;
+        }
+
+        /* ================= CATERER INFO ================= */
+
+        .caterer-header-info {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 6px 10px;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #8B1E3F;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
             font-size: 15px;
         }
 
-        .nav a:hover,
-        .nav a.active {
-            background: #8B1E3F;
-            color: white;
-        }
-
-        .sidebar-bottom {
-            margin-top: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .profile-link,
-        .logout {
-            text-decoration: none;
-            padding: 13px 15px;
-            border-radius: 8px;
-            text-align: center;
+        .caterer-name {
+            font-weight: 600;
+            color: #1C1C1C;
             font-size: 14px;
         }
 
-        .profile-link {
-            color: #D4A373;
-            border: 1px solid #D4A373;
-        }
+        /* ================= THREE DOT BUTTON ================= */
 
-        .profile-link:hover {
-            background: #D4A373;
+        .dots-button {
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 50%;
+            background: #F5E9DA;
             color: #1C1C1C;
+            font-size: 25px;
+            cursor: pointer;
+            line-height: 1;
         }
 
-        .logout {
-            color: white;
-            background: #8B1E3F;
+        .dots-button:hover {
+            background: #D4A373;
         }
 
-        .logout:hover {
-            background: #a7284f;
+        /* ================= PROFILE MENU ================= */
+
+        .profile-menu {
+            position: absolute;
+            top: 54px;
+            right: 0;
+            width: 210px;
+            background: #FFFDF9;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            padding: 8px;
+            display: none;
+            z-index: 200;
         }
 
-        .main {
-            margin-left: 240px;
-            padding: 40px;
+        .profile-menu.show {
+            display: block;
         }
 
-        .top-bar {
+        .profile-menu a,
+        .profile-menu button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            text-decoration: none;
+            border: none;
+            background: transparent;
+            color: #1C1C1C;
+            padding: 12px 13px;
+            border-radius: 8px;
+            font-family: "Work Sans", sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .profile-menu a:hover,
+        .profile-menu button:hover {
+            background: #F5E9DA;
+            color: #8B1E3F;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main-content {
+            padding: 40px 5%;
+        }
+
+        .page-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
         }
 
-        h1 {
+        .page-label {
+            font-size: 12px;
+            letter-spacing: 2px;
+            font-weight: 600;
+            color: #D4A373;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .page-header h1 {
             font-family: "Fraunces", serif;
             font-size: 38px;
             color: #8B1E3F;
         }
 
-        .subtitle {
-            margin-top: 7px;
+        .page-header p {
+            margin-top: 8px;
             color: #666;
+            font-size: 15px;
         }
 
         .dashboard-btn {
             text-decoration: none;
             background: #1C1C1C;
-            color: white;
+            color: #F5E9DA;
             padding: 12px 20px;
             border-radius: 8px;
             font-size: 14px;
+            font-weight: 500;
         }
 
         .dashboard-btn:hover {
             background: #8B1E3F;
         }
+
+        /* ================= TABLE ================= */
 
         .table-card {
             background: white;
@@ -179,96 +276,187 @@
             font-weight: 600;
         }
 
+        /* ================= MOBILE ================= */
+
         @media (max-width: 700px) {
-            .sidebar {
-                position: relative;
-                width: 100%;
-                height: auto;
+
+            .customer-header {
+                padding: 0 20px;
             }
 
-            .main {
-                margin-left: 0;
-                padding: 25px;
+            .brand-name {
+                font-size: 24px;
             }
 
-            .top-bar {
+            .caterer-name {
+                display: none;
+            }
+
+            .main-content {
+                padding: 25px 20px;
+            }
+
+            .page-header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 20px;
+                gap: 18px;
+            }
+
+            .page-header h1 {
+                font-size: 32px;
+            }
+
+            .dashboard-btn {
+                align-self: flex-start;
             }
         }
+
     </style>
 </head>
 
 <body>
 
-    <aside class="sidebar">
+    <!-- ================= HEADER ================= -->
 
-        <div class="logo">
-            Annapriya
-        </div>
+    <header class="customer-header">
 
-        <nav class="nav">
+        <div class="header-left">
 
-            <a href="catererdashboard.html">
-                Dashboard
-            </a>
+            <button
+                class="back-button"
+                id="backButton"
+                type="button"
+                title="Go Back"
+            >
+                ←
+            </button>
 
-            <a href="catererpackages.html">
-                My Packages
-            </a>
-
-            <a href="catererrequests.html">
-                Event Requests
-            </a>
-
-            <a href="catererevents.html">
-                My Events
-            </a>
-
-            <a href="caterercustomers.html" class="active">
-                My Customers
-            </a>
-
-            <a href="contact.html">
-                Contact
-            </a>
-
-        </nav>
-
-        <div class="sidebar-bottom">
-
-            <a href="caterer-profile.html" class="profile-link">
-                👤 Caterer Profile
-            </a>
-
-            <a href="#" class="logout" onclick="logout()">
-                🚪 Logout
-            </a>
-
-        </div>
-
-    </aside>
-
-
-    <main class="main">
-
-        <div class="top-bar">
-
-            <div>
-                <h1>My Customers</h1>
-
-                <p class="subtitle">
-                    View customers who have booked your catering services.
-                </p>
+            <div class="brand-name">
+                Annapriya
             </div>
 
-            <a href="catererdashboard.html" class="dashboard-btn">
+        </div>
+
+
+        <div class="header-right">
+
+            <!-- Notification -->
+
+            <button
+                class="notification-button"
+                id="notificationButton"
+                type="button"
+                title="Notifications"
+            >
+                🔔
+            </button>
+
+
+            <!-- Caterer Name -->
+
+            <div class="caterer-header-info">
+
+                <span
+                    class="avatar"
+                    id="headerAvatar"
+                >
+                    C
+                </span>
+
+                <span
+                    class="caterer-name"
+                    id="headerCatererName"
+                >
+                    Caterer
+                </span>
+
+            </div>
+
+
+            <!-- Three Dot Menu -->
+
+            <button
+                class="dots-button"
+                id="profileButton"
+                type="button"
+                title="Menu"
+                aria-label="Open menu"
+            >
+                ⋮
+            </button>
+
+
+            <!-- Dropdown -->
+
+            <div
+                class="profile-menu"
+                id="profileButtonMenu"
+            >
+
+                <a href="catererprofile.html">
+                    👤 My Profile
+                </a>
+
+                <a href="catererprofile.html">
+                    ✏️ Edit Profile
+                </a>
+
+                <a href="catererreviews.html">
+                    ⭐ My Reviews
+                </a>
+
+                <a href="catereraccountsettings.html">
+                    ⚙️ Account Settings
+                </a>
+
+                <button
+                    type="button"
+                    id="logoutButton"
+                >
+                    🚪 Logout
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main-content">
+
+        <div class="page-header">
+
+            <div>
+
+                <span class="page-label">
+                    CATERER
+                </span>
+
+                <h1>
+                    My Customers
+                </h1>
+
+                <p>
+                    View customers who have booked your catering services.
+                </p>
+
+            </div>
+
+
+            <a
+                href="catererdashboard.html"
+                class="dashboard-btn"
+            >
                 Dashboard
             </a>
 
         </div>
 
+
+        <!-- ================= CUSTOMER TABLE ================= -->
 
         <div class="table-card">
 
@@ -277,16 +465,39 @@
                 <thead>
 
                     <tr>
-                        <th>Customer</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th>Event</th>
-                        <th>Event Date</th>
-                        <th>Guests</th>
-                        <th>Status</th>
+
+                        <th>
+                            Customer
+                        </th>
+
+                        <th>
+                            Phone
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Event
+                        </th>
+
+                        <th>
+                            Event Date
+                        </th>
+
+                        <th>
+                            Guests
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
                     </tr>
 
                 </thead>
+
 
                 <tbody>
 
@@ -403,15 +614,174 @@
     </main>
 
 
+    <!-- ================= JAVASCRIPT ================= -->
+
     <script>
 
-        function logout() {
+        document.addEventListener("DOMContentLoaded", function () {
 
-            localStorage.removeItem("annapriya_caterer_token");
-            localStorage.removeItem("annapriya_caterer");
+            /* ================= CATERER INFO ================= */
 
-            window.location.href = "index.html";
-        }
+            let caterer = {};
+
+            try {
+
+                caterer = JSON.parse(
+                    localStorage.getItem("annapriya_caterer") || "{}"
+                );
+
+            } catch (error) {
+
+                caterer = {};
+
+            }
+
+
+            const catererName =
+                caterer.headName ||
+                caterer.head_name ||
+                caterer.fullName ||
+                caterer.full_name ||
+                caterer.name ||
+                "Caterer";
+
+
+            const headerName =
+                document.getElementById("headerCatererName");
+
+            const avatar =
+                document.getElementById("headerAvatar");
+
+
+            if (headerName) {
+
+                headerName.textContent =
+                    catererName;
+
+            }
+
+
+            if (avatar) {
+
+                avatar.textContent =
+                    catererName
+                        .charAt(0)
+                        .toUpperCase();
+
+            }
+
+
+            /* ================= THREE DOT MENU ================= */
+
+            const profileButton =
+                document.getElementById("profileButton");
+
+            const profileMenu =
+                document.getElementById("profileButtonMenu");
+
+
+            if (profileButton && profileMenu) {
+
+                profileButton.addEventListener(
+                    "click",
+                    function (event) {
+
+                        event.stopPropagation();
+
+                        profileMenu.classList.toggle("show");
+
+                    }
+                );
+
+
+                document.addEventListener(
+                    "click",
+                    function (event) {
+
+                        if (
+                            !profileMenu.contains(event.target) &&
+                            !profileButton.contains(event.target)
+                        ) {
+
+                            profileMenu.classList.remove("show");
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            /* ================= NOTIFICATIONS ================= */
+
+            const notificationButton =
+                document.getElementById("notificationButton");
+
+
+            if (notificationButton) {
+
+                notificationButton.addEventListener(
+                    "click",
+                    function () {
+
+                        alert("No new notifications.");
+
+                    }
+                );
+
+            }
+
+
+            /* ================= LOGOUT ================= */
+
+            const logoutButton =
+                document.getElementById("logoutButton");
+
+
+            if (logoutButton) {
+
+                logoutButton.addEventListener(
+                    "click",
+                    function () {
+
+                        localStorage.removeItem(
+                            "annapriya_caterer_token"
+                        );
+
+                        localStorage.removeItem(
+                            "annapriya_caterer"
+                        );
+
+                        window.location.href =
+                            "index.html";
+
+                    }
+                );
+
+            }
+
+
+            /* ================= BACK BUTTON ================= */
+
+            const backButton =
+                document.getElementById("backButton");
+
+
+            if (backButton) {
+
+                backButton.addEventListener(
+                    "click",
+                    function () {
+
+                        window.history.back();
+
+                    }
+                );
+
+            }
+
+        });
 
     </script>
 

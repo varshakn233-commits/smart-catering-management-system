@@ -1,0 +1,483 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap');
+
+
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+    margin: 0;
+    background: #F5E9DA;
+    color: #1C1C1C;
+    font-family: "Work Sans", sans-serif;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.customer-header {
+
+    height: 76px;
+
+    background: #FFFDF9;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 5%;
+
+    border-bottom: 1px solid rgba(28,28,28,0.08);
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+}
+
+
+.header-left {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+
+.back-button {
+
+    border: none;
+
+    background: transparent;
+
+    font-size: 28px;
+
+    cursor: pointer;
+
+    color: #8B1E3F;
+}
+
+
+.brand-name {
+
+    font-family: "Fraunces", serif;
+
+    font-size: 25px;
+
+    font-weight: 600;
+
+    color: #8B1E3F;
+}
+
+
+.header-right {
+
+    position: relative;
+}
+
+
+.profile-button {
+
+    border: none;
+
+    background: transparent;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-weight: 600;
+
+    color: #1C1C1C;
+}
+
+
+.avatar {
+
+    width: 38px;
+
+    height: 38px;
+
+    border-radius: 50%;
+
+    background: #8B1E3F;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-weight: 600;
+}
+
+
+.three-dots {
+
+    font-size: 22px;
+
+    color: #8B1E3F;
+}
+
+
+/* =========================
+   PROFILE MENU
+========================= */
+
+.profile-menu {
+
+    position: absolute;
+
+    top: 52px;
+
+    right: 0;
+
+    width: 210px;
+
+    background: #FFFDF9;
+
+    border-radius: 10px;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+
+    padding: 8px;
+
+    display: none;
+
+    z-index: 2000;
+}
+
+
+.profile-menu.show {
+    display: block;
+}
+
+
+.profile-menu a,
+.profile-menu button {
+
+    width: 100%;
+
+    display: block;
+
+    padding: 12px 14px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #1C1C1C;
+
+    text-decoration: none;
+
+    text-align: left;
+
+    border-radius: 7px;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+
+.profile-menu a:hover,
+.profile-menu button:hover {
+
+    background: #F5E9DA;
+
+    color: #8B1E3F;
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.main-content {
+
+    max-width: 1200px;
+
+    margin: auto;
+
+    padding: 50px 5%;
+}
+
+
+.page-heading {
+
+    margin-bottom: 35px;
+}
+
+
+.page-label {
+
+    color: #D4A373;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    letter-spacing: 2px;
+}
+
+
+.page-heading h1 {
+
+    font-family: "Fraunces", serif;
+
+    color: #8B1E3F;
+
+    font-size: 40px;
+
+    margin: 10px 0;
+}
+
+
+.page-heading p {
+
+    color: #666;
+
+    margin: 0;
+
+    line-height: 1.6;
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.dashboard-grid {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 25px;
+
+    margin-bottom: 25px;
+}
+
+
+.card {
+
+    background: #FFFDF9;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+}
+
+
+.card h2 {
+
+    font-family: "Fraunces", serif;
+
+    color: #8B1E3F;
+
+    margin-top: 0;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================
+   INFO
+========================= */
+
+.info-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 13px 0;
+
+    border-bottom: 1px solid rgba(28,28,28,0.08);
+
+    font-size: 14px;
+}
+
+
+.info-row span {
+
+    color: #777;
+}
+
+
+.info-row strong {
+
+    text-align: right;
+
+    color: #1C1C1C;
+}
+
+
+/* =========================
+   QUICK LINKS
+========================= */
+
+.quick-links {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+}
+
+
+.quick-link {
+
+    text-decoration: none;
+
+    background: #F5E9DA;
+
+    color: #1C1C1C;
+
+    border-radius: 9px;
+
+    padding: 20px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+
+.quick-link:hover {
+
+    background: #8B1E3F;
+
+    color: white;
+}
+
+
+.quick-icon {
+
+    font-size: 25px;
+}
+
+
+/* =========================
+   REQUESTS
+========================= */
+
+.requests-card {
+
+    text-align: center;
+
+    padding: 45px 30px;
+}
+
+
+.card-icon {
+
+    font-size: 35px;
+
+    margin-bottom: 12px;
+}
+
+
+.requests-card p {
+
+    color: #777;
+
+    margin-bottom: 25px;
+}
+
+
+.primary-button {
+
+    display: inline-block;
+
+    background: #8B1E3F;
+
+    color: white;
+
+    padding: 13px 22px;
+
+    border-radius: 7px;
+
+    text-decoration: none;
+
+    font-weight: 600;
+}
+
+
+.primary-button:hover {
+
+    background: #D4A373;
+
+    color: #1C1C1C;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 800px) {
+
+    .dashboard-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .main-content {
+
+        padding: 30px 20px;
+    }
+
+
+    .page-heading h1 {
+
+        font-size: 30px;
+    }
+
+
+    .quick-links {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .customer-header {
+
+        padding: 0 20px;
+    }
+
+}

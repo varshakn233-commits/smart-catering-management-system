@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Account Settings | Annapriya</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="catereraccountsettings.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="top-header">
+
+        <div class="header-left">
+
+            <button
+                class="back-button"
+                onclick="history.back()"
+                title="Go Back"
+            >
+                ←
+            </button>
+
+            <div class="brand">
+                Annapriya
+            </div>
+
+        </div>
+
+
+        <div class="header-right">
+
+            <!-- NOTIFICATION -->
+
+            <button
+                class="notification-button"
+                onclick="showNotificationMessage()"
+                title="Notifications"
+            >
+                🔔
+            </button>
+
+
+            <!-- PROFILE -->
+
+            <div class="profile-area">
+
+                <button
+                    class="profile-button"
+                    onclick="toggleProfileMenu()"
+                >
+
+                    <span
+                        class="avatar"
+                        id="avatar"
+                    >
+                        C
+                    </span>
+
+                    <span id="catererName">
+                        Caterer
+                    </span>
+
+                </button>
+
+
+                <div
+                    class="profile-menu"
+                    id="profileMenu"
+                >
+
+                    <a href="caterer-profile.html">
+                        👤 My Profile
+                    </a>
+
+                    <a href="catereraccountsettings.html">
+                        ⚙️ Account Settings
+                    </a>
+
+                    <button onclick="logout()">
+                        ↪ Logout
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- MAIN -->
+
+    <main class="main-content">
+
+        <div class="page-heading">
+
+            <span>
+                CATERER
+            </span>
+
+            <h1>
+                ⚙️ Account Settings
+            </h1>
+
+            <p>
+                Manage your account preferences and security.
+            </p>
+
+        </div>
+
+
+
+        <!-- ACCOUNT INFORMATION -->
+
+        <section class="settings-card">
+
+            <div class="settings-icon">
+                👤
+            </div>
+
+            <div class="settings-content">
+
+                <h2>
+                    Account Information
+                </h2>
+
+                <p>
+                    Manage your catering business profile details.
+                </p>
+
+                <a
+                    href="caterer-profile.html"
+                    class="primary-button"
+                >
+                    ✏️ Edit Profile
+                </a>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- PASSWORD -->
+
+        <section class="settings-card">
+
+            <div class="settings-icon">
+                🔒
+            </div>
+
+            <div class="settings-content">
+
+                <h2>
+                    Password & Security
+                </h2>
+
+                <p>
+                    Keep your account secure by managing your password.
+                </p>
+
+                <button
+                    class="primary-button"
+                    onclick="changePasswordMessage()"
+                >
+                    🔑 Change Password
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- NOTIFICATIONS -->
+
+        <section class="settings-card notification-card">
+
+            <div class="settings-icon">
+                🔔
+            </div>
+
+            <div class="settings-content notification-content">
+
+                <div>
+
+                    <h2>
+                        Notifications
+                    </h2>
+
+                    <p>
+                        Manage how you receive account and event updates.
+                    </p>
+
+                    <strong>
+                        Event notifications
+                    </strong>
+
+                </div>
+
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="notificationToggle"
+                        checked
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ACCOUNT -->
+
+        <section class="settings-card">
+
+            <div class="settings-icon warning">
+                ⚠️
+            </div>
+
+            <div class="settings-content">
+
+                <h2>
+                    Account
+                </h2>
+
+                <p>
+                    Sign out from your Annapriya caterer account.
+                </p>
+
+                <button
+                    class="logout-button"
+                    onclick="logout()"
+                >
+                    ↪ Logout
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <script>
+
+        /* LOAD CATERER */
+
+        const catererData =
+            localStorage.getItem("annapriya_caterer");
+
+        const token =
+            localStorage.getItem("annapriya_caterer_token");
+
+
+        if (!token || !catererData) {
+
+            window.location.href = "index.html";
+
+        }
+
+
+        let caterer = {};
+
+        try {
+
+            caterer =
+                JSON.parse(catererData) || {};
+
+        } catch (error) {
+
+            console.error("Invalid caterer data.");
+
+        }
+
+
+        /* DISPLAY NAME */
+
+        const name =
+            caterer.headName ||
+            caterer.head_name ||
+            caterer.brandName ||
+            caterer.brand_name ||
+            "Caterer";
+
+
+        document.getElementById("catererName").textContent =
+            name;
+
+
+        /* AVATAR */
+
+        document.getElementById("avatar").textContent =
+            name.charAt(0).toUpperCase();
+
+
+
+        /* PROFILE MENU */
+
+        function toggleProfileMenu() {
+
+            document
+                .getElementById("profileMenu")
+                .classList.toggle("show");
+
+        }
+
+
+        document.addEventListener(
+            "click",
+            function(event) {
+
+                const profileArea =
+                    document.querySelector(".profile-area");
+
+                const menu =
+                    document.getElementById("profileMenu");
+
+                if (
+                    !profileArea.contains(event.target)
+                ) {
+
+                    menu.classList.remove("show");
+
+                }
+
+            }
+        );
+
+
+
+        /* LOGOUT */
+
+        function logout() {
+
+            localStorage.removeItem(
+                "annapriya_caterer_token"
+            );
+
+            localStorage.removeItem(
+                "annapriya_caterer"
+            );
+
+            window.location.href = "index.html";
+
+        }
+
+
+
+        /* DEMO BUTTON */
+
+        function changePasswordMessage() {
+
+            alert(
+                "Password change functionality can be connected here."
+            );
+
+        }
+
+
+        function showNotificationMessage() {
+
+            alert(
+                "No new notifications."
+            );
+
+        }
+
+    </script>
+
+</body>
+
+</html>

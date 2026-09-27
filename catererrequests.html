@@ -1,950 +1,1595 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Event Requests | Annapriya</title>
 
+
+    <!-- GOOGLE FONTS -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+
     <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
         * {
-            box-sizing: border-box;
+
             margin: 0;
+
             padding: 0;
-            font-family: Arial, sans-serif;
+
+            box-sizing: border-box;
+
         }
+
+
+        /* =====================================================
+           BODY
+        ===================================================== */
 
         body {
+
+            font-family: "Work Sans", sans-serif;
+
             background: #F5E9DA;
+
             color: #1C1C1C;
+
+            min-height: 100vh;
+
         }
 
-        /* ================= SIDEBAR ================= */
 
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 250px;
-            height: 100vh;
-            background: #8B1E3F;
-            color: white;
-            padding: 25px 18px;
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .customer-header {
+
+            width: 100%;
+
+            height: 78px;
+
+            background: #FFFDF9;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 5%;
+
+            box-shadow:
+                0 2px 12px rgba(0,0,0,0.06);
+
+            position: relative;
+
+            z-index: 100;
+
         }
 
-        .logo {
+
+        /* =====================================================
+           HEADER LEFT
+        ===================================================== */
+
+        .header-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+
+        }
+
+
+        .back-button {
+
+            width: 40px;
+
+            height: 40px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: #F5E9DA;
+
+            color: #1C1C1C;
+
+            font-size: 22px;
+
+            cursor: pointer;
+
+        }
+
+
+        .back-button:hover {
+
+            background: #D4A373;
+
+        }
+
+
+        .brand-name {
+
+            font-family: "Fraunces", serif;
+
             font-size: 28px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 35px;
+
+            font-weight: 700;
+
+            color: #8B1E3F;
+
         }
 
-        .nav-menu {
-            list-style: none;
+
+        /* =====================================================
+           HEADER RIGHT
+        ===================================================== */
+
+        .header-right {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            position: relative;
+
         }
 
-        .nav-menu li {
-            margin-bottom: 8px;
+
+        /* =====================================================
+           NOTIFICATION BUTTON
+        ===================================================== */
+
+        .notification-button {
+
+            width: 42px;
+
+            height: 42px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: #F5E9DA;
+
+            cursor: pointer;
+
+            font-size: 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
         }
 
-        .nav-menu a {
-            display: block;
-            text-decoration: none;
+
+        .notification-button:hover {
+
+            background: #D4A373;
+
+        }
+
+
+        /* =====================================================
+           CATERER INFORMATION
+        ===================================================== */
+
+        .caterer-header-info {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            padding: 5px;
+
+        }
+
+
+        .avatar {
+
+            width: 38px;
+
+            height: 38px;
+
+            border-radius: 50%;
+
+            background: #8B1E3F;
+
             color: white;
-            padding: 13px 15px;
-            border-radius: 10px;
-            transition: 0.2s;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
             font-size: 15px;
+
+            font-weight: 600;
+
         }
 
-        .nav-menu a:hover,
-        .nav-menu a.active {
-            background: rgba(255,255,255,0.15);
+
+        .caterer-name {
+
+            font-size: 14px;
+
+            font-weight: 600;
+
         }
 
-        /* ================= MAIN ================= */
+
+        /* =====================================================
+           THREE DOT BUTTON
+        ===================================================== */
+
+        .dots-button {
+
+            width: 42px;
+
+            height: 42px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: #F5E9DA;
+
+            color: #1C1C1C;
+
+            font-size: 25px;
+
+            line-height: 1;
+
+            cursor: pointer;
+
+        }
+
+
+        .dots-button:hover {
+
+            background: #D4A373;
+
+        }
+
+
+        /* =====================================================
+           DROPDOWN
+        ===================================================== */
+
+        .profile-menu {
+
+            position: absolute;
+
+            top: 55px;
+
+            right: 0;
+
+            width: 220px;
+
+            background: #FFFDF9;
+
+            border-radius: 12px;
+
+            padding: 8px;
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,0.14);
+
+            display: none;
+
+            z-index: 200;
+
+        }
+
+
+        .profile-menu.show {
+
+            display: block;
+
+        }
+
+
+        .profile-menu a,
+
+        .profile-menu button {
+
+            display: block;
+
+            width: 100%;
+
+            border: none;
+
+            background: transparent;
+
+            text-decoration: none;
+
+            text-align: left;
+
+            color: #1C1C1C;
+
+            padding: 12px 13px;
+
+            border-radius: 8px;
+
+            font-family: "Work Sans", sans-serif;
+
+            font-size: 14px;
+
+            cursor: pointer;
+
+        }
+
+
+        .profile-menu a:hover,
+
+        .profile-menu button:hover {
+
+            background: #F5E9DA;
+
+            color: #8B1E3F;
+
+        }
+
+
+        /* =====================================================
+           MAIN PAGE
+        ===================================================== */
 
         .main-content {
-            margin-left: 250px;
-            padding: 35px;
+
+            width: 100%;
+
+            padding: 45px 5% 60px;
+
         }
 
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
+
+        /* =====================================================
+           PAGE HEADING
+        ===================================================== */
+
+        .page-heading {
+
+            max-width: 1150px;
+
+            margin: 0 auto 30px;
+
+            text-align: center;
+
         }
 
-        .page-header h1 {
+
+        .page-label {
+
+            display: block;
+
+            font-size: 12px;
+
+            letter-spacing: 2px;
+
+            font-weight: 600;
+
+            color: #D4A373;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .page-heading h1 {
+
+            font-family: "Fraunces", serif;
+
+            font-size: 40px;
+
             color: #8B1E3F;
-            font-size: 30px;
+
+            margin-bottom: 8px;
+
         }
 
-        .page-header p {
+
+        .page-heading p {
+
             color: #666;
-            margin-top: 5px;
+
+            font-size: 15px;
+
         }
 
-        .logout-btn {
-            border: none;
-            background: #8B1E3F;
+
+        /* =====================================================
+           TOP ACTION
+        ===================================================== */
+
+        .top-actions {
+
+            max-width: 1150px;
+
+            margin: 0 auto 22px;
+
+            display: flex;
+
+            justify-content: flex-end;
+
+        }
+
+
+        .dashboard-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            text-decoration: none;
+
+            background: #1C1C1C;
+
             color: white;
-            padding: 11px 18px;
+
+            padding: 11px 19px;
+
             border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
         }
 
-        .logout-btn:hover {
-            background: #6f1732;
+
+        .dashboard-button:hover {
+
+            background: #8B1E3F;
+
         }
 
-        /* ================= TABLE ================= */
 
-        .table-container {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+        /* =====================================================
+           REQUEST CARD
+        ===================================================== */
+
+        .requests-card {
+
+            width: 100%;
+
+            max-width: 1150px;
+
+            margin: 0 auto;
+
+            background: #FFFDF9;
+
+            border-radius: 16px;
+
+            padding: 22px;
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.08);
+
+        }
+
+
+        /* =====================================================
+           TABLE
+        ===================================================== */
+
+        .table-wrapper {
+
+            width: 100%;
+
             overflow-x: auto;
+
+            border-radius: 10px;
+
         }
+
 
         table {
+
             width: 100%;
+
             border-collapse: collapse;
-            min-width: 1050px;
+
+            min-width: 900px;
+
         }
+
+
+        /* =====================================================
+           TABLE HEADER
+        ===================================================== */
+
+        thead {
+
+            background: #1C1C1C;
+
+            color: white;
+
+        }
+
 
         th {
-            background: #8B1E3F;
-            color: white;
-            padding: 14px 12px;
-            text-align: left;
-            font-size: 14px;
+
+            padding: 15px 13px;
+
+            text-align: center;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+
         }
+
+
+        /* =====================================================
+           TABLE BODY
+        ===================================================== */
 
         td {
-            padding: 14px 12px;
-            border-bottom: 1px solid #eee;
+
+            padding: 17px 13px;
+
+            text-align: center;
+
+            border-bottom:
+                1px solid #EDE2D5;
+
             font-size: 14px;
+
             vertical-align: middle;
+
         }
 
-        tr:hover td {
-            background: #fffaf5;
+
+        tbody tr:hover {
+
+            background: #FBF3E9;
+
         }
 
-        /* ================= STATUS ================= */
+
+        tbody tr:last-child td {
+
+            border-bottom: none;
+
+        }
+
+
+        .customer-name {
+
+            font-weight: 600;
+
+            color: #8B1E3F;
+
+        }
+
+
+        .event-type {
+
+            font-weight: 600;
+
+        }
+
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
 
         .status {
+
             display: inline-block;
-            padding: 6px 11px;
+
+            padding: 6px 12px;
+
             border-radius: 20px;
+
             font-size: 12px;
-            font-weight: bold;
-            text-transform: capitalize;
+
+            font-weight: 600;
+
+            background: #F3D9A7;
+
+            color: #6B4A15;
+
+            white-space: nowrap;
+
         }
 
-        .status.pending {
-            background: #fff3cd;
-            color: #856404;
-        }
 
         .status.accepted {
-            background: #d4edda;
-            color: #155724;
+
+            background: #D9EAD3;
+
+            color: #27632A;
+
         }
 
-        .status.payment_pending {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        .status.confirmed {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .status.preparing {
-            background: #ede9fe;
-            color: #5b21b6;
-        }
-
-        .status.on_the_way {
-            background: #cffafe;
-            color: #155e75;
-        }
-
-        .status.event_started {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .status.completed {
-            background: #dcfce7;
-            color: #166534;
-        }
 
         .status.rejected {
-            background: #f8d7da;
-            color: #721c24;
+
+            background: #F4CCCC;
+
+            color: #8B0000;
+
         }
 
-        /* ================= ACTION BUTTONS ================= */
+
+        /* =====================================================
+           ACTION BUTTONS
+        ===================================================== */
 
         .actions {
+
             display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
             gap: 8px;
+
         }
+
 
         .action-btn {
-            width: 36px;
-            height: 36px;
+
+            width: 35px;
+
+            height: 35px;
+
             border: none;
+
             border-radius: 8px;
+
             cursor: pointer;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
             font-size: 16px;
-            font-weight: bold;
+
             transition: 0.2s;
+
         }
 
-        .action-btn.accept {
-            background: #d4edda;
-            color: #155724;
+
+        .accept {
+
+            background: #D9EAD3;
+
+            color: #27632A;
+
         }
 
-        .action-btn.accept:hover {
-            background: #b9dfc2;
+
+        .accept:hover {
+
+            background: #B6D7A8;
+
         }
 
-        .action-btn.reject {
-            background: #f8d7da;
-            color: #721c24;
+
+        .reject {
+
+            background: #F4CCCC;
+
+            color: #8B0000;
+
         }
 
-        .action-btn.reject:hover {
-            background: #f1bfc4;
+
+        .reject:hover {
+
+            background: #EA9999;
+
         }
+
 
         .action-btn:disabled {
+
+            opacity: 0.4;
+
             cursor: not-allowed;
-            opacity: 0.45;
+
         }
 
-        /* ================= LOADING ================= */
 
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-        }
+        /* =====================================================
+           EMPTY MESSAGE
+        ===================================================== */
 
-        .empty {
+        .empty-message {
+
             text-align: center;
+
             padding: 45px;
+
             color: #777;
+
+            display: none;
+
         }
 
-        /* ================= MOBILE ================= */
 
-        @media (max-width: 900px) {
+        /* =====================================================
+           MOBILE
+        ===================================================== */
 
-            .sidebar {
-                position: relative;
-                width: 100%;
-                height: auto;
+        @media (max-width: 700px) {
+
+
+            .customer-header {
+
+                padding: 0 20px;
+
             }
 
-            .logo {
-                margin-bottom: 15px;
-            }
-
-            .nav-menu {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 5px;
-            }
-
-            .nav-menu li {
-                margin-bottom: 0;
-            }
-
-            .nav-menu a {
-                padding: 10px 12px;
-                font-size: 13px;
-            }
 
             .main-content {
-                margin-left: 0;
-                padding: 20px;
+
+                padding:
+                    30px 15px 45px;
+
             }
 
-            .page-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
+
+            .page-heading h1 {
+
+                font-size: 32px;
+
             }
+
+
+            .caterer-name {
+
+                display: none;
+
+            }
+
+
+            .requests-card {
+
+                padding: 12px;
+
+            }
+
+
+            .top-actions {
+
+                justify-content: center;
+
+            }
+
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
-    <!-- ================= SIDEBAR ================= -->
 
-    <aside class="sidebar">
+    <!-- =====================================================
+         HEADER
+    ===================================================== -->
 
-        <div class="logo">
-            Annapriya
+    <header class="customer-header">
+
+
+        <div class="header-left">
+
+
+            <button
+                class="back-button"
+                id="backButton"
+                type="button"
+                title="Go Back"
+            >
+                ←
+            </button>
+
+
+            <div class="brand-name">
+                Annapriya
+            </div>
+
+
         </div>
 
-        <ul class="nav-menu">
 
-            <li>
-                <a href="catererdashboard.html">
-                    🏠 Dashboard
-                </a>
-            </li>
 
-            <li>
-                <a href="catererrequests.html" class="active">
-                    📋 Event Requests
-                </a>
-            </li>
+        <div class="header-right">
 
-            <li>
-                <a href="caterercustomers.html">
-                    👥 Customers
-                </a>
-            </li>
 
-            <li>
-                <a href="catererevents.html">
-                    📅 Events
-                </a>
-            </li>
+            <!-- NOTIFICATION -->
 
-            <li>
-                <a href="caterer-profile.html">
+            <button
+                class="notification-button"
+                id="notificationButton"
+                type="button"
+                title="Notifications"
+            >
+                🔔
+            </button>
+
+
+
+            <!-- CATERER -->
+
+            <div class="caterer-header-info">
+
+
+                <span
+                    class="avatar"
+                    id="headerAvatar"
+                >
+                    C
+                </span>
+
+
+                <span
+                    class="caterer-name"
+                    id="headerCatererName"
+                >
+                    Caterer
+                </span>
+
+
+            </div>
+
+
+
+            <!-- THREE DOTS -->
+
+            <button
+                class="dots-button"
+                id="profileButton"
+                type="button"
+                title="Menu"
+            >
+                ⋮
+            </button>
+
+
+
+            <!-- DROPDOWN -->
+
+            <div
+                class="profile-menu"
+                id="profileButtonMenu"
+            >
+
+
+                <a href="catererprofile.html">
                     👤 My Profile
                 </a>
-            </li>
-
-        </ul>
-
-    </aside>
 
 
-    <!-- ================= MAIN CONTENT ================= -->
+                <a href="catererprofile.html">
+                    ✏️ Edit Profile
+                </a>
+
+
+                <a href="catererreviews.html">
+                    ⭐ My Reviews
+                </a>
+
+
+                <a href="catereraccountsettings.html">
+                    ⚙️ Account Settings
+                </a>
+
+
+                <button
+                    type="button"
+                    id="logoutButton"
+                >
+                    🚪 Logout
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ===================================================== -->
 
     <main class="main-content">
 
-        <div class="page-header">
 
-            <div>
-                <h1>Event Requests</h1>
+        <!-- PAGE HEADING -->
 
-                <p>
-                    View and manage customer event requests.
-                </p>
+        <section class="page-heading">
+
+
+            <span class="page-label">
+                CATERER
+            </span>
+
+
+            <h1>
+                Event Requests
+            </h1>
+
+
+            <p>
+                Review and manage customer requests for your catering services.
+            </p>
+
+
+        </section>
+
+
+
+        <!-- DASHBOARD BUTTON -->
+
+        <div class="top-actions">
+
+
+            <a
+                href="catererdashboard.html"
+                class="dashboard-button"
+            >
+                ← Dashboard
+            </a>
+
+
+        </div>
+
+
+
+        <!-- REQUESTS CARD -->
+
+        <section class="requests-card">
+
+
+            <div class="table-wrapper">
+
+
+                <table id="requestsTable">
+
+
+                    <thead>
+
+
+                        <tr>
+
+                            <th>
+                                Customer
+                            </th>
+
+                            <th>
+                                Event
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                            <th>
+                                Guests
+                            </th>
+
+                            <th>
+                                Location
+                            </th>
+
+                            <th>
+                                Package
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Actions
+                            </th>
+
+                        </tr>
+
+
+                    </thead>
+
+
+
+                    <tbody>
+
+
+                        <!-- REQUEST 1 -->
+
+                        <tr>
+
+
+                            <td class="customer-name">
+                                Ananya Sharma
+                            </td>
+
+
+                            <td class="event-type">
+                                Wedding
+                            </td>
+
+
+                            <td>
+                                20 Oct 2026
+                            </td>
+
+
+                            <td>
+                                250
+                            </td>
+
+
+                            <td>
+                                Kochi
+                            </td>
+
+
+                            <td>
+                                Wedding Premium
+                            </td>
+
+
+                            <td>
+
+                                <span class="status">
+                                    Pending
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <div class="actions">
+
+
+                                    <button
+                                        class="action-btn accept"
+                                        title="Accept Request"
+                                        onclick="updateRequest(this, 'Accepted')"
+                                    >
+                                        ✓
+                                    </button>
+
+
+                                    <button
+                                        class="action-btn reject"
+                                        title="Reject Request"
+                                        onclick="updateRequest(this, 'Rejected')"
+                                    >
+                                        ✕
+                                    </button>
+
+
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+
+
+                        <!-- REQUEST 2 -->
+
+                        <tr>
+
+
+                            <td class="customer-name">
+                                Rahul Kumar
+                            </td>
+
+
+                            <td class="event-type">
+                                Birthday
+                            </td>
+
+
+                            <td>
+                                25 Oct 2026
+                            </td>
+
+
+                            <td>
+                                80
+                            </td>
+
+
+                            <td>
+                                Ernakulam
+                            </td>
+
+
+                            <td>
+                                Birthday Celebration
+                            </td>
+
+
+                            <td>
+
+                                <span class="status">
+                                    Pending
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <div class="actions">
+
+
+                                    <button
+                                        class="action-btn accept"
+                                        title="Accept Request"
+                                        onclick="updateRequest(this, 'Accepted')"
+                                    >
+                                        ✓
+                                    </button>
+
+
+                                    <button
+                                        class="action-btn reject"
+                                        title="Reject Request"
+                                        onclick="updateRequest(this, 'Rejected')"
+                                    >
+                                        ✕
+                                    </button>
+
+
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+
+
+                        <!-- REQUEST 3 -->
+
+                        <tr>
+
+
+                            <td class="customer-name">
+                                Priya Nair
+                            </td>
+
+
+                            <td class="event-type">
+                                Engagement
+                            </td>
+
+
+                            <td>
+                                02 Nov 2026
+                            </td>
+
+
+                            <td>
+                                150
+                            </td>
+
+
+                            <td>
+                                Thrissur
+                            </td>
+
+
+                            <td>
+                                Engagement Special
+                            </td>
+
+
+                            <td>
+
+                                <span class="status">
+                                    Pending
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <div class="actions">
+
+
+                                    <button
+                                        class="action-btn accept"
+                                        title="Accept Request"
+                                        onclick="updateRequest(this, 'Accepted')"
+                                    >
+                                        ✓
+                                    </button>
+
+
+                                    <button
+                                        class="action-btn reject"
+                                        title="Reject Request"
+                                        onclick="updateRequest(this, 'Rejected')"
+                                    >
+                                        ✕
+                                    </button>
+
+
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+
+                    </tbody>
+
+
+                </table>
+
+
             </div>
 
-            <button
-                class="logout-btn"
-                onclick="logout()"
+
+
+            <div
+                class="empty-message"
+                id="emptyMessage"
             >
-                Logout
-            </button>
-
-        </div>
+                No event requests available.
+            </div>
 
 
-        <!-- ================= REQUEST TABLE ================= -->
+        </section>
 
-        <div class="table-container">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-                        <th>Customer</th>
-                        <th>Event</th>
-                        <th>Date</th>
-                        <th>Guests</th>
-                        <th>Venue</th>
-                        <th>Package</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-
-                </thead>
-
-                <tbody id="requestsBody">
-
-                    <tr>
-                        <td
-                            colspan="8"
-                            class="loading"
-                        >
-                            Loading requests...
-                        </td>
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
 
     </main>
 
 
-    <!-- ================= JAVASCRIPT ================= -->
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ===================================================== -->
 
     <script>
 
-        /* ============================================
-           CHECK CATERER LOGIN
-        ============================================ */
 
-        const token =
-            localStorage.getItem("annapriya_caterer_token");
+        /* =====================================================
+           ACCEPT / REJECT REQUEST
+        ===================================================== */
 
-        if (!token) {
-
-            window.location.href = "index.html";
-
-        }
+        function updateRequest(button, newStatus) {
 
 
-        /* ============================================
-           GET CATERER INFORMATION
-        ============================================ */
+            const row =
+                button.closest("tr");
 
-        const caterer =
-            JSON.parse(
-                localStorage.getItem("annapriya_caterer") || "null"
+
+            const statusElement =
+                row.querySelector(".status");
+
+
+            statusElement.textContent =
+                newStatus;
+
+
+            statusElement.classList.remove(
+                "accepted",
+                "rejected"
             );
 
 
-        /*
-            Different login versions may store
-            the caterer ID using different property names.
+            if (newStatus === "Accepted") {
 
-            So we safely check all possible names.
-        */
-
-        const catererId =
-            caterer?.catererId ||
-            caterer?.caterer_id ||
-            caterer?.id ||
-            null;
-
-
-        console.log("Logged-in caterer:", caterer);
-        console.log("Caterer ID:", catererId);
-
-
-        /* ============================================
-           LOAD EVENT REQUESTS
-        ============================================ */
-
-        async function loadRequests() {
-
-            const requestsBody =
-                document.getElementById("requestsBody");
-
-            requestsBody.innerHTML = `
-                <tr>
-                    <td colspan="8" class="loading">
-                        Loading requests...
-                    </td>
-                </tr>
-            `;
-
-            try {
-
-                const response = await fetch(
-                    "http://localhost:5000/api/requests"
+                statusElement.classList.add(
+                    "accepted"
                 );
-
-
-                const data = await response.json();
-
-
-                console.log("Requests response:", data);
-
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        data.message ||
-                        "Could not fetch requests."
-                    );
-
-                }
-
-
-                const requests =
-                    data.requests || [];
-
-
-                /* ====================================
-                   NO REQUESTS
-                ==================================== */
-
-                if (requests.length === 0) {
-
-                    requestsBody.innerHTML = `
-                        <tr>
-                            <td colspan="8" class="empty">
-                                No event requests found.
-                            </td>
-                        </tr>
-                    `;
-
-                    return;
-                }
-
-
-                /* ====================================
-                   DISPLAY REQUESTS
-                ==================================== */
-
-                requestsBody.innerHTML =
-                    requests.map(request => {
-
-
-                        const status =
-                            request.status || "pending";
-
-
-                        /*
-                            Status class:
-                            payment_pending etc.
-                            are already valid CSS class names.
-                        */
-
-                        const statusClass =
-                            status.toLowerCase();
-
-
-                        /*
-                            Only pending requests can be
-                            accepted or rejected.
-                        */
-
-                        const isPending =
-                            status === "pending";
-
-
-                        return `
-
-                            <tr>
-
-                                <!-- CUSTOMER -->
-
-                                <td>
-                                    <strong>
-                                        ${
-                                            request.customer_name ||
-                                            "Unknown Customer"
-                                        }
-                                    </strong>
-                                </td>
-
-
-                                <!-- EVENT -->
-
-                                <td>
-                                    ${
-                                        request.event_type ||
-                                        "-"
-                                    }
-                                </td>
-
-
-                                <!-- DATE -->
-
-                                <td>
-                                    ${
-                                        formatDate(
-                                            request.event_date
-                                        )
-                                    }
-                                </td>
-
-
-                                <!-- GUESTS -->
-
-                                <td>
-                                    ${
-                                        request.guest_count ||
-                                        "-"
-                                    }
-                                </td>
-
-
-                                <!-- VENUE -->
-
-                                <td>
-                                    ${
-                                        request.venue_location ||
-                                        "-"
-                                    }
-                                </td>
-
-
-                                <!-- PACKAGE -->
-
-                                <td>
-                                    ${
-                                        request.package_name ||
-                                        "-"
-                                    }
-                                </td>
-
-
-                                <!-- STATUS -->
-
-                                <td>
-
-                                    <span
-                                        class="status ${statusClass}"
-                                    >
-                                        ${formatStatus(status)}
-                                    </span>
-
-                                </td>
-
-
-                                <!-- ACTION -->
-
-                                <td>
-
-                                    <div class="actions">
-
-                                        <button
-                                            class="action-btn accept"
-                                            title="Accept Request"
-                                            onclick="updateRequest(
-                                                ${request.request_id},
-                                                'accepted'
-                                            )"
-                                            ${
-                                                !isPending
-                                                    ? "disabled"
-                                                    : ""
-                                            }
-                                        >
-                                            ✓
-                                        </button>
-
-
-                                        <button
-                                            class="action-btn reject"
-                                            title="Reject Request"
-                                            onclick="updateRequest(
-                                                ${request.request_id},
-                                                'rejected'
-                                            )"
-                                            ${
-                                                !isPending
-                                                    ? "disabled"
-                                                    : ""
-                                            }
-                                        >
-                                            ✕
-                                        </button>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-                        `;
-
-                    }).join("");
-
-
-            } catch (error) {
-
-                console.error(
-                    "Load requests error:",
-                    error
-                );
-
-
-                requestsBody.innerHTML = `
-                    <tr>
-                        <td
-                            colspan="8"
-                            class="empty"
-                        >
-                            Unable to load event requests.
-                            <br><br>
-                            Please make sure the backend server is running.
-                        </td>
-                    </tr>
-                `;
 
             }
+
+
+            if (newStatus === "Rejected") {
+
+                statusElement.classList.add(
+                    "rejected"
+                );
+
+            }
+
+
+            const buttons =
+                row.querySelectorAll(
+                    ".action-btn"
+                );
+
+
+            buttons.forEach(function(btn) {
+
+                btn.disabled = true;
+
+            });
 
         }
 
 
-        /* ============================================
-           UPDATE REQUEST STATUS
-        ============================================ */
 
-        async function updateRequest(
-            requestId,
-            newStatus
+        /* =====================================================
+           LOAD CATERER NAME
+        ===================================================== */
+
+        let caterer = {};
+
+
+        try {
+
+            caterer =
+                JSON.parse(
+                    localStorage.getItem(
+                        "annapriya_caterer"
+                    ) || "{}"
+                );
+
+        }
+
+        catch (error) {
+
+            caterer = {};
+
+        }
+
+
+        const catererName =
+
+            caterer.headName ||
+
+            caterer.head_name ||
+
+            caterer.fullName ||
+
+            caterer.full_name ||
+
+            caterer.name ||
+
+            "Caterer";
+
+
+        const headerName =
+            document.getElementById(
+                "headerCatererName"
+            );
+
+
+        const avatar =
+            document.getElementById(
+                "headerAvatar"
+            );
+
+
+        if (headerName) {
+
+            headerName.textContent =
+                catererName;
+
+        }
+
+
+        if (avatar) {
+
+            avatar.textContent =
+                catererName
+                    .charAt(0)
+                    .toUpperCase();
+
+        }
+
+
+
+        /* =====================================================
+           THREE DOT DROPDOWN
+        ===================================================== */
+
+        const profileButton =
+            document.getElementById(
+                "profileButton"
+            );
+
+
+        const profileMenu =
+            document.getElementById(
+                "profileButtonMenu"
+            );
+
+
+        if (
+            profileButton &&
+            profileMenu
         ) {
 
-            console.log(
-                "Updating request:",
-                requestId,
-                newStatus
-            );
 
+            profileButton.addEventListener(
+                "click",
+                function(event) {
 
-            /* ========================================
-               CHECK REQUEST ID
-            ======================================== */
+                    event.stopPropagation();
 
-            if (!requestId) {
-
-                alert(
-                    "Request ID is missing."
-                );
-
-                return;
-            }
-
-
-            /* ========================================
-               CHECK CATERER ID
-            ======================================== */
-
-            if (!catererId) {
-
-                alert(
-                    "Caterer information was not found. " +
-                    "Please log out and log in again."
-                );
-
-                console.error(
-                    "Caterer ID missing.",
-                    caterer
-                );
-
-                return;
-            }
-
-
-            /* ========================================
-               CONFIRM ACTION
-            ======================================== */
-
-            const actionText =
-                newStatus === "accepted"
-                    ? "accept"
-                    : "reject";
-
-
-            const confirmed =
-                confirm(
-                    `Are you sure you want to ${actionText} this request?`
-                );
-
-
-            if (!confirmed) {
-
-                return;
-
-            }
-
-
-            try {
-
-                /* ====================================
-                   SEND REQUEST TO BACKEND
-                ==================================== */
-
-                const response = await fetch(
-                    `http://localhost:5000/api/requests/${requestId}/status`,
-                    {
-                        method: "PUT",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body: JSON.stringify({
-
-                            status: newStatus,
-
-                            catererId: catererId
-
-                        })
-
-                    }
-                );
-
-
-                /* ====================================
-                   READ RESPONSE
-                ==================================== */
-
-                const data =
-                    await response.json();
-
-
-                console.log(
-                    "Update response:",
-                    data
-                );
-
-
-                /* ====================================
-                   BACKEND ERROR
-                ==================================== */
-
-                if (!response.ok) {
-
-                    alert(
-                        data.message ||
-                        "Could not update request."
+                    profileMenu.classList.toggle(
+                        "show"
                     );
 
-                    return;
-
                 }
+            );
 
 
-                /* ====================================
-                   SUCCESS
-                ==================================== */
-
-                alert(
-                    data.message ||
-                    "Request updated successfully."
-                );
+            document.addEventListener(
+                "click",
+                function(event) {
 
 
-                /* ====================================
-                   RELOAD REQUESTS
-                ==================================== */
+                    if (
 
-                await loadRequests();
+                        !profileMenu.contains(
+                            event.target
+                        )
 
+                        &&
 
-            } catch (error) {
+                        !profileButton.contains(
+                            event.target
+                        )
 
-                console.error(
-                    "Update request error:",
-                    error
-                );
+                    ) {
 
+                        profileMenu.classList.remove(
+                            "show"
+                        );
 
-                alert(
-                    "Unable to connect to backend. " +
-                    "Please make sure the server is running."
-                );
+                    }
 
-            }
-
-        }
-
-
-        /* ============================================
-           FORMAT STATUS
-        ============================================ */
-
-        function formatStatus(status) {
-
-            if (!status) {
-                return "Pending";
-            }
-
-
-            return status
-                .replaceAll("_", " ")
-                .replace(/\b\w/g, letter =>
-                    letter.toUpperCase()
-                );
-
-        }
-
-
-        /* ============================================
-           FORMAT DATE
-        ============================================ */
-
-        function formatDate(dateValue) {
-
-            if (!dateValue) {
-
-                return "-";
-
-            }
-
-
-            const date =
-                new Date(dateValue);
-
-
-            if (isNaN(date.getTime())) {
-
-                return dateValue;
-
-            }
-
-
-            return date.toLocaleDateString(
-                "en-IN",
-                {
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric"
                 }
             );
 
         }
 
 
-        /* ============================================
+
+        /* =====================================================
+           NOTIFICATIONS
+        ===================================================== */
+
+        const notificationButton =
+            document.getElementById(
+                "notificationButton"
+            );
+
+
+        if (notificationButton) {
+
+
+            notificationButton.addEventListener(
+                "click",
+                function() {
+
+                    alert(
+                        "No new notifications."
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* =====================================================
            LOGOUT
-        ============================================ */
+        ===================================================== */
 
-        function logout() {
-
-            localStorage.removeItem(
-                "annapriya_caterer_token"
+        const logoutButton =
+            document.getElementById(
+                "logoutButton"
             );
 
-            localStorage.removeItem(
-                "annapriya_caterer"
-            );
 
-            window.location.href =
-                "index.html";
+        if (logoutButton) {
+
+
+            logoutButton.addEventListener(
+                "click",
+                function() {
+
+
+                    localStorage.removeItem(
+                        "annapriya_caterer_token"
+                    );
+
+
+                    localStorage.removeItem(
+                        "annapriya_caterer"
+                    );
+
+
+                    window.location.href =
+                        "index.html";
+
+                }
+            );
 
         }
 
 
-        /* ============================================
-           LOAD REQUESTS WHEN PAGE OPENS
-        ============================================ */
 
-        loadRequests();
+        /* =====================================================
+           BACK BUTTON
+        ===================================================== */
+
+        const backButton =
+            document.getElementById(
+                "backButton"
+            );
+
+
+        if (backButton) {
+
+
+            backButton.addEventListener(
+                "click",
+                function() {
+
+                    window.history.back();
+
+                }
+            );
+
+        }
+
 
     </script>
 
+
 </body>
+
 </html>
