@@ -9,7 +9,6 @@ const VALID_EVENTS_SERVED = ["0-50", "50-100", "100-200", "200+"];
 const GMAIL_REGEX = /^[^\s@]+@gmail\.com$/i;
 const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{6,}$/;
 
-
 async function signup(req, res) {
     try {
         const {
@@ -39,41 +38,41 @@ async function signup(req, res) {
             });
         }
 
-        
-      // Validate events served
-const VALID_EVENTS_SERVED = ["0-50", "50-100", "100-200", "200+"];
+        // Validate events served
+        let eventsServedRange;
 
-let eventsServedRange;
+        if (
+            typeof eventsServed === "string" &&
+            VALID_EVENTS_SERVED.includes(eventsServed.trim())
+        ) {
+            // Frontend already sends the range
+            eventsServedRange = eventsServed.trim();
 
-if (typeof eventsServed === "string" && VALID_EVENTS_SERVED.includes(eventsServed.trim())) {
-    // Frontend already sends the range
-    eventsServedRange = eventsServed.trim();
+        } else if (!isNaN(Number(eventsServed))) {
+            // Also support a numeric value if the frontend sends one
+            const eventsNumber = Number(eventsServed);
 
-} else if (!isNaN(Number(eventsServed))) {
-    // Also support a numeric value if the frontend sends one
-    const eventsNumber = Number(eventsServed);
+            if (eventsNumber < 0) {
+                return res.status(400).json({
+                    message: "Please enter a valid number of events served."
+                });
+            }
 
-    if (eventsNumber < 0) {
-        return res.status(400).json({
-            message: "Please enter a valid number of events served."
-        });
-    }
+            if (eventsNumber < 50) {
+                eventsServedRange = "0-50";
+            } else if (eventsNumber <= 100) {
+                eventsServedRange = "50-100";
+            } else if (eventsNumber <= 200) {
+                eventsServedRange = "100-200";
+            } else {
+                eventsServedRange = "200+";
+            }
 
-    if (eventsNumber < 50) {
-        eventsServedRange = "0-50";
-    } else if (eventsNumber <= 100) {
-        eventsServedRange = "50-100";
-    } else if (eventsNumber <= 200) {
-        eventsServedRange = "100-200";
-    } else {
-        eventsServedRange = "200+";
-    }
-
-} else {
-    return res.status(400).json({
-        message: "Please select a valid number of events served."
-    });
-}
+        } else {
+            return res.status(400).json({
+                message: "Please select a valid number of events served."
+            });
+        }
 
         // Gmail validation
         if (!GMAIL_REGEX.test(email.trim())) {
@@ -129,7 +128,7 @@ if (typeof eventsServed === "string" && VALID_EVENTS_SERVED.includes(eventsServe
                 cleanEmail,
                 passwordHash,
                 helpers,
-                eventsServed
+                eventsServedRange
             ]
         );
 
@@ -148,7 +147,6 @@ if (typeof eventsServed === "string" && VALID_EVENTS_SERVED.includes(eventsServe
         });
     }
 }
-
 
 async function login(req, res) {
     try {
@@ -232,7 +230,6 @@ async function login(req, res) {
         });
     }
 }
-
 
 module.exports = {
     signup,
