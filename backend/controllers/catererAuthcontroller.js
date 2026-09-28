@@ -230,8 +230,257 @@ async function login(req, res) {
         });
     }
 }
+// =====================================================
+// GET CATERER PROFILE
+// =====================================================
+
+async function getCatererProfile(req, res) {
+
+    try {
+
+        const {
+            catererId
+        } = req.params;
+
+
+        if (!catererId) {
+
+            return res.status(400).json({
+                message:
+                    "Caterer ID is required."
+            });
+
+        }
+
+
+        const [rows] =
+            await db.query(
+
+                `SELECT
+                    caterer_id,
+                    head_name,
+                    brand_name,
+                    phone,
+                    email,
+                    helpers,
+                    events_served,
+                    status
+                 FROM caterers
+                 WHERE caterer_id = ?`,
+
+                [catererId]
+
+            );
+
+
+        if (rows.length === 0) {
+
+            return res.status(404).json({
+                message:
+                    "Caterer not found."
+            });
+
+        }
+
+
+        return res.status(200).json({
+            caterer: rows[0]
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Get caterer profile error:",
+            error
+        );
+
+
+        return res.status(500).json({
+            message:
+                "Could not load caterer profile."
+        });
+
+    }
+
+}
+
+
+// =====================================================
+// UPDATE CATERER PROFILE
+// =====================================================
+
+async function updateCatererProfile(
+    req,
+    res
+) {
+
+    try {
+
+        const {
+            catererId
+        } = req.params;
+
+
+        const {
+            headName,
+            brandName,
+            phone,
+            helpers,
+            eventsServed
+        } = req.body;
+
+
+        if (!catererId) {
+
+            return res.status(400).json({
+                message:
+                    "Caterer ID is required."
+            });
+
+        }
+
+
+        if (
+            !headName ||
+            !brandName ||
+            !phone ||
+            helpers === undefined ||
+            !eventsServed
+        ) {
+
+            return res.status(400).json({
+                message:
+                    "All profile fields are required."
+            });
+
+        }
+
+
+        const cleanEvents =
+            String(eventsServed).trim();
+
+
+        if (
+            !VALID_EVENTS_SERVED.includes(
+                cleanEvents
+            )
+        ) {
+
+            return res.status(400).json({
+                message:
+                    "Please select a valid number of events served."
+            });
+
+        }
+
+
+        const helpersNumber =
+            Number(helpers);
+
+
+        if (
+            !Number.isInteger(
+                helpersNumber
+            ) ||
+            helpersNumber < 0
+        ) {
+
+            return res.status(400).json({
+                message:
+                    "Please enter a valid number of helpers."
+            });
+
+        }
+
+
+        const [result] =
+            await db.query(
+
+                `UPDATE caterers
+                 SET
+                    head_name = ?,
+                    brand_name = ?,
+                    phone = ?,
+                    helpers = ?,
+                    events_served = ?
+                 WHERE caterer_id = ?`,
+
+                [
+                    headName.trim(),
+                    brandName.trim(),
+                    phone.trim(),
+                    helpersNumber,
+                    cleanEvents,
+                    catererId
+                ]
+
+            );
+
+
+        if (
+            result.affectedRows === 0
+        ) {
+
+            return res.status(404).json({
+                message:
+                    "Caterer not found."
+            });
+
+        }
+
+
+        const [rows] =
+            await db.query(
+
+                `SELECT
+                    caterer_id,
+                    head_name,
+                    brand_name,
+                    phone,
+                    email,
+                    helpers,
+                    events_served,
+                    status
+                 FROM caterers
+                 WHERE caterer_id = ?`,
+
+                [catererId]
+
+            );
+
+
+        return res.status(200).json({
+
+            message:
+                "Caterer profile updated successfully.",
+
+            caterer:
+                rows[0]
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Update caterer profile error:",
+            error
+        );
+
+
+        return res.status(500).json({
+            message:
+                "Could not update caterer profile."
+        });
+
+    }
+
+}
 
 module.exports = {
     signup,
-    login
+    login,
+    getCatererProfile,
+    updateCatererProfile
 };
