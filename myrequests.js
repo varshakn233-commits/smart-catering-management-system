@@ -41,6 +41,11 @@ document.addEventListener("DOMContentLoaded", () => {
         customer?.customer_id ||
         customer?.id;
 
+    const customerEmail =
+        String(customer?.email || "")
+            .trim()
+            .toLowerCase();
+
 
     // =========================
     // SHOW / HIDE SECTIONS
@@ -375,7 +380,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const response =
                 await fetch(
-                    `http://localhost:5000/api/requests/customer/${customerId}`
+                    `http://localhost:5000/api/requests/customer/${encodeURIComponent(customerId || "0")}?email=${encodeURIComponent(customerEmail)}`
                 );
 
 

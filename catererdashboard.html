@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -11,988 +10,542 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Caterer Dashboard | Annapriya</title>
-
+    <title>Annapriya | Caterer Dashboard</title>
 
     <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap"
         rel="stylesheet"
-        href="catererdashboard.css"
     >
 
-
-    <style>
-
-        /* =====================================================
-           HEADER
-        ===================================================== */
-
-        .customer-header {
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            position: relative;
-
-            width: 100%;
-
-            box-sizing: border-box;
-
-        }
-
-
-        .header-left {
-
-            display: flex;
-            align-items: center;
-
-            gap: 15px;
-
-        }
-
-
-        .header-right {
-
-            position: relative;
-
-            display: flex;
-            align-items: center;
-
-            gap: 12px;
-
-        }
-
-
-
-        /* =====================================================
-           NOTIFICATION BUTTON
-        ===================================================== */
-
-        .notification-button {
-
-            width: 40px;
-            height: 40px;
-
-            border: none;
-
-            border-radius: 50%;
-
-            background: #F5E9DA;
-
-            color: #8B1E3F;
-
-            font-size: 18px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            cursor: pointer;
-
-            transition: 0.2s ease;
-
-        }
-
-
-        .notification-button:hover {
-
-            background: #8B1E3F;
-
-            color: #FFFFFF;
-
-        }
-
-
-
-        /* =====================================================
-           CATERER NAME
-        ===================================================== */
-
-        .caterer-header-info {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 8px;
-
-            cursor: default;
-
-        }
-
-
-        .avatar {
-
-            width: 38px;
-            height: 38px;
-
-            border-radius: 50%;
-
-            background: #8B1E3F;
-
-            color: #FFFFFF;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            font-size: 14px;
-
-            font-weight: 600;
-
-        }
-
-
-        .customer-name {
-
-            color: #1C1C1C;
-
-            font-size: 14px;
-
-            font-weight: 600;
-
-            white-space: nowrap;
-
-        }
-
-
-
-        /* =====================================================
-           THREE DOT BUTTON
-        ===================================================== */
-
-        .dots-button {
-
-            width: 40px;
-            height: 40px;
-
-            border: none;
-
-            background: transparent;
-
-            border-radius: 50%;
-
-            color: #1C1C1C;
-
-            font-size: 26px;
-
-            line-height: 1;
-
-            cursor: pointer;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            transition: 0.2s ease;
-
-        }
-
-
-        .dots-button:hover {
-
-            background: #F5E9DA;
-
-            color: #8B1E3F;
-
-        }
-
-
-        .dots-button:focus {
-
-            outline: none;
-
-        }
-
-
-
-        /* =====================================================
-           DROPDOWN MENU
-        ===================================================== */
-
-        .profile-menu {
-
-            position: absolute;
-
-            top: 50px;
-
-            right: 0;
-
-            width: 220px;
-
-            background: #FFFFFF;
-
-            border-radius: 12px;
-
-            padding: 8px;
-
-            box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.15);
-
-            display: none;
-
-            z-index: 9999;
-
-        }
-
-
-        .profile-menu.show {
-
-            display: block;
-
-        }
-
-
-        .profile-menu a,
-        .profile-menu button {
-
-            width: 100%;
-
-            box-sizing: border-box;
-
-            display: block;
-
-            padding: 11px 13px;
-
-            border: none;
-
-            background: transparent;
-
-            color: #1C1C1C;
-
-            text-decoration: none;
-
-            text-align: left;
-
-            border-radius: 8px;
-
-            font-family: inherit;
-
-            font-size: 14px;
-
-            cursor: pointer;
-
-        }
-
-
-        .profile-menu a:hover,
-        .profile-menu button:hover {
-
-            background: #F5E9DA;
-
-            color: #8B1E3F;
-
-        }
-
-
-
-        /* =====================================================
-           MAIN CONTENT
-        ===================================================== */
-
-        .main-content {
-
-            width: 100%;
-
-            box-sizing: border-box;
-
-        }
-
-
-        .page-heading {
-
-            margin-bottom: 38px;
-
-        }
-
-
-        .page-heading h1 {
-
-            margin-top: 10px;
-
-            margin-bottom: 10px;
-
-            color: #8B1E3F;
-
-        }
-
-
-        .page-heading p {
-
-            color: #555555;
-
-            line-height: 1.6;
-
-            max-width: 650px;
-
-        }
-
-
-
-        /* =====================================================
-           QUICK LINKS
-        ===================================================== */
-
-        .quick-links-section {
-
-            width: 100%;
-
-            max-width: 900px;
-
-        }
-
-
-        .quick-links-title {
-
-            color: #8B1E3F;
-
-            font-size: 20px;
-
-            margin-bottom: 18px;
-
-        }
-
-
-        .quick-links {
-
-            display: grid;
-
-            grid-template-columns: repeat(2, 1fr);
-
-            gap: 18px;
-
-        }
-
-
-        .quick-link {
-
-            background: #FFFFFF;
-
-            border-radius: 12px;
-
-            padding: 24px;
-
-            text-decoration: none;
-
-            color: #1C1C1C;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 14px;
-
-            border: 1px solid #F0E4D5;
-
-            box-shadow:
-                0 5px 18px rgba(0, 0, 0, 0.07);
-
-            transition: 0.2s ease;
-
-        }
-
-
-        .quick-link:hover {
-
-            transform: translateY(-3px);
-
-            border-color: #D4A373;
-
-        }
-
-
-        .quick-icon {
-
-            width: 48px;
-            height: 48px;
-
-            border-radius: 10px;
-
-            background: #F5E9DA;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            font-size: 23px;
-
-        }
-
-
-        .quick-link span {
-
-            font-size: 15px;
-
-            font-weight: 600;
-
-        }
-
-
-
-        /* =====================================================
-           MOBILE
-        ===================================================== */
-
-        @media (max-width: 700px) {
-
-            .quick-links {
-
-                grid-template-columns: 1fr;
-
-            }
-
-
-            .customer-name {
-
-                display: none;
-
-            }
-
-        }
-
-    </style>
+    <!--
+        IMPORTANT:
+        We intentionally use the CUSTOMER dashboard CSS here
+        so the caterer dashboard has the same design.
+    -->
+    <link
+        rel="stylesheet"
+        href="customerdashboard.css"
+    >
 
 </head>
-
 
 
 <body>
 
 
+    <!-- =====================================================
+         CATERER NAVBAR
+    ====================================================== -->
 
-<!-- =====================================================
-     HEADER
-====================================================== -->
-
-<header class="customer-header">
-
-
-    <!-- LEFT SIDE -->
-
-    <div class="header-left">
+    <header class="customer-navbar">
 
 
-        <button
-            class="back-button"
-            id="backButton"
-            type="button"
+        <!-- LOGO -->
+
+        <a
+            href="catererdashboard.html"
+            class="brand-logo"
         >
 
-            ←
-
-        </button>
-
-
-        <div class="brand-name">
-
-            Annapriya
-
-        </div>
-
-
-    </div>
-
-
-
-    <!-- RIGHT SIDE -->
-
-    <div class="header-right">
-
-
-        <!-- NOTIFICATION -->
-
-        <button
-            class="notification-button"
-            id="notificationButton"
-            type="button"
-            title="Notifications"
-        >
-
-            🔔
-
-        </button>
-
-
-
-        <!-- CATERER NAME -->
-
-        <div class="caterer-header-info">
-
-
-            <span
-                class="avatar"
-                id="headerAvatar"
-            >
-
-                C
-
+            <span class="brand-symbol">
+                ✦
             </span>
 
-
-            <span
-                class="customer-name"
-                id="headerCatererName"
-            >
-
-                Caterer
-
+            <span>
+                Annapriya
             </span>
 
-
-        </div>
-
+        </a>
 
 
-        <!-- THREE DOTS -->
+        <!-- RIGHT SIDE -->
 
-        <button
-            class="dots-button"
-            id="profileButton"
-            type="button"
-            title="Menu"
-            aria-label="Open menu"
-        >
-
-            ⋮
-
-        </button>
+        <div class="navbar-right">
 
 
-
-        <!-- DROPDOWN MENU -->
-
-        <div
-            class="profile-menu"
-            id="profileButtonMenu"
-        >
-
-
-            <a href="catererprofile.html">
-
-                👤 My Profile
-
-            </a>
-
-
-            <a href="catererprofile.html">
-
-                ✏️ Edit Profile
-
-            </a>
-
-
-            <a href="catererreviews.html">
-
-                ⭐ My Reviews
-
-            </a>
-
-
-            <a href="catereraccountsettings.html">
-
-                ⚙️ Account Settings
-
-            </a>
-
+            <!-- =================================================
+                 NOTIFICATION
+            ================================================== -->
 
             <button
+                class="notification-button"
+                id="notificationButton"
+                title="Notifications"
                 type="button"
-                id="logoutButton"
             >
 
-                🚪 Logout
+                <span class="notification-icon">
+                    🔔
+                </span>
+
+                <span
+                    class="notification-badge"
+                    id="notificationBadge"
+                >
+                    0
+                </span>
+
+            </button>
+
+
+            <!-- =================================================
+                 CATERER PROFILE
+            ================================================== -->
+
+            <button
+                class="profile-button"
+                id="profileButton"
+                type="button"
+                title="My Profile"
+            >
+
+                <span
+                    class="profile-avatar"
+                    id="headerAvatar"
+                >
+                    C
+                </span>
+
+                <span
+                    class="profile-name"
+                    id="headerCatererName"
+                >
+                    Caterer
+                </span>
+
+            </button>
+
+
+            <!-- =================================================
+                 HAMBURGER
+            ================================================== -->
+
+            <button
+                class="menu-button"
+                id="menuButton"
+                title="Caterer Menu"
+                type="button"
+                aria-label="Open caterer menu"
+            >
+
+                ☰
 
             </button>
 
 
         </div>
 
+    </header>
+
+
+    <!-- =====================================================
+         PROFILE BUTTON MENU
+    ====================================================== -->
+
+    <div
+        class="profile-button-menu"
+        id="profileButtonMenu"
+    >
+
+        <a
+            href="catererprofile.html"
+            class="profile-button-menu-item"
+        >
+
+            <span class="menu-icon">
+                👤
+            </span>
+
+            <span>
+                My Profile
+            </span>
+
+        </a>
 
     </div>
 
 
-</header>
+    <!-- =====================================================
+         CATERER HAMBURGER MENU
+    ====================================================== -->
+
+    <div
+        class="profile-menu"
+        id="profileMenu"
+    >
 
 
+        <!-- MENU HEADER -->
 
-<!-- =====================================================
-     MAIN CONTENT
-====================================================== -->
+        <div class="menu-profile-header">
 
-<main class="main-content">
-
-
-    <!-- GREETING -->
-
-    <section class="page-heading">
-
-
-        <span class="page-label">
-
-            CATERER
-
-        </span>
-
-
-        <h1>
-
-            Welcome back,
-
-            <span id="catererName">
-
-                Caterer
-
-            </span>
-
-            👋
-
-        </h1>
-
-
-        <p>
-
-            Here's your business overview and quick access
-            to your catering management.
-
-        </p>
-
-
-    </section>
-
-
-
-    <!-- =================================================
-         QUICK LINKS
-    ================================================== -->
-
-    <section class="quick-links-section">
-
-
-        <h2 class="quick-links-title">
-
-            Quick Links
-
-        </h2>
-
-
-        <div class="quick-links">
-
-
-            <!-- EVENT REQUESTS -->
-
-            <a
-                href="catererrequests.html"
-                class="quick-link"
+            <div
+                class="menu-avatar"
+                id="menuAvatar"
             >
+                C
+            </div>
 
-                <div class="quick-icon">
+            <div>
 
-                    📋
+                <h3 id="menuCatererName">
+                    Caterer
+                </h3>
 
-                </div>
+                <p>
+                    Caterer Account
+                </p>
 
-
-                <span>
-
-                    Event Requests
-
-                </span>
-
-            </a>
-
-
-
-            <!-- MY EVENTS -->
-
-            <a
-                href="catererevents.html"
-                class="quick-link"
-            >
-
-                <div class="quick-icon">
-
-                    📅
-
-                </div>
-
-
-                <span>
-
-                    My Events
-
-                </span>
-
-            </a>
-
+            </div>
 
         </div>
 
 
-    </section>
+        <!-- MY PROFILE -->
 
+        <a
+            href="catererprofile.html"
+            class="menu-item"
+        >
 
-</main>
+            <span class="menu-icon">
+                👤
+            </span>
 
+            <span>
+                My Profile
+            </span>
 
+        </a>
 
-<!-- =====================================================
-     DROPDOWN + HEADER JAVASCRIPT
-====================================================== -->
 
-<script>
+        <!-- EVENT REQUESTS -->
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+        <a
+            href="catererrequests.html"
+            class="menu-item"
+        >
 
+            <span class="menu-icon">
+                📋
+            </span>
 
-        /* =================================================
-           GET CATERER INFORMATION
-        ================================================= */
+            <span>
+                Event Requests
+            </span>
 
-        let caterer = {};
+        </a>
 
-        try {
 
-            caterer = JSON.parse(
-                localStorage.getItem(
-                    "annapriya_caterer"
-                ) || "{}"
-            );
+        <!-- MY EVENTS -->
 
-        } catch (error) {
+        <a
+            href="catererevents.html"
+            class="menu-item"
+        >
 
-            caterer = {};
+            <span class="menu-icon">
+                📅
+            </span>
 
-        }
+            <span>
+                My Events
+            </span>
 
+        </a>
 
-        const catererName =
 
-            caterer.headName ||
+        <!-- MY REVIEWS -->
 
-            caterer.head_name ||
+        <a
+            href="catererreviews.html"
+            class="menu-item"
+        >
 
-            caterer.fullName ||
+            <span class="menu-icon">
+                ⭐
+            </span>
 
-            caterer.full_name ||
+            <span>
+                My Reviews
+            </span>
 
-            caterer.name ||
+        </a>
 
-            "Caterer";
 
+        <div class="menu-divider"></div>
 
 
-        /* =================================================
-           DISPLAY CATERER NAME
-        ================================================= */
+        <!-- EDIT PROFILE -->
 
-        const nameElement =
-            document.getElementById(
-                "catererName"
-            );
+        <a
+            href="catererprofile.html"
+            class="menu-item"
+        >
 
+            <span class="menu-icon">
+                ✏️
+            </span>
 
-        const headerName =
-            document.getElementById(
-                "headerCatererName"
-            );
+            <span>
+                Edit Profile
+            </span>
 
+        </a>
 
-        const avatar =
-            document.getElementById(
-                "headerAvatar"
-            );
 
+        <!-- ACCOUNT SETTINGS -->
 
-        if (nameElement) {
+        <a
+            href="catereraccountsettings.html"
+            class="menu-item"
+        >
 
-            nameElement.textContent =
-                catererName;
+            <span class="menu-icon">
+                ⚙️
+            </span>
 
-        }
+            <span>
+                Account Settings
+            </span>
 
+        </a>
 
-        if (headerName) {
 
-            headerName.textContent =
-                catererName;
+        <div class="menu-divider"></div>
 
-        }
 
+        <!-- LOGOUT -->
 
-        if (avatar) {
+        <button
+            class="menu-item logout-item"
+            id="logoutButton"
+            type="button"
+        >
 
-            avatar.textContent =
-                catererName
-                    .charAt(0)
-                    .toUpperCase();
+            <span class="menu-icon">
+                ↪
+            </span>
 
-        }
+            <span>
+                Logout
+            </span>
 
+        </button>
 
 
-        /* =================================================
-           THREE DOT DROPDOWN
-        ================================================= */
+    </div>
 
-        const profileButton =
-            document.getElementById(
-                "profileButton"
-            );
 
+    <!-- =====================================================
+         NOTIFICATION PANEL
+    ====================================================== -->
 
-        const profileMenu =
-            document.getElementById(
-                "profileButtonMenu"
-            );
+    <div
+        class="notification-panel"
+        id="notificationPanel"
+    >
 
+        <div class="notification-panel-header">
 
-        if (
-            profileButton &&
-            profileMenu
-        ) {
+            <h3>
+                Notifications
+            </h3>
 
+            <button
+                id="closeNotification"
+                type="button"
+            >
+                ×
+            </button>
 
-            profileButton.addEventListener(
-                "click",
-                function (event) {
+        </div>
 
-                    event.stopPropagation();
 
-                    profileMenu.classList.toggle(
-                        "show"
-                    );
+        <div
+            class="notification-list"
+            id="notificationList"
+        >
 
-                }
-            );
+            <div class="notification-item">
 
+                <div class="notification-item-icon">
+                    ✓
+                </div>
 
-            /* CLOSE WHEN CLICKING OUTSIDE */
+                <div>
 
-            document.addEventListener(
-                "click",
-                function (event) {
+                    <strong>
+                        No new event requests
+                    </strong>
 
-                    if (
-                        !profileMenu.contains(
-                            event.target
-                        ) &&
-                        !profileButton.contains(
-                            event.target
-                        )
-                    ) {
+                    <p>
+                        New customer enquiries will appear here.
+                    </p>
 
-                        profileMenu.classList.remove(
-                            "show"
-                        );
+                    <small>
+                        Just now
+                    </small>
 
-                    }
+                </div>
 
-                }
-            );
+            </div>
 
-        }
+        </div>
 
+    </div>
 
 
-        /* =================================================
-           NOTIFICATION BUTTON
-        ================================================= */
+    <!-- =====================================================
+         MAIN DASHBOARD
+    ====================================================== -->
 
-        const notificationButton =
-            document.getElementById(
-                "notificationButton"
-            );
+    <main class="customer-main">
 
 
-        if (notificationButton) {
+        <!-- =================================================
+             WELCOME
+        ================================================== -->
 
-            notificationButton.addEventListener(
-                "click",
-                function () {
+        <section class="welcome-section">
 
-                    alert(
-                        "No new notifications."
-                    );
+            <div class="welcome-content">
 
-                }
-            );
+                <p class="welcome-small">
+                    Welcome to Annapriya
+                </p>
 
-        }
+                <h1>
 
+                    Hello,
 
+                    <span id="catererName">
+                        Caterer
+                    </span>!
 
-        /* =================================================
-           LOGOUT
-        ================================================= */
+                </h1>
 
-        const logoutButton =
-            document.getElementById(
-                "logoutButton"
-            );
+                <p class="welcome-description">
 
+                    Manage your catering requests,
+                    upcoming events and customers
+                    from one place.
 
-        if (logoutButton) {
+                </p>
 
-            logoutButton.addEventListener(
-                "click",
-                function () {
+            </div>
 
 
-                    localStorage.removeItem(
-                        "annapriya_caterer_token"
-                    );
+            <!-- SEARCH / ACTION BUTTON -->
 
+            <button
+                class="dashboard-search-button"
+                id="dashboardActionButton"
+                title="Event Requests"
+                type="button"
+            >
+                ⌕
+            </button>
 
-                    localStorage.removeItem(
-                        "annapriya_caterer"
-                    );
+        </section>
 
 
-                    window.location.href =
-                        "index.html";
+        <!-- =================================================
+             QUICK ACTIONS
+        ================================================== -->
 
-                }
-            );
+        <section class="dashboard-section">
 
-        }
 
+            <div class="section-heading">
 
+                <p class="section-label">
+                    Manage
+                </p>
 
-        /* =================================================
-           BACK BUTTON
-        ================================================= */
+                <h2>
+                    Quick Actions
+                </h2>
 
-        const backButton =
-            document.getElementById(
-                "backButton"
-            );
+                <p>
+                    What would you like to manage?
+                </p>
 
+            </div>
 
-        if (backButton) {
 
-            backButton.addEventListener(
-                "click",
-                function () {
+            <div class="quick-actions">
 
-                    window.history.back();
 
-                }
-            );
+                <!-- EVENT REQUESTS -->
 
-        }
+                <a
+                    href="catererrequests.html"
+                    class="quick-action-card"
+                >
 
-    }
+                    <div class="quick-action-icon">
+                        📋
+                    </div>
 
-);
+                    <div class="quick-action-content">
 
-</script>
+                        <h3>
+                            Event Requests
+                        </h3>
 
+                        <p>
+                            View customer enquiries
+                        </p>
 
+                    </div>
+
+                    <span class="quick-action-arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+                <!-- MY EVENTS -->
+
+                <a
+                    href="catererevents.html"
+                    class="quick-action-card"
+                >
+
+                    <div class="quick-action-icon">
+                        ▣
+                    </div>
+
+                    <div class="quick-action-content">
+
+                        <h3>
+                            My Events
+                        </h3>
+
+                        <p>
+                            View your confirmed events
+                        </p>
+
+                    </div>
+
+                    <span class="quick-action-arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <script src="catererdashboard.js"></script>
 
 </body>
 

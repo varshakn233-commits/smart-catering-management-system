@@ -228,6 +228,12 @@ async function login(req, res) {
                 id:
                     customer.customer_id,
 
+                customerId:
+                    customer.customer_id,
+
+                customer_id:
+                    customer.customer_id,
+
                 fullName:
                     customer.full_name,
 

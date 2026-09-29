@@ -13,16 +13,15 @@ const {
 
 // =====================================================
 // CUSTOMER - CREATE EVENT REQUEST
+// POST /api/requests
 // =====================================================
 
-router.post(
-    "/",
-    createRequest
-);
+router.post("/", createRequest);
 
 
 // =====================================================
-// CUSTOMER - GET OWN REQUESTS
+// CUSTOMER - GET THEIR REQUESTS
+// GET /api/requests/customer/:customerId
 // =====================================================
 
 router.get(
@@ -32,13 +31,52 @@ router.get(
 
 
 // =====================================================
-// CATERER - GET EVENT REQUESTS
+// CATERER - GET EVENTS
+// IMPORTANT:
+// This route MUST come before /caterer/:catererEmail
 // =====================================================
-// Supports:
-// /api/requests/caterer/caterer@gmail.com
+
+router.get(
+    "/caterer/:catererEmail/events",
+    getCatererEvents
+);
+
+
+// =====================================================
+// CATERER - GET REQUESTS USING QUERY EMAIL
 //
-// Internally uses getRequests(), which filters by
-// catererEmail.
+// GET /api/requests/caterer?email=caterer@gmail.com
+// GET /api/requests/caterer?catererEmail=caterer@gmail.com
+// =====================================================
+
+router.get(
+    "/caterer",
+    (req, res) => {
+
+        const email =
+            req.query.catererEmail ||
+            req.query.email;
+
+        if (!email) {
+
+            return res.status(400).json({
+                success: false,
+                message: "Caterer email is required"
+            });
+
+        }
+
+        req.query.catererEmail = email;
+
+        return getRequests(req, res);
+    }
+);
+
+
+// =====================================================
+// CATERER - GET REQUESTS USING EMAIL IN URL
+//
+// GET /api/requests/caterer/caterer@gmail.com
 // =====================================================
 
 router.get(
@@ -54,17 +92,8 @@ router.get(
 
 
 // =====================================================
-// CATERER - GET ACCEPTED / ACTIVE EVENTS
-// =====================================================
-
-router.get(
-    "/caterer/:catererEmail/events",
-    getCatererEvents
-);
-
-
-// =====================================================
-// ALL REQUESTS
+// GET ALL REQUESTS
+// GET /api/requests
 // =====================================================
 
 router.get(
@@ -74,7 +103,14 @@ router.get(
 
 
 // =====================================================
-// UPDATE REQUEST STATUS
+// ACCEPT / REJECT REQUEST
+//
+// PUT /api/requests/:id/status
+//
+// Example body:
+// {
+//     "status": "accepted"
+// }
 // =====================================================
 
 router.put(
@@ -82,5 +118,9 @@ router.put(
     updateRequestStatus
 );
 
+
+// =====================================================
+// EXPORT
+// =====================================================
 
 module.exports = router;

@@ -722,18 +722,17 @@ if (customerLoginForm) {
 
             e.preventDefault();
 
+            const emailInput =
+                document.getElementById("cEmail");
+
+            const passwordInput =
+                document.getElementById("cPassword");
 
             const email =
-                document
-                    .getElementById("cEmail")
-                    .value
-                    .trim();
-
+                emailInput?.value.trim().toLowerCase();
 
             const password =
-                document
-                    .getElementById("cPassword")
-                    .value;
+                passwordInput?.value || "";
 
 
             if (!email || !password) {
@@ -743,7 +742,6 @@ if (customerLoginForm) {
                 );
 
                 return;
-
             }
 
 
@@ -753,39 +751,73 @@ if (customerLoginForm) {
                     await fetch(
                         "http://localhost:5000/api/customer/login",
                         {
-
                             method: "POST",
-
                             headers: {
                                 "Content-Type":
                                     "application/json"
                             },
-
                             body: JSON.stringify({
-
-                                email: email,
-                                password: password
-
+                                email,
+                                password
                             })
-
                         }
                     );
 
 
-                const data =
-                    await response.json();
+                let data = {};
+
+                try {
+                    data = await response.json();
+                } catch (jsonError) {
+                    data = {};
+                }
 
 
                 if (!response.ok) {
 
+                    console.error(
+                        "Customer login failed:",
+                        response.status,
+                        data
+                    );
+
                     alert(
                         data.message ||
-                        "Login failed."
+                        "Invalid email or password."
                     );
 
                     return;
-
                 }
+
+
+                if (!data.token || !data.customer) {
+
+                    console.error(
+                        "Invalid login response:",
+                        data
+                    );
+
+                    alert(
+                        "Login response is incomplete. Please restart the backend and try again."
+                    );
+
+                    return;
+                }
+
+
+                // Keep the customer ID in every common property name.
+                // My Requests can then identify the logged-in customer.
+                const resolvedCustomerId =
+                    data.customer.customerId ||
+                    data.customer.customer_id ||
+                    data.customer.id;
+
+                const customer = {
+                    ...data.customer,
+                    id: resolvedCustomerId,
+                    customerId: resolvedCustomerId,
+                    customer_id: resolvedCustomerId
+                };
 
 
                 localStorage.setItem(
@@ -793,18 +825,15 @@ if (customerLoginForm) {
                     data.token
                 );
 
-
                 localStorage.setItem(
                     "annapriya_customer",
-                    JSON.stringify(
-                        data.customer
-                    )
+                    JSON.stringify(customer)
                 );
 
 
                 console.log(
                     "Customer logged in:",
-                    data.customer
+                    customer
                 );
 
 
@@ -819,11 +848,9 @@ if (customerLoginForm) {
                     error
                 );
 
-
                 alert(
                     "Could not connect to the server. Please make sure the backend is running on port 5000."
                 );
-
             }
 
         }

@@ -824,153 +824,6 @@
                 <tbody>
 
 
-                    <!-- EVENT 1 -->
-
-                    <tr>
-
-
-                        <td class="event-name">
-                            Sharma Wedding
-                        </td>
-
-
-                        <td>
-                            Ananya Sharma
-                        </td>
-
-
-                        <td>
-                            20 Oct 2026
-                        </td>
-
-
-                        <td>
-                            250
-                        </td>
-
-
-                        <td>
-                            Kochi
-                        </td>
-
-
-                        <td>
-                            Wedding Premium
-                        </td>
-
-
-                        <td>
-                            +91 98765 43210
-                        </td>
-
-
-                        <td>
-
-                            <span class="status">
-                                Confirmed
-                            </span>
-
-                        </td>
-
-
-                    </tr>
-
-
-
-                    <!-- EVENT 2 -->
-
-                    <tr>
-
-
-                        <td class="event-name">
-                            Rahul Birthday Celebration
-                        </td>
-
-
-                        <td>
-                            Rahul Kumar
-                        </td>
-
-
-                        <td>
-                            25 Oct 2026
-                        </td>
-
-
-                        <td>
-                            80
-                        </td>
-
-
-                        <td>
-                            Ernakulam
-                        </td>
-
-
-                        <td>
-                            Birthday Celebration
-                        </td>
-
-
-                        <td>
-                            +91 91234 56780
-                        </td>
-
-
-                        <td>
-
-                            <span class="status">
-                                Confirmed
-                            </span>
-
-                        </td>
-
-
-                    </tr>
-
-
-
-                    <!-- EVENT 3 -->
-
-                    <tr>
-
-
-                        <td class="event-name">
-                            Nair Engagement
-                        </td>
-
-
-                        <td>
-                            Priya Nair
-                        </td>
-
-
-                        <td>
-                            02 Nov 2026
-                        </td>
-
-
-                        <td>
-                            150
-                        </td>
-
-
-                        <td>
-                            Thrissur
-                        </td>
-
-
-                        <td>
-                            Engagement Special
-                        </td>
-
-
-                        <td>
-                            +91 99887 66554
-                        </td>
-
-
-                        <td>
 
                             <span class="status">
                                 Confirmed
@@ -999,248 +852,375 @@
          JAVASCRIPT
     ===================================================== -->
 
-    <script>
+   <script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        const caterer =
+            JSON.parse(
+                localStorage.getItem(
+                    "annapriya_caterer"
+                ) || "null"
+            );
 
 
-        document.addEventListener(
-            "DOMContentLoaded",
-            function () {
+        if (!caterer) {
+
+            window.location.href =
+                "index.html";
+
+            return;
+
+        }
 
 
-                /* =============================================
-                   LOAD CATERER
-                ============================================= */
-
-                let caterer = {};
+        const catererEmail =
+            caterer.email ||
+            "";
 
 
-                try {
-
-                    caterer =
-                        JSON.parse(
-                            localStorage.getItem(
-                                "annapriya_caterer"
-                            ) || "{}"
-                        );
-
-                }
-
-                catch (error) {
-
-                    caterer = {};
-
-                }
+        const eventsBody =
+            document.getElementById(
+                "eventsBody"
+            );
 
 
-                const catererName =
+        /* =============================================
+           LOAD EVENTS
+        ============================================= */
 
-                    caterer.headName ||
+        async function loadEvents() {
 
-                    caterer.head_name ||
+            try {
 
-                    caterer.fullName ||
+                eventsBody.innerHTML = `
 
-                    caterer.full_name ||
+                    <tr>
 
-                    caterer.name ||
+                        <td
+                            colspan="8"
+                            style="text-align:center;padding:35px;"
+                        >
+                            Loading your events...
+                        </td>
 
-                    "Caterer";
+                    </tr>
+
+                `;
 
 
-                const headerName =
-                    document.getElementById(
-                        "headerCatererName"
+                const response =
+                    await fetch(
+
+                        `http://localhost:5000/api/requests/caterer/${encodeURIComponent(catererEmail)}/events`
+
                     );
 
 
-                const avatar =
-                    document.getElementById(
-                        "headerAvatar"
-                    );
+                const data =
+                    await response.json();
 
 
-                if (headerName) {
+                if (!response.ok) {
 
-                    headerName.textContent =
-                        catererName;
-
-                }
-
-
-                if (avatar) {
-
-                    avatar.textContent =
-                        catererName
-                            .charAt(0)
-                            .toUpperCase();
-
-                }
-
-
-
-                /* =============================================
-                   THREE DOT DROPDOWN
-                ============================================= */
-
-                const profileButton =
-                    document.getElementById(
-                        "profileButton"
-                    );
-
-
-                const profileMenu =
-                    document.getElementById(
-                        "profileButtonMenu"
-                    );
-
-
-                if (
-                    profileButton &&
-                    profileMenu
-                ) {
-
-
-                    profileButton.addEventListener(
-                        "click",
-                        function (event) {
-
-                            event.stopPropagation();
-
-                            profileMenu.classList.toggle(
-                                "show"
-                            );
-
-                        }
-                    );
-
-
-                    document.addEventListener(
-                        "click",
-                        function (event) {
-
-                            if (
-
-                                !profileMenu.contains(
-                                    event.target
-                                )
-
-                                &&
-
-                                !profileButton.contains(
-                                    event.target
-                                )
-
-                            ) {
-
-                                profileMenu.classList.remove(
-                                    "show"
-                                );
-
-                            }
-
-                        }
+                    throw new Error(
+                        data.message ||
+                        "Could not load events."
                     );
 
                 }
 
 
-
-                /* =============================================
-                   NOTIFICATION BUTTON
-                ============================================= */
-
-                const notificationButton =
-                    document.getElementById(
-                        "notificationButton"
-                    );
+                const events =
+                    data.events || [];
 
 
-                if (notificationButton) {
+                if (events.length === 0) {
 
-                    notificationButton.addEventListener(
-                        "click",
-                        function () {
+                    eventsBody.innerHTML = `
 
-                            alert(
-                                "No new notifications."
-                            );
+                        <tr>
 
-                        }
-                    );
+                            <td
+                                colspan="8"
+                                style="text-align:center;padding:40px;"
+                            >
 
-                }
+                                No confirmed events yet.
 
+                            </td>
 
+                        </tr>
 
-                /* =============================================
-                   LOGOUT
-                ============================================= */
+                    `;
 
-                const logoutButton =
-                    document.getElementById(
-                        "logoutButton"
-                    );
-
-
-                if (logoutButton) {
-
-                    logoutButton.addEventListener(
-                        "click",
-                        function () {
-
-
-                            localStorage.removeItem(
-                                "annapriya_caterer_token"
-                            );
-
-
-                            localStorage.removeItem(
-                                "annapriya_caterer"
-                            );
-
-
-                            window.location.href =
-                                "index.html";
-
-
-                        }
-                    );
+                    return;
 
                 }
 
 
+                eventsBody.innerHTML =
+                    events
+                        .map(event => `
 
-                /* =============================================
-                   BACK BUTTON
-                ============================================= */
+                            <tr>
 
-                const backButton =
-                    document.getElementById(
-                        "backButton"
-                    );
+                                <td class="event-name">
+
+                                    ${escapeHTML(
+                                        event.event_type ||
+                                        "Event"
+                                    )}
+
+                                </td>
 
 
-                if (backButton) {
+                                <td>
 
-                    backButton.addEventListener(
-                        "click",
-                        function () {
+                                    ${escapeHTML(
+                                        event.customer_name
+                                    )}
 
-                            window.history.back();
+                                </td>
 
-                        }
-                    );
 
-                }
+                                <td>
 
+                                    ${formatDate(
+                                        event.event_date
+                                    )}
+
+                                </td>
+
+
+                                <td>
+
+                                    ${escapeHTML(
+                                        event.guest_count
+                                    )}
+
+                                </td>
+
+
+                                <td>
+
+                                    ${escapeHTML(
+                                        event.venue_location
+                                    )}
+
+                                </td>
+
+
+                                <td>
+
+                                    ${escapeHTML(
+                                        event.package_name ||
+                                        "Not specified"
+                                    )}
+
+                                </td>
+
+
+                                <td>
+
+                                    ${escapeHTML(
+                                        event.phone ||
+                                        "Not available"
+                                    )}
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="status">
+
+                                        ${formatStatus(
+                                            event.status
+                                        )}
+
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                        `)
+                        .join("");
+
+
+            } catch (error) {
+
+                console.error(
+                    "Load events error:",
+                    error
+                );
+
+
+                eventsBody.innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="8"
+                            style="text-align:center;padding:35px;"
+                        >
+
+                            Unable to load your events.
+
+                            <br><br>
+
+                            Make sure the backend server
+                            is running.
+
+                        </td>
+
+                    </tr>
+
+                `;
 
             }
 
-        );
-
-    </script>
+        }
 
 
-</body>
+        /* =============================================
+           HELPERS
+        ============================================= */
 
-</html>
+        function escapeHTML(value) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
+                return "";
+
+            }
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        function formatDate(value) {
+
+            if (!value) {
+                return "Not available";
+            }
+
+
+            const date =
+                new Date(value);
+
+
+            if (isNaN(date.getTime())) {
+                return value;
+            }
+
+
+            return date.toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        function formatStatus(status) {
+
+            const value =
+                String(status || "")
+                    .toLowerCase();
+
+
+            const names = {
+
+                payment_pending:
+                    "Payment Pending",
+
+                confirmed:
+                    "Confirmed",
+
+                preparing:
+                    "Preparing",
+
+                on_the_way:
+                    "On the Way",
+
+                event_started:
+                    "Event Started",
+
+                completed:
+                    "Completed"
+
+            };
+
+
+            return (
+                names[value] ||
+                status ||
+                "Confirmed"
+            );
+
+        }
+
+
+        /* =============================================
+           HEADER
+        ============================================= */
+
+        const catererName =
+            caterer.headName ||
+            caterer.head_name ||
+            caterer.name ||
+            "Caterer";
+
+
+        const headerName =
+            document.getElementById(
+                "headerCatererName"
+            );
+
+
+        const headerAvatar =
+            document.getElementById(
+                "headerAvatar"
+            );
+
+
+        if (headerName) {
+            headerName.textContent =
+                catererName;
+        }
+
+
+        if (headerAvatar) {
+            headerAvatar.textContent =
+                catererName
+                    .charAt(0)
+                    .toUpperCase();
+        }
+
+
+        /* =============================================
+           LOAD
+        ============================================= */
+
+        loadEvents();
+
+    });
+
+</script>
