@@ -181,7 +181,11 @@ async function login(req, res) {
 
 
         const customer = rows[0];
-
+if (customer.status === "blocked") {
+    return res.status(403).json({
+        message: "Your account has been blocked by the administrator."
+    });
+}
 
         // Check password
         const passwordMatch =
