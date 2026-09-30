@@ -2,36 +2,43 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Account Settings | Annapriya</title>
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap"
         rel="stylesheet"
+        href="catereraccountsettings.css"
     >
 
-    <link rel="stylesheet" href="catereraccountsettings.css">
 </head>
 
 <body>
 
-    <!-- HEADER -->
 
-    <header class="top-header">
+    <!-- =====================================================
+         CATERER HEADER
+         ===================================================== -->
+
+    <header class="customer-header">
 
         <div class="header-left">
 
             <button
                 class="back-button"
-                onclick="history.back()"
-                title="Go Back"
+                id="backButton"
+                type="button"
             >
                 ←
             </button>
 
-            <div class="brand">
+            <div class="brand-name">
                 Annapriya
             </div>
 
@@ -40,58 +47,37 @@
 
         <div class="header-right">
 
-            <!-- NOTIFICATION -->
-
             <button
-                class="notification-button"
-                onclick="showNotificationMessage()"
-                title="Notifications"
+                class="profile-button"
+                id="profileButton"
+                type="button"
             >
-                🔔
+
+                <span
+                    class="avatar"
+                    id="headerAvatar"
+                >
+                    C
+                </span>
+
+                <span
+                    class="customer-name"
+                    id="headerCustomerName"
+                >
+                    Caterer
+                </span>
+
             </button>
 
 
-            <!-- PROFILE -->
+            <div
+                class="profile-menu"
+                id="profileButtonMenu"
+            >
 
-            <div class="profile-area">
-
-                <button
-                    class="profile-button"
-                    onclick="toggleProfileMenu()"
-                >
-
-                    <span
-                        class="avatar"
-                        id="avatar"
-                    >
-                        C
-                    </span>
-
-                    <span id="catererName">
-                        Caterer
-                    </span>
-
-                </button>
-
-
-                <div
-                    class="profile-menu"
-                    id="profileMenu"
-                >
-
-                    <a href="caterer-profile.html">
-                        👤 My Profile
-                    </a>
-
-                    <a href="catereraccountsettings.html">
-                        ⚙️ Account Settings
-                    </a>
-
-                    <button onclick="logout()">
-                        ↪ Logout
-                    </button>
-
-                </div>
+                <a href="catererprofile.html">
+                    👤 My Profile
+                </a>
 
             </div>
 
@@ -101,13 +87,18 @@
 
 
 
-    <!-- MAIN -->
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
 
     <main class="main-content">
 
-        <div class="page-heading">
 
-            <span>
+        <!-- PAGE HEADING -->
+
+        <section class="page-heading">
+
+            <span class="page-label">
                 CATERER
             </span>
 
@@ -119,83 +110,212 @@
                 Manage your account preferences and security.
             </p>
 
-        </div>
-
-
-
-        <!-- ACCOUNT INFORMATION -->
-
-        <section class="settings-card">
-
-            <div class="settings-icon">
-                👤
-            </div>
-
-            <div class="settings-content">
-
-                <h2>
-                    Account Information
-                </h2>
-
-                <p>
-                    Manage your catering business profile details.
-                </p>
-
-                <a
-                    href="caterer-profile.html"
-                    class="primary-button"
-                >
-                    ✏️ Edit Profile
-                </a>
-
-            </div>
-
         </section>
 
 
 
-        <!-- PASSWORD -->
+        <!-- =====================================================
+             SETTINGS
+             ===================================================== -->
 
-        <section class="settings-card">
+        <section class="settings-section">
 
-            <div class="settings-icon">
-                🔒
+
+            <!-- =================================================
+                 ACCOUNT INFORMATION
+                 ================================================= -->
+
+            <div class="settings-card">
+
+                <div class="settings-icon">
+                    👤
+                </div>
+
+                <div class="settings-content">
+
+                    <h2>
+                        Account Information
+                    </h2>
+
+                    <p>
+                        Manage your caterer account details.
+                    </p>
+
+                    <button
+                        type="button"
+                        class="settings-button"
+                        id="editProfileButton"
+                    >
+                        ✏️ Edit Profile
+                    </button>
+
+                </div>
+
             </div>
 
-            <div class="settings-content">
 
-                <h2>
-                    Password & Security
-                </h2>
 
-                <p>
-                    Keep your account secure by managing your password.
-                </p>
+            <!-- =================================================
+                 PASSWORD & SECURITY
+                 ================================================= -->
 
-                <button
-                    class="primary-button"
-                    onclick="changePasswordMessage()"
-                >
-                    🔑 Change Password
-                </button>
+            <div class="settings-card">
+
+                <div class="settings-icon">
+                    🔐
+                </div>
+
+                <div class="settings-content">
+
+                    <h2>
+                        Password & Security
+                    </h2>
+
+                    <p>
+                        Keep your account secure by managing your password.
+                    </p>
+
+                    <button
+                        type="button"
+                        class="settings-button"
+                        id="changePasswordButton"
+                    >
+                        🔑 Change Password
+                    </button>
+
+                </div>
 
             </div>
 
-        </section>
+
+
+            <!-- =================================================
+                 CHANGE PASSWORD PANEL
+                 ================================================= -->
+
+            <div
+                class="password-panel"
+                id="changePasswordPanel"
+            >
+
+                <h3>
+                    Change Password
+                </h3>
+
+
+                <form id="changePasswordForm">
+
+
+                    <!-- CURRENT PASSWORD -->
+
+                    <div class="form-group">
+
+                        <label for="currentPassword">
+                            Current Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="currentPassword"
+                            name="currentPassword"
+                            placeholder="Enter current password"
+                            required
+                        >
+
+                    </div>
 
 
 
-        <!-- NOTIFICATIONS -->
+                    <!-- NEW PASSWORD -->
 
-        <section class="settings-card notification-card">
+                    <div class="form-group">
 
-            <div class="settings-icon">
-                🔔
+                        <label for="newPassword">
+                            New Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="newPassword"
+                            name="newPassword"
+                            placeholder="Enter new password"
+                            minlength="6"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- CONFIRM PASSWORD -->
+
+                    <div class="form-group">
+
+                        <label for="confirmPassword">
+                            Confirm New Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            placeholder="Confirm new password"
+                            minlength="6"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- MESSAGE -->
+
+                    <p
+                        id="changePasswordMessage"
+                        class="password-message"
+                    ></p>
+
+
+
+                    <!-- BUTTONS -->
+
+                    <div class="password-buttons">
+
+                        <button
+                            type="submit"
+                            class="settings-button"
+                        >
+                            🔐 Change Password
+                        </button>
+
+                        <button
+                            type="button"
+                            class="settings-button cancel-button"
+                            id="cancelChangePassword"
+                        >
+                            Cancel
+                        </button>
+
+                    </div>
+
+
+                </form>
+
             </div>
 
-            <div class="settings-content notification-content">
 
-                <div>
+
+            <!-- =================================================
+                 NOTIFICATIONS
+                 ================================================= -->
+
+            <div class="settings-card">
+
+                <div class="settings-icon">
+                    🔔
+                </div>
+
+                <div class="settings-content">
 
                     <h2>
                         Notifications
@@ -205,189 +325,73 @@
                         Manage how you receive account and event updates.
                     </p>
 
-                    <strong>
-                        Event notifications
-                    </strong>
+                    <label class="toggle-row">
+
+                        <span>
+                            Event notifications
+                        </span>
+
+                        <input
+                            type="checkbox"
+                            id="eventNotifications"
+                            checked
+                        >
+
+                        <span class="toggle"></span>
+
+                    </label>
 
                 </div>
 
+            </div>
 
-                <label class="switch">
 
-                    <input
-                        type="checkbox"
-                        id="notificationToggle"
-                        checked
+
+            <!-- =================================================
+                 ACCOUNT / LOGOUT
+                 ================================================= -->
+
+            <div class="settings-card danger-card">
+
+                <div class="settings-icon">
+                    ⚠️
+                </div>
+
+                <div class="settings-content">
+
+                    <h2>
+                        Account
+                    </h2>
+
+                    <p>
+                        Sign out from your Annapriya account.
+                    </p>
+
+                    <button
+                        type="button"
+                        class="logout-button"
+                        id="logoutButton"
                     >
+                        ↪ Logout
+                    </button>
 
-                    <span class="slider"></span>
-
-                </label>
+                </div>
 
             </div>
+
 
         </section>
 
-
-
-        <!-- ACCOUNT -->
-
-        <section class="settings-card">
-
-            <div class="settings-icon warning">
-                ⚠️
-            </div>
-
-            <div class="settings-content">
-
-                <h2>
-                    Account
-                </h2>
-
-                <p>
-                    Sign out from your Annapriya caterer account.
-                </p>
-
-                <button
-                    class="logout-button"
-                    onclick="logout()"
-                >
-                    ↪ Logout
-                </button>
-
-            </div>
-
-        </section>
 
     </main>
 
 
 
-    <script>
+    <!-- =====================================================
+         CATERER ACCOUNT SETTINGS JAVASCRIPT
+         ===================================================== -->
 
-        /* LOAD CATERER */
-
-        const catererData =
-            localStorage.getItem("annapriya_caterer");
-
-        const token =
-            localStorage.getItem("annapriya_caterer_token");
-
-
-        if (!token || !catererData) {
-
-            window.location.href = "index.html";
-
-        }
-
-
-        let caterer = {};
-
-        try {
-
-            caterer =
-                JSON.parse(catererData) || {};
-
-        } catch (error) {
-
-            console.error("Invalid caterer data.");
-
-        }
-
-
-        /* DISPLAY NAME */
-
-        const name =
-            caterer.headName ||
-            caterer.head_name ||
-            caterer.brandName ||
-            caterer.brand_name ||
-            "Caterer";
-
-
-        document.getElementById("catererName").textContent =
-            name;
-
-
-        /* AVATAR */
-
-        document.getElementById("avatar").textContent =
-            name.charAt(0).toUpperCase();
-
-
-
-        /* PROFILE MENU */
-
-        function toggleProfileMenu() {
-
-            document
-                .getElementById("profileMenu")
-                .classList.toggle("show");
-
-        }
-
-
-        document.addEventListener(
-            "click",
-            function(event) {
-
-                const profileArea =
-                    document.querySelector(".profile-area");
-
-                const menu =
-                    document.getElementById("profileMenu");
-
-                if (
-                    !profileArea.contains(event.target)
-                ) {
-
-                    menu.classList.remove("show");
-
-                }
-
-            }
-        );
-
-
-
-        /* LOGOUT */
-
-        function logout() {
-
-            localStorage.removeItem(
-                "annapriya_caterer_token"
-            );
-
-            localStorage.removeItem(
-                "annapriya_caterer"
-            );
-
-            window.location.href = "index.html";
-
-        }
-
-
-
-        /* DEMO BUTTON */
-
-        function changePasswordMessage() {
-
-            alert(
-                "Password change functionality can be connected here."
-            );
-
-        }
-
-
-        function showNotificationMessage() {
-
-            alert(
-                "No new notifications."
-            );
-
-        }
-
-    </script>
+    <script src="catereraccountsettings.js"></script>
 
 </body>
 

@@ -25,7 +25,9 @@
             min-height: 100vh;
         }
 
-        /* HEADER */
+        /* =========================
+           HEADER
+        ========================= */
 
         .header {
             height: 90px;
@@ -118,7 +120,9 @@
             color: #1C1C1C;
         }
 
-        /* DROPDOWN */
+        /* =========================
+           DROPDOWN
+        ========================= */
 
         .dropdown {
             position: absolute;
@@ -155,10 +159,12 @@
             font-weight: 600;
         }
 
-        /* MAIN */
+        /* =========================
+           MAIN
+        ========================= */
 
         .main {
-            max-width: 1250px;
+            max-width: 1450px;
             margin: auto;
             padding: 60px 35px;
         }
@@ -184,7 +190,9 @@
             margin-bottom: 35px;
         }
 
-        /* MESSAGES */
+        /* =========================
+           MESSAGES
+        ========================= */
 
         .message {
             background: #FFFDF9;
@@ -208,99 +216,159 @@
             display: none;
         }
 
-        /* REQUEST GRID */
+        /* =========================
+           TABLE
+        ========================= */
 
-        .requests-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 22px;
-        }
-
-        .request-card {
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
             background: #FFFDF9;
             border-radius: 18px;
-            padding: 25px;
             box-shadow: 0 6px 22px rgba(0, 0, 0, 0.07);
         }
 
-        .request-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 15px;
-            margin-bottom: 20px;
+        .requests-table {
+            width: 100%;
+            min-width: 1250px;
+            border-collapse: collapse;
+        }
+
+        .requests-table thead {
+            background: #8B1E3F;
+            color: white;
+        }
+
+        .requests-table th {
+            padding: 17px 14px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.7px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .requests-table td {
+            padding: 17px 14px;
+            border-bottom: 1px solid #eadfd3;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        .requests-table tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        .requests-table tbody tr:hover {
+            background: #faf5ef;
+        }
+
+        .requests-table tbody tr:last-child td {
+            border-bottom: none;
         }
 
         .customer-name {
-            font-family: "Fraunces", serif;
             color: #8B1E3F;
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-
-        .event-name {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .status {
-            padding: 7px 13px;
-            border-radius: 20px;
-            background: #D4A373;
-            font-size: 12px;
             font-weight: 600;
             white-space: nowrap;
         }
 
-        .details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .detail {
-            background: #F5E9DA;
-            padding: 13px;
-            border-radius: 10px;
-        }
-
-        .detail-label {
-            display: block;
-            font-size: 11px;
-            color: #777;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-        }
-
-        .detail-value {
-            font-size: 14px;
+        .request-id,
+        .enquiry-id {
             font-weight: 600;
-            word-break: break-word;
+            color: #555;
+            white-space: nowrap;
         }
 
-        .message-box {
-            margin-top: 15px;
-            padding: 13px;
-            background: #faf5ef;
-            border-radius: 10px;
-            font-size: 14px;
-            color: #555;
+        .event-name {
+            font-weight: 600;
+            color: #333;
         }
+
+        .date-cell {
+            white-space: nowrap;
+        }
+
+        .location-cell {
+            max-width: 190px;
+            line-height: 1.4;
+        }
+
+        .package-cell {
+            white-space: nowrap;
+        }
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .status-badge {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+            text-transform: capitalize;
+        }
+
+        .status-pending {
+            background: #f4d9a8;
+            color: #6b4a14;
+        }
+
+        .status-accepted {
+            background: #dcebdc;
+            color: #356238;
+        }
+
+        .status-payment_pending {
+            background: #f7e1a5;
+            color: #745719;
+        }
+
+        .status-confirmed {
+            background: #d6eadf;
+            color: #285c45;
+        }
+
+        .status-rejected {
+            background: #ead2d2;
+            color: #7a3030;
+        }
+
+        .status-preparing,
+        .status-on_the_way,
+        .status-event_started {
+            background: #ded9ed;
+            color: #55466e;
+        }
+
+        .status-completed {
+            background: #d5e8dc;
+            color: #315b3d;
+        }
+
+        /* =========================
+           ACTIONS
+        ========================= */
 
         .actions {
-            margin-top: 20px;
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            min-width: 150px;
         }
 
         .action-button {
-            flex: 1;
             border: none;
-            padding: 12px;
-            border-radius: 8px;
+            padding: 9px 14px;
+            border-radius: 7px;
             cursor: pointer;
+            font-family: "Work Sans", sans-serif;
+            font-size: 12px;
             font-weight: 600;
+            transition: 0.2s ease;
         }
 
         .accept-button {
@@ -308,9 +376,17 @@
             color: white;
         }
 
+        .accept-button:hover {
+            background: #701731;
+        }
+
         .reject-button {
             background: #ddd;
             color: #1C1C1C;
+        }
+
+        .reject-button:hover {
+            background: #ccc;
         }
 
         .action-button:disabled {
@@ -318,20 +394,28 @@
             cursor: not-allowed;
         }
 
-        .completed-message {
-            margin-top: 20px;
-            padding: 12px;
-            border-radius: 8px;
-            background: #F5E9DA;
+        .status-message {
             color: #8B1E3F;
+            font-size: 12px;
             font-weight: 600;
-            text-align: center;
+            white-space: nowrap;
         }
 
+        /* =========================
+           TABLE FOOTER
+        ========================= */
+
+        .table-note {
+            margin-top: 12px;
+            color: #777;
+            font-size: 12px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
         @media (max-width: 800px) {
-            .requests-container {
-                grid-template-columns: 1fr;
-            }
 
             .header {
                 padding: 0 18px;
@@ -344,23 +428,32 @@
             .profile-name {
                 display: none;
             }
-        }
 
-        @media (max-width: 550px) {
             .main {
-                padding: 35px 18px;
+                padding: 40px 18px;
             }
 
             h1 {
-                font-size: 36px;
+                font-size: 38px;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .main {
+                padding: 30px 15px;
             }
 
-            .details {
-                grid-template-columns: 1fr;
+            h1 {
+                font-size: 34px;
             }
 
-            .request-top {
-                flex-direction: column;
+            .subtitle {
+                font-size: 14px;
+            }
+
+            .table-wrapper {
+                border-radius: 12px;
             }
         }
     </style>
@@ -368,7 +461,9 @@
 
 <body>
 
-    <!-- HEADER -->
+    <!-- =========================
+         HEADER
+    ========================= -->
 
     <header class="header">
 
@@ -432,7 +527,9 @@
     </header>
 
 
-    <!-- PROFILE MENU -->
+    <!-- =========================
+         PROFILE MENU
+    ========================= -->
 
     <div
         class="dropdown"
@@ -462,19 +559,23 @@
             Event Requests
         </a>
 
+        <a href="customerenquiries.html">
+            Customer Enquiries
+        </a>
+
         <a
             href="#"
             class="logout"
             onclick="logout(); return false;">
-
             Logout
-
         </a>
 
     </div>
 
 
-    <!-- MAIN -->
+    <!-- =========================
+         MAIN
+    ========================= -->
 
     <main class="main">
 
@@ -487,7 +588,7 @@
         </h1>
 
         <p class="subtitle">
-            Review incoming customer requests for your catering services.
+            Review and manage actual customer event booking requests.
         </p>
 
 
@@ -519,9 +620,50 @@
 
 
         <div
-            class="requests-container"
-            id="requestsContainer">
+            class="table-wrapper"
+            id="tableWrapper"
+            style="display: none;">
 
+            <table class="requests-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Customer</th>
+
+                        <th>Request ID</th>
+
+                        <th>Enquiry ID</th>
+
+                        <th>Event</th>
+
+                        <th>Date</th>
+
+                        <th>Guests</th>
+
+                        <th>Location</th>
+
+                        <th>Package</th>
+
+                        <th>Status</th>
+
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="requestsTableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="table-note">
+            Scroll horizontally on smaller screens to view all request details.
         </div>
 
     </main>
@@ -529,23 +671,26 @@
 
     <script>
 
-        /* =====================================================
+        /* =========================
            BACKEND URL
-        ===================================================== */
+        ========================= */
 
-        const API_BASE_URL = "http://localhost:5000";
+        const API_BASE_URL =
+            "http://localhost:5000";
 
 
-        /* =====================================================
+        /* =========================
            GET CATERER DATA
-        ===================================================== */
+        ========================= */
 
         let catererData = null;
 
         try {
 
             catererData = JSON.parse(
-                localStorage.getItem("annapriya_caterer") || "null"
+                localStorage.getItem(
+                    "annapriya_caterer"
+                ) || "null"
             );
 
         } catch (error) {
@@ -564,9 +709,9 @@
             );
 
 
-        /* =====================================================
+        /* =========================
            CATERER EMAIL
-        ===================================================== */
+        ========================= */
 
         const catererEmail =
             catererData?.email ||
@@ -575,9 +720,9 @@
             "";
 
 
-        /* =====================================================
+        /* =========================
            CATERER NAME
-        ===================================================== */
+        ========================= */
 
         const displayName =
             catererData?.headName ||
@@ -594,20 +739,24 @@
         document.getElementById(
             "avatar"
         ).textContent =
-            displayName.charAt(0).toUpperCase();
+            displayName
+                .charAt(0)
+                .toUpperCase();
 
 
-        /* =====================================================
+        /* =========================
            SAFE JSON RESPONSE
-           Prevents:
-           Unexpected end of JSON input
-        ===================================================== */
+        ========================= */
 
         async function readResponse(response) {
 
-            const text = await response.text();
+            const text =
+                await response.text();
 
-            if (!text || !text.trim()) {
+            if (
+                !text ||
+                !text.trim()
+            ) {
 
                 return {};
 
@@ -631,9 +780,9 @@
         }
 
 
-        /* =====================================================
+        /* =========================
            LOAD EVENT REQUESTS
-        ===================================================== */
+        ========================= */
 
         async function loadRequests() {
 
@@ -652,16 +801,30 @@
                     "emptyMessage"
                 );
 
-            const container =
+            const tableWrapper =
                 document.getElementById(
-                    "requestsContainer"
+                    "tableWrapper"
+                );
+
+            const tableBody =
+                document.getElementById(
+                    "requestsTableBody"
                 );
 
 
-            loading.style.display = "block";
-            error.style.display = "none";
-            empty.style.display = "none";
-            container.innerHTML = "";
+            loading.style.display =
+                "block";
+
+            error.style.display =
+                "none";
+
+            empty.style.display =
+                "none";
+
+            tableWrapper.style.display =
+                "none";
+
+            tableBody.innerHTML = "";
 
 
             try {
@@ -675,25 +838,22 @@
                 }
 
 
-                /*
-                    IMPORTANT:
-                    Backend is on PORT 5000.
-                    Live Server is on PORT 5500.
-                */
+                const response =
+                    await fetch(
 
-                const response = await fetch(
+                        API_BASE_URL +
+                        "/api/requests/caterer?email=" +
+                        encodeURIComponent(
+                            catererEmail
+                        )
 
-                    API_BASE_URL +
-                    "/api/requests/caterer?email=" +
-                    encodeURIComponent(
-                        catererEmail
-                    )
-
-                );
+                    );
 
 
                 const data =
-                    await readResponse(response);
+                    await readResponse(
+                        response
+                    );
 
 
                 if (!response.ok) {
@@ -706,18 +866,29 @@
                 }
 
 
-                loading.style.display = "none";
+                loading.style.display =
+                    "none";
 
 
                 const requests =
-                    Array.isArray(data.requests)
+                    Array.isArray(
+                        data.requests
+                    )
                         ? data.requests
                         : [];
 
 
-                if (requests.length === 0) {
+                if (
+                    requests.length === 0
+                ) {
 
-                    empty.style.display = "block";
+                    empty.style.display =
+                        "block";
+
+                    document.getElementById(
+                        "notificationDot"
+                    ).style.display =
+                        "none";
 
                     return;
 
@@ -727,12 +898,18 @@
                 requests.forEach(
                     request => {
 
-                        container.appendChild(
-                            createRequestCard(request)
+                        tableBody.appendChild(
+                            createRequestRow(
+                                request
+                            )
                         );
 
                     }
                 );
+
+
+                tableWrapper.style.display =
+                    "block";
 
 
                 /* NOTIFICATION DOT */
@@ -747,17 +924,21 @@
                     );
 
 
-                if (pendingRequests.length > 0) {
+                if (
+                    pendingRequests.length > 0
+                ) {
 
                     document.getElementById(
                         "notificationDot"
-                    ).style.display = "block";
+                    ).style.display =
+                        "block";
 
                 } else {
 
                     document.getElementById(
                         "notificationDot"
-                    ).style.display = "none";
+                    ).style.display =
+                        "none";
 
                 }
 
@@ -770,42 +951,64 @@
                 );
 
 
-                loading.style.display = "none";
+                loading.style.display =
+                    "none";
+
+
+                const errorMessage =
+                    document.getElementById(
+                        "errorMessage"
+                    );
+
 
                 errorMessage.textContent =
                     "Unable to load event requests. " +
                     error.message;
 
-                errorMessage.style.display = "block";
+
+                errorMessage.style.display =
+                    "block";
 
             }
 
         }
 
 
-        /* =====================================================
-           CREATE REQUEST CARD
-        ===================================================== */
+        /* =========================
+           CREATE TABLE ROW
+        ========================= */
 
-        function createRequestCard(request) {
+        function createRequestRow(
+            request
+        ) {
 
-            const card =
-                document.createElement("div");
-
-            card.className =
-                "request-card";
+            const row =
+                document.createElement(
+                    "tr"
+                );
 
 
             const status =
                 String(
-                    request.status || "pending"
+                    request.status ||
+                    "pending"
                 ).toLowerCase();
+
+
+            const statusClass =
+                "status-" +
+                status.replace(
+                    /[^a-z0-9_-]/g,
+                    "_"
+                );
 
 
             let actionHTML = "";
 
 
-            if (status === "pending") {
+            if (
+                status === "pending"
+            ) {
 
                 actionHTML = `
 
@@ -815,7 +1018,9 @@
                             class="action-button accept-button"
                             onclick="
                                 updateRequest(
-                                    ${Number(request.request_id)},
+                                    ${Number(
+                                        request.request_id
+                                    )},
                                     'accepted',
                                     this
                                 )
@@ -830,7 +1035,9 @@
                             class="action-button reject-button"
                             onclick="
                                 updateRequest(
-                                    ${Number(request.request_id)},
+                                    ${Number(
+                                        request.request_id
+                                    )},
                                     'rejected',
                                     this
                                 )
@@ -848,300 +1055,155 @@
 
                 actionHTML = `
 
-                    <div class="completed-message">
+                    <span class="status-message">
 
-                        Request status:
-                        ${escapeHtml(status)}
+                        ${formatStatus(status)}
 
-                    </div>
+                    </span>
 
                 `;
 
             }
 
 
-            card.innerHTML = `
+            row.innerHTML = `
 
-                <div class="request-top">
+                <td>
 
-                    <div>
+                    <div class="customer-name">
 
-                        <div class="customer-name">
-
-                            ${escapeHtml(
-                                request.customer_name ||
-                                "Customer"
-                            )}
-
-                        </div>
-
-                        <div class="event-name">
-
-                            ${escapeHtml(
-                                request.event_type ||
-                                "Event"
-                            )}
-
-                        </div>
+                        ${escapeHtml(
+                            request.customer_name ||
+                            "Customer"
+                        )}
 
                     </div>
 
-
-                    <div class="status">
-
-                        ${escapeHtml(status)}
-
-                    </div>
-
-                </div>
+                </td>
 
 
-                <div class="details">
+                <td>
+
+                    <span class="request-id">
+
+                        #${escapeHtml(
+                            request.request_id ||
+                            "N/A"
+                        )}
+
+                    </span>
+
+                </td>
 
 
-                    <div class="detail">
+                <td>
 
-                        <span class="detail-label">
-                            Event Date
-                        </span>
+                    <span class="enquiry-id">
 
-                        <span class="detail-value">
+                        ${
+                            request.enquiry_id
+                                ? "#" +
+                                  escapeHtml(
+                                      request.enquiry_id
+                                  )
+                                : "Direct"
+                        }
 
-                            ${formatDate(
-                                request.event_date
-                            )}
+                    </span>
 
-                        </span>
-
-                    </div>
-
-
-                    <div class="detail">
-
-                        <span class="detail-label">
-                            Event Time
-                        </span>
-
-                        <span class="detail-value">
-
-                            ${escapeHtml(
-                                request.event_time ||
-                                "N/A"
-                            )}
-
-                        </span>
-
-                    </div>
+                </td>
 
 
-                    <div class="detail">
+                <td>
 
-                        <span class="detail-label">
-                            Guests
-                        </span>
+                    <span class="event-name">
 
-                        <span class="detail-value">
+                        ${escapeHtml(
+                            request.event_type ||
+                            "Event"
+                        )}
 
-                            ${escapeHtml(
-                                request.guest_count ||
-                                "N/A"
-                            )}
+                    </span>
 
-                        </span>
-
-                    </div>
+                </td>
 
 
-                    <div class="detail">
+                <td class="date-cell">
 
-                        <span class="detail-label">
-                            Location
-                        </span>
+                    ${formatDate(
+                        request.event_date
+                    )}
 
-                        <span class="detail-value">
+                </td>
 
-                            ${escapeHtml(
-                                request.venue_location ||
-                                "N/A"
-                            )}
 
-                        </span>
+                <td>
+
+                    ${escapeHtml(
+                        request.guest_count ||
+                        "N/A"
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    <div class="location-cell">
+
+                        ${escapeHtml(
+                            request.venue_location ||
+                            "N/A"
+                        )}
 
                     </div>
 
+                </td>
 
-                    <div class="detail">
 
-                        <span class="detail-label">
-                            Package
-                        </span>
+                <td>
 
-                        <span class="detail-value">
+                    <div class="package-cell">
 
-                            ${escapeHtml(
-                                request.package_name ||
-                                "N/A"
-                            )}
-
-                        </span>
+                        ${escapeHtml(
+                            request.package_name ||
+                            "N/A"
+                        )}
 
                     </div>
 
-
-                    <div class="detail">
-
-                        <span class="detail-label">
-                            Food Type
-                        </span>
-
-                        <span class="detail-value">
-
-                            ${escapeHtml(
-                                request.food_type ||
-                                "N/A"
-                            )}
-
-                        </span>
-
-                    </div>
+                </td>
 
 
-                    <div class="detail">
+                <td>
 
-                        <span class="detail-label">
-                            Budget
-                        </span>
+                    <span
+                        class="status-badge ${statusClass}">
 
-                        <span class="detail-value">
+                        ${formatStatus(status)}
 
-                            ${
-                                request.budget != null
-                                    ? "₹" +
-                                      escapeHtml(
-                                          Number(
-                                              request.budget
-                                          ).toFixed(2)
-                                      )
-                                    : "N/A"
-                            }
+                    </span>
 
-                        </span>
-
-                    </div>
+                </td>
 
 
-                    <div class="detail">
+                <td>
 
-                        <span class="detail-label">
-                            Service
-                        </span>
+                    ${actionHTML}
 
-                        <span class="detail-value">
-
-                            ${escapeHtml(
-                                request.catering_service ||
-                                "N/A"
-                            )}
-
-                        </span>
-
-                    </div>
-
-
-                    <div class="detail">
-
-                        <span class="detail-label">
-                            Phone
-                        </span>
-
-                        <span class="detail-value">
-
-                            ${escapeHtml(
-                                request.phone ||
-                                "N/A"
-                            )}
-
-                        </span>
-
-                    </div>
-
-
-                    <div class="detail">
-
-                        <span class="detail-label">
-                            Email
-                        </span>
-
-                        <span class="detail-value">
-
-                            ${escapeHtml(
-                                request.email ||
-                                "N/A"
-                            )}
-
-                        </span>
-
-                    </div>
-
-
-                </div>
-
-
-                ${
-                    request.special_requirements
-                        ? `
-
-                            <div class="message-box">
-
-                                <strong>
-                                    Special Requirements:
-                                </strong>
-
-                                ${escapeHtml(
-                                    request.special_requirements
-                                )}
-
-                            </div>
-
-                        `
-                        : ""
-                }
-
-
-                ${
-                    request.message
-                        ? `
-
-                            <div class="message-box">
-
-                                <strong>
-                                    Message:
-                                </strong>
-
-                                ${escapeHtml(
-                                    request.message
-                                )}
-
-                            </div>
-
-                        `
-                        : ""
-                }
-
-
-                ${actionHTML}
+                </td>
 
             `;
 
 
-            return card;
+            return row;
 
         }
 
 
-        /* =====================================================
+        /* =========================
            ACCEPT / REJECT REQUEST
-        ===================================================== */
+        ========================= */
 
         async function updateRequest(
             requestId,
@@ -1149,14 +1211,14 @@
             button
         ) {
 
-            const card =
+            const row =
                 button.closest(
-                    ".request-card"
+                    "tr"
                 );
 
 
             const buttons =
-                card.querySelectorAll(
+                row.querySelectorAll(
                     ".action-button"
                 );
 
@@ -1164,7 +1226,8 @@
             buttons.forEach(
                 item => {
 
-                    item.disabled = true;
+                    item.disabled =
+                        true;
 
                 }
             );
@@ -1172,63 +1235,51 @@
 
             try {
 
-                /*
-                    IMPORTANT:
-                    PUT also goes to PORT 5000.
-                */
+                const response =
+                    await fetch(
 
-                const response = await fetch(
+                        API_BASE_URL +
+                        "/api/requests/" +
+                        encodeURIComponent(
+                            requestId
+                        ) +
+                        "/status",
 
-                    API_BASE_URL +
-                    "/api/requests/" +
-                    encodeURIComponent(
-                        requestId
-                    ) +
-                    "/status",
+                        {
 
-                    {
+                            method: "PUT",
 
-                        method: "PUT",
+                            headers: {
 
-                        headers: {
+                                "Content-Type":
+                                    "application/json"
 
-                            "Content-Type":
-                                "application/json"
+                            },
 
-                        },
+                            body: JSON.stringify({
 
-                        body: JSON.stringify({
+                                status:
+                                    newStatus,
 
-                            status:
-                                newStatus,
+                                catererId:
+                                    catererData?.id ||
+                                    catererData?.catererId ||
+                                    catererEmail,
 
-                            catererId:
-                                catererData?.id ||
-                                catererData?.catererId ||
-                                catererEmail,
+                                catererEmail:
+                                    catererEmail
 
-                            catererEmail:
-                                catererEmail
+                            })
 
-                        })
+                        }
 
-                    }
+                    );
 
-                );
-
-
-                /*
-                    DO NOT directly use:
-                    response.json()
-
-                    because an empty response
-                    causes:
-
-                    Unexpected end of JSON input
-                */
 
                 const data =
-                    await readResponse(response);
+                    await readResponse(
+                        response
+                    );
 
 
                 if (!response.ok) {
@@ -1244,7 +1295,10 @@
                 }
 
 
-                if (newStatus === "accepted") {
+                if (
+                    newStatus ===
+                    "accepted"
+                ) {
 
                     alert(
                         data.message ||
@@ -1281,7 +1335,8 @@
                 buttons.forEach(
                     item => {
 
-                        item.disabled = false;
+                        item.disabled =
+                            false;
 
                     }
                 );
@@ -1291,11 +1346,13 @@
         }
 
 
-        /* =====================================================
+        /* =========================
            DATE FORMAT
-        ===================================================== */
+        ========================= */
 
-        function formatDate(dateValue) {
+        function formatDate(
+            dateValue
+        ) {
 
             if (!dateValue) {
 
@@ -1312,9 +1369,11 @@
                     );
 
 
-                if (Number.isNaN(
-                    date.getTime()
-                )) {
+                if (
+                    Number.isNaN(
+                        date.getTime()
+                    )
+                ) {
 
                     return String(
                         dateValue
@@ -1343,11 +1402,68 @@
         }
 
 
-        /* =====================================================
-           HTML ESCAPE
-        ===================================================== */
+        /* =========================
+           STATUS FORMAT
+        ========================= */
 
-        function escapeHtml(value) {
+        function formatStatus(
+            status
+        ) {
+
+            const statusMap = {
+
+                pending:
+                    "Pending",
+
+                accepted:
+                    "Accepted",
+
+                payment_pending:
+                    "Payment Pending",
+
+                confirmed:
+                    "Confirmed",
+
+                rejected:
+                    "Rejected",
+
+                preparing:
+                    "Preparing",
+
+                on_the_way:
+                    "On The Way",
+
+                event_started:
+                    "Event Started",
+
+                completed:
+                    "Completed"
+
+            };
+
+
+            return statusMap[status] ||
+                String(status)
+                    .replace(
+                        /_/g,
+                        " "
+                    )
+                    .replace(
+                        /\b\w/g,
+                        letter =>
+                            letter.toUpperCase()
+                    );
+
+        }
+
+
+        /* =========================
+           HTML ESCAPE
+        ========================= */
+
+        function escapeHtml(
+            value
+        ) {
 
             if (
                 value === null ||
@@ -1384,9 +1500,9 @@
         }
 
 
-        /* =====================================================
+        /* =========================
            PROFILE MENU
-        ===================================================== */
+        ========================= */
 
         function toggleMenu() {
 
@@ -1416,7 +1532,8 @@
                     );
 
 
-                let clickedButton = false;
+                let clickedButton =
+                    false;
 
 
                 menuButtons.forEach(
@@ -1428,7 +1545,8 @@
                             )
                         ) {
 
-                            clickedButton = true;
+                            clickedButton =
+                                true;
 
                         }
 
@@ -1453,9 +1571,9 @@
         );
 
 
-        /* =====================================================
+        /* =========================
            NOTIFICATIONS
-        ===================================================== */
+        ========================= */
 
         function showNotifications() {
 
@@ -1485,9 +1603,9 @@
         }
 
 
-        /* =====================================================
+        /* =========================
            BACK
-        ===================================================== */
+        ========================= */
 
         function goBack() {
 
@@ -1507,9 +1625,9 @@
         }
 
 
-        /* =====================================================
+        /* =========================
            LOGOUT
-        ===================================================== */
+        ========================= */
 
         function logout() {
 
@@ -1536,9 +1654,9 @@
         }
 
 
-        /* =====================================================
+        /* =========================
            START
-        ===================================================== */
+        ========================= */
 
         if (!catererEmail) {
 

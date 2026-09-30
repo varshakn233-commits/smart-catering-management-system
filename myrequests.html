@@ -1,158 +1,636 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>My Requests | Annapriya</title>
 
-    <link rel="stylesheet" href="myrequests.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Work Sans", sans-serif;
+            background: #F5E9DA;
+            color: #1C1C1C;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            height: 90px;
+            background: #FFFDF9;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 35px;
+            border-bottom: 1px solid #eadfd3;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .back-button {
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: 50%;
+            background: #F5E9DA;
+            color: #8B1E3F;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        .brand {
+            font-family: "Fraunces", serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #8B1E3F;
+        }
+
+        .refresh-button {
+            border: none;
+            background: #8B1E3F;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: "Work Sans", sans-serif;
+            font-weight: 600;
+        }
+
+        .refresh-button:hover {
+            opacity: 0.9;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            max-width: 1250px;
+            margin: auto;
+            padding: 60px 35px;
+        }
+
+        .small-heading {
+            color: #D4A373;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-family: "Fraunces", serif;
+            font-size: 46px;
+            color: #8B1E3F;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 35px;
+        }
+
+        /* =========================
+           MESSAGES
+        ========================= */
+
+        .message {
+            background: #FFFDF9;
+            padding: 22px;
+            border-radius: 12px;
+            text-align: center;
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        #loadingMessage,
+        #errorMessage,
+        #emptyMessage {
+            display: none;
+        }
+
+        #errorMessage {
+            color: #8B1E3F;
+        }
+
+        /* =========================
+           SECTION HEADER
+        ========================= */
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 30px 0 20px;
+        }
+
+        .section-title {
+            font-family: "Fraunces", serif;
+            color: #8B1E3F;
+            font-size: 28px;
+        }
+
+        .request-count {
+            background: #D4A373;
+            color: #1C1C1C;
+            padding: 7px 13px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* =========================
+           REQUEST GRID
+        ========================= */
+
+        .requests-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+        .request-card {
+            background: #FFFDF9;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.07);
+        }
+
+        .request-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .request-title {
+            font-family: "Fraunces", serif;
+            color: #8B1E3F;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .request-subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .status {
+            padding: 7px 13px;
+            border-radius: 20px;
+            background: #D4A373;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            text-transform: capitalize;
+        }
+
+        /* =========================
+           DETAILS
+        ========================= */
+
+        .details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .detail {
+            background: #F5E9DA;
+            padding: 13px;
+            border-radius: 10px;
+        }
+
+        .detail-label {
+            display: block;
+            font-size: 11px;
+            color: #777;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 14px;
+            font-weight: 600;
+            word-break: break-word;
+        }
+
+        /* =========================
+           ENQUIRY CARD
+        ========================= */
+
+        .enquiry-card {
+            border-left: 5px solid #D4A373;
+        }
+
+        .enquiry-reply {
+            margin-top: 18px;
+            padding: 15px;
+            background: #faf5ef;
+            border-radius: 10px;
+            color: #555;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .enquiry-reply strong {
+            color: #8B1E3F;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .waiting-reply {
+            margin-top: 18px;
+            padding: 15px;
+            background: #F5E9DA;
+            border-radius: 10px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .button-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .book-event-button,
+        .pay-button,
+        .track-button {
+            flex: 1;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            font-family: "Work Sans", sans-serif;
+            display: inline-block;
+        }
+
+        .book-event-button {
+            background: #8B1E3F;
+            color: white;
+        }
+
+        .pay-button {
+            background: #8B1E3F;
+            color: white;
+        }
+
+        .track-button {
+            background: #D4A373;
+            color: #1C1C1C;
+        }
+
+        .book-event-button:hover,
+        .pay-button:hover,
+        .track-button:hover {
+            opacity: 0.9;
+        }
+
+        /* =========================
+           MESSAGE BOX
+        ========================= */
+
+        .message-box {
+            margin-top: 15px;
+            padding: 13px;
+            background: #faf5ef;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           TRACKER
+        ========================= */
+
+        .timeline-container {
+            margin-top: 25px;
+            padding: 20px;
+            background: #faf5ef;
+            border-radius: 14px;
+        }
+
+        .timeline-title {
+            font-family: "Fraunces", serif;
+            font-size: 20px;
+            color: #8B1E3F;
+            margin-bottom: 18px;
+        }
+
+        .request-timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .request-timeline::before {
+            content: "";
+            position: absolute;
+            left: 8px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: #D4A373;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 17px;
+            min-height: 24px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -27px;
+            top: 2px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #ddd;
+            border: 3px solid #faf5ef;
+            box-shadow: 0 0 0 1px #ddd;
+        }
+
+        .timeline-item.completed .timeline-dot,
+        .timeline-item.active .timeline-dot {
+            background: #8B1E3F;
+            box-shadow: 0 0 0 1px #8B1E3F;
+        }
+
+        .timeline-item.completed .timeline-label,
+        .timeline-item.active .timeline-label {
+            color: #8B1E3F;
+            font-weight: 600;
+        }
+
+        .timeline-label {
+            color: #999;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           STATUS COLORS
+        ========================= */
+
+        .status.pending {
+            background: #F0D9A8;
+        }
+
+        .status.accepted {
+            background: #D8E8D0;
+        }
+
+        .status.payment_pending {
+            background: #F0D9A8;
+        }
+
+        .status.confirmed {
+            background: #D8E8D0;
+        }
+
+        .status.rejected {
+            background: #E7C5C5;
+        }
+
+        .status.completed {
+            background: #CDE4D2;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 850px) {
+
+            .requests-container {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 0 18px;
+            }
+
+            .brand {
+                font-size: 26px;
+            }
+
+            .main {
+                padding: 35px 18px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+
+            .request-top {
+                flex-direction: column;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            .section-header {
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+        }
+
+    </style>
+
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
-    <header class="top-navbar">
+    <!-- =========================
+         HEADER
+    ========================= -->
 
-        <div class="logo">
-            Annapriya
+    <header class="header">
+
+        <div class="header-left">
+
+            <button
+                class="back-button"
+                onclick="goBack()">
+                ←
+            </button>
+
+            <div class="brand">
+                Annapriya
+            </div>
+
         </div>
 
-        <a href="customerdashboard.html" class="back-button">
-            ← Dashboard
-        </a>
+        <button
+            class="refresh-button"
+            onclick="loadRequests()">
+            ↻ Refresh
+        </button>
 
     </header>
 
 
-    <!-- MAIN CONTENT -->
-    <main class="requests-container">
+    <!-- =========================
+         MAIN
+    ========================= -->
 
-        <!-- PAGE HEADER -->
-        <section class="page-header">
+    <main class="main">
 
-            <div>
-                <p class="small-heading">
-                    CUSTOMER
-                </p>
+        <div class="small-heading">
+            CUSTOMER
+        </div>
 
-                <h1>
-                    My Requests
-                </h1>
+        <h1>
+            My Requests
+        </h1>
 
-                <p class="page-description">
-                    View the event enquiries you have sent to caterers.
-                </p>
-            </div>
-
-            <button
-                id="refreshButton"
-                class="refresh-button"
-                type="button">
-                ↻ Refresh
-            </button>
-
-        </section>
+        <p class="subtitle">
+            Track your enquiries, bookings, payments, and event progress.
+        </p>
 
 
         <!-- LOADING -->
+
         <div
-            id="loadingMessage"
-            class="message-box loading-box">
+            class="message"
+            id="loadingMessage">
 
-            <div class="loader"></div>
-
-            <p>
-                Loading your requests...
-            </p>
+            Loading your requests...
 
         </div>
 
 
         <!-- ERROR -->
+
         <div
-            id="errorMessage"
-            class="message-box error-box"
-            style="display: none;">
+            class="message"
+            id="errorMessage">
 
-            <div class="message-icon">
-                ⚠️
-            </div>
-
-            <h3>
-                Something went wrong
-            </h3>
-
-            <p id="errorText">
-                Could not load your requests.
-            </p>
-
-            <button
-                id="retryButton"
-                type="button"
-                class="retry-button">
-
-                Try Again
-
-            </button>
+            Unable to load your requests.
 
         </div>
 
 
         <!-- EMPTY -->
+
         <div
-            id="emptyMessage"
-            class="message-box empty-box"
-            style="display: none;">
+            class="message"
+            id="emptyMessage">
 
-            <div class="empty-icon">
-                📋
-            </div>
-
-            <h3>
-                No Requests Yet
-            </h3>
-
-            <p>
-                You haven't sent any event enquiries yet.
-            </p>
-
-            <a
-                href="customercaterers.html"
-                class="browse-button">
-
-                Browse Caterers
-
-            </a>
+            You don't have any enquiries or event requests yet.
 
         </div>
 
 
-        <!-- REQUESTS -->
-        <section
-            id="requestsSection"
-            class="requests-section"
-            style="display: none;">
+        <!-- =========================
+             REQUEST SECTION
+        ========================= -->
 
-            <div class="requests-count">
-                <span id="requestCount">
+        <div id="requestsSection">
+
+            <div class="section-header">
+
+                <div class="section-title">
+                    Your Requests
+                </div>
+
+                <div
+                    class="request-count"
+                    id="requestCount">
                     0
-                </span>
+                </div>
 
-                Requests
             </div>
 
 
-            <div class="requests-list" id="requestsList">
-                <!-- Requests will be added here by JavaScript -->
+            <div
+                class="requests-container"
+                id="requestsList">
+
             </div>
 
-        </section>
+        </div>
 
     </main>
 
 
+    <!-- =========================
+         SCRIPT
+    ========================= -->
+
     <script src="myrequests.js"></script>
 
+
+    <script>
+
+        /* =========================
+           BACK BUTTON
+        ========================= */
+
+        function goBack() {
+
+            if (
+                window.history.length > 1
+            ) {
+
+                window.history.back();
+
+            } else {
+
+                window.location.href =
+                    "customerdashboard.html";
+
+            }
+
+        }
+
+    </script>
+
 </body>
+
 </html>

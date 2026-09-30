@@ -14,6 +14,7 @@ const savedCatererRoutes = require("./routes/savedCatererRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const trackingRoutes = require("./routes/trackingRoutes");
+const enquiryRoutes = require("./routes/enquiryRoutes");
 
 const app = express();
 
@@ -94,7 +95,10 @@ app.use(
     "/api/tracking",
     trackingRoutes
 );
-
+app.use(
+    "/api/enquiries",
+    enquiryRoutes
+);
 
 /* =====================================================
    TEST ROUTE

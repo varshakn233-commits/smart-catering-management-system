@@ -6,7 +6,8 @@ const {
     signup,
     login,
     getCatererProfile,
-    updateCatererProfile
+    updateCatererProfile,
+    changeCatererPassword
 } = require("../controllers/catererAuthcontroller");
 
 
@@ -47,6 +48,16 @@ router.get(
 router.put(
     "/profile/:catererId",
     updateCatererProfile
+);
+
+
+// =====================================================
+// CHANGE CATERER PASSWORD
+// =====================================================
+
+router.put(
+    "/change-password/:catererId",
+    changeCatererPassword
 );
 
 

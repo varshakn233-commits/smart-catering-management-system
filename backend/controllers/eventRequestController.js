@@ -10,6 +10,7 @@ async function createRequest(req, res) {
     try {
 
         const {
+            enquiryId,
             customerId,
             customerName,
             phone,
@@ -55,6 +56,70 @@ async function createRequest(req, res) {
 
 
         // =================================================
+        // IF THIS BOOKING CAME FROM AN ENQUIRY,
+        // VERIFY THAT THE ENQUIRY EXISTS
+        // =================================================
+
+        if (enquiryId) {
+
+            const [enquiryRows] = await db.query(
+                `SELECT
+                    enquiry_id,
+                    customer_id,
+                    caterer_email,
+                    status
+                 FROM customer_enquiries
+                 WHERE enquiry_id = ?`,
+                [enquiryId]
+            );
+
+
+            if (enquiryRows.length === 0) {
+
+                return res.status(404).json({
+                    success: false,
+                    message: "Enquiry not found."
+                });
+
+            }
+
+
+            const enquiry = enquiryRows[0];
+
+
+            // Make sure the enquiry belongs to this customer
+            if (
+                customerId &&
+                enquiry.customer_id &&
+                Number(enquiry.customer_id) !== Number(customerId)
+            ) {
+
+                return res.status(403).json({
+                    success: false,
+                    message: "This enquiry does not belong to this customer."
+                });
+
+            }
+
+
+            // Make sure the booking is going to the same caterer
+            if (
+                enquiry.caterer_email &&
+                enquiry.caterer_email.toLowerCase() !==
+                catererEmail.trim().toLowerCase()
+            ) {
+
+                return res.status(403).json({
+                    success: false,
+                    message: "The selected caterer does not match the enquiry."
+                });
+
+            }
+
+        }
+
+
+        // =================================================
         // INSERT EVENT REQUEST
         // =================================================
 
@@ -62,6 +127,7 @@ async function createRequest(req, res) {
 
             `INSERT INTO event_request
             (
+                enquiry_id,
                 customer_id,
                 customer_name,
                 phone,
@@ -80,9 +146,10 @@ async function createRequest(req, res) {
                 caterer_email,
                 status
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')`,
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')`,
 
             [
+                enquiryId || null,
                 customerId || null,
                 customerName,
                 phone,
@@ -104,13 +171,57 @@ async function createRequest(req, res) {
         );
 
 
+        const requestId = result.insertId;
+
+
+        // =================================================
+        // MARK ENQUIRY AS BOOKING CREATED
+        // =================================================
+
+        if (enquiryId) {
+
+            try {
+
+                await db.query(
+                    `UPDATE customer_enquiries
+                     SET status = 'booking_created'
+                     WHERE enquiry_id = ?`,
+                    [enquiryId]
+                );
+
+            } catch (enquiryUpdateError) {
+
+                /*
+                 * The booking has already been created.
+                 * Log the enquiry update error without
+                 * cancelling the successful booking.
+                 */
+
+                console.error(
+                    "Could not update enquiry status:",
+                    enquiryUpdateError
+                );
+
+            }
+
+        }
+
+
+        // =================================================
+        // FINAL SUCCESS RESPONSE
+        // =================================================
+
         return res.status(201).json({
 
             success: true,
 
-            message: "Event request sent successfully!",
+            message:
+                "Event request sent successfully!",
 
-            requestId: result.insertId
+            requestId: requestId,
+
+            enquiryId:
+                enquiryId ? Number(enquiryId) : null
 
         });
 
@@ -169,6 +280,8 @@ async function getCustomerRequests(req, res) {
             `SELECT
 
                 er.request_id,
+                er.enquiry_id,
+
                 er.customer_id,
 
                 er.customer_name,
@@ -267,6 +380,8 @@ async function getRequests(req, res) {
             SELECT
 
                 er.request_id,
+                er.enquiry_id,
+
                 er.customer_id,
 
                 er.customer_name,
@@ -382,14 +497,6 @@ async function getCatererEvents(req, res) {
 
     try {
 
-        /*
-         * Caterer email can come from:
-         *
-         * req.query.catererEmail
-         * req.query.email
-         * req.params.catererEmail
-         */
-
         const catererEmail =
             req.query.catererEmail ||
             req.query.email ||
@@ -415,6 +522,8 @@ async function getCatererEvents(req, res) {
             `SELECT
 
                 er.request_id,
+                er.enquiry_id,
+
                 er.customer_id,
 
                 er.customer_name,
@@ -552,6 +661,7 @@ async function updateRequestStatus(req, res) {
                 `SELECT
 
                     request_id,
+                    enquiry_id,
                     customer_id,
                     customer_name,
 
@@ -629,12 +739,14 @@ async function updateRequestStatus(req, res) {
                  WHERE request_id = ?`,
 
                 [
+
                     catererId ||
                     catererEmail ||
                     request.caterer_email ||
                     null,
 
                     id
+
                 ]
 
             );
@@ -784,6 +896,11 @@ async function updateRequestStatus(req, res) {
 
             requestId:
                 Number(id),
+
+            enquiryId:
+                request.enquiry_id
+                    ? Number(request.enquiry_id)
+                    : null,
 
             status:
                 "payment_pending"

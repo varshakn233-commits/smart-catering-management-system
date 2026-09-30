@@ -18,19 +18,16 @@ document.addEventListener("DOMContentLoaded", () => {
         customer?.name ||
         "Customer";
 
-
     const customerId =
         customer?.customerId ||
         customer?.customer_id ||
         customer?.id ||
         null;
 
-
     const customerPhone =
         customer?.phone ||
         customer?.phoneNumber ||
         "";
-
 
     const customerEmail =
         customer?.email ||
@@ -73,7 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const profileButtonMenu =
         document.getElementById("profileButtonMenu");
-
 
     if (profileButton) {
 
@@ -192,7 +188,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 `http://localhost:5000/api/customer/saved-caterers/${customerId}`
             );
 
-
             if (!response.ok) {
 
                 throw new Error(
@@ -201,20 +196,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
 
-
             const data =
                 await response.json();
 
-
             const savedCaterers =
                 data.caterers || [];
-
 
             return savedCaterers.map(
                 (caterer) =>
                     String(caterer.caterer_id)
             );
-
 
         } catch (error) {
 
@@ -249,7 +240,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
-
         if (!catererId) {
 
             alert(
@@ -260,16 +250,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
-
         button.disabled = true;
 
         const originalText =
             button.textContent;
 
-
         button.textContent =
             "Saving...";
-
 
         try {
 
@@ -295,10 +282,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 );
 
-
             const data =
                 await response.json();
-
 
             if (!response.ok) {
 
@@ -309,19 +294,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
 
-
             button.textContent =
                 "❤️ Saved";
-
 
             button.classList.add(
                 "saved"
             );
 
-
             button.disabled =
                 true;
-
 
         } catch (error) {
 
@@ -330,16 +311,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 error
             );
 
-
             alert(
                 error.message ||
                 "Could not save caterer. Please try again."
             );
 
-
             button.textContent =
                 originalText;
-
 
             button.disabled =
                 false;
@@ -363,7 +341,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         tableSection.style.display = "none";
 
-
         try {
 
             /* -----------------------------------------
@@ -374,7 +351,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 "http://localhost:5000/api/customer/caterers/approved"
             );
 
-
             if (!response.ok) {
 
                 throw new Error(
@@ -383,10 +359,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
 
-
             const data =
                 await response.json();
-
 
             const caterers =
                 data.caterers || [];
@@ -399,14 +373,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const savedCatererIds =
                 await loadSavedCatererIds();
 
-
             loadingSection.style.display =
                 "none";
 
-
             catererCount.textContent =
                 caterers.length;
-
 
             if (caterers.length === 0) {
 
@@ -417,10 +388,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
 
-
             tableSection.style.display =
                 "block";
-
 
             tableBody.innerHTML =
                 "";
@@ -436,22 +405,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     const row =
                         document.createElement("tr");
 
-
                     const brandName =
                         caterer.brand_name ||
                         "Unnamed Caterer";
-
 
                     const headName =
                         caterer.head_name ||
                         "Caterer";
 
-
                     const firstLetter =
                         brandName
                             .charAt(0)
                             .toUpperCase();
-
 
                     const ratingHTML = `
                         <span class="rating-not-available">
@@ -459,37 +424,30 @@ document.addEventListener("DOMContentLoaded", () => {
                         </span>
                     `;
 
-
                     const phone =
                         caterer.phone ||
                         "Not available";
-
 
                     const email =
                         caterer.email ||
                         "Not available";
 
-
                     const helpers =
                         caterer.helpers ??
                         "—";
-
 
                     const eventsServed =
                         caterer.events_served ||
                         "—";
 
-
                     const status =
                         caterer.status ||
                         "approved";
-
 
                     const isSaved =
                         savedCatererIds.includes(
                             String(caterer.caterer_id)
                         );
-
 
                     const saveButtonHTML =
                         isSaved
@@ -512,7 +470,6 @@ document.addEventListener("DOMContentLoaded", () => {
                                     ❤️ Save
                                 </button>
                               `;
-
 
                     row.innerHTML = `
 
@@ -610,7 +567,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     `;
 
-
                     tableBody.appendChild(row);
 
                 }
@@ -626,7 +582,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     ".save-caterer-button"
                 );
 
-
             saveButtons.forEach(
                 (button) => {
 
@@ -636,7 +591,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                             const catererId =
                                 button.dataset.id;
-
 
                             saveCaterer(
                                 catererId,
@@ -659,7 +613,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     ".enquiry-button"
                 );
 
-
             enquiryButtons.forEach(
                 (button) => {
 
@@ -670,14 +623,11 @@ document.addEventListener("DOMContentLoaded", () => {
                             const catererId =
                                 button.dataset.id;
 
-
                             const catererName =
                                 button.dataset.name;
 
-
                             const catererEmail =
                                 button.dataset.email;
-
 
                             openEnquiryModal(
                                 catererId,
@@ -699,22 +649,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 error
             );
 
-
             loadingSection.style.display =
                 "none";
-
 
             tableSection.style.display =
                 "none";
 
-
             emptySection.style.display =
                 "none";
 
-
             errorSection.style.display =
                 "flex";
-
 
             errorMessage.textContent =
                 "Please make sure the Annapriya backend server is running.";
@@ -731,26 +676,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const enquiryModal =
         document.getElementById("enquiryModal");
 
-
     const closeModal =
         document.getElementById("closeModal");
 
-
     const enquiryForm =
         document.getElementById("enquiryForm");
-
 
     const selectedCatererId =
         document.getElementById(
             "selectedCatererId"
         );
 
-
     const selectedCatererEmail =
         document.getElementById(
             "selectedCatererEmail"
         );
-
 
     const selectedCatererName =
         document.getElementById(
@@ -775,7 +715,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
-
         if (selectedCatererName) {
 
             selectedCatererName.textContent =
@@ -783,14 +722,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
-
         if (selectedCatererEmail) {
 
             selectedCatererEmail.value =
                 catererEmail;
 
         }
-
 
         if (enquiryModal) {
 
@@ -873,70 +810,61 @@ document.addEventListener("DOMContentLoaded", () => {
                 const catererId =
                     selectedCatererId.value;
 
-
                 const catererEmail =
                     selectedCatererEmail.value;
 
+                const catererName =
+                    selectedCatererName.textContent.trim();
 
                 const eventType =
                     document.getElementById(
                         "eventType"
                     ).value;
 
-
                 const eventDate =
                     document.getElementById(
                         "eventDate"
                     ).value;
-
 
                 const eventTime =
                     document.getElementById(
                         "eventTime"
                     ).value;
 
-
                 const venueLocation =
                     document.getElementById(
                         "venueLocation"
                     ).value.trim();
-
 
                 const guestCount =
                     document.getElementById(
                         "guestCount"
                     ).value;
 
-
                 const foodType =
                     document.getElementById(
                         "foodType"
                     ).value;
-
 
                 const packageName =
                     document.getElementById(
                         "packageName"
                     ).value.trim();
 
-
                 const budget =
                     document.getElementById(
                         "budget"
                     ).value;
-
 
                 const cateringService =
                     document.getElementById(
                         "cateringService"
                     ).value;
 
-
                 const specialRequirements =
                     document.getElementById(
                         "specialRequirements"
                     ).value.trim();
-
 
                 const message =
                     document.getElementById(
@@ -964,6 +892,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 /* -----------------------------------------
+                   BASIC ENQUIRY CHECK
+                ----------------------------------------- */
+
+                if (
+                    !catererId ||
+                    !catererName ||
+                    !catererEmail
+                ) {
+
+                    alert(
+                        "Caterer information is missing. Please select a caterer again."
+                    );
+
+                    return;
+
+                }
+
+
+                /* -----------------------------------------
                    REQUEST DATA
                 ----------------------------------------- */
 
@@ -975,11 +922,20 @@ document.addEventListener("DOMContentLoaded", () => {
                     customerName:
                         customerName,
 
-                    phone:
+                    customerPhone:
                         customerPhone,
 
-                    email:
+                    customerEmail:
                         customerEmail,
+
+                    catererId:
+                        catererId,
+
+                    catererName:
+                        catererName,
+
+                    catererEmail:
+                        catererEmail,
 
                     eventType:
                         eventType,
@@ -1016,10 +972,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     message:
                         message ||
-                        null,
-
-                    catererEmail:
-                        catererEmail
+                        null
 
                 };
 
@@ -1039,12 +992,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         "sendEnquiryButton"
                     );
 
-
                 if (sendButton) {
 
                     sendButton.disabled =
                         true;
-
 
                     sendButton.textContent =
                         "Sending...";
@@ -1055,12 +1006,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 try {
 
                     /* -------------------------------------
-                       SEND TO BACKEND
+                       SEND ENQUIRY TO ENQUIRY BACKEND
                     ------------------------------------- */
 
                     const response =
                         await fetch(
-                            "http://localhost:5000/api/requests",
+                            "http://localhost:5000/api/enquiries",
                             {
                                 method:
                                     "POST",
@@ -1101,7 +1052,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     ------------------------------------- */
 
                     alert(
-                        "Enquiry sent successfully! The caterer can now review your request."
+                        "Enquiry sent successfully! The caterer can now review your enquiry."
                     );
 
 
@@ -1117,12 +1068,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         error
                     );
 
-
                     alert(
                         error.message ||
                         "Could not send enquiry. Please try again."
                     );
-
 
                 } finally {
 
@@ -1134,7 +1083,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         sendButton.disabled =
                             false;
-
 
                         sendButton.textContent =
                             "Send Enquiry";
@@ -1161,7 +1109,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
     }
-
 
     if (retryButton) {
 

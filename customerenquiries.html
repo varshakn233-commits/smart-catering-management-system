@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Customer Enquiries | Annapriya</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: "Work Sans", sans-serif;
+            background: #F5E9DA;
+            color: #1C1C1C;
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .header {
+            height: 90px;
+            background: #FFFDF9;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 35px;
+            border-bottom: 1px solid #eadfd3;
+        }
+
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+
+        .back-button {
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: 50%;
+            background: #F5E9DA;
+            color: #8B1E3F;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+
+        .brand {
+            font-family: "Fraunces", serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #8B1E3F;
+        }
+
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+
+        .notification-button,
+        .menu-button {
+            border: none;
+            background: transparent;
+            cursor: pointer;
+        }
+
+
+        .notification-button {
+            font-size: 23px;
+            position: relative;
+        }
+
+
+        .notification-dot {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
+            background: #8B1E3F;
+            border-radius: 50%;
+            display: none;
+        }
+
+
+        .profile-button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #8B1E3F;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+
+        .menu-button {
+            font-size: 28px;
+            color: #1C1C1C;
+        }
+
+
+        /* =====================================================
+           DROPDOWN
+        ===================================================== */
+
+        .dropdown {
+            position: absolute;
+            right: 30px;
+            top: 78px;
+            width: 240px;
+            background: #FFFDF9;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            padding: 10px;
+            display: none;
+            z-index: 1000;
+        }
+
+
+        .dropdown.show {
+            display: block;
+        }
+
+
+        .dropdown a,
+        .dropdown button {
+            display: block;
+            width: 100%;
+            text-decoration: none;
+            color: #1C1C1C;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            text-align: left;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+
+        .dropdown a:hover,
+        .dropdown button:hover {
+            background: #F5E9DA;
+            color: #8B1E3F;
+        }
+
+
+        .dropdown .logout {
+            color: #8B1E3F;
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main {
+            max-width: 1250px;
+            margin: auto;
+            padding: 60px 35px;
+        }
+
+
+        .small-heading {
+            color: #D4A373;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+
+        h1 {
+            font-family: "Fraunces", serif;
+            font-size: 46px;
+            color: #8B1E3F;
+            margin-bottom: 12px;
+        }
+
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 35px;
+        }
+
+
+        /* =====================================================
+           MESSAGES
+        ===================================================== */
+
+        .message {
+            background: #FFFDF9;
+            padding: 22px;
+            border-radius: 12px;
+            text-align: center;
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+
+        #loadingMessage,
+        #emptyMessage,
+        #errorMessage {
+            display: none;
+        }
+
+
+        .error-message {
+            color: #8B1E3F;
+        }
+
+
+        /* =====================================================
+           ENQUIRY GRID
+        ===================================================== */
+
+        .enquiries-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+
+        .enquiry-card {
+            background: #FFFDF9;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.07);
+        }
+
+
+        .enquiry-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+
+        .customer-name {
+            font-family: "Fraunces", serif;
+            color: #8B1E3F;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+
+        .event-name {
+            color: #666;
+            font-size: 14px;
+        }
+
+
+        .status {
+            padding: 7px 13px;
+            border-radius: 20px;
+            background: #D4A373;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+
+        .status.responded {
+            background: #d8ead8;
+            color: #286428;
+        }
+
+
+        .status.booking {
+            background: #e1d7ee;
+            color: #5b3d7d;
+        }
+
+
+        /* =====================================================
+           DETAILS
+        ===================================================== */
+
+        .details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+
+        .detail {
+            background: #F5E9DA;
+            padding: 13px;
+            border-radius: 10px;
+        }
+
+
+        .detail-label {
+            display: block;
+            font-size: 11px;
+            color: #777;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+
+        .detail-value {
+            font-size: 14px;
+            font-weight: 600;
+            word-break: break-word;
+        }
+
+
+        /* =====================================================
+           CUSTOMER MESSAGE
+        ===================================================== */
+
+        .message-box {
+            margin-top: 15px;
+            padding: 15px;
+            background: #faf5ef;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+
+        .message-box strong {
+            color: #8B1E3F;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+
+        /* =====================================================
+           REPLY AREA
+        ===================================================== */
+
+        .reply-section {
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 1px solid #eadfd3;
+        }
+
+
+        .reply-label {
+            display: block;
+            color: #8B1E3F;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+
+        .reply-textarea {
+            width: 100%;
+            min-height: 100px;
+            resize: vertical;
+            border: 1px solid #dfd1c3;
+            border-radius: 10px;
+            padding: 12px;
+            font-family: "Work Sans", sans-serif;
+            font-size: 14px;
+            outline: none;
+            background: #fff;
+        }
+
+
+        .reply-textarea:focus {
+            border-color: #8B1E3F;
+        }
+
+
+        .reply-button {
+            width: 100%;
+            margin-top: 10px;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            background: #8B1E3F;
+            color: white;
+        }
+
+
+        .reply-button:hover {
+            opacity: 0.92;
+        }
+
+
+        .reply-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+
+        /* =====================================================
+           EXISTING REPLY
+        ===================================================== */
+
+        .existing-reply {
+            margin-top: 18px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f1eadf;
+            border-left: 4px solid #8B1E3F;
+        }
+
+
+        .existing-reply strong {
+            display: block;
+            color: #8B1E3F;
+            margin-bottom: 6px;
+        }
+
+
+        .existing-reply p {
+            color: #555;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+
+        .replied-date {
+            display: block;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #888;
+        }
+
+
+        .booking-message {
+            margin-top: 18px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #e7f2e7;
+            color: #286428;
+            font-weight: 600;
+            text-align: center;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 800px) {
+
+            .enquiries-container {
+                grid-template-columns: 1fr;
+            }
+
+
+            .header {
+                padding: 0 18px;
+            }
+
+
+            .brand {
+                font-size: 26px;
+            }
+
+
+            .profile-name {
+                display: none;
+            }
+
+        }
+
+
+        @media (max-width: 550px) {
+
+            .main {
+                padding: 35px 18px;
+            }
+
+
+            h1 {
+                font-size: 36px;
+            }
+
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+
+
+            .enquiry-top {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         HEADER
+    ===================================================== -->
+
+    <header class="header">
+
+        <div class="header-left">
+
+            <button
+                class="back-button"
+                onclick="goBack()"
+                type="button"
+            >
+                ←
+            </button>
+
+            <div class="brand">
+                Annapriya
+            </div>
+
+        </div>
+
+
+        <div class="header-right">
+
+            <button
+                class="notification-button"
+                onclick="showNotifications()"
+                type="button"
+            >
+
+                🔔
+
+                <span
+                    class="notification-dot"
+                    id="notificationDot"
+                ></span>
+
+            </button>
+
+
+            <button
+                class="profile-button"
+                onclick="toggleMenu()"
+                type="button"
+            >
+
+                <span
+                    class="avatar"
+                    id="avatar"
+                >
+                    C
+                </span>
+
+                <span
+                    class="profile-name"
+                    id="catererName"
+                >
+                    Caterer
+                </span>
+
+            </button>
+
+
+            <button
+                class="menu-button"
+                onclick="toggleMenu()"
+                type="button"
+            >
+                ☰
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         PROFILE MENU
+    ===================================================== -->
+
+    <div
+        class="dropdown"
+        id="profileMenu"
+    >
+
+        <a href="catererprofile.html">
+            My Profile
+        </a>
+
+        <a href="customerenquiries.html">
+            Customer Enquiries
+        </a>
+
+        <a href="catererrequests.html">
+            Event Requests
+        </a>
+
+        <a href="catererevents.html">
+            My Events
+        </a>
+
+        <a href="catererreviews.html">
+            My Reviews
+        </a>
+
+        <a href="catereraccountsettings.html">
+            Account Settings
+        </a>
+
+        <button
+            class="logout"
+            onclick="logout()"
+            type="button"
+        >
+            Logout
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         MAIN
+    ===================================================== -->
+
+    <main class="main">
+
+        <div class="small-heading">
+            CATERER
+        </div>
+
+
+        <h1>
+            Customer Enquiries
+        </h1>
+
+
+        <p class="subtitle">
+            Review customer enquiries and respond before they submit an actual booking request.
+        </p>
+
+
+        <!-- LOADING -->
+
+        <div
+            class="message"
+            id="loadingMessage"
+        >
+            Loading customer enquiries...
+        </div>
+
+
+        <!-- ERROR -->
+
+        <div
+            class="message error-message"
+            id="errorMessage"
+        >
+            Unable to load customer enquiries.
+        </div>
+
+
+        <!-- EMPTY -->
+
+        <div
+            class="message"
+            id="emptyMessage"
+        >
+            No customer enquiries yet.
+        </div>
+
+
+        <!-- ENQUIRIES -->
+
+        <div
+            class="enquiries-container"
+            id="enquiriesContainer"
+        ></div>
+
+    </main>
+
+
+    <script>
+
+        /* =====================================================
+           BACKEND URL
+        ===================================================== */
+
+        const API_BASE_URL =
+            "http://localhost:5000";
+
+
+        /* =====================================================
+           GET CATERER DATA
+        ===================================================== */
+
+        let catererData = null;
+
+        try {
+
+            catererData = JSON.parse(
+                localStorage.getItem(
+                    "annapriya_caterer"
+                ) || "null"
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Could not read caterer data:",
+                error
+            );
+
+        }
+
+
+        const catererEmail =
+            catererData?.email ||
+            catererData?.catererEmail ||
+            catererData?.businessEmail ||
+            "";
+
+
+        const displayName =
+            catererData?.headName ||
+            catererData?.head_name ||
+            catererData?.name ||
+            catererData?.brandName ||
+            catererData?.brand_name ||
+            "Caterer";
+
+
+        document.getElementById(
+            "catererName"
+        ).textContent = displayName;
+
+
+        document.getElementById(
+            "avatar"
+        ).textContent =
+            displayName.charAt(0).toUpperCase();
+
+
+        /* =====================================================
+           SAFE JSON RESPONSE
+        ===================================================== */
+
+        async function readResponse(response) {
+
+            const text =
+                await response.text();
+
+            if (!text || !text.trim()) {
+                return {};
+            }
+
+            try {
+
+                return JSON.parse(text);
+
+            } catch (error) {
+
+                console.error(
+                    "Invalid JSON response:",
+                    text
+                );
+
+                return {};
+
+            }
+
+        }
+
+
+        /* =====================================================
+           LOAD CUSTOMER ENQUIRIES
+        ===================================================== */
+
+        async function loadEnquiries() {
+
+            const loading =
+                document.getElementById(
+                    "loadingMessage"
+                );
+
+            const error =
+                document.getElementById(
+                    "errorMessage"
+                );
+
+            const empty =
+                document.getElementById(
+                    "emptyMessage"
+                );
+
+            const container =
+                document.getElementById(
+                    "enquiriesContainer"
+                );
+
+
+            loading.style.display =
+                "block";
+
+            error.style.display =
+                "none";
+
+            empty.style.display =
+                "none";
+
+            container.innerHTML =
+                "";
+
+
+            try {
+
+                if (!catererEmail) {
+
+                    throw new Error(
+                        "Caterer email not found. Please login again."
+                    );
+
+                }
+
+
+                const response =
+                    await fetch(
+                        API_BASE_URL +
+                        "/api/enquiries/caterer?catererEmail=" +
+                        encodeURIComponent(
+                            catererEmail
+                        )
+                    );
+
+
+                const data =
+                    await readResponse(
+                        response
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        `Server returned ${response.status}`
+                    );
+
+                }
+
+
+                loading.style.display =
+                    "none";
+
+
+                const enquiries =
+                    Array.isArray(
+                        data.enquiries
+                    )
+                        ? data.enquiries
+                        : [];
+
+
+                if (
+                    enquiries.length === 0
+                ) {
+
+                    empty.style.display =
+                        "block";
+
+                    return;
+
+                }
+
+
+                enquiries.forEach(
+                    enquiry => {
+
+                        container.appendChild(
+                            createEnquiryCard(
+                                enquiry
+                            )
+                        );
+
+                    }
+                );
+
+
+                const pendingEnquiries =
+                    enquiries.filter(
+                        enquiry =>
+                            String(
+                                enquiry.status
+                            ).toLowerCase() ===
+                            "enquiry_sent"
+                    );
+
+
+                const notificationDot =
+                    document.getElementById(
+                        "notificationDot"
+                    );
+
+
+                if (
+                    pendingEnquiries.length > 0
+                ) {
+
+                    notificationDot.style.display =
+                        "block";
+
+                } else {
+
+                    notificationDot.style.display =
+                        "none";
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Load enquiries error:",
+                    error
+                );
+
+
+                loading.style.display =
+                    "none";
+
+
+                error.textContent =
+                    "Unable to load customer enquiries. " +
+                    error.message;
+
+
+                error.style.display =
+                    "block";
+
+            }
+
+        }
+
+
+        /* =====================================================
+           CREATE ENQUIRY CARD
+        ===================================================== */
+
+        function createEnquiryCard(
+            enquiry
+        ) {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+            card.className =
+                "enquiry-card";
+
+
+            const status =
+                String(
+                    enquiry.status ||
+                    "enquiry_sent"
+                ).toLowerCase();
+
+
+            let statusText =
+                "Enquiry Sent";
+
+
+            let statusClass =
+                "";
+
+
+            if (
+                status ===
+                "caterer_responded"
+            ) {
+
+                statusText =
+                    "Caterer Responded";
+
+                statusClass =
+                    "responded";
+
+            }
+
+
+            if (
+                status ===
+                "booking_created"
+            ) {
+
+                statusText =
+                    "Booking Created";
+
+                statusClass =
+                    "booking";
+
+            }
+
+
+            let replySection =
+                "";
+
+
+            if (
+                enquiry.caterer_reply
+            ) {
+
+                replySection = `
+
+                    <div class="existing-reply">
+
+                        <strong>
+                            Your Reply
+                        </strong>
+
+                        <p>
+                            ${escapeHtml(
+                                enquiry.caterer_reply
+                            )}
+                        </p>
+
+                        ${
+                            enquiry.replied_at
+                                ? `
+                                    <span class="replied-date">
+                                        Replied:
+                                        ${formatDateTime(
+                                            enquiry.replied_at
+                                        )}
+                                    </span>
+                                  `
+                                : ""
+                        }
+
+                    </div>
+
+                `;
+
+            } else {
+
+                replySection = `
+
+                    <div class="reply-section">
+
+                        <label class="reply-label">
+                            Reply to Customer
+                        </label>
+
+                        <textarea
+                            class="reply-textarea"
+                            id="reply-${Number(
+                                enquiry.enquiry_id
+                            )}"
+                            placeholder="Example: We are accepting your enquiry with your requirement. Please book your slot."
+                        ></textarea>
+
+                        <button
+                            class="reply-button"
+                            type="button"
+                            onclick="replyToEnquiry(
+                                ${Number(enquiry.enquiry_id)},
+                                this
+                            )"
+                        >
+                            Send Reply
+                        </button>
+
+                    </div>
+
+                `;
+
+            }
+
+
+            const bookingMessage =
+                status === "booking_created"
+                    ? `
+                        <div class="booking-message">
+                            Customer has created the booking request.
+                        </div>
+                      `
+                    : "";
+
+
+            card.innerHTML = `
+
+                <div class="enquiry-top">
+
+                    <div>
+
+                        <div class="customer-name">
+                            ${escapeHtml(
+                                enquiry.customer_name ||
+                                "Customer"
+                            )}
+                        </div>
+
+                        <div class="event-name">
+                            ${escapeHtml(
+                                enquiry.event_type ||
+                                "Event"
+                            )}
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="status ${statusClass}"
+                    >
+                        ${escapeHtml(
+                            statusText
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="details">
+
+
+                    <div class="detail">
+
+                        <span class="detail-label">
+                            Customer Phone
+                        </span>
+
+                        <span class="detail-value">
+                            ${escapeHtml(
+                                enquiry.customer_phone ||
+                                "N/A"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <span class="detail-label">
+                            Customer Email
+                        </span>
+
+                        <span class="detail-value">
+                            ${escapeHtml(
+                                enquiry.customer_email ||
+                                "N/A"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <span class="detail-label">
+                            Event Date
+                        </span>
+
+                        <span class="detail-value">
+                            ${formatDate(
+                                enquiry.event_date
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <span class="detail-label">
+                            Event Time
+                        </span>
+
+                        <span class="detail-value">
+                            ${escapeHtml(
+                                enquiry.event_time ||
+                                "N/A"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <span class="detail-label">
+                            Guests
+                        </span>
+
+                        <span class="detail-value">
+                            ${escapeHtml(
+                                enquiry.guest_count ||
+                                "N/A"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <span class="detail-label">
+                            Food Type
+                        </span>
+
+                        <span class="detail-value">
+                            ${escapeHtml(
+                                enquiry.food_type ||
+                                "N/A"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <span class="detail-label">
+                            Venue
+                        </span>
+
+                        <span class="detail-value">
+                            ${escapeHtml(
+                                enquiry.venue_location ||
+                                "N/A"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <span class="detail-label">
+                            Package
+                        </span>
+
+                        <span class="detail-value">
+                            ${escapeHtml(
+                                enquiry.package_name ||
+                                "N/A"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <span class="detail-label">
+                            Budget
+                        </span>
+
+                        <span class="detail-value">
+
+                            ${
+                                enquiry.budget !== null &&
+                                enquiry.budget !== undefined
+                                    ? "₹" +
+                                      escapeHtml(
+                                          Number(
+                                              enquiry.budget
+                                          ).toFixed(2)
+                                      )
+                                    : "N/A"
+                            }
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <span class="detail-label">
+                            Catering Service
+                        </span>
+
+                        <span class="detail-value">
+                            ${escapeHtml(
+                                enquiry.catering_service ||
+                                "N/A"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+                ${
+                    enquiry.special_requirements
+                        ? `
+
+                            <div class="message-box">
+
+                                <strong>
+                                    Special Requirements
+                                </strong>
+
+                                ${escapeHtml(
+                                    enquiry.special_requirements
+                                )}
+
+                            </div>
+
+                          `
+                        : ""
+                }
+
+
+                ${
+                    enquiry.message
+                        ? `
+
+                            <div class="message-box">
+
+                                <strong>
+                                    Customer Message
+                                </strong>
+
+                                ${escapeHtml(
+                                    enquiry.message
+                                )}
+
+                            </div>
+
+                          `
+                        : ""
+                }
+
+
+                ${replySection}
+
+                ${bookingMessage}
+
+            `;
+
+
+            return card;
+
+        }
+
+
+        /* =====================================================
+           REPLY TO ENQUIRY
+        ===================================================== */
+
+        async function replyToEnquiry(
+            enquiryId,
+            button
+        ) {
+
+            const textarea =
+                document.getElementById(
+                    "reply-" +
+                    enquiryId
+                );
+
+
+            if (!textarea) {
+                return;
+            }
+
+
+            const catererReply =
+                textarea.value.trim();
+
+
+            if (!catererReply) {
+
+                alert(
+                    "Please enter a reply before sending."
+                );
+
+                textarea.focus();
+
+                return;
+
+            }
+
+
+            button.disabled =
+                true;
+
+            button.textContent =
+                "Sending...";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_BASE_URL +
+                        "/api/enquiries/" +
+                        encodeURIComponent(
+                            enquiryId
+                        ) +
+                        "/reply",
+                        {
+                            method: "PUT",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify({
+                                    catererReply:
+                                        catererReply,
+
+                                    catererEmail:
+                                        catererEmail
+                                })
+                        }
+                    );
+
+
+                const data =
+                    await readResponse(
+                        response
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        `Server returned ${response.status}`
+                    );
+
+                }
+
+
+                alert(
+                    data.message ||
+                    "Reply sent successfully."
+                );
+
+
+                await loadEnquiries();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Reply error:",
+                    error
+                );
+
+
+                alert(
+                    error.message ||
+                    "Could not send reply."
+                );
+
+
+                button.disabled =
+                    false;
+
+                button.textContent =
+                    "Send Reply";
+
+            }
+
+        }
+
+
+        /* =====================================================
+           DATE FORMAT
+        ===================================================== */
+
+        function formatDate(
+            dateValue
+        ) {
+
+            if (!dateValue) {
+                return "N/A";
+            }
+
+
+            try {
+
+                const date =
+                    new Date(
+                        dateValue
+                    );
+
+
+                if (
+                    Number.isNaN(
+                        date.getTime()
+                    )
+                ) {
+
+                    return String(
+                        dateValue
+                    );
+
+                }
+
+
+                return date.toLocaleDateString(
+                    "en-IN",
+                    {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric"
+                    }
+                );
+
+            } catch (error) {
+
+                return String(
+                    dateValue
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           DATE + TIME FORMAT
+        ===================================================== */
+
+        function formatDateTime(
+            dateValue
+        ) {
+
+            if (!dateValue) {
+                return "";
+            }
+
+
+            try {
+
+                const date =
+                    new Date(
+                        dateValue
+                    );
+
+
+                if (
+                    Number.isNaN(
+                        date.getTime()
+                    )
+                ) {
+
+                    return String(
+                        dateValue
+                    );
+
+                }
+
+
+                return date.toLocaleString(
+                    "en-IN",
+                    {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    }
+                );
+
+            } catch (error) {
+
+                return String(
+                    dateValue
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           HTML ESCAPE
+        ===================================================== */
+
+        function escapeHtml(
+            value
+        ) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
+                return "";
+
+            }
+
+
+            return String(value)
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+        /* =====================================================
+           PROFILE MENU
+        ===================================================== */
+
+        function toggleMenu() {
+
+            document
+                .getElementById(
+                    "profileMenu"
+                )
+                .classList.toggle(
+                    "show"
+                );
+
+        }
+
+
+        document.addEventListener(
+            "click",
+            function(event) {
+
+                const menu =
+                    document.getElementById(
+                        "profileMenu"
+                    );
+
+
+                const buttons =
+                    document.querySelectorAll(
+                        ".menu-button, .profile-button"
+                    );
+
+
+                let clickedButton =
+                    false;
+
+
+                buttons.forEach(
+                    button => {
+
+                        if (
+                            button.contains(
+                                event.target
+                            )
+                        ) {
+
+                            clickedButton =
+                                true;
+
+                        }
+
+                    }
+                );
+
+
+                if (
+                    !menu.contains(
+                        event.target
+                    ) &&
+                    !clickedButton
+                ) {
+
+                    menu.classList.remove(
+                        "show"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           NOTIFICATIONS
+        ===================================================== */
+
+        function showNotifications() {
+
+            const dot =
+                document.getElementById(
+                    "notificationDot"
+                );
+
+
+            if (
+                dot.style.display ===
+                "block"
+            ) {
+
+                alert(
+                    "You have new customer enquiries."
+                );
+
+            } else {
+
+                alert(
+                    "No new customer enquiries."
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           BACK
+        ===================================================== */
+
+        function goBack() {
+
+            if (
+                window.history.length > 1
+            ) {
+
+                window.history.back();
+
+            } else {
+
+                window.location.href =
+                    "catererdashboard.html";
+
+            }
+
+        }
+
+
+        /* =====================================================
+           LOGOUT
+        ===================================================== */
+
+        function logout() {
+
+            localStorage.removeItem(
+                "annapriya_caterer"
+            );
+
+            localStorage.removeItem(
+                "annapriya_caterer_token"
+            );
+
+            localStorage.removeItem(
+                "caterer"
+            );
+
+            localStorage.removeItem(
+                "catererToken"
+            );
+
+
+            window.location.href =
+                "index.html";
+
+        }
+
+
+        /* =====================================================
+           INITIAL LOAD
+        ===================================================== */
+
+        loadEnquiries();
+
+    </script>
+
+</body>
+
+</html>

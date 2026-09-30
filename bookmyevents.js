@@ -12,6 +12,26 @@ const customerId =
 
 
 // =====================================================
+// ENQUIRY ID
+// =====================================================
+
+// When the customer comes from a caterer enquiry response,
+// the enquiry ID can be passed in the URL:
+//
+// bookmyevents.html?enquiryId=123
+//
+// If there is no enquiry ID, this remains null and the
+// normal booking flow continues to work.
+
+const urlParams = new URLSearchParams(
+    window.location.search
+);
+
+const enquiryId =
+    urlParams.get("enquiryId") || null;
+
+
+// =====================================================
 // ELEMENTS
 // =====================================================
 
@@ -79,7 +99,9 @@ function loadCustomerInformation() {
         "";
 
     customerName.value = name;
+
     customerPhone.value = phone;
+
     customerEmail.value = email;
 
     headerCustomerName.textContent =
@@ -601,6 +623,7 @@ eventBookingForm.addEventListener(
 
 
         formMessage.textContent = "";
+
         formMessage.className =
             "form-message";
 
@@ -635,7 +658,19 @@ eventBookingForm.addEventListener(
         }
 
 
+        // =================================================
+        // CREATE BOOKING REQUEST DATA
+        // =================================================
+
         const requestData = {
+
+            // This is null for a normal booking.
+            // It contains the enquiry ID when the
+            // customer came from an Enquiry response.
+            enquiryId:
+                enquiryId
+                    ? Number(enquiryId)
+                    : null,
 
             customerId,
 
@@ -759,6 +794,21 @@ eventBookingForm.addEventListener(
 
             submitButton.textContent =
                 "✓ Request Submitted";
+
+
+            // =================================================
+            // REMOVE ENQUIRY ID FROM URL AFTER SUCCESS
+            // =================================================
+
+            if (enquiryId) {
+
+                window.history.replaceState(
+                    {},
+                    document.title,
+                    "bookmyevents.html"
+                );
+
+            }
 
 
             window.scrollTo({

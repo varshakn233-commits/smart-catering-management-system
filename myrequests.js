@@ -1,40 +1,29 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const loadingMessage =
-        document.getElementById("loadingMessage");
-
-    const errorMessage =
-        document.getElementById("errorMessage");
-
-    const errorText =
-        document.getElementById("errorText");
-
-    const emptyMessage =
-        document.getElementById("emptyMessage");
-
-    const requestsSection =
-        document.getElementById("requestsSection");
-
-    const requestsList =
-        document.getElementById("requestsList");
-
-    const requestCount =
-        document.getElementById("requestCount");
-
-    const refreshButton =
-        document.getElementById("refreshButton");
-
-    const retryButton =
-        document.getElementById("retryButton");
+    const loadingMessage = document.getElementById("loadingMessage");
+    const errorMessage = document.getElementById("errorMessage");
+    const errorText = document.getElementById("errorText");
+    const emptyMessage = document.getElementById("emptyMessage");
+    const requestsSection = document.getElementById("requestsSection");
+    const requestsList = document.getElementById("requestsList");
+    const requestCount = document.getElementById("requestCount");
+    const refreshButton = document.getElementById("refreshButton");
+    const retryButton = document.getElementById("retryButton");
 
 
     // =========================
     // CUSTOMER DETAILS
     // =========================
 
-    const customer = JSON.parse(
-        localStorage.getItem("annapriya_customer") || "null"
-    );
+    let customer = null;
+
+    try {
+        customer = JSON.parse(
+            localStorage.getItem("annapriya_customer") || "null"
+        );
+    } catch (error) {
+        console.error("Could not read customer data:", error);
+    }
 
     const customerId =
         customer?.customerId ||
@@ -53,52 +42,86 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function showLoading() {
 
-        loadingMessage.style.display = "flex";
+        if (loadingMessage) {
+            loadingMessage.style.display = "flex";
+        }
 
-        errorMessage.style.display = "none";
+        if (errorMessage) {
+            errorMessage.style.display = "none";
+        }
 
-        emptyMessage.style.display = "none";
+        if (emptyMessage) {
+            emptyMessage.style.display = "none";
+        }
 
-        requestsSection.style.display = "none";
+        if (requestsSection) {
+            requestsSection.style.display = "none";
+        }
     }
 
 
     function showError(message) {
 
-        loadingMessage.style.display = "none";
+        if (loadingMessage) {
+            loadingMessage.style.display = "none";
+        }
 
-        errorMessage.style.display = "block";
+        if (errorMessage) {
+            errorMessage.style.display = "block";
+        }
 
-        emptyMessage.style.display = "none";
+        if (emptyMessage) {
+            emptyMessage.style.display = "none";
+        }
 
-        requestsSection.style.display = "none";
+        if (requestsSection) {
+            requestsSection.style.display = "none";
+        }
 
-        errorText.textContent =
-            message || "Could not load your requests.";
+        if (errorText) {
+            errorText.textContent =
+                message || "Could not load your requests.";
+        }
     }
 
 
     function showEmpty() {
 
-        loadingMessage.style.display = "none";
+        if (loadingMessage) {
+            loadingMessage.style.display = "none";
+        }
 
-        errorMessage.style.display = "none";
+        if (errorMessage) {
+            errorMessage.style.display = "none";
+        }
 
-        emptyMessage.style.display = "block";
+        if (emptyMessage) {
+            emptyMessage.style.display = "block";
+        }
 
-        requestsSection.style.display = "none";
+        if (requestsSection) {
+            requestsSection.style.display = "none";
+        }
     }
 
 
     function showRequests() {
 
-        loadingMessage.style.display = "none";
+        if (loadingMessage) {
+            loadingMessage.style.display = "none";
+        }
 
-        errorMessage.style.display = "none";
+        if (errorMessage) {
+            errorMessage.style.display = "none";
+        }
 
-        emptyMessage.style.display = "none";
+        if (emptyMessage) {
+            emptyMessage.style.display = "none";
+        }
 
-        requestsSection.style.display = "block";
+        if (requestsSection) {
+            requestsSection.style.display = "block";
+        }
     }
 
 
@@ -112,21 +135,17 @@ document.addEventListener("DOMContentLoaded", () => {
             return "Not available";
         }
 
-        const date =
-            new Date(dateValue);
+        const date = new Date(dateValue);
 
         if (isNaN(date.getTime())) {
-            return dateValue;
+            return String(dateValue);
         }
 
-        return date.toLocaleDateString(
-            "en-IN",
-            {
-                day: "2-digit",
-                month: "short",
-                year: "numeric"
-            }
-        );
+        return date.toLocaleDateString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        });
     }
 
 
@@ -140,24 +159,22 @@ document.addEventListener("DOMContentLoaded", () => {
             return "Not available";
         }
 
-        const parts =
-            timeValue.split(":");
+        const parts = String(timeValue).split(":");
 
         if (parts.length < 2) {
-            return timeValue;
+            return String(timeValue);
         }
 
-        let hour =
-            parseInt(parts[0], 10);
+        let hour = parseInt(parts[0], 10);
+        const minute = parts[1];
 
-        const minute =
-            parts[1];
+        if (isNaN(hour)) {
+            return String(timeValue);
+        }
 
-        const period =
-            hour >= 12 ? "PM" : "AM";
+        const period = hour >= 12 ? "PM" : "AM";
 
-        hour =
-            hour % 12 || 12;
+        hour = hour % 12 || 12;
 
         return `${String(hour).padStart(2, "0")}:${minute} ${period}`;
     }
@@ -173,39 +190,19 @@ document.addEventListener("DOMContentLoaded", () => {
             String(status || "")
                 .toLowerCase();
 
-        if (cleanStatus === "accepted") {
-            return "status-accepted";
-        }
+        const classes = {
+            pending: "status-pending",
+            accepted: "status-accepted",
+            payment_pending: "status-payment",
+            confirmed: "status-confirmed",
+            preparing: "status-preparing",
+            on_the_way: "status-on-the-way",
+            event_started: "status-event-started",
+            completed: "status-completed",
+            rejected: "status-rejected"
+        };
 
-        if (cleanStatus === "payment_pending") {
-            return "status-payment";
-        }
-
-        if (cleanStatus === "confirmed") {
-            return "status-confirmed";
-        }
-
-        if (cleanStatus === "preparing") {
-            return "status-preparing";
-        }
-
-        if (cleanStatus === "on_the_way") {
-            return "status-on-the-way";
-        }
-
-        if (cleanStatus === "event_started") {
-            return "status-event-started";
-        }
-
-        if (cleanStatus === "completed") {
-            return "status-completed";
-        }
-
-        if (cleanStatus === "rejected") {
-            return "status-rejected";
-        }
-
-        return "status-pending";
+        return classes[cleanStatus] || "status-pending";
     }
 
 
@@ -220,44 +217,160 @@ document.addEventListener("DOMContentLoaded", () => {
                 .toLowerCase();
 
         const statusNames = {
-            pending: "Pending",
-            accepted: "Accepted",
+
+            pending: "Booking Request Sent",
+
+            accepted: "Caterer Accepted",
+
             payment_pending: "Payment Pending",
-            confirmed: "Confirmed",
+
+            confirmed: "Booking Confirmed",
+
             preparing: "Preparing",
+
             on_the_way: "On the Way",
+
             event_started: "Event Started",
-            completed: "Completed",
+
+            completed: "Event Completed",
+
             rejected: "Rejected"
+
         };
 
         return statusNames[cleanStatus] ||
-            status ||
-            "Pending";
+            "Booking Request Sent";
     }
 
 
     // =========================
-    // ESCAPE HTML
+    // ENQUIRY STATUS
     // =========================
 
-    function escapeHTML(value) {
+    function getEnquiryDisplayStatus(status) {
 
-        if (value === null || value === undefined) {
-            return "";
+        const cleanStatus =
+            String(status || "enquiry_sent")
+                .toLowerCase();
+
+        if (cleanStatus === "caterer_responded") {
+            return "Caterer Responded";
         }
 
-        return String(value)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+        if (cleanStatus === "booking_created") {
+            return "Booking Request Sent";
+        }
+
+        return "Enquiry Sent";
     }
 
 
     // =========================
-    // PAY NOW BUTTON
+    // COMPACT PROGRESS
+    // =========================
+
+    function getProgress(request) {
+
+        const enquiryStatus =
+            String(request.enquiry_status || "")
+                .toLowerCase();
+
+        const requestStatus =
+            String(request.status || "pending")
+                .toLowerCase();
+
+        let currentIndex = 0;
+
+        if (requestStatus === "pending") {
+
+            if (enquiryStatus === "caterer_responded") {
+                currentIndex = 1;
+            } else if (
+                enquiryStatus === "booking_created" ||
+                request.enquiry_id
+            ) {
+                currentIndex = 2;
+            } else {
+                currentIndex = 2;
+            }
+
+        } else if (
+            requestStatus === "accepted" ||
+            requestStatus === "payment_pending"
+        ) {
+
+            currentIndex = 4;
+
+        } else if (
+            requestStatus === "confirmed" ||
+            requestStatus === "preparing" ||
+            requestStatus === "on_the_way" ||
+            requestStatus === "event_started"
+        ) {
+
+            currentIndex = 6;
+
+        } else if (requestStatus === "completed") {
+
+            currentIndex = 7;
+
+        } else if (requestStatus === "rejected") {
+
+            currentIndex = 2;
+        }
+
+
+        const stages = [
+            "Enquiry Sent",
+            "Caterer Responded",
+            "Booking Request Sent",
+            "Caterer Accepted",
+            "Payment Pending",
+            "Payment Completed",
+            "Booking Confirmed",
+            "Event Completed"
+        ];
+
+
+        return `
+            <div class="progress-wrap">
+
+                <div class="progress-label">
+                    ${escapeHTML(stages[currentIndex])}
+                </div>
+
+                <div class="progress-dots">
+
+                    ${stages.map((stage, index) => {
+
+                        let className = "progress-dot";
+
+                        if (index < currentIndex) {
+                            className += " completed";
+                        }
+
+                        if (index === currentIndex) {
+                            className += " active";
+                        }
+
+                        return `
+                            <span
+                                class="${className}"
+                                title="${escapeHTML(stage)}">
+                            </span>
+                        `;
+
+                    }).join("")}
+
+                </div>
+
+            </div>
+        `;
+    }
+
+
+    // =========================
+    // PAYMENT BUTTON
     // =========================
 
     function getPaymentButton(request) {
@@ -271,40 +384,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         return `
-            <div class="payment-action">
+            <button
+                type="button"
+                class="table-action pay-action"
+                onclick="openPayment(${Number(request.request_id)})">
 
-                <button
-                    type="button"
-                    class="pay-now-button"
-                    onclick="openPayment(${Number(request.request_id)})">
+                💳 Pay Now
 
-                    💳 Pay Now
-
-                </button>
-
-            </div>
+            </button>
         `;
     }
 
 
     // =========================
-    // OPEN PAYMENT PAGE
-    // =========================
-
-    window.openPayment = function(requestId) {
-
-        if (!requestId) {
-            alert("Request ID is missing.");
-            return;
-        }
-
-        window.location.href =
-            `payment.html?requestId=${requestId}`;
-    };
-
-
-    // =========================
-    // TRACK EVENT BUTTON
+    // TRACKING BUTTON
     // =========================
 
     function getTrackingButton(request) {
@@ -326,24 +419,36 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         return `
-            <div class="tracking-action">
+            <button
+                type="button"
+                class="table-action track-action"
+                onclick="openTracking(${Number(request.request_id)})">
 
-                <button
-                    type="button"
-                    class="track-event-button"
-                    onclick="openTracking(${Number(request.request_id)})">
+                📍 Track
 
-                    📍 Track Event
-
-                </button>
-
-            </div>
+            </button>
         `;
     }
 
 
     // =========================
-    // OPEN TRACKING PAGE
+    // OPEN PAYMENT
+    // =========================
+
+    window.openPayment = function(requestId) {
+
+        if (!requestId) {
+            alert("Request ID is missing.");
+            return;
+        }
+
+        window.location.href =
+            `payment.html?requestId=${requestId}`;
+    };
+
+
+    // =========================
+    // OPEN TRACKING
     // =========================
 
     window.openTracking = function(requestId) {
@@ -356,6 +461,334 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href =
             `tracking.html?requestId=${requestId}`;
     };
+
+
+    // =========================
+    // LOAD CUSTOMER ENQUIRIES
+    // =========================
+
+    async function loadCustomerEnquiries() {
+
+        if (!customerId) {
+            return [];
+        }
+
+        try {
+
+            const response =
+                await fetch(
+                    `http://localhost:5000/api/enquiries/customer/${encodeURIComponent(customerId)}`
+                );
+
+            const data =
+                await response.json();
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Could not load enquiries."
+                );
+            }
+
+            return Array.isArray(data.enquiries)
+                ? data.enquiries
+                : [];
+
+        } catch (error) {
+
+            console.error(
+                "Load customer enquiries error:",
+                error
+            );
+
+            return [];
+        }
+    }
+
+
+    // =========================
+    // OPEN BOOKING FROM ENQUIRY
+    // =========================
+
+    window.openBookingFromEnquiry =
+        function(enquiryId) {
+
+            if (!enquiryId) {
+                alert("Enquiry ID is missing.");
+                return;
+            }
+
+            window.location.href =
+                `bookmyevents.html?enquiryId=${Number(enquiryId)}`;
+        };
+
+
+    // =========================
+    // CREATE ENQUIRY TABLE ROW
+    // =========================
+
+    function createEnquiryRow(enquiry) {
+
+        const status =
+            String(
+                enquiry.status || "enquiry_sent"
+            ).toLowerCase();
+
+        let actionHTML = `
+            <span class="waiting-text">
+                Waiting for reply
+            </span>
+        `;
+
+        if (status === "caterer_responded") {
+
+            actionHTML = `
+                <button
+                    type="button"
+                    class="table-action book-action"
+                    onclick="openBookingFromEnquiry(${Number(
+                        enquiry.enquiry_id
+                    )})">
+
+                    📅 Book Event
+
+                </button>
+            `;
+        }
+
+
+        const replyHTML =
+            enquiry.caterer_reply
+                ? `
+                    <div class="reply-preview">
+                        💬 ${escapeHTML(
+                            enquiry.caterer_reply
+                        )}
+                    </div>
+                `
+                : "";
+
+
+        return `
+            <tr>
+
+                <td>
+                    <strong>
+                        Enquiry #${escapeHTML(
+                            enquiry.enquiry_id
+                        )}
+                    </strong>
+
+                    ${replyHTML}
+                </td>
+
+
+                <td>
+                    ${escapeHTML(
+                        enquiry.caterer_name ||
+                        "Not available"
+                    )}
+                </td>
+
+
+                <td>
+                    ${escapeHTML(
+                        enquiry.event_type ||
+                        "Event"
+                    )}
+                </td>
+
+
+                <td>
+                    ${escapeHTML(
+                        formatDate(
+                            enquiry.event_date
+                        )
+                    )}
+
+                    <small>
+                        ${escapeHTML(
+                            formatTime(
+                                enquiry.event_time
+                            )
+                        )}
+                    </small>
+                </td>
+
+
+                <td>
+                    ${escapeHTML(
+                        enquiry.guest_count ||
+                        "N/A"
+                    )}
+                </td>
+
+
+                <td>
+                    <span class="status status-enquiry">
+                        ${escapeHTML(
+                            getEnquiryDisplayStatus(status)
+                        )}
+                    </span>
+                </td>
+
+
+                <td>
+                    ${actionHTML}
+                </td>
+
+            </tr>
+        `;
+    }
+
+
+    // =========================
+    // CREATE EVENT REQUEST ROW
+    // =========================
+
+    function createRequestRow(request) {
+
+        const status =
+            String(
+                request.status || "pending"
+            ).toLowerCase();
+
+        const statusClass =
+            getStatusClass(status);
+
+        const displayStatus =
+            getDisplayStatus(status);
+
+
+        const paymentButton =
+            getPaymentButton(request);
+
+        const trackingButton =
+            getTrackingButton(request);
+
+
+        let actionHTML = "";
+
+        if (paymentButton) {
+            actionHTML += paymentButton;
+        }
+
+        if (trackingButton) {
+            actionHTML += trackingButton;
+        }
+
+        if (!actionHTML) {
+            actionHTML = `
+                <span class="no-action">
+                    —
+                </span>
+            `;
+        }
+
+
+        return `
+            <tr>
+
+                <td>
+
+                    <strong>
+                        Request #${escapeHTML(
+                            request.request_id
+                        )}
+                    </strong>
+
+                    ${
+                        request.enquiry_id
+                            ? `
+                                <small class="linked-enquiry">
+                                    Enquiry #${escapeHTML(
+                                        request.enquiry_id
+                                    )}
+                                </small>
+                            `
+                            : ""
+                    }
+
+                </td>
+
+
+                <td>
+                    ${escapeHTML(
+                        request.caterer_name ||
+                        request.caterer_email ||
+                        "Caterer"
+                    )}
+                </td>
+
+
+                <td>
+
+                    <strong>
+                        ${escapeHTML(
+                            request.event_type ||
+                            "Event"
+                        )}
+                    </strong>
+
+                    <small>
+                        ${escapeHTML(
+                            request.food_type ||
+                            "Food type not specified"
+                        )}
+                    </small>
+
+                </td>
+
+
+                <td>
+
+                    ${escapeHTML(
+                        formatDate(
+                            request.event_date
+                        )
+                    )}
+
+                    <small>
+                        ${escapeHTML(
+                            formatTime(
+                                request.event_time
+                            )
+                        )}
+                    </small>
+
+                </td>
+
+
+                <td>
+                    ${escapeHTML(
+                        request.guest_count ||
+                        "N/A"
+                    )}
+                </td>
+
+
+                <td>
+
+                    <span
+                        class="status ${statusClass}">
+                        ${escapeHTML(
+                            displayStatus
+                        )}
+                    </span>
+
+                    ${getProgress(request)}
+
+                </td>
+
+
+                <td>
+                    ${actionHTML}
+                </td>
+
+            </tr>
+        `;
+    }
 
 
     // =========================
@@ -378,184 +811,181 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
 
-            const response =
-                await fetch(
-                    `http://localhost:5000/api/requests/customer/${encodeURIComponent(customerId || "0")}?email=${encodeURIComponent(customerEmail)}`
-                );
+            const [
+                requestsResponse,
+                enquiries
+            ] = await Promise.all([
 
+                fetch(
+                    `http://localhost:5000/api/requests/customer/${encodeURIComponent(
+                        customerId
+                    )}?email=${encodeURIComponent(
+                        customerEmail
+                    )}`
+                ).then(async response => {
 
-            const data =
-                await response.json();
+                    const data =
+                        await response.json();
 
+                    if (!response.ok) {
 
-            if (!response.ok) {
+                        throw new Error(
+                            data.message ||
+                            "Could not load your requests."
+                        );
+                    }
 
-                throw new Error(
-                    data.message ||
-                    "Could not load your requests."
-                );
-            }
+                    return data;
+                }),
+
+                loadCustomerEnquiries()
+
+            ]);
 
 
             const requests =
-                data.requests || [];
+                Array.isArray(
+                    requestsResponse.requests
+                )
+                    ? requestsResponse.requests
+                    : [];
 
 
             // =========================
-            // NO REQUESTS
+            // FIND UNLINKED ENQUIRIES
             // =========================
 
-            if (requests.length === 0) {
+            const unlinkedEnquiries =
+                enquiries.filter(
+                    enquiry => {
 
-                requestCount.textContent = "0";
+                        return !requests.some(
+                            request =>
+                                Number(
+                                    request.enquiry_id
+                                ) === Number(
+                                    enquiry.enquiry_id
+                                )
+                        );
+                    }
+                );
+
+
+            const totalCount =
+                requests.length +
+                unlinkedEnquiries.length;
+
+
+            if (requestCount) {
+                requestCount.textContent =
+                    totalCount;
+            }
+
+
+            if (totalCount === 0) {
 
                 showEmpty();
-
                 return;
             }
 
 
             // =========================
-            // REQUEST COUNT
+            // BUILD TABLE
             // =========================
 
-            requestCount.textContent =
-                requests.length;
+            requestsList.innerHTML = `
+
+                <div class="table-scroll">
+
+                    <table class="requests-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Request</th>
+                                <th>Caterer</th>
+                                <th>Event</th>
+                                <th>Date & Time</th>
+                                <th>Guests</th>
+                                <th>Status</th>
+                                <th>Action</th>
+
+                            </tr>
+
+                        </thead>
 
 
-            // =========================
-            // CLEAR OLD CARDS
-            // =========================
+                        <tbody>
 
-            requestsList.innerHTML = "";
-
-
-            // =========================
-            // CREATE REQUEST CARDS
-            // =========================
-
-            requests.forEach((request) => {
-
-                const card =
-                    document.createElement("div");
-
-                card.className =
-                    "request-card";
-
-
-                const status =
-                    request.status || "pending";
-
-
-                const statusClass =
-                    getStatusClass(status);
-
-
-                const displayStatus =
-                    getDisplayStatus(status);
-
-
-                const paymentButton =
-                    getPaymentButton(request);
-
-
-                const trackingButton =
-                    getTrackingButton(request);
-
-
-                card.innerHTML = `
-
-                    <div class="request-card-top">
-
-                        <div>
-
-                            <div class="event-title">
-                                ${escapeHTML(
-                                    request.event_type ||
-                                    "Event Request"
-                                )}
-                            </div>
-
-                            <div class="request-id">
-                                Request #${escapeHTML(
-                                    request.request_id
-                                )}
-                            </div>
-
-                        </div>
-
-
-                        <span class="status ${statusClass}">
-                            ${escapeHTML(displayStatus)}
-                        </span>
-
-                    </div>
-
-
-                    <div class="request-details">
-
-                        <div class="detail-item">
-
-                            <span class="detail-label">
-                                📅 Event Date
-                            </span>
-
-                            <span class="detail-value">
-                                ${escapeHTML(
-                                    formatDate(
-                                        request.event_date
+                            ${
+                                unlinkedEnquiries
+                                    .map(
+                                        createEnquiryRow
                                     )
-                                )}
-                            </span>
-
-                        </div>
+                                    .join("")
+                            }
 
 
-                        <div class="detail-item">
-
-                            <span class="detail-label">
-                                🕐 Event Time
-                            </span>
-
-                            <span class="detail-value">
-                                ${escapeHTML(
-                                    formatTime(
-                                        request.event_time
+                            ${
+                                requests
+                                    .map(
+                                        createRequestRow
                                     )
-                                )}
-                            </span>
+                                    .join("")
+                            }
 
-                        </div>
+                        </tbody>
 
+                    </table>
 
-                        <div class="detail-item">
-
-                            <span class="detail-label">
-                                🍽️ Food Type
-                            </span>
-
-                            <span class="detail-value">
-                                ${escapeHTML(
-                                    request.food_type ||
-                                    "Not specified"
-                                )}
-                            </span>
-
-                        </div>
-
-                    </div>
+                </div>
+            `;
 
 
-                    ${paymentButton}
+            // =========================
+            // NOTIFICATION
+            // =========================
 
-                    ${trackingButton}
+            const hasPendingEnquiries =
+                enquiries.some(
+                    enquiry =>
+                        String(
+                            enquiry.status
+                        ).toLowerCase() ===
+                        "caterer_responded"
+                );
 
-                `;
+
+            const hasPendingRequests =
+                requests.some(
+                    request =>
+                        String(
+                            request.status
+                        ).toLowerCase() ===
+                        "payment_pending"
+                );
 
 
-                requestsList.appendChild(card);
+            // Notification dot is optional.
+            // The HTML may or may not contain it.
 
-            });
+            const notificationDot =
+                document.getElementById(
+                    "notificationDot"
+                );
+
+
+            if (notificationDot) {
+
+                notificationDot.style.display =
+                    (
+                        hasPendingEnquiries ||
+                        hasPendingRequests
+                    )
+                        ? "block"
+                        : "none";
+            }
 
 
             showRequests();
@@ -567,7 +997,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Load requests error:",
                 error
             );
-
 
             showError(
                 error.message ||

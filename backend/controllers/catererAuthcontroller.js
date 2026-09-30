@@ -4,13 +4,28 @@ const db = require("../config/db");
 
 const SALT_ROUNDS = 10;
 
-const VALID_EVENTS_SERVED = ["0-50", "50-100", "100-200", "200+"];
+const VALID_EVENTS_SERVED = [
+    "0-50",
+    "50-100",
+    "100-200",
+    "200+"
+];
 
-const GMAIL_REGEX = /^[^\s@]+@gmail\.com$/i;
-const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{6,}$/;
+const GMAIL_REGEX =
+    /^[^\s@]+@gmail\.com$/i;
+
+const PASSWORD_REGEX =
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{6,}$/;
+
+
+// =====================================================
+// CATERER SIGNUP
+// =====================================================
 
 async function signup(req, res) {
+
     try {
+
         const {
             headName,
             brandName,
@@ -22,7 +37,11 @@ async function signup(req, res) {
             confirmPassword
         } = req.body;
 
-        // Check required fields
+
+        // =================================================
+        // CHECK REQUIRED FIELDS
+        // =================================================
+
         if (
             !headName ||
             !brandName ||
@@ -33,208 +52,452 @@ async function signup(req, res) {
             !password ||
             !confirmPassword
         ) {
+
             return res.status(400).json({
-                message: "All fields are required."
+
+                message:
+                    "All fields are required."
+
             });
+
         }
 
-        // Validate events served
+
+        // =================================================
+        // VALIDATE EVENTS SERVED
+        // =================================================
+
         let eventsServedRange;
+
 
         if (
             typeof eventsServed === "string" &&
-            VALID_EVENTS_SERVED.includes(eventsServed.trim())
+            VALID_EVENTS_SERVED.includes(
+                eventsServed.trim()
+            )
         ) {
-            // Frontend already sends the range
-            eventsServedRange = eventsServed.trim();
 
-        } else if (!isNaN(Number(eventsServed))) {
-            // Also support a numeric value if the frontend sends one
-            const eventsNumber = Number(eventsServed);
+            eventsServedRange =
+                eventsServed.trim();
+
+        } else if (
+            !isNaN(Number(eventsServed))
+        ) {
+
+            const eventsNumber =
+                Number(eventsServed);
+
 
             if (eventsNumber < 0) {
+
                 return res.status(400).json({
-                    message: "Please enter a valid number of events served."
+
+                    message:
+                        "Please enter a valid number of events served."
+
                 });
+
             }
 
+
             if (eventsNumber < 50) {
+
                 eventsServedRange = "0-50";
-            } else if (eventsNumber <= 100) {
+
+            } else if (
+                eventsNumber <= 100
+            ) {
+
                 eventsServedRange = "50-100";
-            } else if (eventsNumber <= 200) {
+
+            } else if (
+                eventsNumber <= 200
+            ) {
+
                 eventsServedRange = "100-200";
+
             } else {
+
                 eventsServedRange = "200+";
+
             }
 
         } else {
+
             return res.status(400).json({
-                message: "Please select a valid number of events served."
+
+                message:
+                    "Please select a valid number of events served."
+
             });
+
         }
 
-        // Gmail validation
-        if (!GMAIL_REGEX.test(email.trim())) {
+
+        // =================================================
+        // GMAIL VALIDATION
+        // =================================================
+
+        if (
+            !GMAIL_REGEX.test(
+                email.trim()
+            )
+        ) {
+
             return res.status(400).json({
-                message: "Please use a valid Gmail address ending with @gmail.com."
+
+                message:
+                    "Please use a valid Gmail address ending with @gmail.com."
+
             });
+
         }
 
-        // Password confirmation
-        if (password !== confirmPassword) {
+
+        // =================================================
+        // PASSWORD CONFIRMATION
+        // =================================================
+
+        if (
+            password !==
+            confirmPassword
+        ) {
+
             return res.status(400).json({
-                message: "Passwords do not match."
+
+                message:
+                    "Passwords do not match."
+
             });
+
         }
 
-        // Strong password validation
-        if (!PASSWORD_REGEX.test(password)) {
+
+        // =================================================
+        // PASSWORD STRENGTH
+        // =================================================
+
+        if (
+            !PASSWORD_REGEX.test(
+                password
+            )
+        ) {
+
             return res.status(400).json({
+
                 message:
                     "Password must be at least 6 characters long and contain at least one letter, one number, and one special character."
+
             });
+
         }
 
-        const cleanEmail = email.trim().toLowerCase();
 
-        // Check if email already exists
-        const [existing] = await db.query(
-            "SELECT caterer_id FROM caterers WHERE email = ?",
-            [cleanEmail]
-        );
+        const cleanEmail =
+            email.trim().toLowerCase();
 
-        if (existing.length > 0) {
+
+        // =================================================
+        // CHECK EXISTING EMAIL
+        // =================================================
+
+        const [existing] =
+            await db.query(
+
+                "SELECT caterer_id FROM caterers WHERE email = ?",
+
+                [cleanEmail]
+
+            );
+
+
+        if (
+            existing.length > 0
+        ) {
+
             return res.status(409).json({
-                message: "An application with this email already exists."
+
+                message:
+                    "An application with this email already exists."
+
             });
+
         }
 
-        // Hash password
-        const passwordHash = await bcrypt.hash(
-            password,
-            SALT_ROUNDS
-        );
 
-        // Insert caterer
-        const [result] = await db.query(
-            `INSERT INTO caterers
-            (head_name, brand_name, phone, email, password_hash, helpers, events_served, status)
-            VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')`,
-            [
-                headName,
-                brandName,
-                phone,
-                cleanEmail,
-                passwordHash,
-                helpers,
-                eventsServedRange
-            ]
-        );
+        // =================================================
+        // HASH PASSWORD
+        // =================================================
+
+        const passwordHash =
+            await bcrypt.hash(
+                password,
+                SALT_ROUNDS
+            );
+
+
+        // =================================================
+        // INSERT CATERER
+        // =================================================
+
+        const [result] =
+            await db.query(
+
+                `INSERT INTO caterers
+                (
+                    head_name,
+                    brand_name,
+                    phone,
+                    email,
+                    password_hash,
+                    helpers,
+                    events_served,
+                    status
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')`,
+
+                [
+                    headName,
+                    brandName,
+                    phone,
+                    cleanEmail,
+                    passwordHash,
+                    helpers,
+                    eventsServedRange
+                ]
+
+            );
+
 
         return res.status(201).json({
+
             message:
                 "Application submitted. Your account will be reviewed by an admin before you can log in.",
-            catererId: result.insertId
+
+            catererId:
+                result.insertId
+
         });
 
+
     } catch (err) {
-        console.error("Caterer signup error:", err);
+
+        console.error(
+            "Caterer signup error:",
+            err
+        );
+
 
         return res.status(500).json({
+
             message:
                 "Something went wrong while submitting your application."
+
         });
+
     }
+
 }
+
+
+
+// =====================================================
+// CATERER LOGIN
+// =====================================================
 
 async function login(req, res) {
+
     try {
-        const { email, password } = req.body;
 
-        if (!email || !password) {
+        const {
+            email,
+            password
+        } = req.body;
+
+
+        if (
+            !email ||
+            !password
+        ) {
+
             return res.status(400).json({
-                message: "Email and password are required."
+
+                message:
+                    "Email and password are required."
+
             });
+
         }
 
-        const cleanEmail = email.trim().toLowerCase();
 
-        const [rows] = await db.query(
-            "SELECT * FROM caterers WHERE email = ?",
-            [cleanEmail]
-        );
+        const cleanEmail =
+            email.trim().toLowerCase();
 
-        if (rows.length === 0) {
+
+        const [rows] =
+            await db.query(
+
+                "SELECT * FROM caterers WHERE email = ?",
+
+                [cleanEmail]
+
+            );
+
+
+        if (
+            rows.length === 0
+        ) {
+
             return res.status(401).json({
-                message: "Invalid email or password."
+
+                message:
+                    "Invalid email or password."
+
             });
+
         }
 
-        const caterer = rows[0];
 
-        const isMatch = await bcrypt.compare(
-            password,
-            caterer.password_hash
-        );
+        const caterer =
+            rows[0];
+
+
+        const isMatch =
+            await bcrypt.compare(
+                password,
+                caterer.password_hash
+            );
+
 
         if (!isMatch) {
+
             return res.status(401).json({
-                message: "Invalid email or password."
+
+                message:
+                    "Invalid email or password."
+
             });
+
         }
 
-        // Check admin approval
-        if (caterer.status === "pending") {
+
+        // =================================================
+        // CHECK ADMIN APPROVAL
+        // =================================================
+
+        if (
+            caterer.status ===
+            "pending"
+        ) {
+
             return res.status(403).json({
+
                 message:
                     "Your application is still pending admin approval."
+
             });
+
         }
 
-        if (caterer.status === "rejected") {
+
+        if (
+            caterer.status ===
+            "rejected"
+        ) {
+
             return res.status(403).json({
+
                 message:
                     "Your application was not approved. Please contact support."
+
             });
+
         }
 
-        const token = jwt.sign(
-            {
-                catererId: caterer.caterer_id,
-                email: caterer.email,
-                role: "caterer"
-            },
-            process.env.JWT_SECRET,
-            {
-                expiresIn: "7d"
-            }
-        );
+
+        // =================================================
+        // CREATE JWT
+        // =================================================
+
+        const token =
+            jwt.sign(
+
+                {
+                    catererId:
+                        caterer.caterer_id,
+
+                    email:
+                        caterer.email,
+
+                    role:
+                        "caterer"
+                },
+
+                process.env.JWT_SECRET,
+
+                {
+                    expiresIn:
+                        "7d"
+                }
+
+            );
+
 
         return res.status(200).json({
-            message: "Login successful.",
+
+            message:
+                "Login successful.",
+
             token,
+
             caterer: {
-                id: caterer.caterer_id,
-                headName: caterer.head_name,
-                brandName: caterer.brand_name,
-                email: caterer.email
+
+                id:
+                    caterer.caterer_id,
+
+                headName:
+                    caterer.head_name,
+
+                brandName:
+                    caterer.brand_name,
+
+                email:
+                    caterer.email
+
             }
+
         });
+
 
     } catch (err) {
-        console.error("Caterer login error:", err);
+
+        console.error(
+            "Caterer login error:",
+            err
+        );
+
 
         return res.status(500).json({
-            message: "Something went wrong while logging in."
+
+            message:
+                "Something went wrong while logging in."
+
         });
+
     }
+
 }
+
+
+
 // =====================================================
 // GET CATERER PROFILE
 // =====================================================
 
-async function getCatererProfile(req, res) {
+async function getCatererProfile(
+    req,
+    res
+) {
 
     try {
 
@@ -246,8 +509,10 @@ async function getCatererProfile(req, res) {
         if (!catererId) {
 
             return res.status(400).json({
+
                 message:
                     "Caterer ID is required."
+
             });
 
         }
@@ -273,18 +538,25 @@ async function getCatererProfile(req, res) {
             );
 
 
-        if (rows.length === 0) {
+        if (
+            rows.length === 0
+        ) {
 
             return res.status(404).json({
+
                 message:
                     "Caterer not found."
+
             });
 
         }
 
 
         return res.status(200).json({
-            caterer: rows[0]
+
+            caterer:
+                rows[0]
+
         });
 
 
@@ -297,13 +569,16 @@ async function getCatererProfile(req, res) {
 
 
         return res.status(500).json({
+
             message:
                 "Could not load caterer profile."
+
         });
 
     }
 
 }
+
 
 
 // =====================================================
@@ -334,8 +609,10 @@ async function updateCatererProfile(
         if (!catererId) {
 
             return res.status(400).json({
+
                 message:
                     "Caterer ID is required."
+
             });
 
         }
@@ -350,15 +627,19 @@ async function updateCatererProfile(
         ) {
 
             return res.status(400).json({
+
                 message:
                     "All profile fields are required."
+
             });
 
         }
 
 
         const cleanEvents =
-            String(eventsServed).trim();
+            String(
+                eventsServed
+            ).trim();
 
 
         if (
@@ -368,8 +649,10 @@ async function updateCatererProfile(
         ) {
 
             return res.status(400).json({
+
                 message:
                     "Please select a valid number of events served."
+
             });
 
         }
@@ -387,8 +670,10 @@ async function updateCatererProfile(
         ) {
 
             return res.status(400).json({
+
                 message:
                     "Please enter a valid number of helpers."
+
             });
 
         }
@@ -423,8 +708,10 @@ async function updateCatererProfile(
         ) {
 
             return res.status(404).json({
+
                 message:
                     "Caterer not found."
+
             });
 
         }
@@ -470,17 +757,277 @@ async function updateCatererProfile(
 
 
         return res.status(500).json({
+
             message:
                 "Could not update caterer profile."
+
         });
 
     }
 
 }
 
+
+
+// =====================================================
+// CHANGE CATERER PASSWORD
+// =====================================================
+
+async function changeCatererPassword(
+    req,
+    res
+) {
+
+    try {
+
+        const {
+            catererId
+        } = req.params;
+
+
+        const {
+            currentPassword,
+            newPassword,
+            confirmPassword
+        } = req.body;
+
+
+        // =================================================
+        // REQUIRED FIELDS
+        // =================================================
+
+        if (
+            !catererId ||
+            !currentPassword ||
+            !newPassword ||
+            !confirmPassword
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Please fill in all password fields."
+
+            });
+
+        }
+
+
+        // =================================================
+        // PASSWORD MATCH
+        // =================================================
+
+        if (
+            newPassword !==
+            confirmPassword
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "New passwords do not match."
+
+            });
+
+        }
+
+
+        // =================================================
+        // DIFFERENT PASSWORD
+        // =================================================
+
+        if (
+            currentPassword ===
+            newPassword
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "New password must be different from your current password."
+
+            });
+
+        }
+
+
+        // =================================================
+        // PASSWORD STRENGTH
+        // =================================================
+
+        if (
+            !PASSWORD_REGEX.test(
+                newPassword
+            )
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Password must be at least 6 characters long and contain at least one letter, one number, and one special character."
+
+            });
+
+        }
+
+
+        // =================================================
+        // GET CATERER
+        // =================================================
+
+        const [rows] =
+            await db.query(
+
+                `SELECT
+                    caterer_id,
+                    password_hash
+                 FROM caterers
+                 WHERE caterer_id = ?`,
+
+                [catererId]
+
+            );
+
+
+        if (
+            rows.length === 0
+        ) {
+
+            return res.status(404).json({
+
+                success: false,
+
+                message:
+                    "Caterer account not found."
+
+            });
+
+        }
+
+
+        const caterer =
+            rows[0];
+
+
+        // =================================================
+        // CHECK CURRENT PASSWORD
+        // =================================================
+
+        const passwordMatch =
+            await bcrypt.compare(
+
+                currentPassword,
+
+                caterer.password_hash
+
+            );
+
+
+        if (!passwordMatch) {
+
+            return res.status(401).json({
+
+                success: false,
+
+                message:
+                    "Current password is incorrect."
+
+            });
+
+        }
+
+
+        // =================================================
+        // HASH NEW PASSWORD
+        // =================================================
+
+        const newPasswordHash =
+            await bcrypt.hash(
+
+                newPassword,
+
+                SALT_ROUNDS
+
+            );
+
+
+        // =================================================
+        // UPDATE PASSWORD
+        // =================================================
+
+        await db.query(
+
+            `UPDATE caterers
+             SET password_hash = ?
+             WHERE caterer_id = ?`,
+
+            [
+                newPasswordHash,
+                catererId
+            ]
+
+        );
+
+
+        // =================================================
+        // SUCCESS
+        // =================================================
+
+        return res.status(200).json({
+
+            success: true,
+
+            message:
+                "Password changed successfully."
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Change caterer password error:",
+            error
+        );
+
+
+        return res.status(500).json({
+
+            success: false,
+
+            message:
+                "Could not change password."
+
+        });
+
+    }
+
+}
+
+
+
+// =====================================================
+// EXPORT
+// =====================================================
+
 module.exports = {
+
     signup,
+
     login,
+
     getCatererProfile,
-    updateCatererProfile
+
+    updateCatererProfile,
+
+    changeCatererPassword
+
 };
