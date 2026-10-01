@@ -1,0 +1,3084 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Customer Enquiries | Annapriya</title>
+
+
+    <style>
+
+        /* =====================================================
+           ROOT
+        ===================================================== */
+
+        :root {
+
+            --primary: #8B1E3F;
+            --secondary: #F5E9DA;
+            --accent: #1C1C1C;
+            --highlight: #D4A373;
+
+            --white: #FFFFFF;
+            --soft-white: #FFFDFC;
+
+            --border: rgba(139, 30, 63, 0.12);
+
+            --muted: #766D68;
+
+            --success: #2F7D4A;
+            --danger: #B42318;
+
+            --warning: #A86B00;
+
+            --shadow:
+                0 8px 30px rgba(28, 28, 28, 0.08);
+
+        }
+
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+
+            margin: 0;
+
+            padding: 0;
+
+            box-sizing: border-box;
+
+        }
+
+
+        body {
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: var(--secondary);
+
+            color: var(--accent);
+
+            min-height: 100vh;
+
+        }
+
+
+        button,
+        input,
+        select,
+        textarea {
+
+            font-family: inherit;
+
+        }
+
+
+        button {
+
+            cursor: pointer;
+
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+
+            position: fixed;
+
+            top: 0;
+
+            left: 0;
+
+            width: 230px;
+
+            height: 100vh;
+
+            background: #1C1C1C;
+
+            color: white;
+
+            padding: 25px 14px;
+
+            overflow-y: auto;
+
+            z-index: 1000;
+
+        }
+
+
+        .logo {
+
+            font-family: Georgia, serif;
+
+            font-size: 29px;
+
+            font-weight: 700;
+
+            color: #D4A373;
+
+            padding-left: 26px;
+
+            margin-bottom: 2px;
+
+        }
+
+
+        .admin-label {
+
+            font-size: 10px;
+
+            letter-spacing: 1.5px;
+
+            color: #A8A8A8;
+
+            padding-left: 58px;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .sidebar-nav {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 5px;
+
+        }
+
+
+        .sidebar-nav a {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            text-decoration: none;
+
+            color: rgba(255,255,255,0.85);
+
+            padding: 13px 17px;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .sidebar-nav a:hover {
+
+            background: #292929;
+
+            color: white;
+
+            transform: translateX(2px);
+
+        }
+
+
+        .sidebar-nav a.active {
+
+            background: var(--primary);
+
+            color: white;
+
+            font-weight: 700;
+
+            box-shadow:
+                0 5px 15px rgba(139, 30, 63, 0.25);
+
+        }
+
+
+        .nav-icon {
+
+            width: 22px;
+
+            text-align: center;
+
+            font-size: 16px;
+
+            flex-shrink: 0;
+
+        }
+
+
+        .sidebar-bottom {
+
+            margin-top: 25px;
+
+            padding-top: 18px;
+
+            border-top: 1px solid rgba(255,255,255,0.10);
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 5px;
+
+        }
+
+
+        .sidebar-bottom a {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            text-decoration: none;
+
+            color: rgba(255,255,255,0.85);
+
+            padding: 13px 17px;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .sidebar-bottom a:hover {
+
+            background: #292929;
+
+            color: white;
+
+        }
+
+
+        .logout-link {
+
+            color: #E9A0A0 !important;
+
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main {
+
+            margin-left: 230px;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =====================================================
+           TOP HEADER
+        ===================================================== */
+
+        .top-header {
+
+            height: 78px;
+
+            background: var(--white);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 35px;
+
+            border-bottom: 1px solid #eee;
+
+        }
+
+
+        .breadcrumb {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            font-size: 13px;
+
+            color: var(--muted);
+
+        }
+
+
+        .breadcrumb .current {
+
+            color: var(--primary);
+
+            font-weight: 700;
+
+        }
+
+
+        .breadcrumb-arrow {
+
+            color: #A7A09B;
+
+        }
+
+
+        .admin-profile {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+        }
+
+
+        .admin-avatar {
+
+            width: 42px;
+
+            height: 42px;
+
+            border-radius: 50%;
+
+            background: var(--primary);
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 17px;
+
+            font-weight: 700;
+
+        }
+
+
+        .admin-details {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 2px;
+
+        }
+
+
+        .admin-email {
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            color: var(--accent);
+
+        }
+
+
+        .admin-role {
+
+            font-size: 11px;
+
+            color: var(--muted);
+
+        }
+
+
+        /* =====================================================
+           CONTENT
+        ===================================================== */
+
+        .content {
+
+            padding: 35px 54px 50px;
+
+        }
+
+
+        /* =====================================================
+           PAGE HEADING
+        ===================================================== */
+
+        .page-heading {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-end;
+
+            margin-bottom: 28px;
+
+        }
+
+
+        .heading-small {
+
+            color: var(--highlight);
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .page-heading h1 {
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 32px;
+
+            line-height: 1.1;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .page-heading p {
+
+            font-size: 14px;
+
+            color: var(--muted);
+
+        }
+
+
+        .dashboard-btn {
+
+            background: var(--primary);
+
+            color: white;
+
+            border: none;
+
+            border-radius: 7px;
+
+            padding: 11px 17px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            text-decoration: none;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+        }
+
+
+        .dashboard-btn:hover {
+
+            opacity: 0.92;
+
+        }
+
+
+        /* =====================================================
+           SUMMARY CARDS
+        ===================================================== */
+
+        .stats-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 20px;
+
+            margin-bottom: 26px;
+
+        }
+
+
+        .stat-card {
+
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 22px;
+
+            min-height: 128px;
+
+            position: relative;
+
+            box-shadow: var(--shadow);
+
+            border-left: 4px solid var(--primary);
+
+        }
+
+
+        .stat-card.open {
+
+            border-left-color: var(--primary);
+
+        }
+
+
+        .stat-card.progress {
+
+            border-left-color: var(--highlight);
+
+        }
+
+
+        .stat-card.resolved {
+
+            border-left-color: var(--success);
+
+        }
+
+
+        .stat-top {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            justify-content: space-between;
+
+            margin-bottom: 13px;
+
+        }
+
+
+        .stat-title {
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            color: #625B57;
+
+        }
+
+
+        .stat-icon {
+
+            width: 38px;
+
+            height: 38px;
+
+            border-radius: 9px;
+
+            background: var(--secondary);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 17px;
+
+        }
+
+
+        .stat-number {
+
+            font-size: 29px;
+
+            line-height: 1;
+
+            font-weight: 800;
+
+            color: #111;
+
+        }
+
+
+        /* =====================================================
+           SEARCH CARD
+        ===================================================== */
+
+        .search-card {
+
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 20px;
+
+            box-shadow: var(--shadow);
+
+            margin-bottom: 24px;
+
+        }
+
+
+        .search-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .search-header h2 {
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 19px;
+
+        }
+
+
+        .search-header span {
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+        }
+
+
+        .search-controls {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 180px 180px;
+
+            gap: 12px;
+
+        }
+
+
+        .search-input-wrapper {
+
+            position: relative;
+
+        }
+
+
+        .search-icon {
+
+            position: absolute;
+
+            left: 15px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            font-size: 16px;
+
+        }
+
+
+        .search-input {
+
+            width: 100%;
+
+            height: 43px;
+
+            border: 1px solid #DED8D3;
+
+            border-radius: 7px;
+
+            padding: 0 15px 0 40px;
+
+            outline: none;
+
+            font-size: 13px;
+
+            color: var(--accent);
+
+        }
+
+
+        .search-input:focus {
+
+            border-color: var(--primary);
+
+        }
+
+
+        .filter-select {
+
+            width: 100%;
+
+            height: 43px;
+
+            border: 1px solid #DED8D3;
+
+            border-radius: 7px;
+
+            padding: 0 12px;
+
+            outline: none;
+
+            background: white;
+
+            color: #4F4945;
+
+            font-size: 13px;
+
+            cursor: pointer;
+
+        }
+
+
+        .filter-select:focus {
+
+            border-color: var(--primary);
+
+        }
+
+
+        /* =====================================================
+           ENQUIRY LIST
+        ===================================================== */
+
+        .list-card {
+
+            background: white;
+
+            border-radius: 14px;
+
+            box-shadow: var(--shadow);
+
+            overflow: hidden;
+
+            margin-bottom: 24px;
+
+        }
+
+
+        .list-header {
+
+            padding: 20px 20px 16px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+
+        .list-header h2 {
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 19px;
+
+        }
+
+
+        .list-count {
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+        }
+
+
+        .table-wrapper {
+
+            width: 100%;
+
+            overflow-x: auto;
+
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+        }
+
+
+        thead {
+
+            background: #FAF4EE;
+
+        }
+
+
+        th {
+
+            padding: 13px 18px;
+
+            text-align: left;
+
+            color: var(--primary);
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: 0.7px;
+
+            white-space: nowrap;
+
+        }
+
+
+        td {
+
+            padding: 14px 18px;
+
+            border-top: 1px solid #EEE8E3;
+
+            font-size: 13px;
+
+            color: #4F4945;
+
+            vertical-align: middle;
+
+        }
+
+
+        tbody tr:hover {
+
+            background: #FFFCF9;
+
+        }
+
+
+        .enquiry-id {
+
+            font-weight: 700;
+
+            color: var(--primary);
+
+        }
+
+
+        .customer-name {
+
+            font-weight: 700;
+
+            color: var(--accent);
+
+        }
+
+
+        .caterer-name {
+
+            font-weight: 600;
+
+            color: var(--accent);
+
+        }
+
+
+        .subject {
+
+            max-width: 220px;
+
+            color: #4F4945;
+
+        }
+
+
+        .date {
+
+            white-space: nowrap;
+
+            color: var(--muted);
+
+        }
+
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
+
+        .status-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+
+        }
+
+
+        .status-dot {
+
+            width: 6px;
+
+            height: 6px;
+
+            border-radius: 50%;
+
+            display: inline-block;
+
+        }
+
+
+        .status-open {
+
+            background: #FDEEEE;
+
+            color: var(--primary);
+
+        }
+
+
+        .status-open .status-dot {
+
+            background: var(--primary);
+
+        }
+
+
+        .status-progress {
+
+            background: #FFF4DD;
+
+            color: var(--warning);
+
+        }
+
+
+        .status-progress .status-dot {
+
+            background: var(--highlight);
+
+        }
+
+
+        .status-resolved {
+
+            background: #EAF6EE;
+
+            color: var(--success);
+
+        }
+
+
+        .status-resolved .status-dot {
+
+            background: var(--success);
+
+        }
+
+
+        /* =====================================================
+           PRIORITY
+        ===================================================== */
+
+        .priority-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            padding: 5px 9px;
+
+            border-radius: 15px;
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+        }
+
+
+        .priority-normal {
+
+            background: #F2F0EE;
+
+            color: #6D6661;
+
+        }
+
+
+        .priority-high {
+
+            background: #FFF4DD;
+
+            color: #A86B00;
+
+        }
+
+
+        .priority-urgent {
+
+            background: #FDEEEE;
+
+            color: var(--danger);
+
+        }
+
+
+        /* =====================================================
+           ACTION BUTTON
+        ===================================================== */
+
+        .view-btn {
+
+            background: #F7EBDD;
+
+            color: var(--primary);
+
+            border: 1px solid #E8C8A7;
+
+            border-radius: 6px;
+
+            padding: 7px 12px;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+        }
+
+
+        .view-btn:hover {
+
+            background: #F1DDCC;
+
+        }
+
+
+        /* =====================================================
+           EMPTY STATE
+        ===================================================== */
+
+        .empty-state {
+
+            padding: 55px 25px;
+
+            text-align: center;
+
+        }
+
+
+        .empty-icon {
+
+            width: 60px;
+
+            height: 60px;
+
+            margin: 0 auto 15px;
+
+            border-radius: 50%;
+
+            background: var(--secondary);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 25px;
+
+        }
+
+
+        .empty-state h3 {
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 18px;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .empty-state p {
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+            line-height: 1.6;
+
+        }
+
+
+        /* =====================================================
+           SUPPORT INFORMATION CARD
+        ===================================================== */
+
+        .support-card {
+
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 22px;
+
+            box-shadow: var(--shadow);
+
+            margin-bottom: 24px;
+
+        }
+
+
+        .support-card h2 {
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 19px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .support-card > p {
+
+            color: var(--muted);
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .workflow {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap: 10px;
+
+        }
+
+
+        .workflow-step {
+
+            background: #FAF7F3;
+
+            border: 1px solid #EEE5DE;
+
+            border-radius: 9px;
+
+            padding: 14px;
+
+            text-align: center;
+
+        }
+
+
+        .workflow-number {
+
+            width: 30px;
+
+            height: 30px;
+
+            border-radius: 50%;
+
+            background: var(--primary);
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin: 0 auto 8px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+        }
+
+
+        .workflow-step strong {
+
+            display: block;
+
+            font-size: 11px;
+
+            color: var(--accent);
+
+            margin-bottom: 4px;
+
+        }
+
+
+        .workflow-step span {
+
+            display: block;
+
+            color: var(--muted);
+
+            font-size: 9px;
+
+            line-height: 1.5;
+
+        }
+
+
+        /* =====================================================
+           MODAL
+        ===================================================== */
+
+        .modal-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(28,28,28,0.55);
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            z-index: 2000;
+
+        }
+
+
+        .modal-overlay.show {
+
+            display: flex;
+
+        }
+
+
+        .modal {
+
+            width: 100%;
+
+            max-width: 850px;
+
+            max-height: 90vh;
+
+            overflow-y: auto;
+
+            background: white;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.25);
+
+        }
+
+
+        .modal-header {
+
+            padding: 20px 22px;
+
+            border-bottom: 1px solid #EEE5DE;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+        }
+
+
+        .modal-header h2 {
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 20px;
+
+        }
+
+
+        .close-btn {
+
+            border: none;
+
+            background: transparent;
+
+            font-size: 25px;
+
+            color: var(--muted);
+
+        }
+
+
+        .modal-body {
+
+            padding: 22px;
+
+        }
+
+
+        .section-title {
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 16px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .details-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 12px;
+
+            margin-bottom: 22px;
+
+        }
+
+
+        .detail-item {
+
+            background: #FAF7F3;
+
+            border: 1px solid #EEE5DE;
+
+            border-radius: 8px;
+
+            padding: 13px;
+
+        }
+
+
+        .detail-item.full {
+
+            grid-column: 1 / -1;
+
+        }
+
+
+        .detail-label {
+
+            color: var(--muted);
+
+            font-size: 9px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.8px;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .detail-value {
+
+            color: var(--accent);
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            word-break: break-word;
+
+        }
+
+
+        .message-box {
+
+            background: #FAF7F3;
+
+            border: 1px solid #EEE5DE;
+
+            border-radius: 9px;
+
+            padding: 15px;
+
+            margin-bottom: 22px;
+
+            color: #4F4945;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+
+        }
+
+
+        .reply-area {
+
+            margin-bottom: 22px;
+
+        }
+
+
+        .reply-area textarea {
+
+            width: 100%;
+
+            min-height: 110px;
+
+            resize: vertical;
+
+            border: 1px solid #DED8D3;
+
+            border-radius: 8px;
+
+            padding: 12px;
+
+            outline: none;
+
+            font-size: 13px;
+
+        }
+
+
+        .reply-area textarea:focus {
+
+            border-color: var(--primary);
+
+        }
+
+
+        .modal-actions {
+
+            display: flex;
+
+            gap: 9px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .modal-btn {
+
+            border: none;
+
+            border-radius: 7px;
+
+            padding: 10px 15px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+        }
+
+
+        .primary-btn {
+
+            background: var(--primary);
+
+            color: white;
+
+        }
+
+
+        .warning-btn {
+
+            background: var(--highlight);
+
+            color: white;
+
+        }
+
+
+        .success-btn {
+
+            background: var(--success);
+
+            color: white;
+
+        }
+
+
+        .secondary-btn {
+
+            background: #F7EBDD;
+
+            color: var(--primary);
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1200px) {
+
+            .stats-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+
+            .search-controls {
+
+                grid-template-columns:
+                    1fr 170px;
+
+            }
+
+
+            .workflow {
+
+                grid-template-columns:
+                    repeat(3, 1fr);
+
+            }
+
+        }
+
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+
+                width: 210px;
+
+            }
+
+
+            .main {
+
+                margin-left: 210px;
+
+            }
+
+
+            .content {
+
+                padding: 30px 25px;
+
+            }
+
+
+            .search-controls {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+
+                position: relative;
+
+                width: 100%;
+
+                height: auto;
+
+            }
+
+
+            .main {
+
+                margin-left: 0;
+
+            }
+
+
+            .top-header {
+
+                padding: 0 20px;
+
+            }
+
+
+            .content {
+
+                padding: 25px 18px;
+
+            }
+
+
+            .page-heading {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+                gap: 15px;
+
+            }
+
+
+            .stats-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .workflow {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .details-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .detail-item.full {
+
+                grid-column: auto;
+
+            }
+
+
+            .admin-details {
+
+                display: none;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+
+    <div class="logo">
+        Annapriya
+    </div>
+
+
+    <div class="admin-label">
+        ADMIN PANEL
+    </div>
+
+
+    <nav class="sidebar-nav">
+
+
+        <a href="admindashboard.html">
+
+            <span class="nav-icon">🏠</span>
+
+            <span>Dashboard</span>
+
+        </a>
+
+
+        <a href="adminusers.html">
+
+            <span class="nav-icon">👥</span>
+
+            <span>Manage Users</span>
+
+        </a>
+
+
+        <a href="admincaterers.html">
+
+            <span class="nav-icon">🧑‍🍳</span>
+
+            <span>Manage Caterers</span>
+
+        </a>
+
+
+        <a
+            href="adminenquiries.html"
+            class="active"
+        >
+
+            <span class="nav-icon">✉️</span>
+
+            <span>Customer Enquiries</span>
+
+        </a>
+
+
+        <a href="adminbookings.html">
+
+            <span class="nav-icon">🗓️</span>
+
+            <span>Manage Bookings</span>
+
+        </a>
+
+
+        <a href="adminpayments.html">
+
+            <span class="nav-icon">💳</span>
+
+            <span>Manage Payments</span>
+
+        </a>
+
+
+        <a href="adminreviews.html">
+
+            <span class="nav-icon">⭐</span>
+
+            <span>Manage Reviews</span>
+
+        </a>
+
+
+        <a href="adminreports.html">
+
+            <span class="nav-icon">📊</span>
+
+            <span>Reports & Analytics</span>
+
+        </a>
+
+
+        <a href="adminsettings.html">
+
+            <span class="nav-icon">⚙️</span>
+
+            <span>System Settings</span>
+
+        </a>
+
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+
+        <a href="adminprofile.html">
+
+            <span class="nav-icon">👤</span>
+
+            <span>Account Settings</span>
+
+        </a>
+
+
+        <a
+            href="#"
+            class="logout-link"
+            onclick="logoutAdmin(event)"
+        >
+
+            <span class="nav-icon">◼</span>
+
+            <span>Logout</span>
+
+        </a>
+
+
+    </div>
+
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+    <!-- =================================================
+         TOP HEADER
+    ================================================= -->
+
+    <header class="top-header">
+
+
+        <div class="breadcrumb">
+
+            <span>Admin</span>
+
+            <span class="breadcrumb-arrow">›</span>
+
+            <span class="current">
+                Customer Enquiries
+            </span>
+
+        </div>
+
+
+        <div class="admin-profile">
+
+
+            <div
+                class="admin-avatar"
+                id="adminAvatar"
+            >
+                A
+            </div>
+
+
+            <div class="admin-details">
+
+                <div
+                    class="admin-email"
+                    id="adminEmail"
+                >
+                    Admin
+                </div>
+
+                <div class="admin-role">
+                    Super Admin
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </header>
+
+
+
+    <!-- =================================================
+         CONTENT
+    ================================================= -->
+
+    <div class="content">
+
+
+        <!-- =================================================
+             PAGE HEADING
+        ================================================= -->
+
+        <section class="page-heading">
+
+
+            <div>
+
+                <div class="heading-small">
+                    CUSTOMER SUPPORT
+                </div>
+
+
+                <h1>
+                    Customer Enquiries
+                </h1>
+
+
+                <p>
+                    View, manage and resolve customer support enquiries.
+                </p>
+
+            </div>
+
+
+            <a
+                href="admindashboard.html"
+                class="dashboard-btn"
+            >
+                ← Dashboard
+            </a>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             SUMMARY CARDS
+        ================================================= -->
+
+        <section class="stats-grid">
+
+
+            <div class="stat-card">
+
+
+                <div class="stat-top">
+
+                    <div class="stat-title">
+                        Total Enquiries
+                    </div>
+
+                    <div class="stat-icon">
+                        ✉️
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="stat-number"
+                    id="totalEnquiries"
+                >
+                    0
+                </div>
+
+
+            </div>
+
+
+
+            <div class="stat-card open">
+
+
+                <div class="stat-top">
+
+                    <div class="stat-title">
+                        Open
+                    </div>
+
+                    <div class="stat-icon">
+                        !
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="stat-number"
+                    id="openEnquiries"
+                >
+                    0
+                </div>
+
+
+            </div>
+
+
+
+            <div class="stat-card progress">
+
+
+                <div class="stat-top">
+
+                    <div class="stat-title">
+                        In Progress
+                    </div>
+
+                    <div class="stat-icon">
+                        ↻
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="stat-number"
+                    id="progressEnquiries"
+                >
+                    0
+                </div>
+
+
+            </div>
+
+
+
+            <div class="stat-card resolved">
+
+
+                <div class="stat-top">
+
+                    <div class="stat-title">
+                        Resolved
+                    </div>
+
+                    <div class="stat-icon">
+                        ✓
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="stat-number"
+                    id="resolvedEnquiries"
+                >
+                    0
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             SEARCH / FILTER
+        ================================================= -->
+
+        <section class="search-card">
+
+
+            <div class="search-header">
+
+                <h2>
+                    Find Enquiries
+                </h2>
+
+
+                <span>
+                    Search by customer, caterer or enquiry information
+                </span>
+
+            </div>
+
+
+            <div class="search-controls">
+
+
+                <div class="search-input-wrapper">
+
+                    <span class="search-icon">
+                        🔍
+                    </span>
+
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        class="search-input"
+                        placeholder="Search customer, email, phone, caterer, enquiry ID or request ID..."
+                    >
+
+                </div>
+
+
+                <select
+                    id="statusFilter"
+                    class="filter-select"
+                >
+
+                    <option value="">
+                        All Status
+                    </option>
+
+                    <option value="open">
+                        Open
+                    </option>
+
+                    <option value="in_progress">
+                        In Progress
+                    </option>
+
+                    <option value="resolved">
+                        Resolved
+                    </option>
+
+                </select>
+
+
+                <select
+                    id="priorityFilter"
+                    class="filter-select"
+                >
+
+                    <option value="">
+                        All Priority
+                    </option>
+
+                    <option value="normal">
+                        Normal
+                    </option>
+
+                    <option value="high">
+                        High
+                    </option>
+
+                    <option value="urgent">
+                        Urgent
+                    </option>
+
+                </select>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             ENQUIRY LIST
+        ================================================= -->
+
+        <section class="list-card">
+
+
+            <div class="list-header">
+
+                <h2>
+                    Enquiry List
+                </h2>
+
+
+                <span
+                    class="list-count"
+                    id="enquiryCount"
+                >
+                    0 enquiries
+                </span>
+
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+
+                <table>
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                ENQUIRY ID
+                            </th>
+
+                            <th>
+                                CUSTOMER
+                            </th>
+
+                            <th>
+                                CATERER
+                            </th>
+
+                            <th>
+                                SUBJECT
+                            </th>
+
+                            <th>
+                                DATE
+                            </th>
+
+                            <th>
+                                PRIORITY
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                            <th>
+                                ACTION
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="enquiryTableBody">
+
+
+                        <tr>
+
+                            <td colspan="8">
+
+                                <div class="empty-state">
+
+
+                                    <div class="empty-icon">
+                                        ✉️
+                                    </div>
+
+
+                                    <h3>
+                                        No Enquiries Available
+                                    </h3>
+
+
+                                    <p>
+                                        Customer enquiry data will appear here
+                                        after the enquiry backend and database
+                                        structure are connected.
+                                    </p>
+
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             SUPPORT WORKFLOW
+        ================================================= -->
+
+        <section class="support-card">
+
+
+            <h2>
+                Customer Support Workflow
+            </h2>
+
+
+            <p>
+                This section is designed for the support flow where
+                a customer can contact Admin when a caterer does not
+                respond to a request.
+            </p>
+
+
+            <div class="workflow">
+
+
+                <div class="workflow-step">
+
+                    <div class="workflow-number">
+                        1
+                    </div>
+
+                    <strong>
+                        Customer
+                    </strong>
+
+                    <span>
+                        Customer submits an enquiry.
+                    </span>
+
+                </div>
+
+
+                <div class="workflow-step">
+
+                    <div class="workflow-number">
+                        2
+                    </div>
+
+                    <strong>
+                        Admin Receives
+                    </strong>
+
+                    <span>
+                        Admin reviews the complaint.
+                    </span>
+
+                </div>
+
+
+                <div class="workflow-step">
+
+                    <div class="workflow-number">
+                        3
+                    </div>
+
+                    <strong>
+                        Contact Caterer
+                    </strong>
+
+                    <span>
+                        Admin contacts the concerned caterer.
+                    </span>
+
+                </div>
+
+
+                <div class="workflow-step">
+
+                    <div class="workflow-number">
+                        4
+                    </div>
+
+                    <strong>
+                        Follow Up
+                    </strong>
+
+                    <span>
+                        Admin updates the customer.
+                    </span>
+
+                </div>
+
+
+                <div class="workflow-step">
+
+                    <div class="workflow-number">
+                        5
+                    </div>
+
+                    <strong>
+                        Resolve
+                    </strong>
+
+                    <span>
+                        Admin marks the enquiry resolved.
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </div>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     ENQUIRY DETAILS MODAL
+===================================================== -->
+
+<div
+    class="modal-overlay"
+    id="enquiryModal"
+>
+
+
+    <div class="modal">
+
+
+        <div class="modal-header">
+
+            <h2>
+                Enquiry Details
+            </h2>
+
+
+            <button
+                class="close-btn"
+                onclick="closeEnquiryModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+
+            <!-- CUSTOMER -->
+
+            <h3 class="section-title">
+                Customer Details
+            </h3>
+
+
+            <div class="details-grid">
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Customer Name
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailCustomerName"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Email
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailCustomerEmail"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Phone
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailCustomerPhone"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- CATERER -->
+
+            <h3 class="section-title">
+                Caterer Details
+            </h3>
+
+
+            <div class="details-grid">
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Caterer / Brand
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailCatererName"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Email
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailCatererEmail"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Phone
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailCatererPhone"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- REQUEST -->
+
+            <h3 class="section-title">
+                Related Request
+            </h3>
+
+
+            <div class="details-grid">
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Request ID
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailRequestId"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Event Type
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailEventType"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Event Date
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailEventDate"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Guest Count
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailGuestCount"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item full">
+
+                    <div class="detail-label">
+                        Venue
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailVenue"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item full">
+
+                    <div class="detail-label">
+                        Package
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailPackage"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- MESSAGE -->
+
+            <h3 class="section-title">
+                Customer Message
+            </h3>
+
+
+            <div
+                class="message-box"
+                id="detailMessage"
+            >
+                No enquiry selected.
+            </div>
+
+
+
+            <!-- ADMIN REPLY -->
+
+            <div class="reply-area">
+
+                <h3 class="section-title">
+                    Admin Reply
+                </h3>
+
+
+                <textarea
+                    id="adminReply"
+                    placeholder="Write a response to the customer..."
+                ></textarea>
+
+            </div>
+
+
+
+            <!-- ACTIONS -->
+
+            <div class="modal-actions">
+
+
+                <button
+                    class="modal-btn primary-btn"
+                    onclick="showBackendNotice('reply')"
+                >
+                    Send Reply
+                </button>
+
+
+                <button
+                    class="modal-btn warning-btn"
+                    onclick="showBackendNotice('caterer')"
+                >
+                    Contact Caterer
+                </button>
+
+
+                <button
+                    class="modal-btn secondary-btn"
+                    onclick="showBackendNotice('progress')"
+                >
+                    Mark In Progress
+                </button>
+
+
+                <button
+                    class="modal-btn success-btn"
+                    onclick="showBackendNotice('resolved')"
+                >
+                    Mark Resolved
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+    /* =====================================================
+       ADMIN PROFILE
+    ===================================================== */
+
+    function loadAdminProfile() {
+
+        let admin = null;
+
+
+        try {
+
+            admin =
+                JSON.parse(
+                    localStorage.getItem("admin") ||
+                    localStorage.getItem("annapriya_admin") ||
+                    "null"
+                );
+
+        } catch (error) {
+
+            console.error(
+                "Could not read admin information:",
+                error
+            );
+
+        }
+
+
+        if (!admin) {
+
+            const username =
+                localStorage.getItem(
+                    "adminUsername"
+                );
+
+
+            if (username) {
+
+                admin = {
+                    username
+                };
+
+            }
+
+        }
+
+
+        if (!admin) {
+
+            return;
+
+        }
+
+
+        const name =
+            admin.name ||
+            admin.full_name ||
+            admin.username ||
+            admin.email ||
+            "Admin";
+
+
+        document.getElementById(
+            "adminEmail"
+        ).textContent =
+            name;
+
+
+        document.getElementById(
+            "adminAvatar"
+        ).textContent =
+            String(name)
+                .charAt(0)
+                .toUpperCase();
+
+    }
+
+
+
+    /* =====================================================
+       SEARCH
+       Ready for backend data later.
+    ===================================================== */
+
+    function filterEnquiries() {
+
+        /*
+         * Enquiry filtering will be connected to the
+         * actual enquiry backend after the enquiry table
+         * and API are finalized.
+         */
+
+        console.log(
+            "Enquiry filters ready."
+        );
+
+    }
+
+
+
+    /* =====================================================
+       MODAL
+    ===================================================== */
+
+    function closeEnquiryModal() {
+
+        document
+            .getElementById(
+                "enquiryModal"
+            )
+            .classList.remove(
+                "show"
+            );
+
+    }
+
+
+
+    /* =====================================================
+       BACKEND NOTICE
+    ===================================================== */
+
+    function showBackendNotice(
+        action
+    ) {
+
+        let message =
+            "This action will be connected after the Customer Enquiry database table and backend API are finalized.";
+
+
+        if (
+            action === "reply"
+        ) {
+
+            message =
+                "Admin Reply will be connected after the enquiry backend is created.";
+
+        }
+
+
+        if (
+            action === "caterer"
+        ) {
+
+            message =
+                "Contact Caterer will be connected after the enquiry backend and communication flow are created.";
+
+        }
+
+
+        if (
+            action === "progress"
+        ) {
+
+            message =
+                "In Progress status will be connected after the enquiry status backend is created.";
+
+        }
+
+
+        if (
+            action === "resolved"
+        ) {
+
+            message =
+                "Resolved status will be connected after the enquiry status backend is created.";
+
+        }
+
+
+        alert(message);
+
+    }
+
+
+
+    /* =====================================================
+       LOGOUT
+    ===================================================== */
+
+    function logoutAdmin(event) {
+
+        if (event) {
+
+            event.preventDefault();
+
+        }
+
+
+        localStorage.removeItem(
+            "adminToken"
+        );
+
+
+        localStorage.removeItem(
+            "adminUsername"
+        );
+
+
+        localStorage.removeItem(
+            "annapriya_admin_token"
+        );
+
+
+        localStorage.removeItem(
+            "annapriya_admin"
+        );
+
+
+        localStorage.removeItem(
+            "admin"
+        );
+
+
+        window.location.href =
+            "index.html";
+
+    }
+
+
+
+    /* =====================================================
+       SEARCH EVENTS
+    ===================================================== */
+
+    document
+        .getElementById(
+            "searchInput"
+        )
+        .addEventListener(
+            "input",
+            filterEnquiries
+        );
+
+
+    document
+        .getElementById(
+            "statusFilter"
+        )
+        .addEventListener(
+            "change",
+            filterEnquiries
+        );
+
+
+    document
+        .getElementById(
+            "priorityFilter"
+        )
+        .addEventListener(
+            "change",
+            filterEnquiries
+        );
+
+
+
+    /* =====================================================
+       MODAL BACKGROUND CLOSE
+    ===================================================== */
+
+    document
+        .getElementById(
+            "enquiryModal"
+        )
+        .addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target === this
+                ) {
+
+                    closeEnquiryModal();
+
+                }
+
+            }
+        );
+
+
+
+    /* =====================================================
+       INITIAL LOAD
+    ===================================================== */
+
+    loadAdminProfile();
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,4031 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<title>
+    Reports & Analytics | Annapriya
+</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+    /* =====================================================
+       ANNAPRIYA COLOR PALETTE
+    ===================================================== */
+
+    :root {
+
+        --primary: #8B1E3F;
+        --secondary: #F5E9DA;
+        --accent: #1C1C1C;
+        --highlight: #D4A373;
+
+        --white: #FFFFFF;
+        --soft-white: #FFFDFC;
+
+        --border:
+            rgba(139, 30, 63, 0.12);
+
+        --muted: #766D68;
+
+        --success: #2F7D4A;
+        --danger: #B42318;
+
+        --shadow:
+            0 8px 30px rgba(28, 28, 28, 0.08);
+
+    }
+
+
+    /* =====================================================
+       RESET
+    ===================================================== */
+
+    * {
+
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+
+    }
+
+
+    body {
+
+        font-family:
+            "Segoe UI",
+            Arial,
+            sans-serif;
+
+        background:
+            var(--secondary);
+
+        color:
+            var(--accent);
+
+        min-height: 100vh;
+
+    }
+
+
+    button,
+    input,
+    select {
+
+        font-family: inherit;
+
+    }
+
+
+    button {
+
+        cursor: pointer;
+
+    }
+
+
+    /* =====================================================
+       MAIN LAYOUT
+       SAME WIDTH AS REVIEWS PAGE
+    ===================================================== */
+
+    .admin-layout {
+
+        min-height: 100vh;
+
+        display: flex;
+
+    }
+
+
+    /* =====================================================
+       SIDEBAR
+       SAME AS ADMIN REVIEWS PAGE
+    ===================================================== */
+
+    .sidebar {
+
+        width: 218px;
+
+        min-height: 100vh;
+
+        background:
+            #1C1C1C;
+
+        color:
+            var(--white);
+
+        padding:
+            28px 14px 18px;
+
+        position: fixed;
+
+        left: 0;
+        top: 0;
+        bottom: 0;
+
+        z-index: 100;
+
+        overflow-y: auto;
+
+        box-shadow:
+            6px 0 25px
+            rgba(28, 28, 28, 0.12);
+
+    }
+
+
+    .brand {
+
+        padding:
+            8px 15px 30px;
+
+        border-bottom:
+            1px solid
+            rgba(255,255,255,0.18);
+
+        margin-bottom:
+            25px;
+
+    }
+
+
+    .brand h2 {
+
+        font-size: 27px;
+
+        font-family:
+            Georgia, serif;
+
+        letter-spacing:
+            0.5px;
+
+    }
+
+
+    .brand span {
+
+        display: block;
+
+        margin-top: 5px;
+
+        font-size: 11px;
+
+        letter-spacing: 1.5px;
+
+        text-transform:
+            uppercase;
+
+        opacity:
+            0.75;
+
+    }
+
+
+    .sidebar-nav {
+
+        display: flex;
+
+        flex-direction:
+            column;
+
+        gap: 7px;
+
+    }
+
+
+    .sidebar-nav a {
+
+        text-decoration: none;
+
+        color:
+            rgba(255,255,255,0.82);
+
+        padding:
+            13px 15px;
+
+        border-radius:
+            9px;
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 12px;
+
+        font-size: 14px;
+
+        transition:
+            0.25s ease;
+
+    }
+
+
+    .sidebar-nav a:hover {
+
+        background:
+            rgba(255,255,255,0.08);
+
+        color:
+            var(--white);
+
+    }
+
+
+    .sidebar-nav a.active {
+
+        background:
+            var(--primary);
+
+        color:
+            var(--white);
+
+        font-weight:
+            700;
+
+        box-shadow:
+            0 5px 15px
+            rgba(0,0,0,0.12);
+
+    }
+
+
+    .nav-icon {
+
+        width:
+            22px;
+
+        text-align:
+            center;
+
+        font-size:
+            16px;
+
+        flex-shrink:
+            0;
+
+    }
+
+
+    /* =====================================================
+       MAIN CONTENT
+       SAME 218px OFFSET AS REVIEWS PAGE
+    ===================================================== */
+
+    .main-content {
+
+        margin-left:
+            218px;
+
+        width:
+            calc(100% - 218px);
+
+        min-height:
+            100vh;
+
+    }
+
+
+    /* =====================================================
+       TOP BAR
+    ===================================================== */
+
+    .topbar {
+
+        height:
+            78px;
+
+        background:
+            rgba(255,255,255,0.94);
+
+        border-bottom:
+            1px solid
+            var(--border);
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        justify-content:
+            space-between;
+
+        padding:
+            0 34px;
+
+        position:
+            sticky;
+
+        top:
+            0;
+
+        z-index:
+            50;
+
+        backdrop-filter:
+            blur(10px);
+
+    }
+
+
+    .topbar-left {
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        gap:
+            12px;
+
+    }
+
+
+    .topbar-left span {
+
+        color:
+            var(--muted);
+
+        font-size:
+            13px;
+
+    }
+
+
+    .topbar-left strong {
+
+        color:
+            var(--primary);
+
+    }
+
+
+    .admin-profile {
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        gap:
+            11px;
+
+    }
+
+
+    .profile-icon {
+
+        width:
+            40px;
+
+        height:
+            40px;
+
+        border-radius:
+            50%;
+
+        background:
+            var(--primary);
+
+        color:
+            var(--white);
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        justify-content:
+            center;
+
+        font-weight:
+            700;
+
+    }
+
+
+    .profile-text {
+
+        display:
+            flex;
+
+        flex-direction:
+            column;
+
+        gap:
+            2px;
+
+    }
+
+
+    .profile-text strong {
+
+        font-size:
+            13px;
+
+        color:
+            var(--accent);
+
+    }
+
+
+    .profile-text span {
+
+        font-size:
+            11px;
+
+        color:
+            var(--muted);
+
+    }
+
+
+    /* =====================================================
+       CONTENT
+    ===================================================== */
+
+    .content {
+
+        padding:
+            28px 34px 45px;
+
+    }
+
+
+    .page-header {
+
+        display:
+            flex;
+
+        justify-content:
+            space-between;
+
+        align-items:
+            flex-end;
+
+        margin-bottom:
+            20px;
+
+    }
+
+
+    .kicker {
+
+        color:
+            var(--highlight);
+
+        font-size:
+            11px;
+
+        font-weight:
+            bold;
+
+        letter-spacing:
+            2px;
+
+        text-transform:
+            uppercase;
+
+        margin-bottom:
+            5px;
+
+    }
+
+
+    .page-title {
+
+        font-family:
+            Georgia, serif;
+
+        color:
+            var(--primary);
+
+        font-size:
+            32px;
+
+        margin-bottom:
+            5px;
+
+    }
+
+
+    .page-description {
+
+        color:
+            var(--muted);
+
+        font-size:
+            13px;
+
+    }
+
+
+    .header-actions {
+
+        display:
+            flex;
+
+        gap:
+            8px;
+
+    }
+
+
+    .btn {
+
+        border:
+            none;
+
+        border-radius:
+            7px;
+
+        padding:
+            10px 15px;
+
+        cursor:
+            pointer;
+
+        font-size:
+            12px;
+
+        font-weight:
+            bold;
+
+    }
+
+
+    .btn-primary {
+
+        background:
+            var(--primary);
+
+        color:
+            white;
+
+    }
+
+
+    .btn-light {
+
+        background:
+            white;
+
+        color:
+            var(--primary);
+
+        border:
+            1px solid
+            var(--border);
+
+    }
+
+
+    /* =====================================================
+       DASHBOARD
+    ===================================================== */
+
+    .dashboard {
+
+        display:
+            grid;
+
+        grid-template-columns:
+            190px
+            1.05fr
+            1.65fr
+            1.05fr;
+
+        gap:
+            12px;
+
+        align-items:
+            stretch;
+
+    }
+
+
+    .panel {
+
+        background:
+            white;
+
+        border-radius:
+            10px;
+
+        box-shadow:
+            var(--shadow);
+
+        border:
+            1px solid
+            rgba(139, 30, 63, 0.07);
+
+        overflow:
+            hidden;
+
+    }
+
+
+    .panel-title {
+
+        padding:
+            12px 14px 8px;
+
+        font-family:
+            Georgia, serif;
+
+        color:
+            var(--primary);
+
+        font-size:
+            14px;
+
+    }
+
+
+    .panel-subtitle {
+
+        padding:
+            0 14px 10px;
+
+        font-size:
+            10px;
+
+        color:
+            var(--muted);
+
+    }
+
+
+    .panel-body {
+
+        padding:
+            10px 14px 14px;
+
+    }
+
+
+    /* =====================================================
+       FILTER PANEL
+    ===================================================== */
+
+    .filters-panel {
+
+        grid-row:
+            span 4;
+
+    }
+
+
+    .filter-heading {
+
+        background:
+            var(--primary);
+
+        color:
+            white;
+
+        padding:
+            13px;
+
+        font-family:
+            Georgia, serif;
+
+        font-size:
+            16px;
+
+    }
+
+
+    .filter-group {
+
+        padding:
+            10px 12px 0;
+
+    }
+
+
+    .filter-group label {
+
+        display:
+            block;
+
+        color:
+            var(--muted);
+
+        font-size:
+            10px;
+
+        font-weight:
+            bold;
+
+        margin-bottom:
+            5px;
+
+    }
+
+
+    .filter-group select,
+    .filter-group input {
+
+        width:
+            100%;
+
+        border:
+            1px solid
+            var(--border);
+
+        border-radius:
+            5px;
+
+        padding:
+            8px;
+
+        background:
+            var(--soft-white);
+
+        font-size:
+            11px;
+
+        color:
+            var(--accent);
+
+        outline:
+            none;
+
+    }
+
+
+    .filter-group select:focus,
+    .filter-group input:focus {
+
+        border-color:
+            var(--primary);
+
+    }
+
+
+    .filter-button {
+
+        margin:
+            12px;
+
+        width:
+            calc(100% - 24px);
+
+    }
+
+
+    .filter-note {
+
+        margin:
+            10px 12px;
+
+        padding:
+            8px;
+
+        border-radius:
+            5px;
+
+        background:
+            #FFF8EF;
+
+        font-size:
+            9px;
+
+        color:
+            var(--muted);
+
+        line-height:
+            1.4;
+
+    }
+
+
+    /* =====================================================
+       KPI PANEL
+    ===================================================== */
+
+    .kpi-panel {
+
+        padding:
+            14px;
+
+        min-height:
+            145px;
+
+    }
+
+
+    .kpi-label {
+
+        font-size:
+            10px;
+
+        color:
+            var(--muted);
+
+        margin-bottom:
+            5px;
+
+    }
+
+
+    .kpi-value {
+
+        color:
+            var(--primary);
+
+        font-family:
+            Georgia, serif;
+
+        font-size:
+            27px;
+
+        font-weight:
+            bold;
+
+    }
+
+
+    .kpi-small {
+
+        color:
+            var(--muted);
+
+        font-size:
+            9px;
+
+        margin-top:
+            4px;
+
+    }
+
+
+    .kpi-row {
+
+        display:
+            grid;
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap:
+            10px;
+
+    }
+
+
+    /* =====================================================
+       CHARTS
+    ===================================================== */
+
+    .chart-panel {
+
+        min-height:
+            225px;
+
+    }
+
+
+    .chart-area {
+
+        position:
+            relative;
+
+        height:
+            170px;
+
+        padding:
+            5px 12px 12px;
+
+    }
+
+
+    .chart-area.small {
+
+        height:
+            155px;
+
+    }
+
+
+    .chart-area.tall {
+
+        height:
+            210px;
+
+    }
+
+
+    /* =====================================================
+       STATUS CARDS
+    ===================================================== */
+
+    .status-grid {
+
+        display:
+            grid;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap:
+            7px;
+
+        padding:
+            10px;
+
+    }
+
+
+    .status-item {
+
+        background:
+            var(--soft-white);
+
+        border:
+            1px solid
+            var(--border);
+
+        border-radius:
+            7px;
+
+        padding:
+            9px;
+
+        text-align:
+            center;
+
+    }
+
+
+    .status-value {
+
+        color:
+            var(--primary);
+
+        font-family:
+            Georgia, serif;
+
+        font-size:
+            20px;
+
+        font-weight:
+            bold;
+
+    }
+
+
+    .status-label {
+
+        color:
+            var(--muted);
+
+        font-size:
+            8px;
+
+        margin-top:
+            3px;
+
+    }
+
+
+    /* =====================================================
+       RATING CIRCLES
+    ===================================================== */
+
+    .rating-grid {
+
+        display:
+            grid;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap:
+            8px;
+
+        padding:
+            10px 12px 14px;
+
+    }
+
+
+    .rating-circle-wrap {
+
+        text-align:
+            center;
+
+    }
+
+
+    .rating-circle {
+
+        width:
+            65px;
+
+        height:
+            65px;
+
+        margin:
+            auto;
+
+        border-radius:
+            50%;
+
+        border:
+            7px solid
+            var(--secondary);
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        justify-content:
+            center;
+
+        color:
+            var(--primary);
+
+        font-family:
+            Georgia, serif;
+
+        font-weight:
+            bold;
+
+        font-size:
+            15px;
+
+    }
+
+
+    .rating-label {
+
+        font-size:
+            9px;
+
+        color:
+            var(--muted);
+
+        margin-top:
+            5px;
+
+    }
+
+
+    /* =====================================================
+       PERFORMANCE TABLE
+    ===================================================== */
+
+    .performance-panel {
+
+        grid-column:
+            2 / -1;
+
+    }
+
+
+    .performance-wrapper {
+
+        overflow-x:
+            auto;
+
+    }
+
+
+    .performance-table {
+
+        width:
+            100%;
+
+        border-collapse:
+            collapse;
+
+    }
+
+
+    .performance-table th {
+
+        background:
+            #FBF5EE;
+
+        color:
+            var(--primary);
+
+        font-size:
+            9px;
+
+        padding:
+            9px;
+
+        text-align:
+            left;
+
+    }
+
+
+    .performance-table td {
+
+        border-top:
+            1px solid
+            var(--border);
+
+        padding:
+            8px 9px;
+
+        font-size:
+            9px;
+
+    }
+
+
+    .performance-table tr:hover {
+
+        background:
+            var(--soft-white);
+
+    }
+
+
+    /* =====================================================
+       ERROR
+    ===================================================== */
+
+    .error-message {
+
+        display:
+            none;
+
+        background:
+            #FCE8E6;
+
+        color:
+            var(--danger);
+
+        padding:
+            12px;
+
+        border-radius:
+            7px;
+
+        margin-bottom:
+            15px;
+
+        font-size:
+            12px;
+
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 1250px) {
+
+        .dashboard {
+
+            grid-template-columns:
+                180px 1fr 1fr;
+
+        }
+
+        .filters-panel {
+
+            grid-row:
+                span 5;
+
+        }
+
+        .performance-panel {
+
+            grid-column:
+                2 / -1;
+
+        }
+
+    }
+
+
+    @media (max-width: 900px) {
+
+        .sidebar {
+
+            width:
+                210px;
+
+        }
+
+
+        .main-content {
+
+            margin-left:
+                210px;
+
+            width:
+                calc(100% - 210px);
+
+        }
+
+
+        .dashboard {
+
+            grid-template-columns:
+                1fr 1fr;
+
+        }
+
+
+        .filters-panel {
+
+            grid-row:
+                auto;
+
+        }
+
+
+        .performance-panel {
+
+            grid-column:
+                1 / -1;
+
+        }
+
+
+        .page-header {
+
+            align-items:
+                flex-start;
+
+            flex-direction:
+                column;
+
+            gap:
+                15px;
+
+        }
+
+    }
+
+
+    @media (max-width: 800px) {
+
+        .sidebar {
+
+            width:
+                75px;
+
+            padding:
+                20px 10px;
+
+        }
+
+
+        .brand {
+
+            padding-left:
+                5px;
+
+            padding-right:
+                5px;
+
+            text-align:
+                center;
+
+        }
+
+
+        .brand h2 {
+
+            font-size:
+                17px;
+
+        }
+
+
+        .brand span {
+
+            display:
+                none;
+
+        }
+
+
+        .sidebar-nav a {
+
+            justify-content:
+                center;
+
+            padding:
+                13px 5px;
+
+        }
+
+
+        .sidebar-nav a span:not(.nav-icon) {
+
+            display:
+                none;
+
+        }
+
+
+        .main-content {
+
+            margin-left:
+                75px;
+
+            width:
+                calc(100% - 75px);
+
+        }
+
+    }
+
+
+    @media (max-width: 650px) {
+
+        .admin-layout {
+
+            display:
+                block;
+
+        }
+
+
+        .sidebar {
+
+            position:
+                relative;
+
+            width:
+                100%;
+
+            min-height:
+                auto;
+
+        }
+
+
+        .brand {
+
+            text-align:
+                left;
+
+        }
+
+
+        .brand span {
+
+            display:
+                block;
+
+        }
+
+
+        .sidebar-nav a {
+
+            justify-content:
+                flex-start;
+
+        }
+
+
+        .sidebar-nav a span:not(.nav-icon) {
+
+            display:
+                inline;
+
+        }
+
+
+        .main-content {
+
+            margin-left:
+                0;
+
+            width:
+                100%;
+
+        }
+
+
+        .dashboard {
+
+            grid-template-columns:
+                1fr;
+
+        }
+
+
+        .performance-panel {
+
+            grid-column:
+                auto;
+
+        }
+
+
+        .content {
+
+            padding:
+                20px 15px 35px;
+
+        }
+
+
+        .page-title {
+
+            font-size:
+                27px;
+
+        }
+
+
+        .header-actions {
+
+            width:
+                100%;
+
+        }
+
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+```
+<!-- =====================================================
+     SIDEBAR
+====================================================== -->
+
+<aside class="sidebar">
+
+
+    <div class="brand">
+
+        <h2>
+            Annapriya
+        </h2>
+
+        <span>
+            Admin Panel
+        </span>
+
+    </div>
+
+
+    <nav class="sidebar-nav">
+
+
+        <a href="admindashboard.html">
+
+            <span class="nav-icon">
+                ⌂
+            </span>
+
+            <span>
+                Dashboard
+            </span>
+
+        </a>
+
+
+        <a href="adminusers.html">
+
+            <span class="nav-icon">
+                ♙
+            </span>
+
+            <span>
+                Manage Users
+            </span>
+
+        </a>
+
+
+        <a href="admincaterers.html">
+
+            <span class="nav-icon">
+                ♨
+            </span>
+
+            <span>
+                Manage Caterers
+            </span>
+
+        </a>
+
+
+        <a href="adminbookings.html">
+
+            <span class="nav-icon">
+                ▣
+            </span>
+
+            <span>
+                Bookings
+            </span>
+
+        </a>
+
+
+        <a href="adminreviews.html">
+
+            <span class="nav-icon">
+                ★
+            </span>
+
+            <span>
+                Reviews
+            </span>
+
+        </a>
+
+
+        <a
+            href="adminreports.html"
+            class="active">
+
+            <span class="nav-icon">
+                ▤
+            </span>
+
+            <span>
+                Reports & Analytics
+            </span>
+
+        </a>
+
+
+        <a href="adminsettings.html">
+
+            <span class="nav-icon">
+                ⚙
+            </span>
+
+            <span>
+                Settings
+            </span>
+
+        </a>
+
+
+    </nav>
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN CONTENT
+====================================================== -->
+
+<main class="main-content">
+
+
+    <header class="topbar">
+
+
+        <div class="topbar-left">
+
+            <span>
+                Admin
+            </span>
+
+            <span>
+                ›
+            </span>
+
+            <strong>
+                Reports & Analytics
+            </strong>
+
+        </div>
+
+
+        <div class="admin-profile">
+
+
+            <div
+                class="profile-icon"
+                id="adminAvatar">
+
+                A
+
+            </div>
+
+
+            <div class="profile-text">
+
+                <strong id="adminName">
+                    Administrator
+                </strong>
+
+                <span>
+                    Admin Account
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+    </header>
+
+
+    <section class="content">
+
+
+        <div class="page-header">
+
+
+            <div>
+
+                <div class="kicker">
+                    Annapriya Administration
+                </div>
+
+
+                <h1 class="page-title">
+                    Reports & Analytics Dashboard
+                </h1>
+
+
+                <p class="page-description">
+                    Business performance overview and analytics
+                </p>
+
+            </div>
+
+
+            <div class="header-actions">
+
+
+                <button
+                    class="btn btn-primary"
+                    onclick="loadAllReports()">
+
+                    ↻ Refresh
+
+                </button>
+
+
+                <button
+                    class="btn btn-light"
+                    onclick="window.print()">
+
+                    🖨 Print
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="errorMessage"
+            class="error-message">
+        </div>
+
+
+        <div class="dashboard">
+
+
+            <!-- FILTERS -->
+
+            <div class="panel filters-panel">
+
+
+                <div class="filter-heading">
+                    Report Filters
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>
+                        YEAR
+                    </label>
+
+                    <select id="yearFilter">
+
+                        <option value="all">
+                            All Years
+                        </option>
+
+                        <option value="2026">
+                            2026
+                        </option>
+
+                        <option value="2025">
+                            2025
+                        </option>
+
+                        <option value="2024">
+                            2024
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>
+                        MONTH
+                    </label>
+
+                    <select id="monthFilter">
+
+                        <option value="all">
+                            All Months
+                        </option>
+
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>
+                        EVENT TYPE
+                    </label>
+
+                    <select id="eventFilter">
+
+                        <option value="all">
+                            All Events
+                        </option>
+
+                        <option value="Wedding">
+                            Wedding
+                        </option>
+
+                        <option value="Birthday">
+                            Birthday
+                        </option>
+
+                        <option value="Reception">
+                            Reception
+                        </option>
+
+                        <option value="Engagement">
+                            Engagement
+                        </option>
+
+                        <option value="Corporate">
+                            Corporate
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>
+                        BOOKING STATUS
+                    </label>
+
+                    <select id="statusFilter">
+
+                        <option value="all">
+                            All Status
+                        </option>
+
+                        <option value="pending">
+                            Pending
+                        </option>
+
+                        <option value="accepted">
+                            Accepted
+                        </option>
+
+                        <option value="confirmed">
+                            Confirmed
+                        </option>
+
+                        <option value="completed">
+                            Completed
+                        </option>
+
+                        <option value="rejected">
+                            Rejected
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>
+                        START DATE
+                    </label>
+
+                    <input
+                        type="date"
+                        id="startDate">
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>
+                        END DATE
+                    </label>
+
+                    <input
+                        type="date"
+                        id="endDate">
+
+                </div>
+
+
+                <button
+                    class="btn btn-primary filter-button"
+                    onclick="applyFilters()">
+
+                    Apply Filter
+
+                </button>
+
+
+                <button
+                    class="btn btn-light filter-button"
+                    onclick="resetFilters()">
+
+                    Reset
+
+                </button>
+
+
+                <div class="filter-note">
+
+                    Report values are calculated from the
+                    available Annapriya database records.
+
+                </div>
+
+            </div>
+
+
+            <!-- TOTAL CUSTOMERS -->
+
+            <div class="panel kpi-panel">
+
+                <div class="kpi-label">
+                    TOTAL CUSTOMERS
+                </div>
+
+                <div
+                    class="kpi-value"
+                    id="totalCustomers">
+
+                    —
+
+                </div>
+
+                <div class="kpi-small">
+                    Registered customers
+                </div>
+
+            </div>
+
+
+            <!-- BOOKING TREND -->
+
+            <div class="panel chart-panel">
+
+                <div class="panel-title">
+                    Booking Trend
+                </div>
+
+                <div class="panel-subtitle">
+                    Event requests over time
+                </div>
+
+                <div class="chart-area">
+                    <canvas id="bookingChart"></canvas>
+                </div>
+
+            </div>
+
+
+            <!-- PAYMENT STATUS -->
+
+            <div class="panel chart-panel">
+
+                <div class="panel-title">
+                    Payment Status
+                </div>
+
+                <div class="panel-subtitle">
+                    Current payment distribution
+                </div>
+
+                <div class="chart-area">
+                    <canvas id="paymentChart"></canvas>
+                </div>
+
+            </div>
+
+
+            <!-- CATERERS / BOOKINGS -->
+
+            <div class="panel kpi-panel">
+
+                <div class="kpi-row">
+
+
+                    <div>
+
+                        <div class="kpi-label">
+                            CATERERS
+                        </div>
+
+                        <div
+                            class="kpi-value"
+                            id="totalCaterers">
+
+                            —
+
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="kpi-label">
+                            BOOKINGS
+                        </div>
+
+                        <div
+                            class="kpi-value"
+                            id="totalBookings">
+
+                            —
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- REVENUE TREND -->
+
+            <div class="panel chart-panel">
+
+                <div class="panel-title">
+                    Revenue Trend
+                </div>
+
+                <div class="panel-subtitle">
+                    Paid revenue over time
+                </div>
+
+                <div class="chart-area">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+
+            </div>
+
+
+            <!-- CUSTOMER REGISTRATIONS -->
+
+            <div class="panel chart-panel">
+
+                <div class="panel-title">
+                    Customer Registrations
+                </div>
+
+                <div class="panel-subtitle">
+                    New customers over time
+                </div>
+
+                <div class="chart-area">
+                    <canvas id="customerChart"></canvas>
+                </div>
+
+            </div>
+
+
+            <!-- REVENUE / EVENTS -->
+
+            <div class="panel kpi-panel">
+
+                <div class="kpi-row">
+
+
+                    <div>
+
+                        <div class="kpi-label">
+                            REVENUE
+                        </div>
+
+                        <div
+                            class="kpi-value"
+                            id="totalRevenue">
+
+                            ₹0
+
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="kpi-label">
+                            EVENTS
+                        </div>
+
+                        <div
+                            class="kpi-value"
+                            id="totalEvents">
+
+                            —
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- BOOKING STATUS -->
+
+            <div class="panel">
+
+                <div class="panel-title">
+                    Booking Status
+                </div>
+
+                <div class="panel-subtitle">
+                    Current request status
+                </div>
+
+
+                <div class="status-grid">
+
+
+                    <div class="status-item">
+
+                        <div
+                            class="status-value"
+                            id="pendingBookings">
+                            0
+                        </div>
+
+                        <div class="status-label">
+                            Pending
+                        </div>
+
+                    </div>
+
+
+                    <div class="status-item">
+
+                        <div
+                            class="status-value"
+                            id="acceptedBookings">
+                            0
+                        </div>
+
+                        <div class="status-label">
+                            Accepted
+                        </div>
+
+                    </div>
+
+
+                    <div class="status-item">
+
+                        <div
+                            class="status-value"
+                            id="confirmedBookings">
+                            0
+                        </div>
+
+                        <div class="status-label">
+                            Confirmed
+                        </div>
+
+                    </div>
+
+
+                    <div class="status-item">
+
+                        <div
+                            class="status-value"
+                            id="completedBookings">
+                            0
+                        </div>
+
+                        <div class="status-label">
+                            Completed
+                        </div>
+
+                    </div>
+
+
+                    <div class="status-item">
+
+                        <div
+                            class="status-value"
+                            id="paymentPendingBookings">
+                            0
+                        </div>
+
+                        <div class="status-label">
+                            Payment Pending
+                        </div>
+
+                    </div>
+
+
+                    <div class="status-item">
+
+                        <div
+                            class="status-value"
+                            id="rejectedBookings">
+                            0
+                        </div>
+
+                        <div class="status-label">
+                            Rejected
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- RATING -->
+
+            <div class="panel">
+
+                <div class="panel-title">
+                    Rating Analysis
+                </div>
+
+                <div class="panel-subtitle">
+                    Customer review distribution
+                </div>
+
+
+                <div class="rating-grid">
+
+
+                    <div class="rating-circle-wrap">
+
+                        <div
+                            class="rating-circle"
+                            id="ratingAverage">
+                            0.0
+                        </div>
+
+                        <div class="rating-label">
+                            Average
+                        </div>
+
+                    </div>
+
+
+                    <div class="rating-circle-wrap">
+
+                        <div
+                            class="rating-circle"
+                            id="fiveStar">
+                            0
+                        </div>
+
+                        <div class="rating-label">
+                            5 Star
+                        </div>
+
+                    </div>
+
+
+                    <div class="rating-circle-wrap">
+
+                        <div
+                            class="rating-circle"
+                            id="fourStar">
+                            0
+                        </div>
+
+                        <div class="rating-label">
+                            4 Star
+                        </div>
+
+                    </div>
+
+
+                    <div class="rating-circle-wrap">
+
+                        <div
+                            class="rating-circle"
+                            id="threeStar">
+                            0
+                        </div>
+
+                        <div class="rating-label">
+                            3 Star
+                        </div>
+
+                    </div>
+
+
+                    <div class="rating-circle-wrap">
+
+                        <div
+                            class="rating-circle"
+                            id="twoStar">
+                            0
+                        </div>
+
+                        <div class="rating-label">
+                            2 Star
+                        </div>
+
+                    </div>
+
+
+                    <div class="rating-circle-wrap">
+
+                        <div
+                            class="rating-circle"
+                            id="oneStar">
+                            0
+                        </div>
+
+                        <div class="rating-label">
+                            1 Star
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- EVENT TYPE -->
+
+            <div class="panel">
+
+                <div class="panel-title">
+                    Event Type Distribution
+                </div>
+
+                <div class="panel-subtitle">
+                    Actual event requests
+                </div>
+
+                <div class="chart-area small">
+                    <canvas id="eventTypeChart"></canvas>
+                </div>
+
+            </div>
+
+
+            <!-- CATERER STATUS -->
+
+            <div class="panel">
+
+                <div class="panel-title">
+                    Caterer Status
+                </div>
+
+                <div class="panel-subtitle">
+                    Approval status
+                </div>
+
+                <div class="chart-area small">
+                    <canvas id="catererChart"></canvas>
+                </div>
+
+            </div>
+
+
+            <!-- CUSTOMER OVERVIEW -->
+
+            <div class="panel">
+
+                <div class="panel-title">
+                    Customer Overview
+                </div>
+
+                <div class="panel-subtitle">
+                    Account status
+                </div>
+
+
+                <div class="status-grid">
+
+
+                    <div class="status-item">
+
+                        <div
+                            class="status-value"
+                            id="customerActive">
+                            0
+                        </div>
+
+                        <div class="status-label">
+                            Active
+                        </div>
+
+                    </div>
+
+
+                    <div class="status-item">
+
+                        <div
+                            class="status-value"
+                            id="customerBlocked">
+                            0
+                        </div>
+
+                        <div class="status-label">
+                            Blocked
+                        </div>
+
+                    </div>
+
+
+                    <div class="status-item">
+
+                        <div
+                            class="status-value"
+                            id="customerNew">
+                            0
+                        </div>
+
+                        <div class="status-label">
+                            New
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- CATERER PERFORMANCE -->
+
+            <div class="panel performance-panel">
+
+                <div class="panel-title">
+                    Caterer Performance
+                </div>
+
+                <div class="panel-subtitle">
+
+                    Requests, accepted bookings, completed events,
+                    reviews and average rating
+
+                </div>
+
+
+                <div class="performance-wrapper">
+
+                    <table class="performance-table">
+
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Caterer
+                                </th>
+
+                                <th>
+                                    Requests
+                                </th>
+
+                                <th>
+                                    Accepted
+                                </th>
+
+                                <th>
+                                    Completed
+                                </th>
+
+                                <th>
+                                    Reviews
+                                </th>
+
+                                <th>
+                                    Rating
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="performanceBody">
+
+                            <tr>
+
+                                <td
+                                    colspan="6"
+                                    style="
+                                        text-align:center;
+                                        color:#766D68;
+                                        padding:18px;
+                                    ">
+
+                                    Loading...
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+</main>
+```
+
+</div>
+
+<script>
+
+
+    /* =========================================================
+       API
+    ========================================================= */
+
+    const API_BASE =
+        "http://localhost:5000/api/admin";
+
+
+    const token =
+        localStorage.getItem("adminToken") ||
+        localStorage.getItem("annapriya_admin_token") ||
+        "";
+
+
+    if (!token) {
+
+        window.location.href =
+            "index.html";
+
+    }
+
+
+    /* =========================================================
+       ADMIN INFORMATION
+    ========================================================= */
+
+    try {
+
+        const admin =
+            JSON.parse(
+                localStorage.getItem(
+                    "annapriya_admin"
+                )
+            );
+
+
+        if (admin) {
+
+            const name =
+                admin.fullName ||
+                admin.name ||
+                admin.username ||
+                admin.email ||
+                "Administrator";
+
+
+            document.getElementById(
+                "adminName"
+            ).textContent =
+                name;
+
+
+            document.getElementById(
+                "adminAvatar"
+            ).textContent =
+                name
+                    .charAt(0)
+                    .toUpperCase();
+
+        }
+
+    }
+    catch (error) {
+
+        console.log(
+            "Admin information unavailable."
+        );
+
+    }
+
+
+    /* =========================================================
+       CHART VARIABLES
+    ========================================================= */
+
+    let bookingChart;
+    let revenueChart;
+    let customerChart;
+    let paymentChart;
+    let eventTypeChart;
+    let catererChart;
+
+
+    /* =========================================================
+       API REQUEST
+    ========================================================= */
+
+    async function apiRequest(endpoint) {
+
+        const response =
+            await fetch(
+                API_BASE + endpoint,
+                {
+
+                    method: "GET",
+
+                    headers: {
+
+                        "Authorization":
+                            "Bearer " + token,
+
+                        "Content-Type":
+                            "application/json"
+
+                    }
+
+                }
+            );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            localStorage.removeItem(
+                "adminToken"
+            );
+
+            localStorage.removeItem(
+                "annapriya_admin_token"
+            );
+
+            localStorage.removeItem(
+                "annapriya_admin"
+            );
+
+            window.location.href =
+                "index.html";
+
+            return null;
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load report."
+            );
+
+        }
+
+
+        return data;
+
+    }
+
+
+    /* =========================================================
+       HELPERS
+    ========================================================= */
+
+    function getReport(data) {
+
+        return data &&
+            data.data
+            ? data.data
+            : data;
+
+    }
+
+
+    function number(value) {
+
+        return Number(
+            value || 0
+        ).toLocaleString(
+            "en-IN"
+        );
+
+    }
+
+
+    function currency(value) {
+
+        return "₹" +
+            Number(
+                value || 0
+            ).toLocaleString(
+                "en-IN",
+                {
+                    maximumFractionDigits:
+                        2
+                }
+            );
+
+    }
+
+
+    function escapeHtml(value) {
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* =========================================================
+       OVERVIEW
+    ========================================================= */
+
+    async function loadOverview() {
+
+        const result =
+            await apiRequest(
+                "/reports/overview"
+            );
+
+
+        if (!result)
+            return;
+
+
+        const data =
+            getReport(result);
+
+
+        document.getElementById(
+            "totalCustomers"
+        ).textContent =
+            number(
+                data.totalCustomers
+            );
+
+
+        document.getElementById(
+            "totalCaterers"
+        ).textContent =
+            number(
+                data.totalCaterers
+            );
+
+
+        document.getElementById(
+            "totalBookings"
+        ).textContent =
+            number(
+                data.totalBookings
+            );
+
+
+        document.getElementById(
+            "totalRevenue"
+        ).textContent =
+            currency(
+                data.totalRevenue
+            );
+
+
+        document.getElementById(
+            "totalEvents"
+        ).textContent =
+            number(
+                data.totalEvents ||
+                data.totalBookings
+            );
+
+
+        document.getElementById(
+            "ratingAverage"
+        ).textContent =
+            Number(
+                data.averageRating || 0
+            ).toFixed(1);
+
+    }
+
+
+    /* =========================================================
+       BOOKING REPORT
+    ========================================================= */
+
+    async function loadBookings() {
+
+        const result =
+            await apiRequest(
+                "/reports/bookings"
+            );
+
+
+        if (!result)
+            return;
+
+
+        const data =
+            getReport(result);
+
+
+        document.getElementById(
+            "pendingBookings"
+        ).textContent =
+            number(
+                data.pending
+            );
+
+
+        document.getElementById(
+            "acceptedBookings"
+        ).textContent =
+            number(
+                data.accepted
+            );
+
+
+        document.getElementById(
+            "confirmedBookings"
+        ).textContent =
+            number(
+                data.confirmed
+            );
+
+
+        document.getElementById(
+            "completedBookings"
+        ).textContent =
+            number(
+                data.completed
+            );
+
+
+        document.getElementById(
+            "paymentPendingBookings"
+        ).textContent =
+            number(
+                data.payment_pending
+            );
+
+
+        document.getElementById(
+            "rejectedBookings"
+        ).textContent =
+            number(
+                data.rejected
+            );
+
+
+        const trend =
+            data.trend ||
+            data.dailyTrend ||
+            [];
+
+
+        const labels =
+            trend.map(
+                item =>
+                    item.date ||
+                    item.day ||
+                    ""
+            );
+
+
+        const values =
+            trend.map(
+                item =>
+                    Number(
+                        item.count ||
+                        item.total ||
+                        0
+                    )
+            );
+
+
+        createBookingChart(
+            labels,
+            values
+        );
+
+    }
+
+
+    /* =========================================================
+       REVENUE REPORT
+    ========================================================= */
+
+    async function loadRevenue() {
+
+        const result =
+            await apiRequest(
+                "/reports/revenue"
+            );
+
+
+        if (!result)
+            return;
+
+
+        const data =
+            getReport(result);
+
+
+        const trend =
+            data.trend ||
+            data.dailyTrend ||
+            [];
+
+
+        const labels =
+            trend.map(
+                item =>
+                    item.date ||
+                    item.day ||
+                    ""
+            );
+
+
+        const values =
+            trend.map(
+                item =>
+                    Number(
+                        item.amount ||
+                        item.revenue ||
+                        item.total ||
+                        0
+                    )
+            );
+
+
+        createRevenueChart(
+            labels,
+            values
+        );
+
+
+        createPaymentChart(
+
+            [
+                "Paid",
+                "Pending",
+                "Failed"
+            ],
+
+            [
+
+                Number(
+                    data.paid ||
+                    data.paidAmount ||
+                    data.totalPaid ||
+                    0
+                ),
+
+                Number(
+                    data.pending ||
+                    data.pendingAmount ||
+                    0
+                ),
+
+                Number(
+                    data.failed ||
+                    data.failedAmount ||
+                    0
+                )
+
+            ]
+
+        );
+
+    }
+
+
+    /* =========================================================
+       CUSTOMER REPORT
+    ========================================================= */
+
+    async function loadCustomers() {
+
+        const result =
+            await apiRequest(
+                "/reports/customers"
+            );
+
+
+        if (!result)
+            return;
+
+
+        const data =
+            getReport(result);
+
+
+        document.getElementById(
+            "customerActive"
+        ).textContent =
+            number(
+                data.active ||
+                data.activeCustomers
+            );
+
+
+        document.getElementById(
+            "customerBlocked"
+        ).textContent =
+            number(
+                data.blocked ||
+                data.blockedCustomers
+            );
+
+
+        document.getElementById(
+            "customerNew"
+        ).textContent =
+            number(
+                data.new ||
+                data.newCustomers
+            );
+
+
+        const trend =
+            data.registrations ||
+            data.registrationTrend ||
+            data.trend ||
+            [];
+
+
+        const labels =
+            trend.map(
+                item =>
+                    item.date ||
+                    item.day ||
+                    ""
+            );
+
+
+        const values =
+            trend.map(
+                item =>
+                    Number(
+                        item.count ||
+                        item.total ||
+                        0
+                    )
+            );
+
+
+        createCustomerChart(
+            labels,
+            values
+        );
+
+    }
+
+
+    /* =========================================================
+       CATERER REPORT
+    ========================================================= */
+
+    async function loadCaterers() {
+
+        const result =
+            await apiRequest(
+                "/reports/caterers"
+            );
+
+
+        if (!result)
+            return;
+
+
+        const data =
+            getReport(result);
+
+
+        createCatererChart(
+
+            [
+                "Approved",
+                "Pending",
+                "Rejected"
+            ],
+
+            [
+
+                Number(
+                    data.approved || 0
+                ),
+
+                Number(
+                    data.pending || 0
+                ),
+
+                Number(
+                    data.rejected || 0
+                )
+
+            ]
+
+        );
+
+    }
+
+
+    /* =========================================================
+       EVENT TYPE REPORT
+    ========================================================= */
+
+    async function loadEventTypes() {
+
+        const result =
+            await apiRequest(
+                "/reports/event-types"
+            );
+
+
+        if (!result)
+            return;
+
+
+        const data =
+            getReport(result);
+
+
+        const rows =
+            Array.isArray(data)
+                ? data
+                : (
+                    data.eventTypes ||
+                    data.types ||
+                    data.rows ||
+                    []
+                );
+
+
+        const labels =
+            rows.map(
+                item =>
+                    item.event_type ||
+                    item.eventType ||
+                    item.name ||
+                    "Other"
+            );
+
+
+        const values =
+            rows.map(
+                item =>
+                    Number(
+                        item.count ||
+                        item.total ||
+                        0
+                    )
+            );
+
+
+        createEventTypeChart(
+            labels,
+            values
+        );
+
+    }
+
+
+    /* =========================================================
+       REVIEW REPORT
+    ========================================================= */
+
+    async function loadReviews() {
+
+        const result =
+            await apiRequest(
+                "/reports/reviews"
+            );
+
+
+        if (!result)
+            return;
+
+
+        const data =
+            getReport(result);
+
+
+        document.getElementById(
+            "ratingAverage"
+        ).textContent =
+            Number(
+                data.averageRating ||
+                data.average ||
+                0
+            ).toFixed(1);
+
+
+        document.getElementById(
+            "fiveStar"
+        ).textContent =
+            number(
+                data.fiveStar ||
+                data["5"]
+            );
+
+
+        document.getElementById(
+            "fourStar"
+        ).textContent =
+            number(
+                data.fourStar ||
+                data["4"]
+            );
+
+
+        document.getElementById(
+            "threeStar"
+        ).textContent =
+            number(
+                data.threeStar ||
+                data["3"]
+            );
+
+
+        document.getElementById(
+            "twoStar"
+        ).textContent =
+            number(
+                data.twoStar ||
+                data["2"]
+            );
+
+
+        document.getElementById(
+            "oneStar"
+        ).textContent =
+            number(
+                data.oneStar ||
+                data["1"]
+            );
+
+    }
+
+
+    /* =========================================================
+       CATERER PERFORMANCE
+    ========================================================= */
+
+    async function loadPerformance() {
+
+        const result =
+            await apiRequest(
+                "/reports/caterer-performance"
+            );
+
+
+        if (!result)
+            return;
+
+
+        const data =
+            getReport(result);
+
+
+        const rows =
+            Array.isArray(data)
+                ? data
+                : (
+                    data.performance ||
+                    data.caterers ||
+                    data.rows ||
+                    []
+                );
+
+
+        const tbody =
+            document.getElementById(
+                "performanceBody"
+            );
+
+
+        if (!rows.length) {
+
+            tbody.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        style="
+                            text-align:center;
+                            color:#766D68;
+                            padding:18px;
+                        ">
+
+                        No performance data available
+
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+        tbody.innerHTML =
+
+            rows.map(
+                item => {
+
+
+                    const name =
+                        item.brand_name ||
+                        item.brandName ||
+                        item.caterer_name ||
+                        item.catererName ||
+                        item.name ||
+                        "Unknown";
+
+
+                    const requests =
+                        item.requests ||
+                        item.totalRequests ||
+                        item.bookings ||
+                        0;
+
+
+                    const accepted =
+                        item.accepted ||
+                        item.acceptedRequests ||
+                        0;
+
+
+                    const completed =
+                        item.completed ||
+                        item.completedEvents ||
+                        0;
+
+
+                    const reviews =
+                        item.reviews ||
+                        item.reviewCount ||
+                        0;
+
+
+                    const rating =
+                        Number(
+                            item.rating ||
+                            item.averageRating ||
+                            0
+                        );
+
+
+                    return `
+
+                        <tr>
+
+                            <td>
+
+                                <strong>
+                                    ${escapeHtml(name)}
+                                </strong>
+
+                            </td>
+
+                            <td>
+                                ${number(requests)}
+                            </td>
+
+                            <td>
+                                ${number(accepted)}
+                            </td>
+
+                            <td>
+                                ${number(completed)}
+                            </td>
+
+                            <td>
+                                ${number(reviews)}
+                            </td>
+
+                            <td>
+
+                                ${
+                                    rating
+                                        ? "⭐ " +
+                                          rating.toFixed(1)
+                                        : "N/A"
+                                }
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }
+
+            ).join("");
+
+    }
+
+
+    /* =========================================================
+       BOOKING CHART
+    ========================================================= */
+
+    function createBookingChart(
+        labels,
+        values
+    ) {
+
+        if (bookingChart)
+            bookingChart.destroy();
+
+
+        bookingChart =
+            new Chart(
+
+                document.getElementById(
+                    "bookingChart"
+                ),
+
+                {
+
+                    type:
+                        "line",
+
+                    data: {
+
+                        labels:
+                            labels,
+
+                        datasets: [
+
+                            {
+
+                                label:
+                                    "Bookings",
+
+                                data:
+                                    values,
+
+                                borderWidth:
+                                    2,
+
+                                tension:
+                                    0.35,
+
+                                fill:
+                                    false
+
+                            }
+
+                        ]
+
+                    },
+
+                    options:
+                        chartOptions()
+
+                }
+
+            );
+
+    }
+
+
+    /* =========================================================
+       REVENUE CHART
+    ========================================================= */
+
+    function createRevenueChart(
+        labels,
+        values
+    ) {
+
+        if (revenueChart)
+            revenueChart.destroy();
+
+
+        revenueChart =
+            new Chart(
+
+                document.getElementById(
+                    "revenueChart"
+                ),
+
+                {
+
+                    type:
+                        "line",
+
+                    data: {
+
+                        labels:
+                            labels,
+
+                        datasets: [
+
+                            {
+
+                                label:
+                                    "Revenue",
+
+                                data:
+                                    values,
+
+                                borderWidth:
+                                    2,
+
+                                tension:
+                                    0.35,
+
+                                fill:
+                                    false
+
+                            }
+
+                        ]
+
+                    },
+
+                    options:
+                        chartOptions()
+
+                }
+
+            );
+
+    }
+
+
+    /* =========================================================
+       CUSTOMER CHART
+    ========================================================= */
+
+    function createCustomerChart(
+        labels,
+        values
+    ) {
+
+        if (customerChart)
+            customerChart.destroy();
+
+
+        customerChart =
+            new Chart(
+
+                document.getElementById(
+                    "customerChart"
+                ),
+
+                {
+
+                    type:
+                        "bar",
+
+                    data: {
+
+                        labels:
+                            labels,
+
+                        datasets: [
+
+                            {
+
+                                label:
+                                    "Registrations",
+
+                                data:
+                                    values,
+
+                                borderWidth:
+                                    1
+
+                            }
+
+                        ]
+
+                    },
+
+                    options:
+                        chartOptions()
+
+                }
+
+            );
+
+    }
+
+
+    /* =========================================================
+       PAYMENT CHART
+    ========================================================= */
+
+    function createPaymentChart(
+        labels,
+        values
+    ) {
+
+        if (paymentChart)
+            paymentChart.destroy();
+
+
+        paymentChart =
+            new Chart(
+
+                document.getElementById(
+                    "paymentChart"
+                ),
+
+                {
+
+                    type:
+                        "doughnut",
+
+                    data: {
+
+                        labels:
+                            labels,
+
+                        datasets: [
+
+                            {
+
+                                data:
+                                    values,
+
+                                borderWidth:
+                                    1
+
+                            }
+
+                        ]
+
+                    },
+
+                    options:
+                        doughnutOptions()
+
+                }
+
+            );
+
+    }
+
+
+    /* =========================================================
+       EVENT TYPE CHART
+    ========================================================= */
+
+    function createEventTypeChart(
+        labels,
+        values
+    ) {
+
+        if (eventTypeChart)
+            eventTypeChart.destroy();
+
+
+        eventTypeChart =
+            new Chart(
+
+                document.getElementById(
+                    "eventTypeChart"
+                ),
+
+                {
+
+                    type:
+                        "doughnut",
+
+                    data: {
+
+                        labels:
+                            labels,
+
+                        datasets: [
+
+                            {
+
+                                data:
+                                    values,
+
+                                borderWidth:
+                                    1
+
+                            }
+
+                        ]
+
+                    },
+
+                    options:
+                        doughnutOptions()
+
+                }
+
+            );
+
+    }
+
+
+    /* =========================================================
+       CATERER CHART
+    ========================================================= */
+
+    function createCatererChart(
+        labels,
+        values
+    ) {
+
+        if (catererChart)
+            catererChart.destroy();
+
+
+        catererChart =
+            new Chart(
+
+                document.getElementById(
+                    "catererChart"
+                ),
+
+                {
+
+                    type:
+                        "doughnut",
+
+                    data: {
+
+                        labels:
+                            labels,
+
+                        datasets: [
+
+                            {
+
+                                data:
+                                    values,
+
+                                borderWidth:
+                                    1
+
+                            }
+
+                        ]
+
+                    },
+
+                    options:
+                        doughnutOptions()
+
+                }
+
+            );
+
+    }
+
+
+    /* =========================================================
+       CHART OPTIONS
+    ========================================================= */
+
+    function chartOptions() {
+
+        return {
+
+            responsive:
+                true,
+
+            maintainAspectRatio:
+                false,
+
+            plugins: {
+
+                legend: {
+
+                    display:
+                        false
+
+                }
+
+            },
+
+            scales: {
+
+                x: {
+
+                    ticks: {
+
+                        font: {
+
+                            size:
+                                8
+
+                        }
+
+                    },
+
+                    grid: {
+
+                        display:
+                            false
+
+                    }
+
+                },
+
+                y: {
+
+                    beginAtZero:
+                        true,
+
+                    ticks: {
+
+                        font: {
+
+                            size:
+                                8
+
+                        },
+
+                        precision:
+                            0
+
+                    }
+
+                }
+
+            }
+
+        };
+
+    }
+
+
+    function doughnutOptions() {
+
+        return {
+
+            responsive:
+                true,
+
+            maintainAspectRatio:
+                false,
+
+            cutout:
+                "62%",
+
+            plugins: {
+
+                legend: {
+
+                    position:
+                        "bottom",
+
+                    labels: {
+
+                        boxWidth:
+                            9,
+
+                        font: {
+
+                            size:
+                                8
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        };
+
+    }
+
+
+    /* =========================================================
+       FILTERS
+    ========================================================= */
+
+    function applyFilters() {
+
+        loadAllReports();
+
+    }
+
+
+    function resetFilters() {
+
+        document.getElementById(
+            "yearFilter"
+        ).value =
+            "all";
+
+
+        document.getElementById(
+            "monthFilter"
+        ).value =
+            "all";
+
+
+        document.getElementById(
+            "eventFilter"
+        ).value =
+            "all";
+
+
+        document.getElementById(
+            "statusFilter"
+        ).value =
+            "all";
+
+
+        document.getElementById(
+            "startDate"
+        ).value =
+            "";
+
+
+        document.getElementById(
+            "endDate"
+        ).value =
+            "";
+
+
+        loadAllReports();
+
+    }
+
+
+    /* =========================================================
+       LOAD ALL REPORTS
+    ========================================================= */
+
+    async function loadAllReports() {
+
+        const errorBox =
+            document.getElementById(
+                "errorMessage"
+            );
+
+
+        errorBox.style.display =
+            "none";
+
+
+        try {
+
+            await Promise.all([
+
+                loadOverview(),
+
+                loadBookings(),
+
+                loadRevenue(),
+
+                loadCustomers(),
+
+                loadCaterers(),
+
+                loadEventTypes(),
+
+                loadReviews(),
+
+                loadPerformance()
+
+            ]);
+
+        }
+        catch (error) {
+
+            console.error(
+                "Reports error:",
+                error
+            );
+
+
+            errorBox.textContent =
+                error.message ||
+                "Unable to load reports.";
+
+
+            errorBox.style.display =
+                "block";
+
+        }
+
+    }
+
+
+    /* =========================================================
+       INITIAL LOAD
+    ========================================================= */
+
+    loadAllReports();
+
+
+</script>
+
+</body>
+
+</html>

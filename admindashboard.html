@@ -4,11 +4,20 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Admin Dashboard | Annapriya</title>
 
+
     <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
 
         * {
             box-sizing: border-box;
@@ -16,142 +25,190 @@
             padding: 0;
         }
 
+
         body {
-            font-family: Arial, sans-serif;
-            background: #f5e9da;
-            color: #1c1c1c;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #F5E9DA;
+
+            color: #1C1C1C;
+
         }
+
 
         /* =====================================================
            SIDEBAR
         ===================================================== */
 
         .sidebar {
+
             position: fixed;
+
             left: 0;
             top: 0;
 
             width: 245px;
             height: 100vh;
 
-            background: #1c1c1c;
+            background: #1C1C1C;
+
             color: white;
 
             padding: 25px 18px;
 
             display: flex;
+
             flex-direction: column;
 
             overflow-y: auto;
+
+            box-shadow:
+                4px 0 18px rgba(0, 0, 0, 0.10);
+
+            z-index: 1000;
+
         }
+
 
         .logo {
-            font-size: 27px;
+
+            font-size: 28px;
+
             font-weight: bold;
 
-            color: #d4a373;
+            color: #D4A373;
 
             text-align: center;
 
-            margin-bottom: 8px;
+            margin-bottom: 7px;
+
+            letter-spacing: 0.5px;
+
         }
+
 
         .admin-label {
-            text-align: center;
-            color: #aaa;
 
-            font-size: 12px;
+            text-align: center;
+
+            color: #999;
+
+            font-size: 11px;
+
+            letter-spacing: 1.5px;
 
             margin-bottom: 30px;
+
         }
 
+
         .nav-links {
+
             display: flex;
+
             flex-direction: column;
 
             gap: 7px;
+
         }
 
-        .nav-links a {
+
+        .nav-links a,
+        .sidebar-bottom a {
+
             text-decoration: none;
 
-            color: #ddd;
+            color: #DDD;
 
             padding: 13px 14px;
 
             border-radius: 9px;
 
             display: flex;
+
             align-items: center;
 
             gap: 11px;
 
             font-size: 14px;
 
-            transition: 0.2s;
+            transition: all 0.25s ease;
+
         }
 
-        .nav-links a:hover {
-            background: #8b1e3f;
+
+        .nav-links a:hover,
+        .sidebar-bottom a:hover {
+
+            background: #8B1E3F;
+
             color: white;
+
+            transform: translateX(2px);
+
         }
+
 
         .nav-links a.active {
-            background: #8b1e3f;
+
+            background: #8B1E3F;
+
             color: white;
+
+            box-shadow:
+                0 5px 15px rgba(139, 30, 63, 0.30);
+
         }
 
+
         .nav-icon {
+
             width: 25px;
+
+            min-width: 25px;
 
             text-align: center;
 
             font-size: 17px;
+
         }
 
+
         .sidebar-bottom {
+
             margin-top: auto;
 
             padding-top: 20px;
+
+            border-top:
+                1px solid rgba(255,255,255,0.08);
+
         }
 
-        .sidebar-bottom a {
-            display: flex;
-
-            align-items: center;
-
-            gap: 11px;
-
-            text-decoration: none;
-
-            color: #ddd;
-
-            padding: 13px 14px;
-
-            border-radius: 9px;
-
-            margin-top: 7px;
-        }
-
-        .sidebar-bottom a:hover {
-            background: #8b1e3f;
-        }
 
         .logout {
-            color: #ffb3b3 !important;
+
+            color: #FFB3B3 !important;
+
         }
 
 
         /* =====================================================
-           MAIN CONTENT
+           MAIN
         ===================================================== */
 
         .main {
+
             margin-left: 245px;
 
             padding: 32px 40px;
 
             min-height: 100vh;
+
         }
 
 
@@ -160,6 +217,7 @@
         ===================================================== */
 
         .top-bar {
+
             display: flex;
 
             justify-content: space-between;
@@ -167,23 +225,32 @@
             align-items: center;
 
             margin-bottom: 30px;
+
         }
+
 
         .top-title h1 {
+
             font-size: 32px;
 
-            color: #1c1c1c;
-
             margin-bottom: 7px;
+
+            color: #1C1C1C;
+
         }
 
+
         .top-title p {
+
             color: #777;
 
             font-size: 15px;
+
         }
 
+
         .admin-profile {
+
             display: flex;
 
             align-items: center;
@@ -196,16 +263,21 @@
 
             border-radius: 12px;
 
-            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            box-shadow:
+                0 5px 18px rgba(0,0,0,0.07);
+
         }
 
+
         .admin-avatar {
+
             width: 42px;
+
             height: 42px;
 
             border-radius: 50%;
 
-            background: #8b1e3f;
+            background: #8B1E3F;
 
             color: white;
 
@@ -215,171 +287,283 @@
 
             align-items: center;
 
+            font-size: 18px;
+
             font-weight: bold;
 
-            font-size: 18px;
         }
 
+
         .admin-info strong {
+
             display: block;
 
             font-size: 14px;
+
         }
 
+
         .admin-info span {
+
             color: #777;
 
             font-size: 12px;
+
         }
 
 
         /* =====================================================
-           SUMMARY CARDS
+           WELCOME PANEL
         ===================================================== */
 
-        .stats {
+        .welcome-panel {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #8B1E3F,
+                    #65162F
+                );
+
+            color: white;
+
+            padding: 27px 28px;
+
+            border-radius: 15px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 8px 22px rgba(139,30,63,0.18);
+
+            position: relative;
+
+            overflow: hidden;
+
+        }
+
+
+        .welcome-panel::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+
+            height: 180px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(212,163,115,0.12);
+
+            right: -50px;
+
+            top: -80px;
+
+        }
+
+
+        .welcome-panel h2 {
+
+            font-size: 25px;
+
+            margin-bottom: 8px;
+
+            position: relative;
+
+            z-index: 1;
+
+        }
+
+
+        .welcome-panel p {
+
+            color: #F7E8ED;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            position: relative;
+
+            z-index: 1;
+
+        }
+
+
+        /* =====================================================
+           PLATFORM SUMMARY
+        ===================================================== */
+
+        .platform-summary {
+
             display: grid;
 
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns:
+                repeat(4, 1fr);
 
             gap: 18px;
 
             margin-bottom: 25px;
+
         }
 
-        .stat-card {
+
+        .summary-card {
+
             background: white;
+
+            border-radius: 14px;
 
             padding: 22px;
 
-            border-radius: 13px;
+            box-shadow:
+                0 5px 18px rgba(0,0,0,0.06);
 
-            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+            border-top: 4px solid #8B1E3F;
 
-            border-top: 4px solid #8b1e3f;
+            transition: all 0.25s ease;
+
         }
 
-        .stat-card:nth-child(2) {
-            border-top-color: #d4a373;
+
+        .summary-card:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 9px 23px rgba(0,0,0,0.09);
+
         }
 
-        .stat-card:nth-child(3) {
-            border-top-color: #4c8c70;
+
+        .summary-card:nth-child(2) {
+
+            border-top-color: #D4A373;
+
         }
 
-        .stat-card:nth-child(4) {
+
+        .summary-card:nth-child(3) {
+
+            border-top-color: #6E8F7B;
+
+        }
+
+
+        .summary-card:nth-child(4) {
+
             border-top-color: #777;
+
         }
 
-        .stat-card h3 {
-            font-size: 14px;
 
-            color: #777;
+        .summary-icon {
+
+            font-size: 25px;
 
             margin-bottom: 12px;
+
         }
 
-        .stat-number {
-            font-size: 31px;
+
+        .summary-card h3 {
+
+            font-size: 15px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .summary-card .number {
+
+            font-size: 30px;
 
             font-weight: bold;
 
-            color: #1c1c1c;
-        }
-
-        .stat-description {
-            color: #888;
-
-            font-size: 12px;
-
-            margin-top: 6px;
-        }
-
-
-        /* =====================================================
-           QUICK ACTIONS
-        ===================================================== */
-
-        .quick-actions {
-            display: grid;
-
-            grid-template-columns: repeat(4, 1fr);
-
-            gap: 15px;
-
-            margin-bottom: 25px;
-        }
-
-        .quick-action {
-            background: white;
-
-            border-radius: 12px;
-
-            padding: 18px;
-
-            text-decoration: none;
-
-            color: #1c1c1c;
-
-            border: 1px solid #eee;
-
-            transition: 0.2s;
-        }
-
-        .quick-action:hover {
-            border-color: #8b1e3f;
-
-            transform: translateY(-2px);
-
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-
-        .quick-action .icon {
-            font-size: 24px;
-
-            margin-bottom: 8px;
-        }
-
-        .quick-action strong {
-            display: block;
-
-            color: #8b1e3f;
+            color: #8B1E3F;
 
             margin-bottom: 5px;
+
         }
 
-        .quick-action span {
+
+        .summary-card p {
+
             font-size: 12px;
 
             color: #777;
+
+        }
+
+
+        .summary-card .module-link {
+
+            display: inline-block;
+
+            margin-top: 8px;
+
+            color: #8B1E3F;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            text-decoration: none;
+
+        }
+
+
+        .summary-card .module-link:hover {
+
+            color: #D4A373;
+
         }
 
 
         /* =====================================================
-           MAIN GRID
+           DASHBOARD GRID
         ===================================================== */
 
         .dashboard-grid {
+
             display: grid;
 
             grid-template-columns: 2fr 1fr;
 
             gap: 22px;
+
         }
 
+
+        /* =====================================================
+           CARD
+        ===================================================== */
+
         .card {
+
             background: white;
 
-            border-radius: 13px;
+            border-radius: 14px;
 
             padding: 24px;
 
-            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
-
             margin-bottom: 22px;
+
+            box-shadow:
+                0 5px 18px rgba(0,0,0,0.06);
+
+            border:
+                1px solid rgba(212,163,115,0.12);
+
         }
 
+
         .card-header {
+
             display: flex;
 
             justify-content: space-between;
@@ -387,161 +571,196 @@
             align-items: center;
 
             margin-bottom: 20px;
+
         }
+
 
         .card-header h2 {
+
             font-size: 20px;
+
+            color: #1C1C1C;
+
         }
 
+
         .card-header a {
-            color: #8b1e3f;
+
+            color: #8B1E3F;
 
             text-decoration: none;
 
             font-size: 13px;
 
             font-weight: bold;
+
+        }
+
+
+        .card-header a:hover {
+
+            color: #D4A373;
+
         }
 
 
         /* =====================================================
-           CUSTOMER OVERVIEW
+           MANAGEMENT OVERVIEW
         ===================================================== */
 
-        .customer-summary {
+        .management-grid {
+
             display: grid;
 
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns:
+                repeat(2, 1fr);
 
             gap: 15px;
+
         }
 
-        .customer-box {
-            background: #faf7f2;
 
-            padding: 18px;
+        .management-box {
 
-            border-radius: 10px;
+            background: #FAF7F2;
+
+            border-radius: 12px;
+
+            padding: 20px;
+
+            border-left: 4px solid #8B1E3F;
+
         }
 
-        .customer-box strong {
+
+        .management-box.caterer {
+
+            border-left-color: #D4A373;
+
+        }
+
+
+        .management-box h3 {
+
+            font-size: 15px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .management-values {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 10px;
+
+        }
+
+
+        .management-value {
+
+            background: white;
+
+            border-radius: 9px;
+
+            padding: 12px;
+
+        }
+
+
+        .management-value span {
+
             display: block;
+
+            font-size: 11px;
 
             color: #777;
 
-            font-size: 13px;
+            margin-bottom: 5px;
 
-            margin-bottom: 8px;
-        }
-
-        .customer-box span {
-            font-size: 25px;
-
-            font-weight: bold;
-
-            color: #8b1e3f;
         }
 
 
-        /* =====================================================
-           STATUS
-        ===================================================== */
+        .management-value strong {
 
-        .status-row {
-            display: flex;
+            font-size: 21px;
 
-            justify-content: space-between;
+            color: #8B1E3F;
 
-            align-items: center;
-
-            padding: 13px 0;
-
-            border-bottom: 1px solid #eee;
-        }
-
-        .status-row:last-child {
-            border-bottom: none;
-        }
-
-        .status-name {
-            display: flex;
-
-            align-items: center;
-
-            gap: 9px;
-        }
-
-        .status-dot {
-            width: 10px;
-            height: 10px;
-
-            border-radius: 50%;
-
-            background: #4c8c70;
-        }
-
-        .status-dot.pending {
-            background: #d4a373;
-        }
-
-        .status-dot.blocked {
-            background: #8b1e3f;
-        }
-
-        .status-dot.review {
-            background: #777;
-        }
-
-        .status-count {
-            font-weight: bold;
         }
 
 
         /* =====================================================
-           RECENT CUSTOMERS
+           RECENT TABLES
         ===================================================== */
 
         .table-wrapper {
+
             overflow-x: auto;
+
         }
 
+
         table {
+
             width: 100%;
 
             border-collapse: collapse;
+
         }
+
 
         th {
+
             text-align: left;
 
-            background: #faf7f2;
+            padding: 12px;
 
-            color: #555;
+            background: #FAF7F2;
+
+            color: #666;
 
             font-size: 12px;
 
-            padding: 12px;
+            white-space: nowrap;
+
         }
+
 
         td {
+
             padding: 13px 12px;
 
-            border-bottom: 1px solid #eee;
+            border-bottom:
+                1px solid #EEE;
 
             font-size: 13px;
+
         }
+
+
+        tbody tr:hover {
+
+            background: #FCF9F5;
+
+        }
+
 
         .customer-name {
+
             font-weight: bold;
+
+            color: #1C1C1C;
+
         }
 
-        .customer-email {
-            color: #777;
-
-            font-size: 12px;
-        }
 
         .badge {
+
             display: inline-block;
 
             padding: 5px 10px;
@@ -551,51 +770,155 @@
             font-size: 11px;
 
             font-weight: bold;
+
+            text-transform: capitalize;
+
         }
 
-        .badge.active {
-            background: #dff2e6;
+
+        .badge.active,
+        .badge.approved {
+
+            background: #DFF2E6;
 
             color: #267044;
+
         }
 
-        .badge.blocked {
-            background: #f8d7da;
 
-            color: #8b1e3f;
+        .badge.blocked,
+        .badge.rejected {
+
+            background: #F8D7DA;
+
+            color: #8B1E3F;
+
+        }
+
+
+        .badge.pending {
+
+            background: #F9ECD8;
+
+            color: #8B652D;
+
+        }
+
+
+        .empty-message {
+
+            text-align: center;
+
+            color: #888;
+
+            padding: 25px !important;
+
         }
 
 
         /* =====================================================
-           WELCOME PANEL
+           RIGHT SIDE MODULES
         ===================================================== */
 
-        .welcome-panel {
-            background: linear-gradient(
-                135deg,
-                #8b1e3f,
-                #5f172c
-            );
+        .module-row {
 
-            color: white;
+            display: flex;
 
-            border-radius: 13px;
+            justify-content: space-between;
 
-            padding: 25px;
+            align-items: center;
 
-            margin-bottom: 22px;
+            padding: 14px 0;
+
+            border-bottom:
+                1px solid #EEE;
+
         }
 
-        .welcome-panel h2 {
-            margin-bottom: 8px;
+
+        .module-row:last-child {
+
+            border-bottom: none;
+
         }
 
-        .welcome-panel p {
-            color: #f4dfe5;
 
-            font-size: 13px;
+        .module-name {
 
-            line-height: 1.6;
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            font-size: 14px;
+
+        }
+
+
+        .module-arrow {
+
+            color: #8B1E3F;
+
+            text-decoration: none;
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+        }
+
+
+        .module-arrow:hover {
+
+            color: #D4A373;
+
+        }
+
+
+        /* =====================================================
+           PLATFORM AREAS
+        ===================================================== */
+
+        .platform-area {
+
+            padding: 17px;
+
+            border-radius: 11px;
+
+            background: #FAF7F2;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .platform-area:last-child {
+
+            margin-bottom: 0;
+
+        }
+
+
+        .platform-area strong {
+
+            display: block;
+
+            margin-bottom: 5px;
+
+            font-size: 14px;
+
+        }
+
+
+        .platform-area span {
+
+            color: #777;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
         }
 
 
@@ -604,6 +927,7 @@
         ===================================================== */
 
         .footer {
+
             text-align: center;
 
             color: #888;
@@ -611,6 +935,7 @@
             font-size: 12px;
 
             padding: 20px;
+
         }
 
 
@@ -618,18 +943,24 @@
            RESPONSIVE
         ===================================================== */
 
-        @media (max-width: 1100px) {
+        @media (max-width: 1200px) {
 
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
+            .platform-summary {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
             }
 
-            .quick-actions {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        }
+
+
+        @media (max-width: 1000px) {
 
             .dashboard-grid {
+
                 grid-template-columns: 1fr;
+
             }
 
         }
@@ -638,37 +969,54 @@
         @media (max-width: 700px) {
 
             .sidebar {
+
                 position: static;
 
                 width: 100%;
 
                 height: auto;
+
             }
 
+
             .main {
+
                 margin-left: 0;
 
                 padding: 22px;
+
             }
 
+
             .top-bar {
+
                 flex-direction: column;
 
                 align-items: flex-start;
 
                 gap: 15px;
+
             }
 
-            .stats {
+
+            .platform-summary {
+
                 grid-template-columns: 1fr;
+
             }
 
-            .quick-actions {
+
+            .management-grid {
+
                 grid-template-columns: 1fr;
+
             }
 
-            .customer-summary {
+
+            .management-values {
+
                 grid-template-columns: 1fr;
+
             }
 
         }
@@ -681,473 +1029,208 @@
 <body>
 
 
-<!-- =====================================================
-     SIDEBAR
-===================================================== -->
+    <!-- =====================================================
+         SIDEBAR
+    ===================================================== -->
 
-<aside class="sidebar">
+    <aside class="sidebar">
 
-    <div class="logo">
-        Annapriya
-    </div>
-
-    <div class="admin-label">
-        ADMIN PANEL
-    </div>
-
-
-    <nav class="nav-links">
-
-        <a href="admindashboard.html" class="active">
-            <span class="nav-icon">🏠</span>
-            Dashboard
-        </a>
-
-        <a href="adminusers.html">
-            <span class="nav-icon">👥</span>
-            Manage Users
-        </a>
-
-        <a href="admincaterers.html">
-            <span class="nav-icon">👨‍🍳</span>
-            Manage Caterers
-        </a>
-
-        <a href="adminenquiries.html">
-            <span class="nav-icon">✉️</span>
-            Customer Enquiries
-        </a>
-
-        <a href="adminbookings.html">
-            <span class="nav-icon">📅</span>
-            Manage Bookings
-        </a>
-
-        <a href="adminpayments.html">
-            <span class="nav-icon">💳</span>
-            Manage Payments
-        </a>
-
-        <a href="adminreviews.html">
-            <span class="nav-icon">⭐</span>
-            Manage Reviews
-        </a>
-
-        <a href="adminreports.html">
-            <span class="nav-icon">📊</span>
-            Reports & Analytics
-        </a>
-
-        <a href="adminsettings.html">
-            <span class="nav-icon">⚙️</span>
-            System Settings
-        </a>
-
-    </nav>
-
-
-    <div class="sidebar-bottom">
-
-        <a href="adminprofile.html">
-            <span class="nav-icon">👤</span>
-            Account Settings
-        </a>
-
-        <a href="#" class="logout" onclick="logoutAdmin()">
-            <span class="nav-icon">🚪</span>
-            Logout
-        </a>
-
-    </div>
-
-</aside>
-
-
-
-<!-- =====================================================
-     MAIN
-===================================================== -->
-
-<main class="main">
-
-
-    <!-- TOP BAR -->
-
-    <div class="top-bar">
-
-        <div class="top-title">
-
-            <h1>
-                Admin Dashboard
-            </h1>
-
-            <p>
-                Manage and monitor the Annapriya catering platform.
-            </p>
-
+        <div class="logo">
+            Annapriya
         </div>
 
 
-        <div class="admin-profile">
+        <div class="admin-label">
+            ADMIN PANEL
+        </div>
 
-            <div class="admin-avatar">
-                A
-            </div>
 
-            <div class="admin-info">
+        <nav class="nav-links">
 
-                <strong id="adminName">
-                    Admin
-                </strong>
 
-                <span>
-                    Super Admin
+            <a
+                href="admindashboard.html"
+                class="active"
+            >
+
+                <span class="nav-icon">
+                    🏠
                 </span>
 
-            </div>
+                Dashboard
 
-        </div>
-
-    </div>
+            </a>
 
 
+            <a href="adminusers.html">
 
-    <!-- WELCOME -->
+                <span class="nav-icon">
+                    👥
+                </span>
 
-    <div class="welcome-panel">
-
-        <h2>
-            Welcome to Annapriya Admin Panel 👋
-        </h2>
-
-        <p>
-            From here you can manage customers, caterers,
-            bookings, payments, reviews and other platform
-            activities.
-        </p>
-
-    </div>
-
-
-
-    <!-- =================================================
-         SUMMARY CARDS
-    ================================================== -->
-
-    <section class="stats">
-
-
-        <div class="stat-card">
-
-            <h3>
-                Total Customers
-            </h3>
-
-            <div
-                class="stat-number"
-                id="totalCustomers"
-            >
-                0
-            </div>
-
-            <div class="stat-description">
-                Registered customers
-            </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <h3>
-                Active Customers
-            </h3>
-
-            <div
-                class="stat-number"
-                id="activeCustomers"
-            >
-                0
-            </div>
-
-            <div class="stat-description">
-                Currently active accounts
-            </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <h3>
-                Blocked Customers
-            </h3>
-
-            <div
-                class="stat-number"
-                id="blockedCustomers"
-            >
-                0
-            </div>
-
-            <div class="stat-description">
-                Blocked accounts
-            </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <h3>
-                New Customers
-            </h3>
-
-            <div
-                class="stat-number"
-                id="newCustomers"
-            >
-                0
-            </div>
-
-            <div class="stat-description">
-                Recently registered
-            </div>
-
-        </div>
-
-
-    </section>
-
-
-
-    <!-- =================================================
-         QUICK ACTIONS
-    ================================================== -->
-
-    <section class="quick-actions">
-
-
-        <a
-            href="adminusers.html"
-            class="quick-action"
-        >
-
-            <div class="icon">
-                👥
-            </div>
-
-            <strong>
                 Manage Users
-            </strong>
 
-            <span>
-                View and manage customer accounts.
-            </span>
-
-        </a>
+            </a>
 
 
-        <a
-            href="admincaterers.html"
-            class="quick-action"
-        >
+            <a href="admincaterers.html">
 
-            <div class="icon">
-                👨‍🍳
-            </div>
+                <span class="nav-icon">
+                    👨‍🍳
+                </span>
 
-            <strong>
                 Manage Caterers
-            </strong>
 
-            <span>
-                View and manage caterer accounts.
-            </span>
-
-        </a>
+            </a>
 
 
-        <a
-            href="adminbookings.html"
-            class="quick-action"
-        >
+            <a href="adminenquiries.html">
 
-            <div class="icon">
-                📅
-            </div>
+                <span class="nav-icon">
+                    ✉️
+                </span>
 
-            <strong>
+                Customer Enquiries
+
+            </a>
+
+
+            <a href="adminbookings.html">
+
+                <span class="nav-icon">
+                    📅
+                </span>
+
                 Manage Bookings
-            </strong>
 
-            <span>
-                Monitor customer event bookings.
-            </span>
-
-        </a>
+            </a>
 
 
-        <a
-            href="adminpayments.html"
-            class="quick-action"
-        >
+            <a href="adminpayments.html">
 
-            <div class="icon">
-                💳
-            </div>
+                <span class="nav-icon">
+                    💳
+                </span>
 
-            <strong>
                 Manage Payments
-            </strong>
 
-            <span>
-                Monitor payment records.
-            </span>
-
-        </a>
+            </a>
 
 
-    </section>
+            <a href="adminreviews.html">
+
+                <span class="nav-icon">
+                    ⭐
+                </span>
+
+                Manage Reviews
+
+            </a>
+
+
+            <a href="adminreports.html">
+
+                <span class="nav-icon">
+                    📊
+                </span>
+
+                Reports & Analytics
+
+            </a>
+
+
+            <a href="adminsettings.html">
+
+                <span class="nav-icon">
+                    ⚙️
+                </span>
+
+                System Settings
+
+            </a>
+
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+
+            <a href="adminprofile.html">
+
+                <span class="nav-icon">
+                    👤
+                </span>
+
+                Account Settings
+
+            </a>
+
+
+            <a
+                href="#"
+                class="logout"
+                onclick="logoutAdmin()"
+            >
+
+                <span class="nav-icon">
+                    🚪
+                </span>
+
+                Logout
+
+            </a>
+
+
+        </div>
+
+    </aside>
 
 
 
-    <!-- =================================================
-         DASHBOARD GRID
-    ================================================== -->
+    <!-- =====================================================
+         MAIN CONTENT
+    ===================================================== -->
 
-    <div class="dashboard-grid">
-
-
-        <!-- LEFT -->
-
-        <div>
+    <main class="main">
 
 
-            <!-- CUSTOMER OVERVIEW -->
+        <!-- =================================================
+             TOP BAR
+        ================================================== -->
 
-            <div class="card">
-
-                <div class="card-header">
-
-                    <h2>
-                        Customer Overview
-                    </h2>
-
-                    <a href="adminusers.html">
-                        View Customers →
-                    </a>
-
-                </div>
+        <div class="top-bar">
 
 
-                <div class="customer-summary">
+            <div class="top-title">
 
+                <h1>
+                    Admin Dashboard
+                </h1>
 
-                    <div class="customer-box">
-
-                        <strong>
-                            Total Customers
-                        </strong>
-
-                        <span id="overviewTotal">
-                            0
-                        </span>
-
-                    </div>
-
-
-                    <div class="customer-box">
-
-                        <strong>
-                            Active
-                        </strong>
-
-                        <span id="overviewActive">
-                            0
-                        </span>
-
-                    </div>
-
-
-                    <div class="customer-box">
-
-                        <strong>
-                            Blocked
-                        </strong>
-
-                        <span id="overviewBlocked">
-                            0
-                        </span>
-
-                    </div>
-
-
-                </div>
+                <p>
+                    Manage and monitor the Annapriya catering platform.
+                </p>
 
             </div>
 
 
+            <div class="admin-profile">
 
-            <!-- RECENT CUSTOMERS -->
-
-            <div class="card">
-
-                <div class="card-header">
-
-                    <h2>
-                        Recent Customers
-                    </h2>
-
-                    <a href="adminusers.html">
-                        View All →
-                    </a>
-
+                <div class="admin-avatar">
+                    A
                 </div>
 
 
-                <div class="table-wrapper">
+                <div class="admin-info">
 
-                    <table>
+                    <strong id="adminName">
+                        Admin
+                    </strong>
 
-                        <thead>
-
-                            <tr>
-
-                                <th>
-                                    Customer
-                                </th>
-
-                                <th>
-                                    Phone
-                                </th>
-
-                                <th>
-                                    Joined
-                                </th>
-
-                                <th>
-                                    Status
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody id="recentCustomersBody">
-
-                            <tr>
-
-                                <td colspan="4">
-                                    Loading customers...
-                                </td>
-
-                            </tr>
-
-                        </tbody>
-
-                    </table>
+                    <span>
+                        Super Admin
+                    </span>
 
                 </div>
 
@@ -1158,738 +1241,1568 @@
 
 
 
-        <!-- RIGHT -->
+        <!-- =================================================
+             WELCOME
+        ================================================== -->
 
-        <div>
+        <section class="welcome-panel">
+
+            <h2>
+                Welcome to Annapriya Admin Panel 👋
+            </h2>
+
+            <p>
+                Manage customers, caterers, bookings, payments,
+                reviews and customer enquiries from one place.
+            </p>
+
+        </section>
 
 
-            <!-- ACCOUNT STATUS -->
 
-            <div class="card">
+        <!-- =================================================
+             PLATFORM SUMMARY
+             
+             IMPORTANT:
+             Each platform area is represented only once.
+        ================================================== -->
 
-                <div class="card-header">
+        <section class="platform-summary">
 
-                    <h2>
-                        Account Status
-                    </h2>
 
+            <!-- CUSTOMERS -->
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+                    👥
                 </div>
 
+                <h3>
+                    Customers
+                </h3>
 
-                <div class="status-row">
-
-                    <div class="status-name">
-
-                        <span class="status-dot"></span>
-
-                        Active Customers
-
-                    </div>
-
-                    <span
-                        class="status-count"
-                        id="statusActive"
-                    >
-                        0
-                    </span>
-
+                <div
+                    class="number"
+                    id="totalCustomers"
+                >
+                    0
                 </div>
 
+                <p>
+                    Registered customer accounts
+                </p>
 
-                <div class="status-row">
-
-                    <div class="status-name">
-
-                        <span class="status-dot blocked"></span>
-
-                        Blocked Customers
-
-                    </div>
-
-                    <span
-                        class="status-count"
-                        id="statusBlocked"
-                    >
-                        0
-                    </span>
-
-                </div>
-
-
-                <div class="status-row">
-
-                    <div class="status-name">
-
-                        <span class="status-dot pending"></span>
-
-                        New Customers
-
-                    </div>
-
-                    <span
-                        class="status-count"
-                        id="statusNew"
-                    >
-                        0
-                    </span>
-
-                </div>
-
-
-                <div class="status-row">
-
-                    <div class="status-name">
-
-                        <span class="status-dot review"></span>
-
-                        Platform Users
-
-                    </div>
-
-                    <span
-                        class="status-count"
-                        id="statusUsers"
-                    >
-                        0
-                    </span>
-
-                </div>
+                <a
+                    href="adminusers.html"
+                    class="module-link"
+                >
+                    Manage Customers →
+                </a>
 
             </div>
 
 
 
-            <!-- ADMIN MODULES -->
+            <!-- CATERERS -->
 
-            <div class="card">
+            <div class="summary-card">
 
-                <div class="card-header">
-
-                    <h2>
-                        Admin Modules
-                    </h2>
-
+                <div class="summary-icon">
+                    👨‍🍳
                 </div>
 
+                <h3>
+                    Caterers
+                </h3>
 
-                <div class="status-row">
+                <div
+                    class="number"
+                    id="totalCaterers"
+                >
+                    0
+                </div>
 
-                    <div class="status-name">
-                        👨‍🍳 Manage Caterers
+                <p>
+                    Caterers registered on platform
+                </p>
+
+                <a
+                    href="admincaterers.html"
+                    class="module-link"
+                >
+                    Manage Caterers →
+                </a>
+
+            </div>
+
+
+
+            <!-- BOOKINGS -->
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+                    📅
+                </div>
+
+                <h3>
+                    Bookings
+                </h3>
+
+                <div class="number">
+                    —
+                </div>
+
+                <p>
+                    Booking management module
+                </p>
+
+                <a
+                    href="adminbookings.html"
+                    class="module-link"
+                >
+                    Manage Bookings →
+                </a>
+
+            </div>
+
+
+
+            <!-- PAYMENTS -->
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+                    💳
+                </div>
+
+                <h3>
+                    Payments
+                </h3>
+
+                <div class="number">
+                    —
+                </div>
+
+                <p>
+                    Payment management module
+                </p>
+
+                <a
+                    href="adminpayments.html"
+                    class="module-link"
+                >
+                    Manage Payments →
+                </a>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             MAIN DASHBOARD
+        ================================================== -->
+
+        <div class="dashboard-grid">
+
+
+            <!-- =================================================
+                 LEFT COLUMN
+            ================================================= -->
+
+            <div>
+
+
+                <!-- CUSTOMER MANAGEMENT -->
+
+                <section class="card">
+
+
+                    <div class="card-header">
+
+                        <h2>
+                            Customer Management
+                        </h2>
+
+                        <a href="adminusers.html">
+                            View Customers →
+                        </a>
+
                     </div>
 
-                    <a
-                        href="admincaterers.html"
-                        style="
-                            color:#8b1e3f;
-                            text-decoration:none;
-                        "
-                    >
-                        →
-                    </a>
 
-                </div>
+                    <div class="management-box">
 
 
-                <div class="status-row">
+                        <h3>
+                            Customer Accounts
+                        </h3>
 
-                    <div class="status-name">
-                        📅 Manage Bookings
+
+                        <div class="management-values">
+
+
+                            <div class="management-value">
+
+                                <span>
+                                    Total
+                                </span>
+
+                                <strong id="customerTotal">
+                                    0
+                                </strong>
+
+                            </div>
+
+
+                            <div class="management-value">
+
+                                <span>
+                                    Active
+                                </span>
+
+                                <strong id="customerActive">
+                                    0
+                                </strong>
+
+                            </div>
+
+
+                            <div class="management-value">
+
+                                <span>
+                                    Blocked
+                                </span>
+
+                                <strong id="customerBlocked">
+                                    0
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
                     </div>
 
-                    <a
-                        href="adminbookings.html"
-                        style="
-                            color:#8b1e3f;
-                            text-decoration:none;
-                        "
-                    >
-                        →
-                    </a>
 
-                </div>
+                </section>
 
 
-                <div class="status-row">
 
-                    <div class="status-name">
-                        💳 Manage Payments
+                <!-- CATERER MANAGEMENT -->
+
+                <section class="card">
+
+
+                    <div class="card-header">
+
+                        <h2>
+                            Caterer Management
+                        </h2>
+
+                        <a href="admincaterers.html">
+                            View Caterers →
+                        </a>
+
                     </div>
 
-                    <a
-                        href="adminpayments.html"
-                        style="
-                            color:#8b1e3f;
-                            text-decoration:none;
-                        "
-                    >
-                        →
-                    </a>
 
-                </div>
+                    <div class="management-box caterer">
 
 
-                <div class="status-row">
+                        <h3>
+                            Caterer Accounts
+                        </h3>
 
-                    <div class="status-name">
-                        ⭐ Manage Reviews
+
+                        <div class="management-values">
+
+
+                            <div class="management-value">
+
+                                <span>
+                                    Total
+                                </span>
+
+                                <strong id="catererTotal">
+                                    0
+                                </strong>
+
+                            </div>
+
+
+                            <div class="management-value">
+
+                                <span>
+                                    Approved
+                                </span>
+
+                                <strong id="catererApproved">
+                                    0
+                                </strong>
+
+                            </div>
+
+
+                            <div class="management-value">
+
+                                <span>
+                                    Rejected
+                                </span>
+
+                                <strong id="catererRejected">
+                                    0
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
                     </div>
 
-                    <a
-                        href="adminreviews.html"
-                        style="
-                            color:#8b1e3f;
-                            text-decoration:none;
-                        "
-                    >
-                        →
-                    </a>
 
-                </div>
+                </section>
+
+
+
+                <!-- RECENT CUSTOMERS -->
+
+                <section class="card">
+
+
+                    <div class="card-header">
+
+                        <h2>
+                            Recent Customers
+                        </h2>
+
+                        <a href="adminusers.html">
+                            View All →
+                        </a>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Customer
+                                    </th>
+
+                                    <th>
+                                        Phone
+                                    </th>
+
+                                    <th>
+                                        Joined
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="recentCustomersBody">
+
+                                <tr>
+
+                                    <td
+                                        colspan="4"
+                                        class="empty-message"
+                                    >
+                                        Loading customers...
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- RECENT CATERERS -->
+
+                <section class="card">
+
+
+                    <div class="card-header">
+
+                        <h2>
+                            Recent Caterers
+                        </h2>
+
+                        <a href="admincaterers.html">
+                            View All →
+                        </a>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Caterer
+                                    </th>
+
+                                    <th>
+                                        Email
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="recentCaterersBody">
+
+                                <tr>
+
+                                    <td
+                                        colspan="3"
+                                        class="empty-message"
+                                    >
+                                        Loading caterers...
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                </section>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 RIGHT COLUMN
+            ================================================== -->
+
+            <div>
+
+
+                <!-- PLATFORM AREAS -->
+
+                <section class="card">
+
+
+                    <div class="card-header">
+
+                        <h2>
+                            Platform Areas
+                        </h2>
+
+                    </div>
+
+
+                    <div class="platform-area">
+
+                        <strong>
+                            👥 Customers
+                        </strong>
+
+                        <span>
+                            Manage customer accounts, status,
+                            details, bookings and reviews.
+                        </span>
+
+                    </div>
+
+
+                    <div class="platform-area">
+
+                        <strong>
+                            👨‍🍳 Caterers
+                        </strong>
+
+                        <span>
+                            Manage caterer accounts and
+                            caterer approval status.
+                        </span>
+
+                    </div>
+
+
+                    <div class="platform-area">
+
+                        <strong>
+                            📅 Bookings
+                        </strong>
+
+                        <span>
+                            Access booking management and
+                            monitor customer event bookings.
+                        </span>
+
+                    </div>
+
+
+                    <div class="platform-area">
+
+                        <strong>
+                            💳 Payments
+                        </strong>
+
+                        <span>
+                            Access payment management and
+                            payment records.
+                        </span>
+
+                    </div>
+
+
+                    <div class="platform-area">
+
+                        <strong>
+                            ⭐ Reviews
+                        </strong>
+
+                        <span>
+                            Manage customer reviews and
+                            feedback.
+                        </span>
+
+                    </div>
+
+
+                    <div class="platform-area">
+
+                        <strong>
+                            ✉️ Customer Enquiries
+                        </strong>
+
+                        <span>
+                            Manage questions and enquiries
+                            received from customers.
+                        </span>
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- ADMIN MODULES -->
+
+                <section class="card">
+
+
+                    <div class="card-header">
+
+                        <h2>
+                            Admin Modules
+                        </h2>
+
+                    </div>
+
+
+                    <div class="module-row">
+
+                        <div class="module-name">
+                            👥 Manage Users
+                        </div>
+
+                        <a
+                            href="adminusers.html"
+                            class="module-arrow"
+                        >
+                            →
+                        </a>
+
+                    </div>
+
+
+                    <div class="module-row">
+
+                        <div class="module-name">
+                            👨‍🍳 Manage Caterers
+                        </div>
+
+                        <a
+                            href="admincaterers.html"
+                            class="module-arrow"
+                        >
+                            →
+                        </a>
+
+                    </div>
+
+
+                    <div class="module-row">
+
+                        <div class="module-name">
+                            ✉️ Enquiries
+                        </div>
+
+                        <a
+                            href="adminenquiries.html"
+                            class="module-arrow"
+                        >
+                            →
+                        </a>
+
+                    </div>
+
+
+                    <div class="module-row">
+
+                        <div class="module-name">
+                            📅 Bookings
+                        </div>
+
+                        <a
+                            href="adminbookings.html"
+                            class="module-arrow"
+                        >
+                            →
+                        </a>
+
+                    </div>
+
+
+                    <div class="module-row">
+
+                        <div class="module-name">
+                            💳 Payments
+                        </div>
+
+                        <a
+                            href="adminpayments.html"
+                            class="module-arrow"
+                        >
+                            →
+                        </a>
+
+                    </div>
+
+
+                    <div class="module-row">
+
+                        <div class="module-name">
+                            ⭐ Reviews
+                        </div>
+
+                        <a
+                            href="adminreviews.html"
+                            class="module-arrow"
+                        >
+                            →
+                        </a>
+
+                    </div>
+
+
+                    <div class="module-row">
+
+                        <div class="module-name">
+                            📊 Reports
+                        </div>
+
+                        <a
+                            href="adminreports.html"
+                            class="module-arrow"
+                        >
+                            →
+                        </a>
+
+                    </div>
+
+
+                </section>
+
 
             </div>
 
 
         </div>
 
-    </div>
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
+
+        <div class="footer">
+
+            Annapriya Admin Panel
+            &nbsp; | &nbsp;
+            Traditional Catering, Delivered With Care
+
+        </div>
+
+
+    </main>
 
 
 
-    <div class="footer">
+    <!-- =====================================================
+         JAVASCRIPT
+    ===================================================== -->
 
-        Annapriya Admin Panel
-        &nbsp; | &nbsp;
-        Traditional Catering, Delivered With Care
-
-    </div>
+    <script>
 
 
-</main>
+        /* =====================================================
+           ADMIN INFORMATION
+        ===================================================== */
 
-
-
-<script>
-
-/* =====================================================
-   ADMIN DATA
-===================================================== */
-
-const adminData =
-    JSON.parse(
-        localStorage.getItem("admin") || "null"
-    );
-
-
-if (adminData) {
-
-    const possibleNames = [
-        adminData.name,
-        adminData.full_name,
-        adminData.username,
-        adminData.adminName
-    ];
-
-    const name =
-        possibleNames.find(
-            value =>
-                value &&
-                String(value).trim() !== ""
-        );
-
-    if (name) {
-
-        document.getElementById(
-            "adminName"
-        ).textContent = name;
-
-    }
-
-}
-
-
-/* =====================================================
-   LOAD CUSTOMER DASHBOARD DATA
-===================================================== */
-
-async function loadCustomerDashboard() {
-
-    try {
-
-        const token =
-            localStorage.getItem("adminToken");
-
-
-        /*
-            Try the admin customer endpoint.
-
-            This should connect to the customer
-            management backend already created.
-        */
-
-        const response =
-            await fetch(
-                "http://localhost:5000/api/admin/customers",
-                {
-                    headers: token
-                        ? {
-                            "Authorization":
-                                "Bearer " + token
-                        }
-                        : {}
-                }
+        const adminData =
+            JSON.parse(
+                localStorage.getItem("admin") || "null"
             );
 
 
-        if (!response.ok) {
+        if (adminData) {
 
-            throw new Error(
-                "Customer API returned " +
-                response.status
+            const possibleNames = [
+
+                adminData.name,
+
+                adminData.full_name,
+
+                adminData.username,
+
+                adminData.adminName
+
+            ];
+
+
+            const name =
+                possibleNames.find(
+                    value =>
+                        value &&
+                        String(value).trim() !== ""
+                );
+
+
+            if (name) {
+
+                document.getElementById(
+                    "adminName"
+                ).textContent = name;
+
+            }
+
+        }
+
+
+
+        /* =====================================================
+           LOAD CUSTOMER DATA
+        ===================================================== */
+
+        async function loadCustomerDashboard() {
+
+            try {
+
+                const token =
+                    localStorage.getItem(
+                        "adminToken"
+                    );
+
+
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/admin/customers",
+                        {
+                            headers: token
+                                ? {
+                                    "Authorization":
+                                        "Bearer " + token
+                                }
+                                : {}
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Customer API returned " +
+                        response.status
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Admin customer data:",
+                    data
+                );
+
+
+                const customers =
+                    data.customers ||
+                    data.users ||
+                    data.data ||
+                    [];
+
+
+                updateCustomerDashboard(
+                    customers
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Could not load customer dashboard:",
+                    error
+                );
+
+            }
+
+        }
+
+
+
+        /* =====================================================
+           UPDATE CUSTOMER DATA
+        ===================================================== */
+
+        function updateCustomerDashboard(
+            customers
+        ) {
+
+            if (!Array.isArray(customers)) {
+
+                return;
+
+            }
+
+
+            const total =
+                customers.length;
+
+
+            const active =
+                customers.filter(
+                    customer =>
+                        String(
+                            customer.status ||
+                            "active"
+                        ).toLowerCase() === "active"
+                ).length;
+
+
+            const blocked =
+                customers.filter(
+                    customer =>
+                        String(
+                            customer.status || ""
+                        ).toLowerCase() === "blocked"
+                ).length;
+
+
+
+            /* MAIN PLATFORM SUMMARY */
+
+            setText(
+                "totalCustomers",
+                total
+            );
+
+
+            /* CUSTOMER MANAGEMENT */
+
+            setText(
+                "customerTotal",
+                total
+            );
+
+
+            setText(
+                "customerActive",
+                active
+            );
+
+
+            setText(
+                "customerBlocked",
+                blocked
+            );
+
+
+            displayRecentCustomers(
+                customers
             );
 
         }
 
 
-        const data =
-            await response.json();
 
+        /* =====================================================
+           RECENT CUSTOMERS
+        ===================================================== */
 
-        console.log(
-            "Admin customer data:",
-            data
-        );
-
-
-        const customers =
-            data.customers ||
-            data.users ||
-            data.data ||
-            [];
-
-
-        updateCustomerDashboard(
+        function displayRecentCustomers(
             customers
-        );
+        ) {
 
-
-    } catch (error) {
-
-        console.error(
-            "Could not load customer dashboard:",
-            error
-        );
-
-        /*
-            Do not crash the page if the backend
-            endpoint is temporarily unavailable.
-        */
-
-    }
-
-}
-
-
-/* =====================================================
-   UPDATE CUSTOMER COUNTS
-===================================================== */
-
-function updateCustomerDashboard(customers) {
-
-
-    if (!Array.isArray(customers)) {
-
-        return;
-
-    }
-
-
-    const total =
-        customers.length;
-
-
-    const active =
-        customers.filter(
-            customer =>
-                String(
-                    customer.status || "active"
-                ).toLowerCase() === "active"
-        ).length;
-
-
-    const blocked =
-        customers.filter(
-            customer =>
-                String(
-                    customer.status || ""
-                ).toLowerCase() === "blocked"
-        ).length;
-
-
-    /*
-        New customers = registered during
-        the last 30 days.
-    */
-
-    const now =
-        new Date();
-
-
-    const newCustomers =
-        customers.filter(
-            customer => {
-
-                const created =
-                    customer.created_at ||
-                    customer.createdAt;
-
-                if (!created) {
-
-                    return false;
-
-                }
-
-                const createdDate =
-                    new Date(created);
-
-                const difference =
-                    now - createdDate;
-
-                const thirtyDays =
-                    30 *
-                    24 *
-                    60 *
-                    60 *
-                    1000;
-
-                return (
-                    difference >= 0 &&
-                    difference <= thirtyDays
+            const body =
+                document.getElementById(
+                    "recentCustomersBody"
                 );
 
-            }
-        ).length;
 
+            if (!body) {
 
-    /* MAIN CARDS */
-
-    setText(
-        "totalCustomers",
-        total
-    );
-
-    setText(
-        "activeCustomers",
-        active
-    );
-
-    setText(
-        "blockedCustomers",
-        blocked
-    );
-
-    setText(
-        "newCustomers",
-        newCustomers
-    );
-
-
-    /* OVERVIEW */
-
-    setText(
-        "overviewTotal",
-        total
-    );
-
-    setText(
-        "overviewActive",
-        active
-    );
-
-    setText(
-        "overviewBlocked",
-        blocked
-    );
-
-
-    /* STATUS */
-
-    setText(
-        "statusActive",
-        active
-    );
-
-    setText(
-        "statusBlocked",
-        blocked
-    );
-
-    setText(
-        "statusNew",
-        newCustomers
-    );
-
-    setText(
-        "statusUsers",
-        total
-    );
-
-
-    /* RECENT CUSTOMERS */
-
-    displayRecentCustomers(
-        customers
-    );
-
-}
-
-
-/* =====================================================
-   DISPLAY RECENT CUSTOMERS
-===================================================== */
-
-function displayRecentCustomers(
-    customers
-) {
-
-    const body =
-        document.getElementById(
-            "recentCustomersBody"
-        );
-
-
-    if (!body) {
-
-        return;
-
-    }
-
-
-    const sorted =
-        [...customers].sort(
-            (a, b) => {
-
-                const dateA =
-                    new Date(
-                        a.created_at ||
-                        a.createdAt ||
-                        0
-                    );
-
-                const dateB =
-                    new Date(
-                        b.created_at ||
-                        b.createdAt ||
-                        0
-                    );
-
-                return dateB - dateA;
+                return;
 
             }
-        );
 
 
-    const recent =
-        sorted.slice(0, 5);
+            const sorted =
+                [...customers].sort(
+                    (a, b) => {
+
+                        const dateA =
+                            new Date(
+                                a.created_at ||
+                                a.createdAt ||
+                                0
+                            );
 
 
-    if (recent.length === 0) {
-
-        body.innerHTML = `
-            <tr>
-                <td colspan="4">
-                    No customers found.
-                </td>
-            </tr>
-        `;
-
-        return;
-
-    }
+                        const dateB =
+                            new Date(
+                                b.created_at ||
+                                b.createdAt ||
+                                0
+                            );
 
 
-    body.innerHTML =
-        recent.map(
-            customer => {
+                        return dateB - dateA;
 
-                const name =
-                    customer.full_name ||
-                    customer.fullName ||
-                    customer.name ||
-                    "Unknown";
+                    }
+                );
 
 
-                const phone =
-                    customer.phone ||
-                    "-";
+            const recent =
+                sorted.slice(0, 5);
 
 
-                const created =
-                    customer.created_at ||
-                    customer.createdAt;
+            if (recent.length === 0) {
 
-
-                const joined =
-                    created
-                        ? formatDate(created)
-                        : "-";
-
-
-                const status =
-                    String(
-                        customer.status ||
-                        "active"
-                    ).toLowerCase();
-
-
-                const statusClass =
-                    status === "blocked"
-                        ? "blocked"
-                        : "active";
-
-
-                return `
+                body.innerHTML = `
 
                     <tr>
 
-                        <td>
-
-                            <div class="customer-name">
-                                ${escapeHtml(name)}
-                            </div>
-
-                        </td>
-
-                        <td>
-                            ${escapeHtml(phone)}
-                        </td>
-
-                        <td>
-                            ${joined}
-                        </td>
-
-                        <td>
-
-                            <span
-                                class="badge ${statusClass}"
-                            >
-                                ${status}
-                            </span>
-
+                        <td
+                            colspan="4"
+                            class="empty-message"
+                        >
+                            No customers found.
                         </td>
 
                     </tr>
 
                 `;
 
+                return;
+
             }
-        ).join("");
-
-}
 
 
-/* =====================================================
-   HELPERS
-===================================================== */
+            body.innerHTML =
+                recent.map(
+                    customer => {
 
-function setText(
-    id,
-    value
-) {
-
-    const element =
-        document.getElementById(id);
+                        const name =
+                            customer.full_name ||
+                            customer.fullName ||
+                            customer.name ||
+                            "Unknown";
 
 
-    if (element) {
-
-        element.textContent =
-            value;
-
-    }
-
-}
+                        const phone =
+                            customer.phone ||
+                            "-";
 
 
-function formatDate(
-    date
-) {
-
-    const d =
-        new Date(date);
+                        const created =
+                            customer.created_at ||
+                            customer.createdAt;
 
 
-    if (
-        Number.isNaN(
-            d.getTime()
-        )
-    ) {
-
-        return "-";
-
-    }
+                        const joined =
+                            created
+                                ? formatDate(created)
+                                : "-";
 
 
-    return d.toLocaleDateString(
-        "en-IN",
-        {
-            day: "2-digit",
-            month: "short",
-            year: "numeric"
+                        const status =
+                            String(
+                                customer.status ||
+                                "active"
+                            ).toLowerCase();
+
+
+                        const statusClass =
+                            status === "blocked"
+                                ? "blocked"
+                                : "active";
+
+
+                        return `
+
+                            <tr>
+
+                                <td>
+
+                                    <div class="customer-name">
+
+                                        ${escapeHtml(name)}
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    ${escapeHtml(phone)}
+
+                                </td>
+
+
+                                <td>
+
+                                    ${joined}
+
+                                </td>
+
+
+                                <td>
+
+                                    <span
+                                        class="badge ${statusClass}"
+                                    >
+
+                                        ${escapeHtml(status)}
+
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                        `;
+
+                    }
+                ).join("");
+
         }
-    );
-
-}
 
 
-function escapeHtml(
-    value
-) {
 
-    return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+        /* =====================================================
+           LOAD CATERER DATA
+        ===================================================== */
 
-}
+        async function loadCatererDashboard() {
 
+            try {
 
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-function logoutAdmin() {
-
-    localStorage.removeItem(
-        "adminToken"
-    );
-
-    localStorage.removeItem(
-        "admin"
-    );
-
-    window.location.href =
-        "index.html";
-
-}
+                const token =
+                    localStorage.getItem(
+                        "adminToken"
+                    );
 
 
-/* =====================================================
-   START
-===================================================== */
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/admin/caterers",
+                        {
+                            headers: token
+                                ? {
+                                    "Authorization":
+                                        "Bearer " + token
+                                }
+                                : {}
+                        }
+                    );
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
 
-        loadCustomerDashboard();
+                if (!response.ok) {
 
-    }
-);
+                    throw new Error(
+                        "Caterer API returned " +
+                        response.status
+                    );
 
-</script>
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Admin caterer data:",
+                    data
+                );
+
+
+                const caterers =
+                    data.caterers ||
+                    data.data ||
+                    data.users ||
+                    [];
+
+
+                updateCatererDashboard(
+                    caterers
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Could not load caterer dashboard:",
+                    error
+                );
+
+            }
+
+        }
+
+
+
+        /* =====================================================
+           UPDATE CATERER DATA
+        ===================================================== */
+
+        function updateCatererDashboard(
+            caterers
+        ) {
+
+            if (!Array.isArray(caterers)) {
+
+                return;
+
+            }
+
+
+            const total =
+                caterers.length;
+
+
+            const approved =
+                caterers.filter(
+                    caterer => {
+
+                        const status =
+                            String(
+                                caterer.status ||
+                                ""
+                            ).toLowerCase();
+
+
+                        return (
+                            status === "approved" ||
+                            status === "active"
+                        );
+
+                    }
+                ).length;
+
+
+            const rejected =
+                caterers.filter(
+                    caterer =>
+                        String(
+                            caterer.status || ""
+                        ).toLowerCase() === "rejected"
+                ).length;
+
+
+
+            /* PLATFORM SUMMARY */
+
+            setText(
+                "totalCaterers",
+                total
+            );
+
+
+            /* CATERER MANAGEMENT */
+
+            setText(
+                "catererTotal",
+                total
+            );
+
+
+            setText(
+                "catererApproved",
+                approved
+            );
+
+
+            setText(
+                "catererRejected",
+                rejected
+            );
+
+
+            displayRecentCaterers(
+                caterers
+            );
+
+        }
+
+
+
+        /* =====================================================
+           RECENT CATERERS
+        ===================================================== */
+
+        function displayRecentCaterers(
+            caterers
+        ) {
+
+            const body =
+                document.getElementById(
+                    "recentCaterersBody"
+                );
+
+
+            if (!body) {
+
+                return;
+
+            }
+
+
+            const sorted =
+                [...caterers].sort(
+                    (a, b) => {
+
+                        const dateA =
+                            new Date(
+                                a.created_at ||
+                                a.createdAt ||
+                                0
+                            );
+
+
+                        const dateB =
+                            new Date(
+                                b.created_at ||
+                                b.createdAt ||
+                                0
+                            );
+
+
+                        return dateB - dateA;
+
+                    }
+                );
+
+
+            const recent =
+                sorted.slice(0, 5);
+
+
+            if (recent.length === 0) {
+
+                body.innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="3"
+                            class="empty-message"
+                        >
+                            No caterers found.
+                        </td>
+
+                    </tr>
+
+                `;
+
+                return;
+
+            }
+
+
+            body.innerHTML =
+                recent.map(
+                    caterer => {
+
+                        const name =
+                            caterer.brand_name ||
+                            caterer.brandName ||
+                            caterer.full_name ||
+                            caterer.fullName ||
+                            caterer.name ||
+                            "Unknown";
+
+
+                        const email =
+                            caterer.email ||
+                            "-";
+
+
+                        const status =
+                            String(
+                                caterer.status ||
+                                "unknown"
+                            ).toLowerCase();
+
+
+                        let statusClass =
+                            "approved";
+
+
+                        if (
+                            status === "rejected" ||
+                            status === "blocked"
+                        ) {
+
+                            statusClass =
+                                "rejected";
+
+                        }
+
+
+                        if (
+                            status === "pending"
+                        ) {
+
+                            statusClass =
+                                "pending";
+
+                        }
+
+
+                        return `
+
+                            <tr>
+
+                                <td>
+
+                                    <div class="customer-name">
+
+                                        ${escapeHtml(name)}
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    ${escapeHtml(email)}
+
+                                </td>
+
+
+                                <td>
+
+                                    <span
+                                        class="badge ${statusClass}"
+                                    >
+
+                                        ${escapeHtml(status)}
+
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                        `;
+
+                    }
+                ).join("");
+
+        }
+
+
+
+        /* =====================================================
+           HELPER
+        ===================================================== */
+
+        function setText(
+            id,
+            value
+        ) {
+
+            const element =
+                document.getElementById(id);
+
+
+            if (element) {
+
+                element.textContent =
+                    value;
+
+            }
+
+        }
+
+
+
+        /* =====================================================
+           FORMAT DATE
+        ===================================================== */
+
+        function formatDate(
+            date
+        ) {
+
+            const d =
+                new Date(date);
+
+
+            if (
+                Number.isNaN(
+                    d.getTime()
+                )
+            ) {
+
+                return "-";
+
+            }
+
+
+            return d.toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+
+        /* =====================================================
+           ESCAPE HTML
+        ===================================================== */
+
+        function escapeHtml(
+            value
+        ) {
+
+            return String(value)
+
+                .replaceAll(
+                    "&",
+                    "&amp;"
+                )
+
+                .replaceAll(
+                    "<",
+                    "&lt;"
+                )
+
+                .replaceAll(
+                    ">",
+                    "&gt;"
+                )
+
+                .replaceAll(
+                    '"',
+                    "&quot;"
+                )
+
+                .replaceAll(
+                    "'",
+                    "&#039;"
+                );
+
+        }
+
+
+
+        /* =====================================================
+           LOGOUT
+        ===================================================== */
+
+        function logoutAdmin() {
+
+            localStorage.removeItem(
+                "adminToken"
+            );
+
+
+            localStorage.removeItem(
+                "admin"
+            );
+
+
+            window.location.href =
+                "index.html";
+
+        }
+
+
+
+        /* =====================================================
+           START
+        ===================================================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            () => {
+
+                loadCustomerDashboard();
+
+                loadCatererDashboard();
+
+            }
+        );
+
+    </script>
 
 
 </body>

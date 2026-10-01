@@ -1,0 +1,3888 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Manage Users | Annapriya</title>
+
+
+    <style>
+
+        /* =====================================================
+           ANNAPRIYA COLOR PALETTE
+        ===================================================== */
+
+        :root {
+
+            --primary: #8B1E3F;
+            --secondary: #F5E9DA;
+            --accent: #1C1C1C;
+            --highlight: #D4A373;
+
+            --white: #FFFFFF;
+            --soft-white: #FFFDFC;
+
+            --muted: #766D68;
+
+            --success: #2F7D4A;
+            --danger: #B42318;
+
+            --border: rgba(139, 30, 63, 0.12);
+
+            --shadow:
+                0 6px 20px rgba(28, 28, 28, 0.07);
+
+        }
+
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+
+            margin: 0;
+            padding: 0;
+
+            box-sizing: border-box;
+
+        }
+
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: var(--secondary);
+
+            color: var(--accent);
+
+            min-height: 100vh;
+
+        }
+
+
+        button,
+        input,
+        select {
+
+            font-family: inherit;
+
+        }
+
+
+        button {
+
+            cursor: pointer;
+
+        }
+
+
+        /* =====================================================
+           LAYOUT
+        ===================================================== */
+
+        .admin-layout {
+
+            min-height: 100vh;
+
+            display: flex;
+
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+           SAME STYLE AS ADMIN DASHBOARD
+        ===================================================== */
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+
+            width: 245px;
+            height: 100vh;
+
+            background: var(--accent);
+
+            color: white;
+
+            padding: 25px 18px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            overflow-y: auto;
+
+            box-shadow:
+                4px 0 18px rgba(0, 0, 0, 0.10);
+
+            z-index: 1000;
+
+        }
+
+
+        .brand {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .brand h2 {
+
+            font-size: 28px;
+
+            color: var(--highlight);
+
+            font-family: Georgia, serif;
+
+            letter-spacing: 0.5px;
+
+        }
+
+
+        .brand span {
+
+            display: block;
+
+            margin-top: 6px;
+
+            color: #999;
+
+            font-size: 10px;
+
+            letter-spacing: 1.7px;
+
+            text-transform: uppercase;
+
+        }
+
+
+        .sidebar-nav {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+
+        }
+
+
+        .sidebar-nav a,
+        .sidebar-bottom a {
+
+            text-decoration: none;
+
+            color: #DDD;
+
+            padding: 13px 14px;
+
+            border-radius: 9px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            font-size: 14px;
+
+            transition: all 0.25s ease;
+
+        }
+
+
+        .sidebar-nav a:hover,
+        .sidebar-bottom a:hover {
+
+            background: var(--primary);
+
+            color: white;
+
+            transform: translateX(2px);
+
+        }
+
+
+        .sidebar-nav a.active {
+
+            background: var(--primary);
+
+            color: white;
+
+            box-shadow:
+                0 5px 15px rgba(139, 30, 63, 0.30);
+
+        }
+
+
+        .nav-icon {
+
+            width: 25px;
+
+            min-width: 25px;
+
+            text-align: center;
+
+            font-size: 17px;
+
+        }
+
+
+        .sidebar-bottom {
+
+            margin-top: auto;
+
+            padding-top: 20px;
+
+            border-top:
+                1px solid rgba(255,255,255,0.08);
+
+        }
+
+
+        .logout {
+
+            color: #FFB3B3 !important;
+
+        }
+
+
+        /* =====================================================
+           MAIN CONTENT
+        ===================================================== */
+
+        .main-content {
+
+            margin-left: 245px;
+
+            width: calc(100% - 245px);
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =====================================================
+           TOP BAR
+        ===================================================== */
+
+        .topbar {
+
+            height: 78px;
+
+            background: rgba(255,255,255,0.96);
+
+            border-bottom:
+                1px solid var(--border);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 35px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 50;
+
+        }
+
+
+        .breadcrumb {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            font-size: 13px;
+
+        }
+
+
+        .breadcrumb span {
+
+            color: var(--muted);
+
+        }
+
+
+        .breadcrumb strong {
+
+            color: var(--primary);
+
+        }
+
+
+        .admin-profile {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+        }
+
+
+        .profile-icon {
+
+            width: 42px;
+
+            height: 42px;
+
+            border-radius: 50%;
+
+            background: var(--primary);
+
+            color: white;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-weight: bold;
+
+            font-size: 18px;
+
+        }
+
+
+        .profile-text {
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+
+        .profile-text strong {
+
+            font-size: 14px;
+
+        }
+
+
+        .profile-text span {
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+            margin-top: 3px;
+
+        }
+
+
+        /* =====================================================
+           PAGE
+        ===================================================== */
+
+        .page {
+
+            padding: 32px 35px 45px;
+
+        }
+
+
+        .page-heading {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-end;
+
+            margin-bottom: 28px;
+
+        }
+
+
+        .heading-text small {
+
+            color: var(--highlight);
+
+            text-transform: uppercase;
+
+            letter-spacing: 2px;
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+        }
+
+
+        .heading-text h1 {
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 32px;
+
+            margin-top: 5px;
+
+        }
+
+
+        .heading-text p {
+
+            margin-top: 7px;
+
+            color: var(--muted);
+
+            font-size: 14px;
+
+        }
+
+
+        .dashboard-btn {
+
+            background: var(--primary);
+
+            color: white;
+
+            border: none;
+
+            padding: 11px 17px;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+
+            transition: 0.25s;
+
+        }
+
+
+        .dashboard-btn:hover {
+
+            background: var(--accent);
+
+            transform: translateY(-1px);
+
+        }
+
+
+        /* =====================================================
+           SUMMARY CARDS
+        ===================================================== */
+
+        .summary-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .summary-card {
+
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 21px;
+
+            border:
+                1px solid var(--border);
+
+            box-shadow: var(--shadow);
+
+            position: relative;
+
+            overflow: hidden;
+
+        }
+
+
+        .summary-card::before {
+
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: 4px;
+
+            background: var(--primary);
+
+        }
+
+
+        .summary-card:nth-child(2)::before {
+
+            background: var(--success);
+
+        }
+
+
+        .summary-card:nth-child(3)::before {
+
+            background: var(--danger);
+
+        }
+
+
+        .summary-card:nth-child(4)::before {
+
+            background: var(--highlight);
+
+        }
+
+
+        .summary-top {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+
+        .summary-label {
+
+            color: var(--muted);
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+        }
+
+
+        .summary-icon {
+
+            width: 38px;
+
+            height: 38px;
+
+            border-radius: 9px;
+
+            background: var(--secondary);
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            color: var(--primary);
+
+            font-size: 17px;
+
+        }
+
+
+        .summary-number {
+
+            margin-top: 13px;
+
+            font-size: 30px;
+
+            font-weight: bold;
+
+            color: var(--accent);
+
+        }
+
+
+        /* =====================================================
+           SEARCH / FILTER
+        ===================================================== */
+
+        .filter-panel {
+
+            background: white;
+
+            padding: 19px;
+
+            border-radius: 14px;
+
+            border:
+                1px solid var(--border);
+
+            box-shadow: var(--shadow);
+
+            margin-bottom: 22px;
+
+        }
+
+
+        .filter-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .filter-header h3 {
+
+            color: var(--primary);
+
+            font-family: Georgia, serif;
+
+            font-size: 18px;
+
+        }
+
+
+        .filter-header span {
+
+            font-size: 12px;
+
+            color: var(--muted);
+
+        }
+
+
+        .filter-row {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 180px 180px;
+
+            gap: 12px;
+
+        }
+
+
+        .search-wrapper {
+
+            position: relative;
+
+        }
+
+
+        .search-icon {
+
+            position: absolute;
+
+            left: 13px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: var(--muted);
+
+            font-size: 15px;
+
+        }
+
+
+        .search-wrapper input,
+        .filter-row select {
+
+            width: 100%;
+
+            height: 43px;
+
+            border:
+                1px solid #ded5cd;
+
+            border-radius: 7px;
+
+            outline: none;
+
+            background: var(--soft-white);
+
+            color: var(--accent);
+
+            font-size: 13px;
+
+        }
+
+
+        .search-wrapper input {
+
+            padding:
+                0 13px 0 38px;
+
+        }
+
+
+        .filter-row select {
+
+            padding: 0 12px;
+
+        }
+
+
+        .search-wrapper input:focus,
+        .filter-row select:focus {
+
+            border-color:
+                var(--highlight);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(212,163,115,0.15);
+
+        }
+
+
+        /* =====================================================
+           CUSTOMER TABLE
+        ===================================================== */
+
+        .table-card {
+
+            background: white;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 14px;
+
+            box-shadow: var(--shadow);
+
+            overflow: hidden;
+
+        }
+
+
+        .table-heading {
+
+            padding: 18px 20px;
+
+            border-bottom:
+                1px solid #eee5df;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+
+        .table-heading h3 {
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 19px;
+
+        }
+
+
+        .table-heading span {
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+        }
+
+
+        .table-scroll {
+
+            overflow-x: auto;
+
+        }
+
+
+        table {
+
+            width: 100%;
+
+            min-width: 900px;
+
+            border-collapse: collapse;
+
+        }
+
+
+        thead {
+
+            background: #fbf5ef;
+
+        }
+
+
+        th {
+
+            padding: 14px 18px;
+
+            text-align: left;
+
+            color: var(--primary);
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.6px;
+
+            white-space: nowrap;
+
+        }
+
+
+        td {
+
+            padding: 15px 18px;
+
+            border-top:
+                1px solid #f1ebe6;
+
+            font-size: 13px;
+
+            color: var(--accent);
+
+            vertical-align: middle;
+
+        }
+
+
+        tbody tr {
+
+            transition: 0.2s;
+
+        }
+
+
+        tbody tr:hover {
+
+            background: #fffaf6;
+
+        }
+
+
+        .customer-name {
+
+            font-weight: bold;
+
+            color: var(--primary);
+
+        }
+
+
+        .customer-id {
+
+            display: block;
+
+            margin-top: 3px;
+
+            font-size: 10px;
+
+            color: var(--muted);
+
+        }
+
+
+        .email-cell {
+
+            color: var(--muted);
+
+        }
+
+
+        .joined-cell {
+
+            white-space: nowrap;
+
+            color: var(--muted);
+
+        }
+
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
+
+        .status-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+        }
+
+
+        .status-badge::before {
+
+            content: "";
+
+            width: 6px;
+
+            height: 6px;
+
+            border-radius: 50%;
+
+        }
+
+
+        .status-badge.active {
+
+            background: #edf7f0;
+
+            color: var(--success);
+
+        }
+
+
+        .status-badge.active::before {
+
+            background: var(--success);
+
+        }
+
+
+        .status-badge.blocked {
+
+            background: #fdf0ef;
+
+            color: var(--danger);
+
+        }
+
+
+        .status-badge.blocked::before {
+
+            background: var(--danger);
+
+        }
+
+
+        /* =====================================================
+           ACTION BUTTONS
+        ===================================================== */
+
+        .action-group {
+
+            display: flex;
+
+            gap: 7px;
+
+        }
+
+
+        .action-btn {
+
+            border: 1px solid transparent;
+
+            border-radius: 6px;
+
+            padding: 7px 10px;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+
+        }
+
+
+        .view-btn {
+
+            background: var(--secondary);
+
+            color: var(--primary);
+
+            border-color: var(--highlight);
+
+        }
+
+
+        .view-btn:hover {
+
+            background: var(--highlight);
+
+            color: var(--accent);
+
+        }
+
+
+        .block-btn {
+
+            background: #fdf0ef;
+
+            color: var(--danger);
+
+        }
+
+
+        .block-btn:hover {
+
+            background: var(--danger);
+
+            color: white;
+
+        }
+
+
+        .unblock-btn {
+
+            background: #edf7f0;
+
+            color: var(--success);
+
+        }
+
+
+        .unblock-btn:hover {
+
+            background: var(--success);
+
+            color: white;
+
+        }
+
+
+        /* =====================================================
+           LOADING / MESSAGE
+        ===================================================== */
+
+        .message {
+
+            text-align: center;
+
+            padding: 45px 20px;
+
+            color: var(--muted);
+
+        }
+
+
+        .loading-spinner {
+
+            width: 25px;
+
+            height: 25px;
+
+            border:
+                3px solid var(--secondary);
+
+            border-top-color:
+                var(--primary);
+
+            border-radius: 50%;
+
+            animation:
+                spin 0.8s linear infinite;
+
+            margin:
+                0 auto 12px;
+
+        }
+
+
+        @keyframes spin {
+
+            to {
+
+                transform: rotate(360deg);
+
+            }
+
+        }
+
+
+        /* =====================================================
+           MODAL
+        ===================================================== */
+
+        .modal {
+
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(28,28,28,0.62);
+
+            z-index: 2000;
+
+            padding: 30px;
+
+            overflow-y: auto;
+
+        }
+
+
+        .modal-content {
+
+            width: 100%;
+
+            max-width: 850px;
+
+            background: white;
+
+            margin: 20px auto;
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.25);
+
+        }
+
+
+        .modal-header {
+
+            background: var(--primary);
+
+            color: white;
+
+            padding: 20px 24px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+
+        .modal-header h2 {
+
+            font-family: Georgia, serif;
+
+            font-size: 21px;
+
+        }
+
+
+        .close-btn {
+
+            border: none;
+
+            background: transparent;
+
+            color: white;
+
+            font-size: 28px;
+
+            line-height: 1;
+
+        }
+
+
+        .modal-body {
+
+            padding: 25px;
+
+        }
+
+
+        /* =====================================================
+           CUSTOMER PROFILE
+        ===================================================== */
+
+        .profile-banner {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding-bottom: 22px;
+
+            border-bottom:
+                1px solid #eee5df;
+
+            margin-bottom: 22px;
+
+        }
+
+
+        .large-avatar {
+
+            width: 60px;
+
+            height: 60px;
+
+            border-radius: 50%;
+
+            background: var(--secondary);
+
+            border:
+                2px solid var(--highlight);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: var(--primary);
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+        }
+
+
+        .profile-banner h3 {
+
+            color: var(--primary);
+
+            font-family: Georgia, serif;
+
+            font-size: 20px;
+
+        }
+
+
+        .profile-banner p {
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+            margin-top: 4px;
+
+        }
+
+
+        .details-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 13px;
+
+        }
+
+
+        .detail-item {
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            background: #fcf8f4;
+
+            border:
+                1px solid #eee4dc;
+
+        }
+
+
+        .detail-item.full-width {
+
+            grid-column: 1 / -1;
+
+        }
+
+
+        .detail-item strong {
+
+            display: block;
+
+            color: var(--muted);
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.5px;
+
+            font-size: 10px;
+
+            margin-bottom: 6px;
+
+        }
+
+
+        .detail-item span {
+
+            color: var(--accent);
+
+            font-size: 13px;
+
+        }
+
+
+        /* =====================================================
+           MODAL SECTIONS
+        ===================================================== */
+
+        .modal-section {
+
+            margin-top: 28px;
+
+        }
+
+
+        .modal-section-title {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 13px;
+
+        }
+
+
+        .modal-section-title h3 {
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 17px;
+
+        }
+
+
+        .section-line {
+
+            height: 1px;
+
+            flex: 1;
+
+            background: #eaded4;
+
+        }
+
+
+        .history-item,
+        .review-item {
+
+            border:
+                1px solid #eee4dc;
+
+            background: #fffdfa;
+
+            padding: 14px;
+
+            border-radius: 8px;
+
+            margin-bottom: 9px;
+
+        }
+
+
+        .history-item p,
+        .review-item p {
+
+            margin-bottom: 6px;
+
+            font-size: 12px;
+
+            color: var(--muted);
+
+            line-height: 1.5;
+
+        }
+
+
+        .history-item strong,
+        .review-item strong {
+
+            color: var(--accent);
+
+        }
+
+
+        .stars {
+
+            color: var(--highlight);
+
+            letter-spacing: 2px;
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1100px) {
+
+            .summary-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+
+            .filter-row {
+
+                grid-template-columns:
+                    1fr 1fr;
+
+            }
+
+
+            .search-wrapper {
+
+                grid-column:
+                    1 / -1;
+
+            }
+
+        }
+
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+
+                width: 75px;
+
+                padding: 20px 10px;
+
+            }
+
+
+            .brand h2 {
+
+                font-size: 17px;
+
+            }
+
+
+            .brand span {
+
+                display: none;
+
+            }
+
+
+            .sidebar-nav a,
+            .sidebar-bottom a {
+
+                justify-content: center;
+
+                padding: 13px 5px;
+
+            }
+
+
+            .sidebar-nav a span:not(.nav-icon),
+            .sidebar-bottom a span:not(.nav-icon) {
+
+                display: none;
+
+            }
+
+
+            .main-content {
+
+                margin-left: 75px;
+
+                width:
+                    calc(100% - 75px);
+
+            }
+
+
+            .page {
+
+                padding:
+                    25px 20px;
+
+            }
+
+
+            .topbar {
+
+                padding:
+                    0 20px;
+
+            }
+
+
+            .profile-text {
+
+                display: none;
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .summary-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .filter-row {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .page-heading {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+                gap: 15px;
+
+            }
+
+
+            .heading-text h1 {
+
+                font-size: 27px;
+
+            }
+
+
+            .details-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .detail-item.full-width {
+
+                grid-column: auto;
+
+            }
+
+
+            .modal {
+
+                padding: 10px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <!-- =====================================================
+         SIDEBAR
+         EXACT SAME ADMIN NAVIGATION STRUCTURE
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+
+        <div class="brand">
+
+            <h2>
+                Annapriya
+            </h2>
+
+            <span>
+                Admin Panel
+            </span>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+
+            <a href="admindashboard.html">
+
+                <span class="nav-icon">
+                    🏠
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a
+                href="adminusers.html"
+                class="active"
+            >
+
+                <span class="nav-icon">
+                    👥
+                </span>
+
+                <span>
+                    Manage Users
+                </span>
+
+            </a>
+
+
+            <a href="admincaterers.html">
+
+                <span class="nav-icon">
+                    👨‍🍳
+                </span>
+
+                <span>
+                    Manage Caterers
+                </span>
+
+            </a>
+
+
+            <a href="adminenquiries.html">
+
+                <span class="nav-icon">
+                    ✉️
+                </span>
+
+                <span>
+                    Customer Enquiries
+                </span>
+
+            </a>
+
+
+            <a href="adminbookings.html">
+
+                <span class="nav-icon">
+                    📅
+                </span>
+
+                <span>
+                    Manage Bookings
+                </span>
+
+            </a>
+
+
+            <a href="adminpayments.html">
+
+                <span class="nav-icon">
+                    💳
+                </span>
+
+                <span>
+                    Manage Payments
+                </span>
+
+            </a>
+
+
+            <a href="adminreviews.html">
+
+                <span class="nav-icon">
+                    ⭐
+                </span>
+
+                <span>
+                    Manage Reviews
+                </span>
+
+            </a>
+
+
+            <a href="adminreports.html">
+
+                <span class="nav-icon">
+                    📊
+                </span>
+
+                <span>
+                    Reports & Analytics
+                </span>
+
+            </a>
+
+
+            <a href="adminsettings.html">
+
+                <span class="nav-icon">
+                    ⚙️
+                </span>
+
+                <span>
+                    System Settings
+                </span>
+
+            </a>
+
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+
+            <a href="adminprofile.html">
+
+                <span class="nav-icon">
+                    👤
+                </span>
+
+                <span>
+                    Account Settings
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                class="logout"
+                onclick="logoutAdmin(event)"
+            >
+
+                <span class="nav-icon">
+                    🚪
+                </span>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =================================================
+             TOP BAR
+        ================================================== -->
+
+        <header class="topbar">
+
+
+            <div class="breadcrumb">
+
+                <span>
+                    Admin
+                </span>
+
+                <span>
+                    ›
+                </span>
+
+                <strong>
+                    Manage Users
+                </strong>
+
+            </div>
+
+
+            <div class="admin-profile">
+
+
+                <div class="profile-icon">
+                    A
+                </div>
+
+
+                <div class="profile-text">
+
+                    <strong id="adminName">
+                        Admin
+                    </strong>
+
+                    <span>
+                        Super Admin
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- =================================================
+             PAGE
+        ================================================== -->
+
+        <section class="page">
+
+
+            <!-- PAGE HEADING -->
+
+            <div class="page-heading">
+
+
+                <div class="heading-text">
+
+                    <small>
+                        Customer Management
+                    </small>
+
+                    <h1>
+                        Manage Users
+                    </h1>
+
+                    <p>
+                        View, search and manage registered Annapriya customers.
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="dashboard-btn"
+                    onclick="window.location.href='admindashboard.html'"
+                >
+
+                    ← Dashboard
+
+                </button>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 SUMMARY CARDS
+                 VALUES COME FROM MYSQL
+            ================================================== -->
+
+            <div class="summary-grid">
+
+
+                <div class="summary-card">
+
+                    <div class="summary-top">
+
+                        <span class="summary-label">
+                            Total Customers
+                        </span>
+
+                        <div class="summary-icon">
+                            👥
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="summary-number"
+                        id="totalCustomers"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+
+                <div class="summary-card">
+
+                    <div class="summary-top">
+
+                        <span class="summary-label">
+                            Active Customers
+                        </span>
+
+                        <div class="summary-icon">
+                            ✓
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="summary-number"
+                        id="activeCustomers"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+
+                <div class="summary-card">
+
+                    <div class="summary-top">
+
+                        <span class="summary-label">
+                            Blocked Customers
+                        </span>
+
+                        <div class="summary-icon">
+                            !
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="summary-number"
+                        id="blockedCustomers"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+
+                <div class="summary-card">
+
+                    <div class="summary-top">
+
+                        <span class="summary-label">
+                            New Customers
+                        </span>
+
+                        <div class="summary-icon">
+                            +
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="summary-number"
+                        id="newCustomers"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 SEARCH / FILTER
+            ================================================== -->
+
+            <section class="filter-panel">
+
+
+                <div class="filter-header">
+
+                    <h3>
+                        Find Customers
+                    </h3>
+
+                    <span>
+                        Search by customer information
+                    </span>
+
+                </div>
+
+
+                <div class="filter-row">
+
+
+                    <div class="search-wrapper">
+
+                        <span class="search-icon">
+                            🔍
+                        </span>
+
+                        <input
+                            type="text"
+                            id="searchInput"
+                            placeholder="Search name, email, phone or customer ID..."
+                        >
+
+                    </div>
+
+
+                    <select id="statusFilter">
+
+                        <option value="">
+                            All Status
+                        </option>
+
+                        <option value="active">
+                            Active
+                        </option>
+
+                        <option value="blocked">
+                            Blocked
+                        </option>
+
+                    </select>
+
+
+                    <select id="sortFilter">
+
+                        <option value="newest">
+                            Newest First
+                        </option>
+
+                        <option value="oldest">
+                            Oldest First
+                        </option>
+
+                    </select>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 CUSTOMER TABLE
+            ================================================== -->
+
+            <section class="table-card">
+
+
+                <div class="table-heading">
+
+                    <h3>
+                        Customer List
+                    </h3>
+
+                    <span id="customerCount">
+                        Loading customers...
+                    </span>
+
+                </div>
+
+
+                <div class="table-scroll">
+
+
+                    <table>
+
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Customer
+                                </th>
+
+                                <th>
+                                    Email
+                                </th>
+
+                                <th>
+                                    Phone
+                                </th>
+
+                                <th>
+                                    Gender
+                                </th>
+
+                                <th>
+                                    Joined
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Actions
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="customerTableBody">
+
+                            <tr>
+
+                                <td
+                                    colspan="7"
+                                    class="message"
+                                >
+
+                                    <div class="loading-spinner"></div>
+
+                                    Loading customers...
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+
+                    </table>
+
+
+                </div>
+
+
+            </section>
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     CUSTOMER DETAILS MODAL
+========================================================= -->
+
+<div
+    id="customerModal"
+    class="modal"
+>
+
+
+    <div class="modal-content">
+
+
+        <div class="modal-header">
+
+            <h2>
+                Customer Details
+            </h2>
+
+            <button
+                class="close-btn"
+                onclick="closeCustomerModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div
+            id="customerDetails"
+            class="modal-body"
+        >
+
+            Loading customer details...
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+    /* =====================================================
+       API
+       BACKEND IS RUNNING ON PORT 5000
+    ===================================================== */
+
+    const API_BASE =
+        "http://localhost:5000/api/admin";
+
+
+
+    /* =====================================================
+       ADMIN TOKEN
+    ===================================================== */
+
+    function getAdminToken() {
+
+        return (
+            localStorage.getItem("adminToken") ||
+            localStorage.getItem("token")
+        );
+
+    }
+
+
+
+    /* =====================================================
+       HEADERS
+    ===================================================== */
+
+    function getHeaders() {
+
+        const token =
+            getAdminToken();
+
+
+        return {
+
+            "Content-Type":
+                "application/json",
+
+            "Authorization":
+                "Bearer " + token
+
+        };
+
+    }
+
+
+
+    /* =====================================================
+       ADMIN NAME
+    ===================================================== */
+
+    function loadAdminName() {
+
+        try {
+
+            const admin =
+                JSON.parse(
+                    localStorage.getItem("admin") ||
+                    "null"
+                );
+
+
+            if (!admin) {
+
+                return;
+
+            }
+
+
+            const name =
+                admin.name ||
+                admin.full_name ||
+                admin.username ||
+                admin.adminName;
+
+
+            if (name) {
+
+                document.getElementById(
+                    "adminName"
+                ).textContent = name;
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.log(
+                "Admin profile information unavailable."
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       LOAD SUMMARY
+       DATABASE ONLY
+    ===================================================== */
+
+    async function loadSummary() {
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE}/customers/summary`,
+                    {
+
+                        method: "GET",
+
+                        headers:
+                            getHeaders()
+
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load customer summary."
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            /*
+                Backend returns:
+
+                {
+                    summary: {
+                        totalCustomers,
+                        activeCustomers,
+                        blockedCustomers,
+                        newCustomers
+                    }
+                }
+            */
+
+            const summary =
+                data.summary ||
+                data;
+
+
+            document.getElementById(
+                "totalCustomers"
+            ).textContent =
+                Number(
+                    summary.totalCustomers || 0
+                );
+
+
+            document.getElementById(
+                "activeCustomers"
+            ).textContent =
+                Number(
+                    summary.activeCustomers || 0
+                );
+
+
+            document.getElementById(
+                "blockedCustomers"
+            ).textContent =
+                Number(
+                    summary.blockedCustomers || 0
+                );
+
+
+            document.getElementById(
+                "newCustomers"
+            ).textContent =
+                Number(
+                    summary.newCustomers || 0
+                );
+
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Summary error:",
+                error
+            );
+
+
+            document.getElementById(
+                "totalCustomers"
+            ).textContent = "0";
+
+
+            document.getElementById(
+                "activeCustomers"
+            ).textContent = "0";
+
+
+            document.getElementById(
+                "blockedCustomers"
+            ).textContent = "0";
+
+
+            document.getElementById(
+                "newCustomers"
+            ).textContent = "0";
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       LOAD CUSTOMERS
+    ===================================================== */
+
+    async function loadCustomers() {
+
+        const tableBody =
+            document.getElementById(
+                "customerTableBody"
+            );
+
+
+        tableBody.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="7"
+                    class="message"
+                >
+
+                    <div class="loading-spinner"></div>
+
+                    Loading customers...
+
+                </td>
+
+            </tr>
+
+        `;
+
+
+        try {
+
+            const search =
+                document.getElementById(
+                    "searchInput"
+                ).value.trim();
+
+
+            const status =
+                document.getElementById(
+                    "statusFilter"
+                ).value;
+
+
+            const sort =
+                document.getElementById(
+                    "sortFilter"
+                ).value;
+
+
+            const params =
+                new URLSearchParams();
+
+
+            if (search) {
+
+                params.append(
+                    "search",
+                    search
+                );
+
+            }
+
+
+            if (status) {
+
+                params.append(
+                    "status",
+                    status
+                );
+
+            }
+
+
+            /*
+                Backend already orders by newest.
+
+                We still read the sort option here
+                and apply Oldest/Newest on the
+                returned database records.
+            */
+
+            const response =
+                await fetch(
+                    `${API_BASE}/customers?${params.toString()}`,
+                    {
+
+                        method: "GET",
+
+                        headers:
+                            getHeaders()
+
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load customers."
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            let customers =
+                Array.isArray(data)
+                    ? data
+                    : (
+                        data.customers ||
+                        data.data ||
+                        []
+                    );
+
+
+            customers =
+                [...customers].sort(
+                    (a, b) => {
+
+                        const dateA =
+                            new Date(
+                                a.created_at ||
+                                a.createdAt ||
+                                0
+                            );
+
+
+                        const dateB =
+                            new Date(
+                                b.created_at ||
+                                b.createdAt ||
+                                0
+                            );
+
+
+                        return sort === "oldest"
+                            ? dateA - dateB
+                            : dateB - dateA;
+
+                    }
+                );
+
+
+            displayCustomers(
+                customers
+            );
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Customer loading error:",
+                error
+            );
+
+
+            tableBody.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="7"
+                        class="message"
+                    >
+                        Failed to load customers.
+                    </td>
+
+                </tr>
+
+            `;
+
+
+            document.getElementById(
+                "customerCount"
+            ).textContent =
+                "Unable to load";
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       DISPLAY CUSTOMERS
+    ===================================================== */
+
+    function displayCustomers(
+        customers
+    ) {
+
+        const tableBody =
+            document.getElementById(
+                "customerTableBody"
+            );
+
+
+        document.getElementById(
+            "customerCount"
+        ).textContent =
+            `${customers.length} customer${
+                customers.length === 1
+                    ? ""
+                    : "s"
+            }`;
+
+
+        if (!customers.length) {
+
+            tableBody.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="7"
+                        class="message"
+                    >
+                        No customers found.
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+        tableBody.innerHTML =
+            customers.map(
+                customer => {
+
+
+                    const customerId =
+                        customer.customer_id ??
+                        customer.customerId ??
+                        customer.id;
+
+
+                    const fullName =
+                        customer.full_name ??
+                        customer.fullName ??
+                        "N/A";
+
+
+                    const email =
+                        customer.email ??
+                        "N/A";
+
+
+                    const phone =
+                        customer.phone ??
+                        "N/A";
+
+
+                    const gender =
+                        customer.gender ??
+                        "N/A";
+
+
+                    const joined =
+                        formatDate(
+                            customer.created_at ??
+                            customer.createdAt
+                        );
+
+
+                    const status =
+                        String(
+                            customer.status ||
+                            "active"
+                        ).toLowerCase();
+
+
+                    const safeStatus =
+                        status === "blocked"
+                            ? "blocked"
+                            : "active";
+
+
+                    return `
+
+                        <tr>
+
+
+                            <td>
+
+                                <span
+                                    class="customer-name"
+                                >
+                                    ${escapeHtml(fullName)}
+                                </span>
+
+                                <span
+                                    class="customer-id"
+                                >
+                                    ID:
+                                    ${escapeHtml(customerId)}
+                                </span>
+
+                            </td>
+
+
+                            <td class="email-cell">
+
+                                ${escapeHtml(email)}
+
+                            </td>
+
+
+                            <td>
+
+                                ${escapeHtml(phone)}
+
+                            </td>
+
+
+                            <td>
+
+                                ${escapeHtml(gender)}
+
+                            </td>
+
+
+                            <td class="joined-cell">
+
+                                ${joined}
+
+                            </td>
+
+
+                            <td>
+
+                                <span
+                                    class="status-badge ${safeStatus}"
+                                >
+
+                                    ${capitalize(safeStatus)}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <div
+                                    class="action-group"
+                                >
+
+
+                                    <button
+                                        class="action-btn view-btn"
+                                        onclick="viewCustomer(${Number(customerId)})"
+                                    >
+                                        View
+                                    </button>
+
+
+                                    ${
+                                        safeStatus === "blocked"
+
+                                        ?
+
+                                        `
+                                            <button
+                                                class="action-btn unblock-btn"
+                                                onclick="changeCustomerStatus(
+                                                    ${Number(customerId)},
+                                                    'active'
+                                                )"
+                                            >
+                                                Unblock
+                                            </button>
+                                        `
+
+                                        :
+
+                                        `
+                                            <button
+                                                class="action-btn block-btn"
+                                                onclick="changeCustomerStatus(
+                                                    ${Number(customerId)},
+                                                    'blocked'
+                                                )"
+                                            >
+                                                Block
+                                            </button>
+                                        `
+                                    }
+
+
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+                    `;
+
+                }
+            ).join("");
+
+    }
+
+
+
+    /* =====================================================
+       VIEW CUSTOMER
+    ===================================================== */
+
+    async function viewCustomer(
+        customerId
+    ) {
+
+        const modal =
+            document.getElementById(
+                "customerModal"
+            );
+
+
+        const details =
+            document.getElementById(
+                "customerDetails"
+            );
+
+
+        modal.style.display =
+            "block";
+
+
+        details.innerHTML = `
+
+            <div class="message">
+
+                <div class="loading-spinner"></div>
+
+                Loading customer details...
+
+            </div>
+
+        `;
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE}/customers/${customerId}`,
+                    {
+
+                        method: "GET",
+
+                        headers:
+                            getHeaders()
+
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load customer details."
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            const customer =
+                data.customer ||
+                data.data ||
+                data;
+
+
+            const bookings =
+                data.bookings ||
+                [];
+
+
+            const reviews =
+                data.reviews ||
+                [];
+
+
+            const fullName =
+                customer.full_name ??
+                customer.fullName ??
+                "N/A";
+
+
+            const email =
+                customer.email ??
+                "N/A";
+
+
+            const phone =
+                customer.phone ??
+                "N/A";
+
+
+            const gender =
+                customer.gender ??
+                "N/A";
+
+
+            const address =
+                customer.address ??
+                "N/A";
+
+
+            const status =
+                String(
+                    customer.status ||
+                    "active"
+                ).toLowerCase();
+
+
+            const joined =
+                formatDate(
+                    customer.created_at ??
+                    customer.createdAt
+                );
+
+
+            const id =
+                customer.customer_id ??
+                customer.customerId ??
+                customer.id ??
+                "N/A";
+
+
+            const firstLetter =
+                fullName !== "N/A"
+                    ? fullName
+                        .charAt(0)
+                        .toUpperCase()
+                    : "C";
+
+
+            let html = `
+
+
+                <div class="profile-banner">
+
+
+                    <div class="large-avatar">
+
+                        ${escapeHtml(
+                            firstLetter
+                        )}
+
+                    </div>
+
+
+                    <div>
+
+                        <h3>
+
+                            ${escapeHtml(
+                                fullName
+                            )}
+
+                        </h3>
+
+
+                        <p>
+
+                            Customer ID:
+                            ${escapeHtml(id)}
+
+                            ·
+
+                            ${capitalize(status)}
+
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="details-grid">
+
+
+                    <div class="detail-item">
+
+                        <strong>
+                            Email
+                        </strong>
+
+                        <span>
+                            ${escapeHtml(email)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <strong>
+                            Phone
+                        </strong>
+
+                        <span>
+                            ${escapeHtml(phone)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <strong>
+                            Gender
+                        </strong>
+
+                        <span>
+                            ${escapeHtml(gender)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <strong>
+                            Joined
+                        </strong>
+
+                        <span>
+                            ${joined}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-item full-width">
+
+                        <strong>
+                            Address
+                        </strong>
+
+                        <span>
+                            ${escapeHtml(address)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <strong>
+                            Account Status
+                        </strong>
+
+                        <span>
+
+                            <span
+                                class="status-badge ${
+                                    status === "blocked"
+                                        ? "blocked"
+                                        : "active"
+                                }"
+                            >
+
+                                ${capitalize(status)}
+
+                            </span>
+
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- BOOKING HISTORY -->
+
+                <div class="modal-section">
+
+
+                    <div class="modal-section-title">
+
+                        <h3>
+                            Booking History
+                        </h3>
+
+                        <div class="section-line"></div>
+
+                    </div>
+
+            `;
+
+
+            if (!bookings.length) {
+
+                html += `
+
+                    <div class="history-item">
+
+                        <p>
+                            No booking history found.
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+
+            else {
+
+                html +=
+                    bookings.map(
+                        booking => `
+
+                            <div
+                                class="history-item"
+                            >
+
+                                <p>
+
+                                    <strong>
+                                        Booking ID:
+                                    </strong>
+
+                                    ${escapeHtml(
+                                        booking.request_id ??
+                                        booking.booking_id ??
+                                        booking.id ??
+                                        "N/A"
+                                    )}
+
+                                </p>
+
+
+                                <p>
+
+                                    <strong>
+                                        Caterer:
+                                    </strong>
+
+                                    ${escapeHtml(
+                                        booking.caterer_name ??
+                                        "N/A"
+                                    )}
+
+                                </p>
+
+
+                                <p>
+
+                                    <strong>
+                                        Event:
+                                    </strong>
+
+                                    ${escapeHtml(
+                                        booking.event_type ??
+                                        "N/A"
+                                    )}
+
+                                </p>
+
+
+                                <p>
+
+                                    <strong>
+                                        Event Date:
+                                    </strong>
+
+                                    ${formatDate(
+                                        booking.event_date
+                                    )}
+
+                                </p>
+
+
+                                <p>
+
+                                    <strong>
+                                        Venue:
+                                    </strong>
+
+                                    ${escapeHtml(
+                                        booking.venue_location ??
+                                        "N/A"
+                                    )}
+
+                                </p>
+
+
+                                <p>
+
+                                    <strong>
+                                        Guests:
+                                    </strong>
+
+                                    ${escapeHtml(
+                                        booking.guest_count ??
+                                        "N/A"
+                                    )}
+
+                                </p>
+
+
+                                <p>
+
+                                    <strong>
+                                        Package:
+                                    </strong>
+
+                                    ${escapeHtml(
+                                        booking.package_name ??
+                                        "N/A"
+                                    )}
+
+                                </p>
+
+
+                                <p>
+
+                                    <strong>
+                                        Status:
+                                    </strong>
+
+                                    ${escapeHtml(
+                                        booking.status ??
+                                        "N/A"
+                                    )}
+
+                                </p>
+
+                            </div>
+
+                        `
+                    ).join("");
+
+            }
+
+
+            html += `
+
+                </div>
+
+
+
+                <!-- REVIEWS -->
+
+                <div class="modal-section">
+
+
+                    <div class="modal-section-title">
+
+                        <h3>
+                            Reviews
+                        </h3>
+
+                        <div class="section-line"></div>
+
+                    </div>
+
+            `;
+
+
+            if (!reviews.length) {
+
+                html += `
+
+                    <div class="review-item">
+
+                        <p>
+                            No reviews found.
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+
+            else {
+
+                html +=
+                    reviews.map(
+                        review => {
+
+                            const rating =
+                                Number(
+                                    review.rating || 0
+                                );
+
+
+                            const stars =
+                                "★".repeat(
+                                    Math.max(
+                                        0,
+                                        Math.min(
+                                            5,
+                                            rating
+                                        )
+                                    )
+                                );
+
+
+                            return `
+
+                                <div
+                                    class="review-item"
+                                >
+
+                                    <p>
+
+                                        <strong>
+                                            Caterer:
+                                        </strong>
+
+                                        ${escapeHtml(
+                                            review.caterer_name ??
+                                            "N/A"
+                                        )}
+
+                                    </p>
+
+
+                                    <p>
+
+                                        <strong>
+                                            Rating:
+                                        </strong>
+
+                                        <span
+                                            class="stars"
+                                        >
+                                            ${stars || "—"}
+                                        </span>
+
+                                        ${rating
+                                            ? ` (${rating}/5)`
+                                            : ""
+                                        }
+
+                                    </p>
+
+
+                                    <p>
+
+                                        <strong>
+                                            Review:
+                                        </strong>
+
+                                        ${escapeHtml(
+                                            review.review_text ??
+                                            "N/A"
+                                        )}
+
+                                    </p>
+
+
+                                    <p>
+
+                                        <strong>
+                                            Date:
+                                        </strong>
+
+                                        ${formatDate(
+                                            review.created_at
+                                        )}
+
+                                    </p>
+
+                                </div>
+
+                            `;
+
+                        }
+                    ).join("");
+
+            }
+
+
+            html += `
+
+                </div>
+
+            `;
+
+
+            details.innerHTML =
+                html;
+
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Customer details error:",
+                error
+            );
+
+
+            details.innerHTML = `
+
+                <div class="message">
+
+                    Failed to load customer details.
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       BLOCK / UNBLOCK CUSTOMER
+    ===================================================== */
+
+    async function changeCustomerStatus(
+        customerId,
+        newStatus
+    ) {
+
+        const action =
+            newStatus === "blocked"
+                ? "block"
+                : "unblock";
+
+
+        const confirmed =
+            confirm(
+                `Are you sure you want to ${action} this customer?`
+            );
+
+
+        if (!confirmed) {
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE}/customers/${customerId}/status`,
+                    {
+
+                        method: "PUT",
+
+                        headers:
+                            getHeaders(),
+
+                        body:
+                            JSON.stringify({
+
+                                status:
+                                    newStatus
+
+                            })
+
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to update customer status."
+                );
+
+            }
+
+
+            alert(
+                `Customer ${action}ed successfully.`
+            );
+
+
+            /*
+                Reload directly from MySQL
+                after the update.
+            */
+
+            await loadSummary();
+
+            await loadCustomers();
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Status update error:",
+                error
+            );
+
+
+            alert(
+                "Failed to update customer status."
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       CLOSE MODAL
+    ===================================================== */
+
+    function closeCustomerModal() {
+
+        document.getElementById(
+            "customerModal"
+        ).style.display =
+            "none";
+
+    }
+
+
+
+    /* =====================================================
+       CLOSE MODAL WHEN CLICKING OUTSIDE
+    ===================================================== */
+
+    window.addEventListener(
+        "click",
+        function(event) {
+
+            const modal =
+                document.getElementById(
+                    "customerModal"
+                );
+
+
+            if (
+                event.target === modal
+            ) {
+
+                closeCustomerModal();
+
+            }
+
+        }
+    );
+
+
+
+    /* =====================================================
+       FORMAT DATE
+    ===================================================== */
+
+    function formatDate(
+        dateValue
+    ) {
+
+        if (!dateValue) {
+
+            return "N/A";
+
+        }
+
+
+        const date =
+            new Date(dateValue);
+
+
+        if (
+            isNaN(
+                date.getTime()
+            )
+        ) {
+
+            return "N/A";
+
+        }
+
+
+        return date.toLocaleDateString(
+            "en-IN",
+            {
+
+                day: "2-digit",
+
+                month: "short",
+
+                year: "numeric"
+
+            }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       CAPITALIZE
+    ===================================================== */
+
+    function capitalize(
+        value
+    ) {
+
+        if (!value) {
+
+            return "";
+
+        }
+
+
+        const text =
+            String(value);
+
+
+        return (
+            text.charAt(0).toUpperCase() +
+            text.slice(1)
+        );
+
+    }
+
+
+
+    /* =====================================================
+       ESCAPE HTML
+    ===================================================== */
+
+    function escapeHtml(
+        value
+    ) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+
+            return "";
+
+        }
+
+
+        return String(value)
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+
+    /* =====================================================
+       LOGOUT
+    ===================================================== */
+
+    function logoutAdmin(
+        event
+    ) {
+
+        if (event) {
+
+            event.preventDefault();
+
+        }
+
+
+        localStorage.removeItem(
+            "adminToken"
+        );
+
+
+        localStorage.removeItem(
+            "token"
+        );
+
+
+        localStorage.removeItem(
+            "admin"
+        );
+
+
+        window.location.href =
+            "index.html";
+
+    }
+
+
+
+    /* =====================================================
+       SEARCH EVENTS
+    ===================================================== */
+
+    let searchTimer;
+
+
+    document
+        .getElementById("searchInput")
+        .addEventListener(
+            "input",
+            function() {
+
+                clearTimeout(
+                    searchTimer
+                );
+
+
+                searchTimer =
+                    setTimeout(
+                        loadCustomers,
+                        300
+                    );
+
+            }
+        );
+
+
+    document
+        .getElementById("statusFilter")
+        .addEventListener(
+            "change",
+            loadCustomers
+        );
+
+
+    document
+        .getElementById("sortFilter")
+        .addEventListener(
+            "change",
+            loadCustomers
+        );
+
+
+
+    /* =====================================================
+       INITIAL LOAD
+    ===================================================== */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+            loadAdminName();
+
+            loadSummary();
+
+            loadCustomers();
+
+        }
+    );
+
+
+</script>
+
+
+</body>
+
+</html>

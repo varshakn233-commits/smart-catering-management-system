@@ -1,0 +1,3514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Caterers | Annapriya</title>
+
+
+    <style>
+
+        /* =====================================================
+           ROOT
+        ===================================================== */
+
+        :root {
+
+            --primary: #8B1E3F;
+            --secondary: #F5E9DA;
+            --accent: #1C1C1C;
+            --highlight: #D4A373;
+
+            --white: #FFFFFF;
+            --soft-white: #FFFDFC;
+
+            --border: rgba(139, 30, 63, 0.12);
+
+            --muted: #766D68;
+
+            --success: #2F7D4A;
+            --danger: #B42318;
+
+            --shadow:
+                0 8px 30px rgba(28, 28, 28, 0.08);
+
+        }
+
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+
+            margin: 0;
+
+            padding: 0;
+
+            box-sizing: border-box;
+
+        }
+
+
+        body {
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: var(--secondary);
+
+            color: var(--accent);
+
+            min-height: 100vh;
+
+        }
+
+
+        button,
+        input,
+        select {
+
+            font-family: inherit;
+
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+           MATCHES ADMIN USERS PAGE
+        ===================================================== */
+
+        .sidebar {
+
+            position: fixed;
+
+            top: 0;
+
+            left: 0;
+
+            width: 230px;
+
+            height: 100vh;
+
+            background: #1C1C1C;
+
+            color: white;
+
+            padding: 25px 14px;
+
+            overflow-y: auto;
+
+            z-index: 1000;
+
+        }
+
+
+        .logo {
+
+            font-family: Georgia, serif;
+
+            font-size: 29px;
+
+            font-weight: 700;
+
+            color: #D4A373;
+
+            padding-left: 26px;
+
+            margin-bottom: 2px;
+
+        }
+
+
+        .admin-label {
+
+            font-size: 10px;
+
+            letter-spacing: 1.5px;
+
+            color: #A8A8A8;
+
+            padding-left: 58px;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .sidebar-nav {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 5px;
+
+        }
+
+
+        .sidebar-nav a {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            text-decoration: none;
+
+            color: rgba(255,255,255,0.85);
+
+            padding: 13px 17px;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .sidebar-nav a:hover {
+
+            background: #292929;
+
+            color: white;
+
+            transform: translateX(2px);
+
+        }
+
+
+        .sidebar-nav a.active {
+
+            background: var(--primary);
+
+            color: white;
+
+            font-weight: 700;
+
+            box-shadow:
+                0 5px 15px rgba(139, 30, 63, 0.25);
+
+        }
+
+
+        .nav-icon {
+
+            width: 22px;
+
+            text-align: center;
+
+            font-size: 16px;
+
+            flex-shrink: 0;
+
+        }
+
+
+        .sidebar-bottom {
+
+            margin-top: 25px;
+
+            padding-top: 18px;
+
+            border-top: 1px solid rgba(255,255,255,0.10);
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 5px;
+
+        }
+
+
+        .sidebar-bottom a {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            text-decoration: none;
+
+            color: rgba(255,255,255,0.85);
+
+            padding: 13px 17px;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .sidebar-bottom a:hover {
+
+            background: #292929;
+
+            color: white;
+
+        }
+
+
+        .logout-link {
+
+            color: #E9A0A0 !important;
+
+        }
+
+
+        /* =====================================================
+           MAIN AREA
+        ===================================================== */
+
+        .main {
+
+            margin-left: 230px;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =====================================================
+           TOP HEADER
+           MATCHES ADMIN USERS
+        ===================================================== */
+
+        .top-header {
+
+            height: 78px;
+
+            background: var(--white);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 35px;
+
+            border-bottom: 1px solid #eee;
+
+        }
+
+
+        .breadcrumb {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            font-size: 13px;
+
+            color: var(--muted);
+
+        }
+
+
+        .breadcrumb .current {
+
+            color: var(--primary);
+
+            font-weight: 700;
+
+        }
+
+
+        .breadcrumb-arrow {
+
+            color: #A7A09B;
+
+        }
+
+
+        .admin-profile {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+        }
+
+
+        .admin-avatar {
+
+            width: 42px;
+
+            height: 42px;
+
+            border-radius: 50%;
+
+            background: var(--primary);
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 17px;
+
+            font-weight: 700;
+
+        }
+
+
+        .admin-details {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 2px;
+
+        }
+
+
+        .admin-email {
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            color: var(--accent);
+
+        }
+
+
+        .admin-role {
+
+            font-size: 11px;
+
+            color: var(--muted);
+
+        }
+
+
+        /* =====================================================
+           CONTENT
+        ===================================================== */
+
+        .content {
+
+            padding: 35px 54px 50px;
+
+        }
+
+
+        /* =====================================================
+           PAGE HEADING
+        ===================================================== */
+
+        .page-heading {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-end;
+
+            margin-bottom: 28px;
+
+        }
+
+
+        .heading-small {
+
+            color: var(--highlight);
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .page-heading h1 {
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 32px;
+
+            line-height: 1.1;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .page-heading p {
+
+            font-size: 14px;
+
+            color: var(--muted);
+
+        }
+
+
+        .dashboard-btn {
+
+            background: var(--primary);
+
+            color: white;
+
+            border: none;
+
+            border-radius: 7px;
+
+            padding: 11px 17px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            text-decoration: none;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+        }
+
+
+        .dashboard-btn:hover {
+
+            opacity: 0.92;
+
+        }
+
+
+        /* =====================================================
+           STAT CARDS
+           MATCHES ADMIN USERS
+        ===================================================== */
+
+        .stats-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 20px;
+
+            margin-bottom: 26px;
+
+        }
+
+
+        .stat-card {
+
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 22px;
+
+            min-height: 128px;
+
+            position: relative;
+
+            box-shadow: var(--shadow);
+
+            border-left: 4px solid var(--primary);
+
+        }
+
+
+        .stat-card.approved {
+
+            border-left-color: var(--success);
+
+        }
+
+
+        .stat-card.pending {
+
+            border-left-color: var(--highlight);
+
+        }
+
+
+        .stat-card.rejected {
+
+            border-left-color: var(--danger);
+
+        }
+
+
+        .stat-top {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            justify-content: space-between;
+
+            margin-bottom: 13px;
+
+        }
+
+
+        .stat-title {
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            color: #625B57;
+
+        }
+
+
+        .stat-icon {
+
+            width: 38px;
+
+            height: 38px;
+
+            border-radius: 9px;
+
+            background: var(--secondary);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 17px;
+
+        }
+
+
+        .stat-number {
+
+            font-size: 29px;
+
+            line-height: 1;
+
+            font-weight: 800;
+
+            color: #111;
+
+        }
+
+
+        /* =====================================================
+           SEARCH CARD
+           MATCHES ADMIN USERS
+        ===================================================== */
+
+        .search-card {
+
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 20px;
+
+            box-shadow: var(--shadow);
+
+            margin-bottom: 24px;
+
+        }
+
+
+        .search-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .search-header h2 {
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 19px;
+
+        }
+
+
+        .search-header span {
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+        }
+
+
+        .search-controls {
+
+            display: grid;
+
+            grid-template-columns: 1fr 180px 180px;
+
+            gap: 12px;
+
+        }
+
+
+        .search-input-wrapper {
+
+            position: relative;
+
+        }
+
+
+        .search-icon {
+
+            position: absolute;
+
+            left: 15px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            font-size: 16px;
+
+        }
+
+
+        .search-input {
+
+            width: 100%;
+
+            height: 43px;
+
+            border: 1px solid #DED8D3;
+
+            border-radius: 7px;
+
+            padding: 0 15px 0 40px;
+
+            outline: none;
+
+            font-size: 13px;
+
+            color: var(--accent);
+
+        }
+
+
+        .search-input:focus {
+
+            border-color: var(--primary);
+
+        }
+
+
+        .filter-select {
+
+            width: 100%;
+
+            height: 43px;
+
+            border: 1px solid #DED8D3;
+
+            border-radius: 7px;
+
+            padding: 0 12px;
+
+            outline: none;
+
+            background: white;
+
+            color: #4F4945;
+
+            font-size: 13px;
+
+            cursor: pointer;
+
+        }
+
+
+        .filter-select:focus {
+
+            border-color: var(--primary);
+
+        }
+
+
+        /* =====================================================
+           LIST CARD
+        ===================================================== */
+
+        .list-card {
+
+            background: white;
+
+            border-radius: 14px;
+
+            box-shadow: var(--shadow);
+
+            overflow: hidden;
+
+            margin-bottom: 24px;
+
+        }
+
+
+        .list-header {
+
+            padding: 20px 20px 16px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+
+        .list-header h2 {
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 19px;
+
+        }
+
+
+        .list-count {
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+        }
+
+
+        .table-wrapper {
+
+            width: 100%;
+
+            overflow-x: auto;
+
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+        }
+
+
+        thead {
+
+            background: #FAF4EE;
+
+        }
+
+
+        th {
+
+            padding: 13px 18px;
+
+            text-align: left;
+
+            color: var(--primary);
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: 0.7px;
+
+            white-space: nowrap;
+
+        }
+
+
+        td {
+
+            padding: 14px 18px;
+
+            border-top: 1px solid #EEE8E3;
+
+            font-size: 13px;
+
+            color: #4F4945;
+
+            vertical-align: middle;
+
+        }
+
+
+        tbody tr:hover {
+
+            background: #FFFCF9;
+
+        }
+
+
+        .caterer-name {
+
+            font-weight: 700;
+
+            color: var(--primary);
+
+            margin-bottom: 3px;
+
+        }
+
+
+        .caterer-id {
+
+            font-size: 10px;
+
+            color: var(--muted);
+
+        }
+
+
+        .owner-name {
+
+            font-weight: 600;
+
+            color: var(--accent);
+
+        }
+
+
+        .phone {
+
+            color: #3D3936;
+
+            white-space: nowrap;
+
+        }
+
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
+
+        .status-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+
+        }
+
+
+        .status-dot {
+
+            width: 6px;
+
+            height: 6px;
+
+            border-radius: 50%;
+
+            display: inline-block;
+
+        }
+
+
+        .status-approved {
+
+            background: #EAF6EE;
+
+            color: var(--success);
+
+        }
+
+
+        .status-approved .status-dot {
+
+            background: var(--success);
+
+        }
+
+
+        .status-pending {
+
+            background: #FFF4DD;
+
+            color: #A86B00;
+
+        }
+
+
+        .status-pending .status-dot {
+
+            background: #D4A373;
+
+        }
+
+
+        .status-rejected {
+
+            background: #FDEEEE;
+
+            color: var(--danger);
+
+        }
+
+
+        .status-rejected .status-dot {
+
+            background: var(--danger);
+
+        }
+
+
+        /* =====================================================
+           ACTION BUTTONS
+        ===================================================== */
+
+        .actions {
+
+            display: flex;
+
+            gap: 7px;
+
+            align-items: center;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .action-btn {
+
+            border: 1px solid transparent;
+
+            border-radius: 6px;
+
+            padding: 7px 11px;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .view-btn {
+
+            background: #F7EBDD;
+
+            color: var(--primary);
+
+            border-color: #E8C8A7;
+
+        }
+
+
+        .view-btn:hover {
+
+            background: #F1DDCC;
+
+        }
+
+
+        .approve-btn {
+
+            background: var(--success);
+
+            color: white;
+
+        }
+
+
+        .approve-btn:hover {
+
+            opacity: 0.9;
+
+        }
+
+
+        .reject-btn {
+
+            background: var(--danger);
+
+            color: white;
+
+        }
+
+
+        .reject-btn:hover {
+
+            opacity: 0.9;
+
+        }
+
+
+        /* =====================================================
+           APPLICATIONS
+        ===================================================== */
+
+        .applications-card {
+
+            background: white;
+
+            border-radius: 14px;
+
+            box-shadow: var(--shadow);
+
+            overflow: hidden;
+
+            margin-bottom: 24px;
+
+        }
+
+
+        .applications-header {
+
+            padding: 20px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+
+        .applications-header h2 {
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 19px;
+
+        }
+
+
+        .applications-header span {
+
+            font-size: 12px;
+
+            color: var(--muted);
+
+        }
+
+
+        .applications-body {
+
+            padding: 0 20px 20px;
+
+        }
+
+
+        .application {
+
+            border: 1px solid #EEE5DE;
+
+            border-radius: 9px;
+
+            padding: 15px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-top: 10px;
+
+        }
+
+
+        .application-info h3 {
+
+            color: var(--primary);
+
+            font-size: 14px;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .application-info p {
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+            line-height: 1.7;
+
+        }
+
+
+        /* =====================================================
+           EMPTY / LOADING
+        ===================================================== */
+
+        .table-message {
+
+            text-align: center;
+
+            padding: 35px 20px;
+
+            color: var(--muted);
+
+            font-size: 13px;
+
+        }
+
+
+        /* =====================================================
+           MODAL
+        ===================================================== */
+
+        .modal-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(28,28,28,0.55);
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            z-index: 2000;
+
+        }
+
+
+        .modal-overlay.show {
+
+            display: flex;
+
+        }
+
+
+        .modal {
+
+            width: 100%;
+
+            max-width: 650px;
+
+            max-height: 90vh;
+
+            overflow-y: auto;
+
+            background: white;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.25);
+
+        }
+
+
+        .modal-header {
+
+            padding: 20px 22px;
+
+            border-bottom: 1px solid #EEE5DE;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+        }
+
+
+        .modal-header h2 {
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 20px;
+
+        }
+
+
+        .close-btn {
+
+            border: none;
+
+            background: transparent;
+
+            font-size: 25px;
+
+            color: var(--muted);
+
+            cursor: pointer;
+
+        }
+
+
+        .modal-body {
+
+            padding: 22px;
+
+        }
+
+
+        .details-grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 13px;
+
+        }
+
+
+        .detail-item {
+
+            background: #FAF7F3;
+
+            border: 1px solid #EEE5DE;
+
+            border-radius: 8px;
+
+            padding: 13px;
+
+        }
+
+
+        .detail-item.full {
+
+            grid-column: 1 / -1;
+
+        }
+
+
+        .detail-label {
+
+            color: var(--muted);
+
+            font-size: 9px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.8px;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .detail-value {
+
+            color: var(--accent);
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            word-break: break-word;
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1200px) {
+
+            .stats-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+
+            .search-controls {
+
+                grid-template-columns:
+                    1fr 170px;
+
+            }
+
+        }
+
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+
+                width: 210px;
+
+            }
+
+
+            .main {
+
+                margin-left: 210px;
+
+            }
+
+
+            .content {
+
+                padding: 30px 25px;
+
+            }
+
+
+            .search-controls {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+
+                position: relative;
+
+                width: 100%;
+
+                height: auto;
+
+            }
+
+
+            .main {
+
+                margin-left: 0;
+
+            }
+
+
+            .top-header {
+
+                padding: 0 20px;
+
+            }
+
+
+            .content {
+
+                padding: 25px 18px;
+
+            }
+
+
+            .page-heading {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+                gap: 15px;
+
+            }
+
+
+            .stats-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .admin-details {
+
+                display: none;
+
+            }
+
+
+            .application {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+            }
+
+
+            .details-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .detail-item.full {
+
+                grid-column: auto;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+
+    <div class="logo">
+        Annapriya
+    </div>
+
+
+    <div class="admin-label">
+        ADMIN PANEL
+    </div>
+
+
+    <nav class="sidebar-nav">
+
+
+        <a href="admindashboard.html">
+
+            <span class="nav-icon">🏠</span>
+
+            <span>Dashboard</span>
+
+        </a>
+
+
+        <a href="adminusers.html">
+
+            <span class="nav-icon">👥</span>
+
+            <span>Manage Users</span>
+
+        </a>
+
+
+        <a
+            href="admincaterers.html"
+            class="active"
+        >
+
+            <span class="nav-icon">🧑‍🍳</span>
+
+            <span>Manage Caterers</span>
+
+        </a>
+
+
+        <a href="adminenquiries.html">
+
+            <span class="nav-icon">✉️</span>
+
+            <span>Customer Enquiries</span>
+
+        </a>
+
+
+        <a href="adminbookings.html">
+
+            <span class="nav-icon">🗓️</span>
+
+            <span>Manage Bookings</span>
+
+        </a>
+
+
+        <a href="adminpayments.html">
+
+            <span class="nav-icon">💳</span>
+
+            <span>Manage Payments</span>
+
+        </a>
+
+
+        <a href="adminreviews.html">
+
+            <span class="nav-icon">⭐</span>
+
+            <span>Manage Reviews</span>
+
+        </a>
+
+
+        <a href="adminreports.html">
+
+            <span class="nav-icon">📊</span>
+
+            <span>Reports & Analytics</span>
+
+        </a>
+
+
+        <a href="adminsettings.html">
+
+            <span class="nav-icon">⚙️</span>
+
+            <span>System Settings</span>
+
+        </a>
+
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+
+        <a href="adminprofile.html">
+
+            <span class="nav-icon">👤</span>
+
+            <span>Account Settings</span>
+
+        </a>
+
+
+        <a
+            href="#"
+            class="logout-link"
+            onclick="logoutAdmin(event)"
+        >
+
+            <span class="nav-icon">◼</span>
+
+            <span>Logout</span>
+
+        </a>
+
+
+    </div>
+
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+    <!-- =================================================
+         TOP HEADER
+    ================================================= -->
+
+    <header class="top-header">
+
+
+        <div class="breadcrumb">
+
+            <span>Admin</span>
+
+            <span class="breadcrumb-arrow">›</span>
+
+            <span class="current">
+                Manage Caterers
+            </span>
+
+        </div>
+
+
+        <div class="admin-profile">
+
+
+            <div
+                class="admin-avatar"
+                id="adminAvatar"
+            >
+                A
+            </div>
+
+
+            <div class="admin-details">
+
+                <div
+                    class="admin-email"
+                    id="adminEmail"
+                >
+                    Admin
+                </div>
+
+                <div class="admin-role">
+                    Super Admin
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </header>
+
+
+
+    <!-- =================================================
+         CONTENT
+    ================================================= -->
+
+    <div class="content">
+
+
+        <!-- =================================================
+             PAGE HEADING
+        ================================================= -->
+
+        <section class="page-heading">
+
+
+            <div>
+
+                <div class="heading-small">
+                    CATERER MANAGEMENT
+                </div>
+
+
+                <h1>
+                    Manage Caterers
+                </h1>
+
+
+                <p>
+                    View, search and manage registered Annapriya caterers.
+                </p>
+
+            </div>
+
+
+            <a
+                href="admindashboard.html"
+                class="dashboard-btn"
+            >
+                ← Dashboard
+            </a>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             STATISTICS
+        ================================================= -->
+
+        <section class="stats-grid">
+
+
+            <!-- TOTAL -->
+
+            <div class="stat-card">
+
+
+                <div class="stat-top">
+
+                    <div class="stat-title">
+                        Total Caterers
+                    </div>
+
+                    <div class="stat-icon">
+                        🧑‍🍳
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="stat-number"
+                    id="totalCaterers"
+                >
+                    0
+                </div>
+
+
+            </div>
+
+
+
+            <!-- APPROVED -->
+
+            <div class="stat-card approved">
+
+
+                <div class="stat-top">
+
+                    <div class="stat-title">
+                        Approved Caterers
+                    </div>
+
+                    <div class="stat-icon">
+                        ✓
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="stat-number"
+                    id="approvedCaterers"
+                >
+                    0
+                </div>
+
+
+            </div>
+
+
+
+            <!-- PENDING -->
+
+            <div class="stat-card pending">
+
+
+                <div class="stat-top">
+
+                    <div class="stat-title">
+                        Pending Caterers
+                    </div>
+
+                    <div class="stat-icon">
+                        !
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="stat-number"
+                    id="pendingCaterers"
+                >
+                    0
+                </div>
+
+
+            </div>
+
+
+
+            <!-- REJECTED -->
+
+            <div class="stat-card rejected">
+
+
+                <div class="stat-top">
+
+                    <div class="stat-title">
+                        Rejected Caterers
+                    </div>
+
+                    <div class="stat-icon">
+                        !
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="stat-number"
+                    id="rejectedCaterers"
+                >
+                    0
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             SEARCH
+        ================================================= -->
+
+        <section class="search-card">
+
+
+            <div class="search-header">
+
+                <h2>
+                    Find Caterers
+                </h2>
+
+                <span>
+                    Search by caterer information
+                </span>
+
+            </div>
+
+
+            <div class="search-controls">
+
+
+                <!-- SEARCH -->
+
+                <div class="search-input-wrapper">
+
+                    <span class="search-icon">
+                        🔍
+                    </span>
+
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        class="search-input"
+                        placeholder="Search brand, owner, email, phone or caterer ID..."
+                    >
+
+                </div>
+
+
+
+                <!-- STATUS -->
+
+                <select
+                    id="statusFilter"
+                    class="filter-select"
+                >
+
+                    <option value="">
+                        All Status
+                    </option>
+
+                    <option value="approved">
+                        Approved
+                    </option>
+
+                    <option value="pending">
+                        Pending
+                    </option>
+
+                    <option value="rejected">
+                        Rejected
+                    </option>
+
+                </select>
+
+
+
+                <!-- SORT -->
+
+                <select
+                    id="sortFilter"
+                    class="filter-select"
+                >
+
+                    <option value="newest">
+                        Newest First
+                    </option>
+
+                    <option value="oldest">
+                        Oldest First
+                    </option>
+
+                    <option value="brand">
+                        Brand A-Z
+                    </option>
+
+                    <option value="owner">
+                        Owner A-Z
+                    </option>
+
+                </select>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             CATERER LIST
+        ================================================= -->
+
+        <section class="list-card">
+
+
+            <div class="list-header">
+
+                <h2>
+                    Caterer List
+                </h2>
+
+
+                <span
+                    class="list-count"
+                    id="catererCount"
+                >
+                    0 caterers
+                </span>
+
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+
+                <table>
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                CATERER
+                            </th>
+
+                            <th>
+                                EMAIL
+                            </th>
+
+                            <th>
+                                PHONE
+                            </th>
+
+                            <th>
+                                OWNER
+                            </th>
+
+                            <th>
+                                EVENTS SERVED
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                            <th>
+                                ACTIONS
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="catererTableBody">
+
+
+                        <tr>
+
+                            <td
+                                colspan="7"
+                                class="table-message"
+                            >
+                                Loading caterers...
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             CATERER APPLICATIONS
+        ================================================= -->
+
+        <section class="applications-card">
+
+
+            <div class="applications-header">
+
+                <h2>
+                    Caterer Applications
+                </h2>
+
+
+                <span id="applicationCount">
+                    0 pending applications
+                </span>
+
+
+            </div>
+
+
+            <div
+                class="applications-body"
+                id="applicationsContainer"
+            >
+
+                <div class="table-message">
+                    Loading applications...
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+    </div>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     DETAILS MODAL
+===================================================== -->
+
+<div
+    class="modal-overlay"
+    id="detailsModal"
+>
+
+
+    <div class="modal">
+
+
+        <div class="modal-header">
+
+            <h2>
+                Caterer Details
+            </h2>
+
+
+            <button
+                class="close-btn"
+                onclick="closeModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div
+            class="modal-body"
+            id="detailsContent"
+        >
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+    /* =====================================================
+       API
+    ===================================================== */
+
+    const API_BASE =
+        "http://localhost:5000/api";
+
+
+    /* =====================================================
+       DATA
+    ===================================================== */
+
+    let allCaterers = [];
+
+
+
+    /* =====================================================
+       GET ADMIN TOKEN
+    ===================================================== */
+
+    function getAdminToken() {
+
+        return (
+            localStorage.getItem("adminToken") ||
+            localStorage.getItem("annapriya_admin_token")
+        );
+
+    }
+
+
+
+    /* =====================================================
+       ADMIN PROFILE
+    ===================================================== */
+
+    function loadAdminProfile() {
+
+        let admin = null;
+
+
+        try {
+
+            admin =
+                JSON.parse(
+                    localStorage.getItem("admin")
+                );
+
+        } catch (error) {
+
+            console.error(
+                "Could not read admin data:",
+                error
+            );
+
+        }
+
+
+        if (
+            admin &&
+            admin.username
+        ) {
+
+            document.getElementById(
+                "adminEmail"
+            ).textContent =
+                admin.username;
+
+
+            document.getElementById(
+                "adminAvatar"
+            ).textContent =
+                admin.username
+                    .charAt(0)
+                    .toUpperCase();
+
+        }
+
+
+        if (
+            admin &&
+            admin.email
+        ) {
+
+            document.getElementById(
+                "adminEmail"
+            ).textContent =
+                admin.email;
+
+
+            document.getElementById(
+                "adminAvatar"
+            ).textContent =
+                admin.email
+                    .charAt(0)
+                    .toUpperCase();
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       ESCAPE HTML
+    ===================================================== */
+
+    function escapeHtml(value) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+
+            return "";
+
+        }
+
+
+        return String(value)
+
+            .replaceAll(
+                "&",
+                "&amp;"
+            )
+
+            .replaceAll(
+                "<",
+                "&lt;"
+            )
+
+            .replaceAll(
+                ">",
+                "&gt;"
+            )
+
+            .replaceAll(
+                '"',
+                "&quot;"
+            )
+
+            .replaceAll(
+                "'",
+                "&#039;"
+            );
+
+    }
+
+
+
+    /* =====================================================
+       STATUS BADGE
+    ===================================================== */
+
+    function statusBadge(status) {
+
+        const value =
+            String(status || "")
+                .toLowerCase();
+
+
+        let className =
+            "status-pending";
+
+
+        if (
+            value === "approved"
+        ) {
+
+            className =
+                "status-approved";
+
+        }
+
+
+        if (
+            value === "rejected"
+        ) {
+
+            className =
+                "status-rejected";
+
+        }
+
+
+        return `
+
+            <span
+                class="status-badge ${className}"
+            >
+
+                <span class="status-dot"></span>
+
+                ${escapeHtml(status)}
+
+            </span>
+
+        `;
+
+    }
+
+
+
+    /* =====================================================
+       LOAD CATERERS
+    ===================================================== */
+
+    async function loadCaterers() {
+
+        const token =
+            getAdminToken();
+
+
+        const tableBody =
+            document.getElementById(
+                "catererTableBody"
+            );
+
+
+        if (!token) {
+
+            tableBody.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="7"
+                        class="table-message"
+                    >
+                        Admin login required.
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE}/admin/caterers`,
+                    {
+
+                        method: "GET",
+
+                        headers: {
+
+                            "Authorization":
+                                `Bearer ${token}`
+
+                        }
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Could not load caterers."
+                );
+
+            }
+
+
+            allCaterers =
+                Array.isArray(
+                    data.caterers
+                )
+                    ? data.caterers
+                    : [];
+
+
+            updateStatistics();
+
+            applyFilters();
+
+            displayApplications();
+
+        } catch (error) {
+
+            console.error(
+                "Load caterers error:",
+                error
+            );
+
+
+            tableBody.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="7"
+                        class="table-message"
+                    >
+                        Failed to load caterers.
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       STATISTICS
+    ===================================================== */
+
+    function updateStatistics() {
+
+        const total =
+            allCaterers.length;
+
+
+        const approved =
+            allCaterers.filter(
+                caterer =>
+                    String(
+                        caterer.status || ""
+                    ).toLowerCase() ===
+                    "approved"
+            ).length;
+
+
+        const pending =
+            allCaterers.filter(
+                caterer =>
+                    String(
+                        caterer.status || ""
+                    ).toLowerCase() ===
+                    "pending"
+            ).length;
+
+
+        const rejected =
+            allCaterers.filter(
+                caterer =>
+                    String(
+                        caterer.status || ""
+                    ).toLowerCase() ===
+                    "rejected"
+            ).length;
+
+
+        document.getElementById(
+            "totalCaterers"
+        ).textContent =
+            total;
+
+
+        document.getElementById(
+            "approvedCaterers"
+        ).textContent =
+            approved;
+
+
+        document.getElementById(
+            "pendingCaterers"
+        ).textContent =
+            pending;
+
+
+        document.getElementById(
+            "rejectedCaterers"
+        ).textContent =
+            rejected;
+
+    }
+
+
+
+    /* =====================================================
+       APPLY SEARCH / FILTER / SORT
+    ===================================================== */
+
+    function applyFilters() {
+
+        const search =
+            document.getElementById(
+                "searchInput"
+            ).value
+                .trim()
+                .toLowerCase();
+
+
+        const status =
+            document.getElementById(
+                "statusFilter"
+            ).value
+                .toLowerCase();
+
+
+        const sort =
+            document.getElementById(
+                "sortFilter"
+            ).value;
+
+
+        let filtered =
+            allCaterers.filter(
+                caterer => {
+
+
+                    const searchableText = `
+
+                        ${caterer.caterer_id || ""}
+
+                        ${caterer.brand_name || ""}
+
+                        ${caterer.head_name || ""}
+
+                        ${caterer.email || ""}
+
+                        ${caterer.phone || ""}
+
+                    `.toLowerCase();
+
+
+                    const matchesSearch =
+                        !search ||
+                        searchableText.includes(
+                            search
+                        );
+
+
+                    const matchesStatus =
+                        !status ||
+                        String(
+                            caterer.status || ""
+                        ).toLowerCase() ===
+                        status;
+
+
+                    return (
+                        matchesSearch &&
+                        matchesStatus
+                    );
+
+                }
+            );
+
+
+        /* SORT */
+
+        filtered.sort(
+            (a, b) => {
+
+                if (
+                    sort === "brand"
+                ) {
+
+                    return String(
+                        a.brand_name || ""
+                    ).localeCompare(
+                        String(
+                            b.brand_name || ""
+                        )
+                    );
+
+                }
+
+
+                if (
+                    sort === "owner"
+                ) {
+
+                    return String(
+                        a.head_name || ""
+                    ).localeCompare(
+                        String(
+                            b.head_name || ""
+                        )
+                    );
+
+                }
+
+
+                const dateA =
+                    new Date(
+                        a.created_at || 0
+                    );
+
+
+                const dateB =
+                    new Date(
+                        b.created_at || 0
+                    );
+
+
+                if (
+                    sort === "oldest"
+                ) {
+
+                    return dateA - dateB;
+
+                }
+
+
+                return dateB - dateA;
+
+            }
+        );
+
+
+        displayCaterers(
+            filtered
+        );
+
+    }
+
+
+
+    /* =====================================================
+       DISPLAY CATERERS
+    ===================================================== */
+
+    function displayCaterers(
+        caterers
+    ) {
+
+        const tableBody =
+            document.getElementById(
+                "catererTableBody"
+            );
+
+
+        const count =
+            document.getElementById(
+                "catererCount"
+            );
+
+
+        count.textContent =
+            `${caterers.length} ${
+                caterers.length === 1
+                    ? "caterer"
+                    : "caterers"
+            }`;
+
+
+        if (!caterers.length) {
+
+            tableBody.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="7"
+                        class="table-message"
+                    >
+                        No caterers found.
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+        tableBody.innerHTML =
+            caterers.map(
+                caterer => {
+
+
+                    const status =
+                        String(
+                            caterer.status || ""
+                        ).toLowerCase();
+
+
+                    let actionButtons = `
+
+                        <button
+                            class="action-btn view-btn"
+                            onclick='viewCaterer(
+                                ${JSON.stringify(caterer)}
+                            )'
+                        >
+                            View
+                        </button>
+
+                    `;
+
+
+                    if (
+                        status === "pending"
+                    ) {
+
+                        actionButtons += `
+
+                            <button
+                                class="action-btn approve-btn"
+                                onclick="updateStatus(
+                                    ${Number(
+                                        caterer.caterer_id
+                                    )},
+                                    'approved'
+                                )"
+                            >
+                                Approve
+                            </button>
+
+
+                            <button
+                                class="action-btn reject-btn"
+                                onclick="updateStatus(
+                                    ${Number(
+                                        caterer.caterer_id
+                                    )},
+                                    'rejected'
+                                )"
+                            >
+                                Reject
+                            </button>
+
+                        `;
+
+                    }
+
+
+                    return `
+
+                        <tr>
+
+
+                            <!-- CATERER -->
+
+                            <td>
+
+                                <div class="caterer-name">
+
+                                    ${escapeHtml(
+                                        caterer.brand_name
+                                    )}
+
+                                </div>
+
+                                <div class="caterer-id">
+
+                                    ID:
+                                    ${escapeHtml(
+                                        caterer.caterer_id
+                                    )}
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- EMAIL -->
+
+                            <td>
+
+                                ${escapeHtml(
+                                    caterer.email
+                                )}
+
+                            </td>
+
+
+                            <!-- PHONE -->
+
+                            <td>
+
+                                <span class="phone">
+
+                                    ${escapeHtml(
+                                        caterer.phone
+                                    )}
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- OWNER -->
+
+                            <td>
+
+                                <div class="owner-name">
+
+                                    ${escapeHtml(
+                                        caterer.head_name
+                                    )}
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- EVENTS -->
+
+                            <td>
+
+                                ${escapeHtml(
+                                    caterer.events_served
+                                )}
+
+                            </td>
+
+
+                            <!-- STATUS -->
+
+                            <td>
+
+                                ${statusBadge(
+                                    caterer.status
+                                )}
+
+                            </td>
+
+
+                            <!-- ACTIONS -->
+
+                            <td>
+
+                                <div class="actions">
+
+                                    ${actionButtons}
+
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+                    `;
+
+                }
+            ).join("");
+
+    }
+
+
+
+    /* =====================================================
+       APPLICATIONS
+    ===================================================== */
+
+    function displayApplications() {
+
+        const container =
+            document.getElementById(
+                "applicationsContainer"
+            );
+
+
+        const count =
+            document.getElementById(
+                "applicationCount"
+            );
+
+
+        const pending =
+            allCaterers.filter(
+                caterer =>
+                    String(
+                        caterer.status || ""
+                    ).toLowerCase() ===
+                    "pending"
+            );
+
+
+        count.textContent =
+            `${pending.length} ${
+                pending.length === 1
+                    ? "pending application"
+                    : "pending applications"
+            }`;
+
+
+        if (!pending.length) {
+
+            container.innerHTML = `
+
+                <div class="table-message">
+
+                    No pending caterer applications.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+            pending.map(
+                caterer => `
+
+                    <div class="application">
+
+
+                        <div class="application-info">
+
+                            <h3>
+
+                                ${escapeHtml(
+                                    caterer.brand_name
+                                )}
+
+                            </h3>
+
+
+                            <p>
+
+                                <strong>
+                                    Owner:
+                                </strong>
+
+                                ${escapeHtml(
+                                    caterer.head_name
+                                )}
+
+                                <br>
+
+
+                                <strong>
+                                    Email:
+                                </strong>
+
+                                ${escapeHtml(
+                                    caterer.email
+                                )}
+
+                                <br>
+
+
+                                <strong>
+                                    Phone:
+                                </strong>
+
+                                ${escapeHtml(
+                                    caterer.phone
+                                )}
+
+                            </p>
+
+                        </div>
+
+
+                        <div class="actions">
+
+
+                            <button
+                                class="action-btn view-btn"
+                                onclick='viewCaterer(
+                                    ${JSON.stringify(
+                                        caterer
+                                    )}
+                                )'
+                            >
+                                View Application
+                            </button>
+
+
+                            <button
+                                class="action-btn approve-btn"
+                                onclick="updateStatus(
+                                    ${Number(
+                                        caterer.caterer_id
+                                    )},
+                                    'approved'
+                                )"
+                            >
+                                Approve
+                            </button>
+
+
+                            <button
+                                class="action-btn reject-btn"
+                                onclick="updateStatus(
+                                    ${Number(
+                                        caterer.caterer_id
+                                    )},
+                                    'rejected'
+                                )"
+                            >
+                                Reject
+                            </button>
+
+
+                        </div>
+
+
+                    </div>
+
+                `
+            ).join("");
+
+    }
+
+
+
+    /* =====================================================
+       VIEW CATERER
+    ===================================================== */
+
+    function viewCaterer(
+        caterer
+    ) {
+
+        const modal =
+            document.getElementById(
+                "detailsModal"
+            );
+
+
+        const content =
+            document.getElementById(
+                "detailsContent"
+            );
+
+
+        content.innerHTML = `
+
+            <div class="details-grid">
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Caterer ID
+                    </div>
+
+                    <div class="detail-value">
+                        #${escapeHtml(
+                            caterer.caterer_id
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Status
+                    </div>
+
+                    <div class="detail-value">
+
+                        ${statusBadge(
+                            caterer.status
+                        )}
+
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item full">
+
+                    <div class="detail-label">
+                        Catering Brand
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(
+                            caterer.brand_name
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Owner / Head Name
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(
+                            caterer.head_name
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Email
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(
+                            caterer.email
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Phone
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(
+                            caterer.phone
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Helpers
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(
+                            caterer.helpers
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Events Served
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(
+                            caterer.events_served
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item full">
+
+                    <div class="detail-label">
+                        Registered On
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(
+                            caterer.created_at
+                        )}
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        `;
+
+
+        modal.classList.add(
+            "show"
+        );
+
+    }
+
+
+
+    /* =====================================================
+       CLOSE MODAL
+    ===================================================== */
+
+    function closeModal() {
+
+        document
+            .getElementById(
+                "detailsModal"
+            )
+            .classList.remove(
+                "show"
+            );
+
+    }
+
+
+
+    /* =====================================================
+       UPDATE STATUS
+    ===================================================== */
+
+    async function updateStatus(
+        catererId,
+        status
+    ) {
+
+        const action =
+            status === "approved"
+                ? "approve"
+                : "reject";
+
+
+        const confirmed =
+            confirm(
+                `Are you sure you want to ${action} this caterer?`
+            );
+
+
+        if (!confirmed) {
+
+            return;
+
+        }
+
+
+        const token =
+            getAdminToken();
+
+
+        if (!token) {
+
+            alert(
+                "Admin login required."
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE}/admin/caterers/${catererId}/status`,
+                    {
+
+                        method: "PUT",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json",
+
+                            "Authorization":
+                                `Bearer ${token}`
+
+                        },
+
+                        body:
+                            JSON.stringify({
+                                status
+                            })
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Could not update caterer status."
+                );
+
+            }
+
+
+            alert(
+                data.message ||
+                `Caterer ${status}.`
+            );
+
+
+            closeModal();
+
+
+            await loadCaterers();
+
+        } catch (error) {
+
+            console.error(
+                "Update status error:",
+                error
+            );
+
+
+            alert(
+                error.message ||
+                "Could not update caterer status."
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       LOGOUT
+    ===================================================== */
+
+    function logoutAdmin(event) {
+
+        event.preventDefault();
+
+
+        localStorage.removeItem(
+            "adminToken"
+        );
+
+
+        localStorage.removeItem(
+            "annapriya_admin_token"
+        );
+
+
+        localStorage.removeItem(
+            "admin"
+        );
+
+
+        window.location.href =
+            "index.html";
+
+    }
+
+
+
+    /* =====================================================
+       EVENTS
+    ===================================================== */
+
+    document
+        .getElementById(
+            "searchInput"
+        )
+        .addEventListener(
+            "input",
+            applyFilters
+        );
+
+
+    document
+        .getElementById(
+            "statusFilter"
+        )
+        .addEventListener(
+            "change",
+            applyFilters
+        );
+
+
+    document
+        .getElementById(
+            "sortFilter"
+        )
+        .addEventListener(
+            "change",
+            applyFilters
+        );
+
+
+    document
+        .getElementById(
+            "detailsModal"
+        )
+        .addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target ===
+                    this
+                ) {
+
+                    closeModal();
+
+                }
+
+            }
+        );
+
+
+
+    /* =====================================================
+       INITIAL LOAD
+    ===================================================== */
+
+    loadAdminProfile();
+
+    loadCaterers();
+
+</script>
+
+
+</body>
+
+</html>

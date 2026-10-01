@@ -1,0 +1,4879 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Manage Bookings | Annapriya</title>
+
+
+    <style>
+
+        /* =====================================================
+           ROOT
+        ===================================================== */
+
+        :root {
+
+            --primary: #8B1E3F;
+            --secondary: #F5E9DA;
+            --accent: #1C1C1C;
+            --highlight: #D4A373;
+
+            --white: #FFFFFF;
+            --soft-white: #FFFDFC;
+
+            --border: rgba(139, 30, 63, 0.12);
+
+            --muted: #766D68;
+
+            --success: #2F7D4A;
+            --danger: #B42318;
+            --warning: #A86B00;
+
+            --shadow:
+                0 8px 30px rgba(28, 28, 28, 0.08);
+
+        }
+
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+
+            box-sizing: border-box;
+
+            margin: 0;
+
+            padding: 0;
+
+        }
+
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: var(--secondary);
+
+            color: var(--accent);
+
+            min-height: 100vh;
+
+        }
+
+
+        button,
+        input,
+        select {
+
+            font-family: inherit;
+
+        }
+
+
+        button {
+
+            cursor: pointer;
+
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+
+            top: 0;
+
+            width: 245px;
+
+            height: 100vh;
+
+            background: #1C1C1C;
+
+            color: white;
+
+            padding: 25px 18px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            overflow-y: auto;
+
+            z-index: 1000;
+
+        }
+
+
+        .logo {
+
+            font-family: Georgia, serif;
+
+            font-size: 27px;
+
+            font-weight: bold;
+
+            color: #D4A373;
+
+            text-align: center;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .admin-label {
+
+            text-align: center;
+
+            color: #aaa;
+
+            font-size: 12px;
+
+            margin-bottom: 30px;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+
+        }
+
+
+        .nav-links a {
+
+            text-decoration: none;
+
+            color: #ddd;
+
+            padding: 13px 14px;
+
+            border-radius: 9px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            font-size: 14px;
+
+            transition: 0.2s;
+
+        }
+
+
+        .nav-links a:hover {
+
+            background: #8B1E3F;
+
+            color: white;
+
+        }
+
+
+        .nav-links a.active {
+
+            background: #8B1E3F;
+
+            color: white;
+
+            font-weight: 700;
+
+        }
+
+
+        .nav-icon {
+
+            width: 25px;
+
+            text-align: center;
+
+            font-size: 17px;
+
+        }
+
+
+        .sidebar-bottom {
+
+            margin-top: auto;
+
+            padding-top: 20px;
+
+        }
+
+
+        .sidebar-bottom a {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            text-decoration: none;
+
+            color: #ddd;
+
+            padding: 13px 14px;
+
+            border-radius: 9px;
+
+            margin-top: 7px;
+
+            font-size: 14px;
+
+        }
+
+
+        .sidebar-bottom a:hover {
+
+            background: #8B1E3F;
+
+        }
+
+
+        .logout {
+
+            color: #FFB3B3 !important;
+
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main {
+
+            margin-left: 245px;
+
+            padding: 0;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =====================================================
+           TOP HEADER
+        ===================================================== */
+
+        .top-header {
+
+            height: 78px;
+
+            background: white;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 0 35px;
+
+            border-bottom: 1px solid #eee;
+
+        }
+
+
+        .breadcrumb {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            color: #777;
+
+            font-size: 13px;
+
+        }
+
+
+        .breadcrumb .current {
+
+            color: var(--primary);
+
+            font-weight: bold;
+
+        }
+
+
+        .breadcrumb-arrow {
+
+            color: #aaa;
+
+        }
+
+
+        .admin-profile {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+        }
+
+
+        .admin-avatar {
+
+            width: 42px;
+
+            height: 42px;
+
+            border-radius: 50%;
+
+            background: var(--primary);
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: bold;
+
+            font-size: 17px;
+
+        }
+
+
+        .admin-details {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 2px;
+
+        }
+
+
+        .admin-name {
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+        }
+
+
+        .admin-role {
+
+            font-size: 11px;
+
+            color: #777;
+
+        }
+
+
+        /* =====================================================
+           CONTENT
+        ===================================================== */
+
+        .content {
+
+            padding: 35px 40px 50px;
+
+        }
+
+
+        /* =====================================================
+           PAGE HEADING
+        ===================================================== */
+
+        .page-heading {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-end;
+
+            margin-bottom: 28px;
+
+        }
+
+
+        .heading-small {
+
+            color: var(--highlight);
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .page-heading h1 {
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 32px;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .page-heading p {
+
+            color: #777;
+
+            font-size: 14px;
+
+        }
+
+
+        .dashboard-btn {
+
+            background: var(--primary);
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 11px 17px;
+
+            border-radius: 7px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =====================================================
+           SUMMARY CARDS
+        ===================================================== */
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(6, 1fr);
+
+            gap: 16px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .stat-card {
+
+            background: white;
+
+            border-radius: 13px;
+
+            padding: 18px;
+
+            min-height: 120px;
+
+            box-shadow: var(--shadow);
+
+            border-left: 4px solid var(--primary);
+
+        }
+
+
+        .stat-card.accepted {
+
+            border-left-color: #4C8C70;
+
+        }
+
+
+        .stat-card.payment {
+
+            border-left-color: var(--highlight);
+
+        }
+
+
+        .stat-card.confirmed {
+
+            border-left-color: #6C63A8;
+
+        }
+
+
+        .stat-card.completed {
+
+            border-left-color: var(--success);
+
+        }
+
+
+        .stat-title {
+
+            color: #666;
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+            margin-bottom: 13px;
+
+        }
+
+
+        .stat-number {
+
+            color: var(--accent);
+
+            font-size: 27px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =====================================================
+           SEARCH / FILTER CARD
+        ===================================================== */
+
+        .search-card {
+
+            background: white;
+
+            border-radius: 13px;
+
+            padding: 20px;
+
+            box-shadow: var(--shadow);
+
+            margin-bottom: 24px;
+
+        }
+
+
+        .search-title {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .search-title h2 {
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 19px;
+
+        }
+
+
+        .search-title span {
+
+            color: #777;
+
+            font-size: 12px;
+
+        }
+
+
+        .filters {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 190px 180px 160px;
+
+            gap: 10px;
+
+        }
+
+
+        .search-wrapper {
+
+            position: relative;
+
+        }
+
+
+        .search-icon {
+
+            position: absolute;
+
+            left: 13px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            font-size: 15px;
+
+        }
+
+
+        .search-input {
+
+            width: 100%;
+
+            height: 43px;
+
+            border: 1px solid #DED8D3;
+
+            border-radius: 7px;
+
+            padding: 0 13px 0 38px;
+
+            outline: none;
+
+            font-size: 12px;
+
+        }
+
+
+        .search-input:focus {
+
+            border-color: var(--primary);
+
+        }
+
+
+        .filter-select {
+
+            height: 43px;
+
+            border: 1px solid #DED8D3;
+
+            border-radius: 7px;
+
+            padding: 0 11px;
+
+            outline: none;
+
+            background: white;
+
+            font-size: 12px;
+
+            color: #444;
+
+        }
+
+
+        .filter-select:focus {
+
+            border-color: var(--primary);
+
+        }
+
+
+        /* =====================================================
+           BOOKING LIST
+        ===================================================== */
+
+        .table-card {
+
+            background: white;
+
+            border-radius: 13px;
+
+            box-shadow: var(--shadow);
+
+            overflow: hidden;
+
+            margin-bottom: 24px;
+
+        }
+
+
+        .table-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 20px;
+
+        }
+
+
+        .table-header h2 {
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 19px;
+
+        }
+
+
+        .table-count {
+
+            color: #777;
+
+            font-size: 12px;
+
+        }
+
+
+        .table-wrapper {
+
+            overflow-x: auto;
+
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+        }
+
+
+        thead {
+
+            background: #FAF4EE;
+
+        }
+
+
+        th {
+
+            padding: 13px 16px;
+
+            text-align: left;
+
+            color: var(--primary);
+
+            font-size: 10px;
+
+            letter-spacing: 0.6px;
+
+            white-space: nowrap;
+
+        }
+
+
+        td {
+
+            padding: 14px 16px;
+
+            border-top: 1px solid #eee5de;
+
+            font-size: 12px;
+
+            color: #4F4945;
+
+            vertical-align: middle;
+
+        }
+
+
+        tbody tr:hover {
+
+            background: #FFFCF9;
+
+        }
+
+
+        .request-id {
+
+            color: var(--primary);
+
+            font-weight: bold;
+
+        }
+
+
+        .customer-name {
+
+            color: var(--accent);
+
+            font-weight: bold;
+
+        }
+
+
+        .caterer-name {
+
+            color: var(--accent);
+
+            font-weight: 600;
+
+        }
+
+
+        .event-name {
+
+            font-weight: 600;
+
+        }
+
+
+        .event-date {
+
+            white-space: nowrap;
+
+        }
+
+
+        .guest-count {
+
+            text-align: center;
+
+        }
+
+
+        /* =====================================================
+           STATUS BADGES
+        ===================================================== */
+
+        .status {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding: 6px 9px;
+
+            border-radius: 20px;
+
+            font-size: 9px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+
+        }
+
+
+        .status-dot {
+
+            width: 6px;
+
+            height: 6px;
+
+            border-radius: 50%;
+
+        }
+
+
+        .status-pending {
+
+            background: #FDEEEE;
+
+            color: var(--primary);
+
+        }
+
+
+        .status-pending .status-dot {
+
+            background: var(--primary);
+
+        }
+
+
+        .status-accepted {
+
+            background: #EAF5EF;
+
+            color: var(--success);
+
+        }
+
+
+        .status-accepted .status-dot {
+
+            background: var(--success);
+
+        }
+
+
+        .status-payment {
+
+            background: #FFF4DD;
+
+            color: var(--warning);
+
+        }
+
+
+        .status-payment .status-dot {
+
+            background: var(--highlight);
+
+        }
+
+
+        .status-confirmed {
+
+            background: #F0EDF9;
+
+            color: #635A9A;
+
+        }
+
+
+        .status-confirmed .status-dot {
+
+            background: #635A9A;
+
+        }
+
+
+        .status-preparing {
+
+            background: #FFF4DD;
+
+            color: #9A6800;
+
+        }
+
+
+        .status-preparing .status-dot {
+
+            background: #D4A373;
+
+        }
+
+
+        .status-way {
+
+            background: #EEF4FA;
+
+            color: #416987;
+
+        }
+
+
+        .status-way .status-dot {
+
+            background: #416987;
+
+        }
+
+
+        .status-started {
+
+            background: #F4EAF5;
+
+            color: #7B4B80;
+
+        }
+
+
+        .status-started .status-dot {
+
+            background: #7B4B80;
+
+        }
+
+
+        .status-completed {
+
+            background: #EAF6EE;
+
+            color: var(--success);
+
+        }
+
+
+        .status-completed .status-dot {
+
+            background: var(--success);
+
+        }
+
+
+        .status-rejected {
+
+            background: #FDEEEE;
+
+            color: var(--danger);
+
+        }
+
+
+        .status-rejected .status-dot {
+
+            background: var(--danger);
+
+        }
+
+
+        /* =====================================================
+           ACTION BUTTON
+        ===================================================== */
+
+        .view-btn {
+
+            border: 1px solid #E7C9AB;
+
+            background: #F7EBDD;
+
+            color: var(--primary);
+
+            border-radius: 6px;
+
+            padding: 7px 12px;
+
+            font-size: 10px;
+
+            font-weight: bold;
+
+        }
+
+
+        .view-btn:hover {
+
+            background: #F0DECB;
+
+        }
+
+
+        /* =====================================================
+           EMPTY / LOADING
+        ===================================================== */
+
+        .message-cell {
+
+            text-align: center;
+
+            padding: 45px !important;
+
+            color: #777;
+
+        }
+
+
+        /* =====================================================
+           UPCOMING / HISTORY
+        ===================================================== */
+
+        .event-sections {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 22px;
+
+            margin-bottom: 24px;
+
+        }
+
+
+        .event-card {
+
+            background: white;
+
+            border-radius: 13px;
+
+            box-shadow: var(--shadow);
+
+            padding: 20px;
+
+        }
+
+
+        .event-card h2 {
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 19px;
+
+            margin-bottom: 16px;
+
+        }
+
+
+        .event-item {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            padding: 13px 0;
+
+            border-bottom: 1px solid #eee;
+
+        }
+
+
+        .event-item:last-child {
+
+            border-bottom: none;
+
+        }
+
+
+        .event-date-box {
+
+            width: 50px;
+
+            height: 50px;
+
+            background: var(--secondary);
+
+            border-radius: 9px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            align-items: center;
+
+            flex-shrink: 0;
+
+        }
+
+
+        .event-date-day {
+
+            color: var(--primary);
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+        }
+
+
+        .event-date-month {
+
+            color: #777;
+
+            font-size: 8px;
+
+            text-transform: uppercase;
+
+        }
+
+
+        .event-info {
+
+            min-width: 0;
+
+            flex: 1;
+
+        }
+
+
+        .event-info strong {
+
+            display: block;
+
+            font-size: 12px;
+
+            margin-bottom: 4px;
+
+        }
+
+
+        .event-info span {
+
+            display: block;
+
+            color: #777;
+
+            font-size: 10px;
+
+            line-height: 1.5;
+
+        }
+
+
+        /* =====================================================
+           MODAL
+        ===================================================== */
+
+        .modal {
+
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(28,28,28,0.55);
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            z-index: 2000;
+
+        }
+
+
+        .modal.show {
+
+            display: flex;
+
+        }
+
+
+        .modal-content {
+
+            width: 100%;
+
+            max-width: 900px;
+
+            max-height: 90vh;
+
+            overflow-y: auto;
+
+            background: white;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.25);
+
+        }
+
+
+        .modal-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 20px 22px;
+
+            border-bottom: 1px solid #eee5de;
+
+        }
+
+
+        .modal-header h2 {
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 21px;
+
+        }
+
+
+        .close-btn {
+
+            border: none;
+
+            background: transparent;
+
+            color: #777;
+
+            font-size: 27px;
+
+        }
+
+
+        .modal-body {
+
+            padding: 22px;
+
+        }
+
+
+        .detail-section {
+
+            margin-bottom: 24px;
+
+        }
+
+
+        .detail-section h3 {
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 16px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .details-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 10px;
+
+        }
+
+
+        .detail-box {
+
+            background: #FAF7F3;
+
+            border: 1px solid #EEE5DE;
+
+            border-radius: 8px;
+
+            padding: 12px;
+
+        }
+
+
+        .detail-box.full {
+
+            grid-column: 1 / -1;
+
+        }
+
+
+        .detail-label {
+
+            color: #777;
+
+            font-size: 9px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.7px;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .detail-value {
+
+            color: var(--accent);
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            line-height: 1.5;
+
+            word-break: break-word;
+
+        }
+
+
+        /* =====================================================
+           TIMELINE
+        ===================================================== */
+
+        .timeline {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            justify-content: space-between;
+
+            position: relative;
+
+            margin-top: 25px;
+
+        }
+
+
+        .timeline::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 17px;
+
+            left: 7%;
+
+            right: 7%;
+
+            height: 3px;
+
+            background: #E8DDCC;
+
+            z-index: 0;
+
+        }
+
+
+        .timeline-step {
+
+            position: relative;
+
+            z-index: 1;
+
+            width: 13%;
+
+            text-align: center;
+
+        }
+
+
+        .timeline-circle {
+
+            width: 35px;
+
+            height: 35px;
+
+            border-radius: 50%;
+
+            margin: 0 auto 8px;
+
+            background: #F4EEE5;
+
+            border: 3px solid #E8DDCC;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 13px;
+
+        }
+
+
+        .timeline-step.done .timeline-circle {
+
+            background: var(--primary);
+
+            border-color: var(--primary);
+
+            color: white;
+
+        }
+
+
+        .timeline-step.current .timeline-circle {
+
+            background: white;
+
+            border-color: var(--primary);
+
+            color: var(--primary);
+
+            box-shadow:
+                0 0 0 5px #F9E6EE;
+
+        }
+
+
+        .timeline-title {
+
+            font-size: 9px;
+
+            color: #777;
+
+            line-height: 1.4;
+
+        }
+
+
+        .timeline-step.done .timeline-title,
+        .timeline-step.current .timeline-title {
+
+            color: var(--accent);
+
+            font-weight: bold;
+
+        }
+
+
+        /* =====================================================
+           MODAL ACTIONS
+        ===================================================== */
+
+        .modal-actions {
+
+            display: flex;
+
+            gap: 9px;
+
+            flex-wrap: wrap;
+
+            margin-top: 20px;
+
+        }
+
+
+        .action-btn {
+
+            border: none;
+
+            border-radius: 7px;
+
+            padding: 10px 14px;
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+        }
+
+
+        .contact-btn {
+
+            background: var(--primary);
+
+            color: white;
+
+        }
+
+
+        .enquiry-btn {
+
+            background: #F7EBDD;
+
+            color: var(--primary);
+
+        }
+
+
+        .payment-btn {
+
+            background: var(--highlight);
+
+            color: white;
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1250px) {
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(3, 1fr);
+
+            }
+
+
+            .filters {
+
+                grid-template-columns:
+                    1fr 180px 180px;
+
+            }
+
+        }
+
+
+        @media (max-width: 1000px) {
+
+            .sidebar {
+
+                width: 210px;
+
+            }
+
+
+            .main {
+
+                margin-left: 210px;
+
+            }
+
+
+            .content {
+
+                padding: 30px 25px;
+
+            }
+
+
+            .event-sections {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 750px) {
+
+            .sidebar {
+
+                position: static;
+
+                width: 100%;
+
+                height: auto;
+
+            }
+
+
+            .main {
+
+                margin-left: 0;
+
+            }
+
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+
+            .filters {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .page-heading {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 15px;
+
+            }
+
+
+            .top-header {
+
+                padding: 0 20px;
+
+            }
+
+        }
+
+
+        @media (max-width: 550px) {
+
+            .stats {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .details-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .detail-box.full {
+
+                grid-column: auto;
+
+            }
+
+
+            .timeline {
+
+                overflow-x: auto;
+
+                justify-content: flex-start;
+
+                gap: 25px;
+
+                padding-bottom: 10px;
+
+            }
+
+
+            .timeline::before {
+
+                display: none;
+
+            }
+
+
+            .timeline-step {
+
+                min-width: 80px;
+
+            }
+
+
+            .admin-details {
+
+                display: none;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+
+    <div class="logo">
+        Annapriya
+    </div>
+
+
+    <div class="admin-label">
+        ADMIN PANEL
+    </div>
+
+
+    <nav class="nav-links">
+
+
+        <a href="admindashboard.html">
+
+            <span class="nav-icon">
+                🏠
+            </span>
+
+            <span>
+                Dashboard
+            </span>
+
+        </a>
+
+
+        <a href="adminusers.html">
+
+            <span class="nav-icon">
+                👥
+            </span>
+
+            <span>
+                Manage Users
+            </span>
+
+        </a>
+
+
+        <a href="admincaterers.html">
+
+            <span class="nav-icon">
+                🧑‍🍳
+            </span>
+
+            <span>
+                Manage Caterers
+            </span>
+
+        </a>
+
+
+        <a href="adminenquiries.html">
+
+            <span class="nav-icon">
+                ✉️
+            </span>
+
+            <span>
+                Customer Enquiries
+            </span>
+
+        </a>
+
+
+        <a
+            href="adminbookings.html"
+            class="active"
+        >
+
+            <span class="nav-icon">
+                🗓️
+            </span>
+
+            <span>
+                Manage Bookings
+            </span>
+
+        </a>
+
+
+        <a href="adminpayments.html">
+
+            <span class="nav-icon">
+                💳
+            </span>
+
+            <span>
+                Manage Payments
+            </span>
+
+        </a>
+
+
+        <a href="adminreviews.html">
+
+            <span class="nav-icon">
+                ⭐
+            </span>
+
+            <span>
+                Manage Reviews
+            </span>
+
+        </a>
+
+
+        <a href="adminreports.html">
+
+            <span class="nav-icon">
+                📊
+            </span>
+
+            <span>
+                Reports & Analytics
+            </span>
+
+        </a>
+
+
+        <a href="adminsettings.html">
+
+            <span class="nav-icon">
+                ⚙️
+            </span>
+
+            <span>
+                System Settings
+            </span>
+
+        </a>
+
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+
+        <a href="adminprofile.html">
+
+            <span class="nav-icon">
+                👤
+            </span>
+
+            <span>
+                Account Settings
+            </span>
+
+        </a>
+
+
+        <a
+            href="#"
+            class="logout"
+            onclick="logoutAdmin(event)"
+        >
+
+            <span class="nav-icon">
+                🚪
+            </span>
+
+            <span>
+                Logout
+            </span>
+
+        </a>
+
+
+    </div>
+
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+    <!-- =================================================
+         HEADER
+    ================================================= -->
+
+    <header class="top-header">
+
+
+        <div class="breadcrumb">
+
+            <span>
+                Admin
+            </span>
+
+            <span class="breadcrumb-arrow">
+                ›
+            </span>
+
+            <span class="current">
+                Manage Bookings
+            </span>
+
+        </div>
+
+
+        <div class="admin-profile">
+
+
+            <div
+                class="admin-avatar"
+                id="adminAvatar"
+            >
+                A
+            </div>
+
+
+            <div class="admin-details">
+
+                <div
+                    class="admin-name"
+                    id="adminName"
+                >
+                    Admin
+                </div>
+
+                <div class="admin-role">
+                    Super Admin
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </header>
+
+
+
+    <!-- =================================================
+         CONTENT
+    ================================================= -->
+
+    <div class="content">
+
+
+        <!-- =================================================
+             PAGE HEADING
+        ================================================= -->
+
+        <section class="page-heading">
+
+
+            <div>
+
+                <div class="heading-small">
+                    EVENT MANAGEMENT
+                </div>
+
+
+                <h1>
+                    Manage Bookings
+                </h1>
+
+
+                <p>
+                    View and monitor customer event requests and bookings.
+                </p>
+
+            </div>
+
+
+            <a
+                href="admindashboard.html"
+                class="dashboard-btn"
+            >
+                ← Dashboard
+            </a>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             SUMMARY
+        ================================================= -->
+
+        <section class="stats">
+
+
+            <div class="stat-card">
+
+                <div class="stat-title">
+                    TOTAL BOOKINGS
+                </div>
+
+                <div
+                    class="stat-number"
+                    id="totalBookings"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-title">
+                    PENDING
+                </div>
+
+                <div
+                    class="stat-number"
+                    id="pendingBookings"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="stat-card accepted">
+
+                <div class="stat-title">
+                    ACCEPTED
+                </div>
+
+                <div
+                    class="stat-number"
+                    id="acceptedBookings"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="stat-card payment">
+
+                <div class="stat-title">
+                    PAYMENT PENDING
+                </div>
+
+                <div
+                    class="stat-number"
+                    id="paymentBookings"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="stat-card confirmed">
+
+                <div class="stat-title">
+                    CONFIRMED
+                </div>
+
+                <div
+                    class="stat-number"
+                    id="confirmedBookings"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="stat-card completed">
+
+                <div class="stat-title">
+                    COMPLETED
+                </div>
+
+                <div
+                    class="stat-number"
+                    id="completedBookings"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             SEARCH / FILTERS
+        ================================================= -->
+
+        <section class="search-card">
+
+
+            <div class="search-title">
+
+                <h2>
+                    Find Bookings
+                </h2>
+
+
+                <span>
+                    Search customer, caterer, event or request information
+                </span>
+
+            </div>
+
+
+            <div class="filters">
+
+
+                <div class="search-wrapper">
+
+                    <span class="search-icon">
+                        🔍
+                    </span>
+
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        class="search-input"
+                        placeholder="Search request ID, customer, email, phone, caterer, event..."
+                    >
+
+                </div>
+
+
+                <select
+                    id="statusFilter"
+                    class="filter-select"
+                >
+
+                    <option value="">
+                        All Status
+                    </option>
+
+                    <option value="pending">
+                        Pending
+                    </option>
+
+                    <option value="accepted">
+                        Accepted
+                    </option>
+
+                    <option value="payment_pending">
+                        Payment Pending
+                    </option>
+
+                    <option value="confirmed">
+                        Confirmed
+                    </option>
+
+                    <option value="preparing">
+                        Preparing
+                    </option>
+
+                    <option value="on_the_way">
+                        On the Way
+                    </option>
+
+                    <option value="event_started">
+                        Event Started
+                    </option>
+
+                    <option value="completed">
+                        Completed
+                    </option>
+
+                    <option value="rejected">
+                        Rejected
+                    </option>
+
+                </select>
+
+
+                <select
+                    id="eventFilter"
+                    class="filter-select"
+                >
+
+                    <option value="">
+                        All Event Types
+                    </option>
+
+                    <option value="wedding">
+                        Wedding
+                    </option>
+
+                    <option value="birthday">
+                        Birthday
+                    </option>
+
+                    <option value="reception">
+                        Reception
+                    </option>
+
+                    <option value="engagement">
+                        Engagement
+                    </option>
+
+                    <option value="corporate">
+                        Corporate
+                    </option>
+
+                    <option value="other">
+                        Other
+                    </option>
+
+                </select>
+
+
+                <select
+                    id="dateFilter"
+                    class="filter-select"
+                >
+
+                    <option value="">
+                        All Dates
+                    </option>
+
+                    <option value="today">
+                        Today
+                    </option>
+
+                    <option value="upcoming">
+                        Upcoming
+                    </option>
+
+                    <option value="past">
+                        Past
+                    </option>
+
+                </select>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             BOOKING TABLE
+        ================================================= -->
+
+        <section class="table-card">
+
+
+            <div class="table-header">
+
+                <h2>
+                    Booking List
+                </h2>
+
+
+                <span
+                    class="table-count"
+                    id="bookingCount"
+                >
+                    0 bookings
+                </span>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+
+                <table>
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                BOOKING ID
+                            </th>
+
+                            <th>
+                                CUSTOMER
+                            </th>
+
+                            <th>
+                                CATERER
+                            </th>
+
+                            <th>
+                                EVENT
+                            </th>
+
+                            <th>
+                                EVENT DATE
+                            </th>
+
+                            <th>
+                                GUESTS
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                            <th>
+                                ACTION
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="bookingTableBody">
+
+
+                        <tr>
+
+                            <td
+                                colspan="8"
+                                class="message-cell"
+                            >
+                                Loading bookings...
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             UPCOMING + COMPLETED
+        ================================================= -->
+
+        <section class="event-sections">
+
+
+            <!-- UPCOMING -->
+
+            <div class="event-card">
+
+
+                <h2>
+                    Upcoming Events
+                </h2>
+
+
+                <div id="upcomingEvents">
+
+                    <div class="message-cell">
+                        Loading...
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- COMPLETED -->
+
+            <div class="event-card">
+
+
+                <h2>
+                    Completed Events
+                </h2>
+
+
+                <div id="completedEvents">
+
+                    <div class="message-cell">
+                        Loading...
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </div>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     BOOKING DETAILS MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="bookingModal"
+>
+
+
+    <div class="modal-content">
+
+
+        <div class="modal-header">
+
+            <h2>
+                Booking Details
+            </h2>
+
+
+            <button
+                class="close-btn"
+                onclick="closeBookingModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+
+            <!-- CUSTOMER -->
+
+            <section class="detail-section">
+
+
+                <h3>
+                    Customer Details
+                </h3>
+
+
+                <div class="details-grid">
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            Customer Name
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="detailCustomerName"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            Email
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="detailCustomerEmail"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            Phone
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="detailCustomerPhone"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- CATERER -->
+
+            <section class="detail-section">
+
+
+                <h3>
+                    Caterer Details
+                </h3>
+
+
+                <div class="details-grid">
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            Caterer / Brand
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="detailCatererName"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            Caterer Email
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="detailCatererEmail"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            Caterer Phone
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="detailCatererPhone"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- EVENT -->
+
+            <section class="detail-section">
+
+
+                <h3>
+                    Event Details
+                </h3>
+
+
+                <div class="details-grid">
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            Request ID
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="detailRequestId"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            Event Type
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="detailEventType"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            Event Date
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="detailEventDate"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            Event Time
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="detailEventTime"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-box full">
+
+                        <div class="detail-label">
+                            Venue / Location
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="detailVenue"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            Guests
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="detailGuests"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            Food Type
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="detailFoodType"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- PACKAGE -->
+
+            <section class="detail-section">
+
+
+                <h3>
+                    Package & Catering
+                </h3>
+
+
+                <div class="details-grid">
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            Package
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="detailPackage"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            Catering Service
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="detailService"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            Budget
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="detailBudget"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            Current Status
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="detailStatus"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-box full">
+
+                        <div class="detail-label">
+                            Special Requirements
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="detailRequirements"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-box full">
+
+                        <div class="detail-label">
+                            Customer Message
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="detailMessage"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- TIMELINE -->
+
+            <section class="detail-section">
+
+
+                <h3>
+                    Booking Status Timeline
+                </h3>
+
+
+                <div
+                    class="timeline"
+                    id="bookingTimeline"
+                >
+
+                    <!-- Generated by JavaScript -->
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- ACTIONS -->
+
+            <section class="detail-section">
+
+
+                <h3>
+                    Admin Intervention
+                </h3>
+
+
+                <div class="modal-actions">
+
+
+                    <button
+                        class="action-btn contact-btn"
+                        id="contactCustomerBtn"
+                    >
+                        Contact Customer
+                    </button>
+
+
+                    <button
+                        class="action-btn contact-btn"
+                        id="contactCatererBtn"
+                    >
+                        Contact Caterer
+                    </button>
+
+
+                    <a
+                        href="adminenquiries.html"
+                        class="action-btn enquiry-btn"
+                        style="text-decoration:none;"
+                    >
+                        View Enquiries
+                    </a>
+
+
+                    <a
+                        href="adminpayments.html"
+                        class="action-btn payment-btn"
+                        style="text-decoration:none;"
+                    >
+                        View Payments
+                    </a>
+
+
+                </div>
+
+
+            </section>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+    /* =====================================================
+       DATA
+    ===================================================== */
+
+    let allBookings = [];
+
+    let filteredBookings = [];
+
+    let currentBooking = null;
+
+
+
+    /* =====================================================
+       API
+       Existing request API is used.
+    ===================================================== */
+
+    const REQUEST_API =
+        "http://localhost:5000/api/requests";
+
+
+
+    /* =====================================================
+       ADMIN PROFILE
+    ===================================================== */
+
+    function loadAdminProfile() {
+
+        let admin = null;
+
+
+        try {
+
+            admin =
+                JSON.parse(
+                    localStorage.getItem("admin") ||
+                    "null"
+                );
+
+        } catch (error) {
+
+            console.error(
+                "Could not read admin data:",
+                error
+            );
+
+        }
+
+
+        if (!admin) {
+
+            try {
+
+                admin =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "annapriya_admin"
+                        ) ||
+                        "null"
+                    );
+
+            } catch (error) {
+
+                console.error(error);
+
+            }
+
+        }
+
+
+        if (!admin) {
+
+            const username =
+                localStorage.getItem(
+                    "adminUsername"
+                );
+
+
+            if (username) {
+
+                admin = {
+                    username
+                };
+
+            }
+
+        }
+
+
+        if (!admin) {
+
+            return;
+
+        }
+
+
+        const name =
+            admin.name ||
+            admin.full_name ||
+            admin.username ||
+            admin.email ||
+            "Admin";
+
+
+        document.getElementById(
+            "adminName"
+        ).textContent =
+            name;
+
+
+        document.getElementById(
+            "adminAvatar"
+        ).textContent =
+            String(name)
+                .charAt(0)
+                .toUpperCase();
+
+    }
+
+
+
+    /* =====================================================
+       LOAD BOOKINGS
+    ===================================================== */
+
+    async function loadBookings() {
+
+        const tableBody =
+            document.getElementById(
+                "bookingTableBody"
+            );
+
+
+        tableBody.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="8"
+                    class="message-cell"
+                >
+                    Loading bookings...
+                </td>
+
+            </tr>
+
+        `;
+
+
+        try {
+
+            const response =
+                await fetch(
+                    REQUEST_API
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Could not load bookings."
+                );
+
+            }
+
+
+            allBookings =
+                Array.isArray(
+                    data.requests
+                )
+                    ? data.requests
+                    : [];
+
+
+            filteredBookings =
+                [...allBookings];
+
+
+            updateSummary();
+
+            renderBookings();
+
+            renderUpcomingEvents();
+
+            renderCompletedEvents();
+
+
+        } catch (error) {
+
+            console.error(
+                "Booking loading error:",
+                error
+            );
+
+
+            tableBody.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="8"
+                        class="message-cell"
+                    >
+                        Could not load bookings.
+                        Please check that the backend server is running.
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       SUMMARY
+    ===================================================== */
+
+    function updateSummary() {
+
+        const count =
+            status =>
+                allBookings.filter(
+                    booking =>
+                        String(
+                            booking.status ||
+                            ""
+                        ).toLowerCase() ===
+                        status
+                ).length;
+
+
+        document.getElementById(
+            "totalBookings"
+        ).textContent =
+            allBookings.length;
+
+
+        document.getElementById(
+            "pendingBookings"
+        ).textContent =
+            count("pending");
+
+
+        document.getElementById(
+            "acceptedBookings"
+        ).textContent =
+            count("accepted");
+
+
+        document.getElementById(
+            "paymentBookings"
+        ).textContent =
+            count("payment_pending");
+
+
+        document.getElementById(
+            "confirmedBookings"
+        ).textContent =
+            count("confirmed");
+
+
+        document.getElementById(
+            "completedBookings"
+        ).textContent =
+            count("completed");
+
+    }
+
+
+
+    /* =====================================================
+       FILTER
+    ===================================================== */
+
+    function applyFilters() {
+
+        const search =
+            document.getElementById(
+                "searchInput"
+            ).value
+                .trim()
+                .toLowerCase();
+
+
+        const status =
+            document.getElementById(
+                "statusFilter"
+            ).value
+                .toLowerCase();
+
+
+        const eventType =
+            document.getElementById(
+                "eventFilter"
+            ).value
+                .toLowerCase();
+
+
+        const dateFilter =
+            document.getElementById(
+                "dateFilter"
+            ).value;
+
+
+        const today =
+            new Date();
+
+
+        today.setHours(
+            0,
+            0,
+            0,
+            0
+        );
+
+
+        filteredBookings =
+            allBookings.filter(
+                booking => {
+
+
+                    /* SEARCH */
+
+                    const searchText = (
+
+                        String(
+                            booking.request_id ||
+                            ""
+                        ) +
+
+                        " " +
+
+                        String(
+                            booking.customer_name ||
+                            ""
+                        ) +
+
+                        " " +
+
+                        String(
+                            booking.email ||
+                            ""
+                        ) +
+
+                        " " +
+
+                        String(
+                            booking.phone ||
+                            ""
+                        ) +
+
+                        " " +
+
+                        String(
+                            booking.caterer_name ||
+                            ""
+                        ) +
+
+                        " " +
+
+                        String(
+                            booking.caterer_email ||
+                            ""
+                        ) +
+
+                        " " +
+
+                        String(
+                            booking.event_type ||
+                            ""
+                        )
+
+                    ).toLowerCase();
+
+
+                    if (
+                        search &&
+                        !searchText.includes(
+                            search
+                        )
+                    ) {
+
+                        return false;
+
+                    }
+
+
+                    /* STATUS */
+
+                    if (
+                        status &&
+                        String(
+                            booking.status ||
+                            ""
+                        ).toLowerCase() !==
+                        status
+                    ) {
+
+                        return false;
+
+                    }
+
+
+                    /* EVENT TYPE */
+
+                    if (
+                        eventType
+                    ) {
+
+                        const currentEvent =
+                            String(
+                                booking.event_type ||
+                                ""
+                            ).toLowerCase();
+
+
+                        if (
+                            currentEvent !==
+                            eventType
+                        ) {
+
+                            return false;
+
+                        }
+
+                    }
+
+
+                    /* DATE */
+
+                    if (
+                        dateFilter
+                    ) {
+
+                        const eventDate =
+                            new Date(
+                                booking.event_date
+                            );
+
+
+                        eventDate.setHours(
+                            0,
+                            0,
+                            0,
+                            0
+                        );
+
+
+                        if (
+                            isNaN(
+                                eventDate.getTime()
+                            )
+                        ) {
+
+                            return false;
+
+                        }
+
+
+                        if (
+                            dateFilter ===
+                            "today"
+                        ) {
+
+                            if (
+                                eventDate.getTime() !==
+                                today.getTime()
+                            ) {
+
+                                return false;
+
+                            }
+
+                        }
+
+
+                        if (
+                            dateFilter ===
+                            "upcoming"
+                        ) {
+
+                            if (
+                                eventDate <
+                                today
+                            ) {
+
+                                return false;
+
+                            }
+
+                        }
+
+
+                        if (
+                            dateFilter ===
+                            "past"
+                        ) {
+
+                            if (
+                                eventDate >=
+                                today
+                            ) {
+
+                                return false;
+
+                            }
+
+                        }
+
+                    }
+
+
+                    return true;
+
+                }
+            );
+
+
+        renderBookings();
+
+    }
+
+
+
+    /* =====================================================
+       RENDER BOOKINGS
+    ===================================================== */
+
+    function renderBookings() {
+
+        const body =
+            document.getElementById(
+                "bookingTableBody"
+            );
+
+
+        document.getElementById(
+            "bookingCount"
+        ).textContent =
+            `${filteredBookings.length} ${
+                filteredBookings.length === 1
+                    ? "booking"
+                    : "bookings"
+            }`;
+
+
+        if (
+            filteredBookings.length === 0
+        ) {
+
+            body.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="8"
+                        class="message-cell"
+                    >
+                        No bookings found.
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+        body.innerHTML =
+            filteredBookings
+                .map(
+                    booking => {
+
+
+                        const requestId =
+                            booking.request_id ||
+                            "-";
+
+
+                        const customer =
+                            booking.customer_name ||
+                            "-";
+
+
+                        const caterer =
+                            booking.caterer_name ||
+                            booking.caterer_email ||
+                            "-";
+
+
+                        const event =
+                            booking.event_type ||
+                            "-";
+
+
+                        const date =
+                            formatDate(
+                                booking.event_date
+                            );
+
+
+                        const guests =
+                            booking.guest_count ??
+                            "-";
+
+
+                        return `
+
+                            <tr>
+
+                                <td>
+
+                                    <span
+                                        class="request-id"
+                                    >
+                                        REQ${requestId}
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span
+                                        class="customer-name"
+                                    >
+                                        ${escapeHtml(
+                                            customer
+                                        )}
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span
+                                        class="caterer-name"
+                                    >
+                                        ${escapeHtml(
+                                            caterer
+                                        )}
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span
+                                        class="event-name"
+                                    >
+                                        ${escapeHtml(
+                                            event
+                                        )}
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span
+                                        class="event-date"
+                                    >
+                                        ${date}
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span
+                                        class="guest-count"
+                                    >
+                                        ${guests}
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    ${getStatusBadge(
+                                        booking.status
+                                    )}
+
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        class="view-btn"
+                                        onclick="viewBooking(${requestId})"
+                                    >
+                                        View
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+                        `;
+
+                    }
+                )
+                .join("");
+
+    }
+
+
+
+    /* =====================================================
+       STATUS BADGE
+    ===================================================== */
+
+    function getStatusBadge(
+        status
+    ) {
+
+        const value =
+            String(
+                status ||
+                "pending"
+            ).toLowerCase();
+
+
+        const map = {
+
+            pending: [
+                "status-pending",
+                "Pending"
+            ],
+
+            accepted: [
+                "status-accepted",
+                "Accepted"
+            ],
+
+            payment_pending: [
+                "status-payment",
+                "Payment Pending"
+            ],
+
+            confirmed: [
+                "status-confirmed",
+                "Confirmed"
+            ],
+
+            preparing: [
+                "status-preparing",
+                "Preparing"
+            ],
+
+            on_the_way: [
+                "status-way",
+                "On the Way"
+            ],
+
+            event_started: [
+                "status-started",
+                "Event Started"
+            ],
+
+            completed: [
+                "status-completed",
+                "Completed"
+            ],
+
+            rejected: [
+                "status-rejected",
+                "Rejected"
+            ]
+
+        };
+
+
+        const result =
+            map[value] ||
+            [
+                "status-pending",
+                value
+            ];
+
+
+        return `
+
+            <span
+                class="status ${result[0]}"
+            >
+
+                <span
+                    class="status-dot"
+                ></span>
+
+                ${result[1]}
+
+            </span>
+
+        `;
+
+    }
+
+
+
+    /* =====================================================
+       VIEW BOOKING
+    ===================================================== */
+
+    function viewBooking(
+        requestId
+    ) {
+
+        currentBooking =
+            allBookings.find(
+                booking =>
+                    String(
+                        booking.request_id
+                    ) ===
+                    String(requestId)
+            );
+
+
+        if (!currentBooking) {
+
+            return;
+
+        }
+
+
+        const booking =
+            currentBooking;
+
+
+        setText(
+            "detailCustomerName",
+            booking.customer_name
+        );
+
+
+        setText(
+            "detailCustomerEmail",
+            booking.email
+        );
+
+
+        setText(
+            "detailCustomerPhone",
+            booking.phone
+        );
+
+
+        setText(
+            "detailCatererName",
+            booking.caterer_name ||
+            booking.caterer_email
+        );
+
+
+        setText(
+            "detailCatererEmail",
+            booking.caterer_email
+        );
+
+
+        setText(
+            "detailCatererPhone",
+            booking.caterer_phone ||
+            "Not available in current request data"
+        );
+
+
+        setText(
+            "detailRequestId",
+            "REQ" +
+            booking.request_id
+        );
+
+
+        setText(
+            "detailEventType",
+            booking.event_type
+        );
+
+
+        setText(
+            "detailEventDate",
+            formatDate(
+                booking.event_date
+            )
+        );
+
+
+        setText(
+            "detailEventTime",
+            booking.event_time
+                ? formatTime(
+                    booking.event_time
+                )
+                : "-"
+        );
+
+
+        setText(
+            "detailVenue",
+            booking.venue_location
+        );
+
+
+        setText(
+            "detailGuests",
+            booking.guest_count
+        );
+
+
+        setText(
+            "detailFoodType",
+            booking.food_type
+        );
+
+
+        setText(
+            "detailPackage",
+            booking.package_name ||
+            "Not selected"
+        );
+
+
+        setText(
+            "detailService",
+            booking.catering_service ||
+            "Not specified"
+        );
+
+
+        setText(
+            "detailBudget",
+            booking.budget !== null &&
+            booking.budget !== undefined
+                ? "₹" +
+                  Number(
+                      booking.budget
+                  ).toLocaleString(
+                      "en-IN"
+                  )
+                : "Not specified"
+        );
+
+
+        setText(
+            "detailStatus",
+            getReadableStatus(
+                booking.status
+            )
+        );
+
+
+        setText(
+            "detailRequirements",
+            booking.special_requirements ||
+            "None"
+        );
+
+
+        setText(
+            "detailMessage",
+            booking.message ||
+            "No message provided."
+        );
+
+
+        renderTimeline(
+            booking.status
+        );
+
+
+        setupContactButtons(
+            booking
+        );
+
+
+        document
+            .getElementById(
+                "bookingModal"
+            )
+            .classList.add(
+                "show"
+            );
+
+    }
+
+
+
+    /* =====================================================
+       CONTACT BUTTONS
+    ===================================================== */
+
+    function setupContactButtons(
+        booking
+    ) {
+
+        const customerBtn =
+            document.getElementById(
+                "contactCustomerBtn"
+            );
+
+
+        const catererBtn =
+            document.getElementById(
+                "contactCatererBtn"
+            );
+
+
+        customerBtn.onclick =
+            function() {
+
+                if (
+                    booking.email
+                ) {
+
+                    window.location.href =
+                        "mailto:" +
+                        booking.email;
+
+                } else if (
+                    booking.phone
+                ) {
+
+                    window.location.href =
+                        "tel:" +
+                        booking.phone;
+
+                } else {
+
+                    alert(
+                        "Customer contact information is not available."
+                    );
+
+                }
+
+            };
+
+
+        catererBtn.onclick =
+            function() {
+
+                if (
+                    booking.caterer_email
+                ) {
+
+                    window.location.href =
+                        "mailto:" +
+                        booking.caterer_email;
+
+                } else {
+
+                    alert(
+                        "Caterer email is not available."
+                    );
+
+                }
+
+            };
+
+    }
+
+
+
+    /* =====================================================
+       TIMELINE
+    ===================================================== */
+
+    function renderTimeline(
+        status
+    ) {
+
+        const steps = [
+
+            {
+                key: "pending",
+                title: "Request Sent",
+                icon: "1"
+            },
+
+            {
+                key: "accepted",
+                title: "Accepted",
+                icon: "2"
+            },
+
+            {
+                key: "payment_pending",
+                title: "Payment Pending",
+                icon: "3"
+            },
+
+            {
+                key: "confirmed",
+                title: "Confirmed",
+                icon: "4"
+            },
+
+            {
+                key: "preparing",
+                title: "Preparing",
+                icon: "5"
+            },
+
+            {
+                key: "on_the_way",
+                title: "On the Way",
+                icon: "6"
+            },
+
+            {
+                key: "event_started",
+                title: "Event Started",
+                icon: "7"
+            },
+
+            {
+                key: "completed",
+                title: "Completed",
+                icon: "8"
+            }
+
+        ];
+
+
+        const order = {
+
+            pending: 0,
+
+            accepted: 1,
+
+            payment_pending: 2,
+
+            confirmed: 3,
+
+            preparing: 4,
+
+            on_the_way: 5,
+
+            event_started: 6,
+
+            completed: 7
+
+        };
+
+
+        const currentIndex =
+            order[
+                String(
+                    status ||
+                    "pending"
+                ).toLowerCase()
+            ] ?? 0;
+
+
+        const timeline =
+            document.getElementById(
+                "bookingTimeline"
+            );
+
+
+        timeline.innerHTML =
+            steps
+                .map(
+                    (step, index) => {
+
+
+                        let className =
+                            "";
+
+
+                        if (
+                            index <
+                            currentIndex
+                        ) {
+
+                            className =
+                                "done";
+
+                        }
+
+
+                        if (
+                            index ===
+                            currentIndex
+                        ) {
+
+                            className =
+                                "current";
+
+                        }
+
+
+                        return `
+
+                            <div
+                                class="timeline-step ${className}"
+                            >
+
+                                <div
+                                    class="timeline-circle"
+                                >
+                                    ${
+                                        index <
+                                        currentIndex
+                                            ? "✓"
+                                            : step.icon
+                                    }
+                                </div>
+
+
+                                <div
+                                    class="timeline-title"
+                                >
+                                    ${step.title}
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }
+                )
+                .join("");
+
+    }
+
+
+
+    /* =====================================================
+       UPCOMING EVENTS
+    ===================================================== */
+
+    function renderUpcomingEvents() {
+
+        const container =
+            document.getElementById(
+                "upcomingEvents"
+            );
+
+
+        const today =
+            new Date();
+
+
+        today.setHours(
+            0,
+            0,
+            0,
+            0
+        );
+
+
+        const upcoming =
+            allBookings
+                .filter(
+                    booking => {
+
+                        const date =
+                            new Date(
+                                booking.event_date
+                            );
+
+
+                        return (
+                            !isNaN(
+                                date.getTime()
+                            ) &&
+                            date >= today &&
+                            String(
+                                booking.status ||
+                                ""
+                            ).toLowerCase()
+                            !==
+                            "completed"
+                        );
+
+                    }
+                )
+                .sort(
+                    (a, b) =>
+                        new Date(
+                            a.event_date
+                        ) -
+                        new Date(
+                            b.event_date
+                        )
+                )
+                .slice(0, 5);
+
+
+        if (
+            upcoming.length === 0
+        ) {
+
+            container.innerHTML = `
+
+                <div class="message-cell">
+                    No upcoming events.
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+            upcoming
+                .map(
+                    booking =>
+                        renderEventItem(
+                            booking
+                        )
+                )
+                .join("");
+
+    }
+
+
+
+    /* =====================================================
+       COMPLETED EVENTS
+    ===================================================== */
+
+    function renderCompletedEvents() {
+
+        const container =
+            document.getElementById(
+                "completedEvents"
+            );
+
+
+        const completed =
+            allBookings
+                .filter(
+                    booking =>
+                        String(
+                            booking.status ||
+                            ""
+                        ).toLowerCase()
+                        ===
+                        "completed"
+                )
+                .sort(
+                    (a, b) =>
+                        new Date(
+                            b.event_date
+                        ) -
+                        new Date(
+                            a.event_date
+                        )
+                )
+                .slice(0, 5);
+
+
+        if (
+            completed.length === 0
+        ) {
+
+            container.innerHTML = `
+
+                <div class="message-cell">
+                    No completed events.
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+            completed
+                .map(
+                    booking =>
+                        renderEventItem(
+                            booking
+                        )
+                )
+                .join("");
+
+    }
+
+
+
+    /* =====================================================
+       EVENT ITEM
+    ===================================================== */
+
+    function renderEventItem(
+        booking
+    ) {
+
+        const date =
+            new Date(
+                booking.event_date
+            );
+
+
+        const day =
+            !isNaN(
+                date.getTime()
+            )
+                ? date.getDate()
+                : "-";
+
+
+        const month =
+            !isNaN(
+                date.getTime()
+            )
+                ? date.toLocaleDateString(
+                    "en-IN",
+                    {
+                        month: "short"
+                    }
+                )
+                : "-";
+
+
+        return `
+
+            <div class="event-item">
+
+
+                <div class="event-date-box">
+
+                    <div
+                        class="event-date-day"
+                    >
+                        ${day}
+                    </div>
+
+                    <div
+                        class="event-date-month"
+                    >
+                        ${month}
+                    </div>
+
+                </div>
+
+
+                <div class="event-info">
+
+                    <strong>
+                        ${escapeHtml(
+                            booking.event_type ||
+                            "Event"
+                        )}
+                        —
+                        ${escapeHtml(
+                            booking.customer_name ||
+                            "Customer"
+                        )}
+                    </strong>
+
+
+                    <span>
+
+                        ${
+                            escapeHtml(
+                                booking.caterer_name ||
+                                booking.caterer_email ||
+                                "Caterer"
+                            )
+                        }
+
+                        ·
+
+                        ${
+                            booking.guest_count ||
+                            0
+                        }
+                        guests
+
+                    </span>
+
+
+                    <span>
+
+                        ${
+                            getReadableStatus(
+                                booking.status
+                            )
+                        }
+
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        `;
+
+    }
+
+
+
+    /* =====================================================
+       CLOSE MODAL
+    ===================================================== */
+
+    function closeBookingModal() {
+
+        document
+            .getElementById(
+                "bookingModal"
+            )
+            .classList.remove(
+                "show"
+            );
+
+    }
+
+
+
+    /* =====================================================
+       HELPERS
+    ===================================================== */
+
+    function setText(
+        id,
+        value
+    ) {
+
+        document.getElementById(
+            id
+        ).textContent =
+            value !== undefined &&
+            value !== null &&
+            value !== ""
+                ? value
+                : "—";
+
+    }
+
+
+    function formatDate(
+        value
+    ) {
+
+        if (!value) {
+
+            return "-";
+
+        }
+
+
+        const date =
+            new Date(value);
+
+
+        if (
+            isNaN(
+                date.getTime()
+            )
+        ) {
+
+            return value;
+
+        }
+
+
+        return date.toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+    function formatTime(
+        value
+    ) {
+
+        if (!value) {
+
+            return "-";
+
+        }
+
+
+        const parts =
+            String(
+                value
+            ).split(":");
+
+
+        if (
+            parts.length < 2
+        ) {
+
+            return value;
+
+        }
+
+
+        let hour =
+            Number(
+                parts[0]
+            );
+
+
+        const minute =
+            parts[1];
+
+
+        const suffix =
+            hour >= 12
+                ? "PM"
+                : "AM";
+
+
+        hour =
+            hour % 12 ||
+            12;
+
+
+        return (
+            hour +
+            ":" +
+            minute +
+            " " +
+            suffix
+        );
+
+    }
+
+
+    function getReadableStatus(
+        status
+    ) {
+
+        const map = {
+
+            pending:
+                "Pending",
+
+            accepted:
+                "Accepted",
+
+            payment_pending:
+                "Payment Pending",
+
+            confirmed:
+                "Confirmed",
+
+            preparing:
+                "Preparing",
+
+            on_the_way:
+                "On the Way",
+
+            event_started:
+                "Event Started",
+
+            completed:
+                "Completed",
+
+            rejected:
+                "Rejected"
+
+        };
+
+
+        return (
+            map[
+                String(
+                    status ||
+                    ""
+                ).toLowerCase()
+            ] ||
+            status ||
+            "Unknown"
+        );
+
+    }
+
+
+    function escapeHtml(
+        value
+    ) {
+
+        return String(
+            value ?? ""
+        )
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+    }
+
+
+
+    /* =====================================================
+       SEARCH EVENTS
+    ===================================================== */
+
+    document
+        .getElementById(
+            "searchInput"
+        )
+        .addEventListener(
+            "input",
+            applyFilters
+        );
+
+
+    document
+        .getElementById(
+            "statusFilter"
+        )
+        .addEventListener(
+            "change",
+            applyFilters
+        );
+
+
+    document
+        .getElementById(
+            "eventFilter"
+        )
+        .addEventListener(
+            "change",
+            applyFilters
+        );
+
+
+    document
+        .getElementById(
+            "dateFilter"
+        )
+        .addEventListener(
+            "change",
+            applyFilters
+        );
+
+
+
+    /* =====================================================
+       CLOSE MODAL WHEN CLICKING OUTSIDE
+    ===================================================== */
+
+    document
+        .getElementById(
+            "bookingModal"
+        )
+        .addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target === this
+                ) {
+
+                    closeBookingModal();
+
+                }
+
+            }
+        );
+
+
+
+    /* =====================================================
+       LOGOUT
+    ===================================================== */
+
+    function logoutAdmin(
+        event
+    ) {
+
+        if (event) {
+
+            event.preventDefault();
+
+        }
+
+
+        localStorage.removeItem(
+            "adminToken"
+        );
+
+
+        localStorage.removeItem(
+            "adminUsername"
+        );
+
+
+        localStorage.removeItem(
+            "annapriya_admin_token"
+        );
+
+
+        localStorage.removeItem(
+            "admin"
+        );
+
+
+        localStorage.removeItem(
+            "annapriya_admin"
+        );
+
+
+        window.location.href =
+            "index.html";
+
+    }
+
+
+
+    /* =====================================================
+       INITIAL LOAD
+    ===================================================== */
+
+    loadAdminProfile();
+
+    loadBookings();
+
+</script>
+
+
+</body>
+
+</html>

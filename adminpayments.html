@@ -1,0 +1,2906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Payments | Annapriya</title>
+
+    <style>
+
+        /* =====================================================
+           ROOT
+        ===================================================== */
+
+        :root {
+            --primary: #8B1E3F;
+            --secondary: #F5E9DA;
+            --accent: #1C1C1C;
+            --highlight: #D4A373;
+
+            --white: #FFFFFF;
+            --soft-white: #FFFDFC;
+            --border: rgba(139, 30, 63, 0.12);
+
+            --muted: #766D68;
+            --success: #2F7D4A;
+            --danger: #B42318;
+
+            --shadow: 0 8px 30px rgba(28, 28, 28, 0.08);
+        }
+
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--secondary);
+            color: var(--accent);
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+
+        /* =====================================================
+           LAYOUT
+        ===================================================== */
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+            width: 245px;
+            min-height: 100vh;
+            background: var(--accent);
+            color: var(--white);
+
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            display: flex;
+            flex-direction: column;
+
+            padding: 28px 14px 18px;
+
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+
+        /* LOGO */
+
+        .brand {
+            text-align: center;
+            padding: 0 10px 25px;
+        }
+
+        .brand-name {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--highlight);
+            letter-spacing: -0.5px;
+        }
+
+        .brand-subtitle {
+            margin-top: 5px;
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            color: #aaa;
+        }
+
+
+        /* =====================================================
+           SIDEBAR NAVIGATION
+        ===================================================== */
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .sidebar-nav a,
+        .sidebar-bottom a {
+            text-decoration: none;
+
+            display: flex;
+            align-items: center;
+            gap: 13px;
+
+            padding: 13px 16px;
+
+            border-radius: 9px;
+
+            color: rgba(255,255,255,0.88);
+
+            font-size: 14px;
+            font-weight: 500;
+
+            transition: 0.2s ease;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-bottom a:hover {
+            background: #292929;
+            color: var(--white);
+        }
+
+        .sidebar-nav a.active {
+            background: var(--primary);
+            color: var(--white);
+            font-weight: 700;
+
+            box-shadow: 0 5px 15px rgba(139, 30, 63, 0.30);
+        }
+
+        .nav-icon {
+            width: 20px;
+            min-width: 20px;
+
+            text-align: center;
+
+            font-size: 16px;
+        }
+
+
+        /* =====================================================
+           SIDEBAR BOTTOM
+        ===================================================== */
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding-top: 20px;
+
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .sidebar-bottom a:last-child {
+            color: #ff9b9b;
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main {
+            margin-left: 245px;
+            width: calc(100% - 245px);
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           TOP HEADER
+        ===================================================== */
+
+        .topbar {
+            height: 78px;
+
+            background: var(--white);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 34px;
+
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+
+
+        /* BREADCRUMB */
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .breadcrumb .current {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+
+        /* ADMIN PROFILE */
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-avatar {
+            width: 44px;
+            height: 44px;
+
+            border-radius: 50%;
+
+            background: var(--primary);
+            color: var(--white);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .admin-info strong {
+            display: block;
+            font-size: 14px;
+            color: var(--accent);
+        }
+
+        .admin-info span {
+            display: block;
+            margin-top: 3px;
+
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+
+        /* =====================================================
+           CONTENT
+        ===================================================== */
+
+        .content {
+            padding: 34px 38px 50px;
+        }
+
+
+        /* =====================================================
+           PAGE HEADER
+        ===================================================== */
+
+        .page-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+
+            margin-bottom: 28px;
+        }
+
+        .page-kicker {
+            color: var(--highlight);
+
+            font-size: 12px;
+            font-weight: 700;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 8px;
+        }
+
+        .page-title {
+            font-family: Georgia, "Times New Roman", serif;
+
+            color: var(--primary);
+
+            font-size: 34px;
+            line-height: 1.1;
+
+            margin-bottom: 7px;
+        }
+
+        .page-description {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .dashboard-btn {
+            border: none;
+
+            background: var(--primary);
+            color: var(--white);
+
+            padding: 11px 18px;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            transition: 0.2s ease;
+        }
+
+        .dashboard-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(139,30,63,0.20);
+        }
+
+
+        /* =====================================================
+           SUMMARY CARDS
+        ===================================================== */
+
+        .summary-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(6, minmax(0, 1fr));
+
+            gap: 16px;
+
+            margin-bottom: 26px;
+        }
+
+        .summary-card {
+            background: var(--white);
+
+            border-radius: 14px;
+
+            padding: 20px 18px;
+
+            min-height: 128px;
+
+            box-shadow: var(--shadow);
+
+            border-left: 4px solid var(--primary);
+
+            position: relative;
+        }
+
+        .summary-card.paid {
+            border-left-color: var(--success);
+        }
+
+        .summary-card.pending {
+            border-left-color: var(--highlight);
+        }
+
+        .summary-card.failed {
+            border-left-color: var(--danger);
+        }
+
+        .summary-card.refunded {
+            border-left-color: #C58B19;
+        }
+
+        .summary-card.revenue {
+            border-left-color: var(--primary);
+        }
+
+        .summary-label {
+            color: #5f5955;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            margin-bottom: 17px;
+        }
+
+        .summary-value {
+            font-size: 28px;
+            font-weight: 700;
+
+            color: var(--accent);
+        }
+
+        .summary-card.revenue .summary-value {
+            color: var(--primary);
+        }
+
+        .summary-icon {
+            position: absolute;
+
+            right: 16px;
+            top: 14px;
+
+            width: 38px;
+            height: 38px;
+
+            border-radius: 9px;
+
+            background: var(--secondary);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 17px;
+        }
+
+
+        /* =====================================================
+           SEARCH SECTION
+        ===================================================== */
+
+        .search-card {
+            background: var(--white);
+
+            border-radius: 14px;
+
+            padding: 20px;
+
+            box-shadow: var(--shadow);
+
+            margin-bottom: 24px;
+        }
+
+        .search-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 14px;
+        }
+
+        .search-title {
+            font-family: Georgia, "Times New Roman", serif;
+
+            color: var(--primary);
+
+            font-size: 21px;
+        }
+
+        .search-helper {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .search-row {
+            display: grid;
+
+            grid-template-columns:
+                minmax(250px, 1.8fr)
+                minmax(150px, 0.8fr)
+                minmax(150px, 0.8fr)
+                minmax(150px, 0.8fr);
+
+            gap: 12px;
+        }
+
+        .search-input-wrap {
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+
+            left: 14px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            font-size: 16px;
+        }
+
+        .search-input,
+        .filter-select {
+            width: 100%;
+
+            height: 42px;
+
+            border: 1px solid #e4d9d2;
+
+            border-radius: 7px;
+
+            background: var(--white);
+
+            color: var(--accent);
+
+            padding: 0 13px;
+
+            outline: none;
+
+            font-size: 13px;
+        }
+
+        .search-input {
+            padding-left: 38px;
+        }
+
+        .search-input:focus,
+        .filter-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(139,30,63,0.08);
+        }
+
+
+        /* =====================================================
+           PAYMENT LIST
+        ===================================================== */
+
+        .table-card {
+            background: var(--white);
+
+            border-radius: 14px;
+
+            box-shadow: var(--shadow);
+
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 19px 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .table-title {
+            font-family: Georgia, "Times New Roman", serif;
+
+            color: var(--primary);
+
+            font-size: 21px;
+        }
+
+        .table-count {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+
+            min-width: 950px;
+        }
+
+        thead {
+            background: #FBF5EE;
+        }
+
+        th {
+            text-align: left;
+
+            padding: 13px 15px;
+
+            color: var(--primary);
+
+            font-size: 11px;
+            font-weight: 700;
+
+            letter-spacing: 0.8px;
+
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 15px;
+
+            border-top: 1px solid #eee5de;
+
+            font-size: 13px;
+
+            color: #514b47;
+
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+            background: #fffaf6;
+        }
+
+        .payment-id {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .customer-name {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .booking-id {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .amount {
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+        .status::before {
+            content: "";
+
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: currentColor;
+        }
+
+        .status.paid {
+            background: #EAF6EE;
+            color: var(--success);
+        }
+
+        .status.pending {
+            background: #FFF3DD;
+            color: #B47700;
+        }
+
+        .status.failed {
+            background: #FDECEA;
+            color: var(--danger);
+        }
+
+        .status.refunded {
+            background: #F2EAF8;
+            color: #7A3E91;
+        }
+
+        .status.processing {
+            background: #EEEAFB;
+            color: #6552A8;
+        }
+
+        .status.unknown {
+            background: #F0EFEE;
+            color: #766D68;
+        }
+
+
+        /* =====================================================
+           VIEW BUTTON
+        ===================================================== */
+
+        .view-btn {
+            border: 1px solid #e2b992;
+
+            background: #F8ECDD;
+
+            color: var(--primary);
+
+            padding: 7px 13px;
+
+            border-radius: 7px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            transition: 0.2s ease;
+        }
+
+        .view-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+
+        /* =====================================================
+           EMPTY / ERROR
+        ===================================================== */
+
+        .empty-state {
+            text-align: center;
+
+            padding: 55px 20px;
+
+            color: var(--muted);
+        }
+
+        .empty-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .empty-state strong {
+            display: block;
+
+            color: var(--accent);
+
+            font-size: 15px;
+
+            margin-bottom: 6px;
+        }
+
+        .empty-state p {
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           MODAL
+        ===================================================== */
+
+        .modal-overlay {
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0,0,0,0.55);
+
+            display: none;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            z-index: 1000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            width: min(760px, 100%);
+
+            max-height: 90vh;
+
+            overflow-y: auto;
+
+            background: var(--white);
+
+            border-radius: 14px;
+
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+        }
+
+        .modal-header {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 20px 24px;
+
+            border-bottom: 1px solid #eee5de;
+        }
+
+        .modal-title {
+            font-family: Georgia, "Times New Roman", serif;
+
+            color: var(--primary);
+
+            font-size: 23px;
+        }
+
+        .close-btn {
+            width: 34px;
+            height: 34px;
+
+            border: none;
+
+            background: #F5E9DA;
+
+            color: var(--primary);
+
+            border-radius: 50%;
+
+            font-size: 18px;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .detail-grid {
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 22px;
+        }
+
+        .detail-box {
+            background: #FBF7F2;
+
+            border-radius: 9px;
+
+            padding: 14px;
+        }
+
+        .detail-label {
+            color: var(--muted);
+
+            font-size: 11px;
+
+            margin-bottom: 6px;
+        }
+
+        .detail-value {
+            color: var(--accent);
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+        .section-heading {
+            color: var(--primary);
+
+            font-family: Georgia, "Times New Roman", serif;
+
+            font-size: 18px;
+
+            margin: 20px 0 12px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+
+            padding: 18px 24px;
+
+            border-top: 1px solid #eee5de;
+        }
+
+        .close-modal-btn {
+            border: none;
+
+            background: var(--primary);
+
+            color: var(--white);
+
+            padding: 10px 18px;
+
+            border-radius: 7px;
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1250px) {
+
+            .summary-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .search-row {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                width: 210px;
+            }
+
+            .main {
+                margin-left: 210px;
+                width: calc(100% - 210px);
+            }
+
+            .content {
+                padding: 28px 24px;
+            }
+
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+
+        @media (max-width: 650px) {
+
+            .sidebar {
+                position: relative;
+
+                width: 100%;
+                min-height: auto;
+            }
+
+            .app {
+                flex-direction: column;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .content {
+                padding: 24px 16px;
+            }
+
+            .page-header {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-row {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-name">Annapriya</div>
+            <div class="brand-subtitle">ADMIN PANEL</div>
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a href="admindashboard.html">
+                <span class="nav-icon">🏠</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="adminusers.html">
+                <span class="nav-icon">👥</span>
+                <span>Manage Users</span>
+            </a>
+
+            <a href="admincaterers.html">
+                <span class="nav-icon">👨‍🍳</span>
+                <span>Manage Caterers</span>
+            </a>
+
+            <a href="adminenquiries.html">
+                <span class="nav-icon">✉️</span>
+                <span>Customer Enquiries</span>
+            </a>
+
+            <a href="adminbookings.html">
+                <span class="nav-icon">🗓️</span>
+                <span>Manage Bookings</span>
+            </a>
+
+            <a href="adminpayments.html" class="active">
+                <span class="nav-icon">💳</span>
+                <span>Manage Payments</span>
+            </a>
+
+            <a href="adminreviews.html">
+                <span class="nav-icon">⭐</span>
+                <span>Manage Reviews</span>
+            </a>
+
+            <a href="adminreports.html">
+                <span class="nav-icon">📊</span>
+                <span>Reports &amp; Analytics</span>
+            </a>
+
+            <a href="adminsettings.html">
+                <span class="nav-icon">⚙️</span>
+                <span>System Settings</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="adminprofile.html">
+                <span class="nav-icon">👤</span>
+                <span>Account Settings</span>
+            </a>
+
+            <a href="#" id="logoutBtn">
+                <span class="nav-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <header class="topbar">
+
+            <div class="breadcrumb">
+
+                <span>Admin</span>
+
+                <span>›</span>
+
+                <span class="current">
+                    Manage Payments
+                </span>
+
+            </div>
+
+
+            <div class="admin-profile">
+
+                <div class="admin-avatar" id="adminAvatar">
+                    A
+                </div>
+
+                <div class="admin-info">
+
+                    <strong id="adminEmail">
+                        Admin
+                    </strong>
+
+                    <span>
+                        Super Admin
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =================================================
+             PAGE CONTENT
+        ================================================== -->
+
+        <section class="content">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="page-header">
+
+                <div>
+
+                    <div class="page-kicker">
+                        PAYMENT MANAGEMENT
+                    </div>
+
+                    <h1 class="page-title">
+                        Manage Payments
+                    </h1>
+
+                    <p class="page-description">
+                        View and monitor payments connected to Annapriya customer bookings.
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="dashboard-btn"
+                    onclick="window.location.href='admindashboard.html'">
+
+                    ← Dashboard
+
+                </button>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 SUMMARY
+            ================================================== -->
+
+            <div class="summary-grid">
+
+
+                <div class="summary-card">
+
+                    <div class="summary-label">
+                        Total Payments
+                    </div>
+
+                    <div
+                        class="summary-value"
+                        id="totalPayments">
+                        0
+                    </div>
+
+                    <div class="summary-icon">
+                        💳
+                    </div>
+
+                </div>
+
+
+
+                <div class="summary-card paid">
+
+                    <div class="summary-label">
+                        Paid
+                    </div>
+
+                    <div
+                        class="summary-value"
+                        id="paidPayments">
+                        0
+                    </div>
+
+                    <div class="summary-icon">
+                        ✓
+                    </div>
+
+                </div>
+
+
+
+                <div class="summary-card pending">
+
+                    <div class="summary-label">
+                        Pending
+                    </div>
+
+                    <div
+                        class="summary-value"
+                        id="pendingPayments">
+                        0
+                    </div>
+
+                    <div class="summary-icon">
+                        ⏳
+                    </div>
+
+                </div>
+
+
+
+                <div class="summary-card failed">
+
+                    <div class="summary-label">
+                        Failed
+                    </div>
+
+                    <div
+                        class="summary-value"
+                        id="failedPayments">
+                        0
+                    </div>
+
+                    <div class="summary-icon">
+                        !
+                    </div>
+
+                </div>
+
+
+
+                <div class="summary-card refunded">
+
+                    <div class="summary-label">
+                        Refunded
+                    </div>
+
+                    <div
+                        class="summary-value"
+                        id="refundedPayments">
+                        0
+                    </div>
+
+                    <div class="summary-icon">
+                        ↩
+                    </div>
+
+                </div>
+
+
+
+                <div class="summary-card revenue">
+
+                    <div class="summary-label">
+                        Total Revenue
+                    </div>
+
+                    <div
+                        class="summary-value"
+                        id="totalRevenue">
+                        ₹0
+                    </div>
+
+                    <div class="summary-icon">
+                        ₹
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 SEARCH
+            ================================================== -->
+
+            <div class="search-card">
+
+                <div class="search-header">
+
+                    <h2 class="search-title">
+                        Find Payments
+                    </h2>
+
+                    <span class="search-helper">
+                        Search by payment or booking information
+                    </span>
+
+                </div>
+
+
+                <div class="search-row">
+
+
+                    <div class="search-input-wrap">
+
+                        <span class="search-icon">
+                            🔎
+                        </span>
+
+                        <input
+                            type="text"
+                            id="searchInput"
+                            class="search-input"
+                            placeholder="Search payment ID, booking ID, customer, email or caterer..."
+                        >
+
+                    </div>
+
+
+                    <select
+                        id="statusFilter"
+                        class="filter-select">
+
+                        <option value="all">
+                            All Status
+                        </option>
+
+                        <option value="pending">
+                            Pending
+                        </option>
+
+                        <option value="paid">
+                            Paid
+                        </option>
+
+                        <option value="processing">
+                            Processing
+                        </option>
+
+                        <option value="failed">
+                            Failed
+                        </option>
+
+                        <option value="refunded">
+                            Refunded
+                        </option>
+
+                    </select>
+
+
+                    <select
+                        id="methodFilter"
+                        class="filter-select">
+
+                        <option value="all">
+                            All Methods
+                        </option>
+
+                        <option value="upi">
+                            UPI
+                        </option>
+
+                        <option value="card">
+                            Card
+                        </option>
+
+                        <option value="net banking">
+                            Net Banking
+                        </option>
+
+                        <option value="other">
+                            Other
+                        </option>
+
+                    </select>
+
+
+                    <select
+                        id="dateFilter"
+                        class="filter-select">
+
+                        <option value="all">
+                            All Dates
+                        </option>
+
+                        <option value="today">
+                            Today
+                        </option>
+
+                        <option value="week">
+                            This Week
+                        </option>
+
+                        <option value="month">
+                            This Month
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 PAYMENT LIST
+            ================================================== -->
+
+            <div class="table-card">
+
+
+                <div class="table-header">
+
+                    <h2 class="table-title">
+                        Payment List
+                    </h2>
+
+                    <span
+                        class="table-count"
+                        id="paymentCount">
+                        0 payments
+                    </span>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    PAYMENT ID
+                                </th>
+
+                                <th>
+                                    BOOKING
+                                </th>
+
+                                <th>
+                                    CUSTOMER
+                                </th>
+
+                                <th>
+                                    CATERER
+                                </th>
+
+                                <th>
+                                    AMOUNT
+                                </th>
+
+                                <th>
+                                    DATE
+                                </th>
+
+                                <th>
+                                    STATUS
+                                </th>
+
+                                <th>
+                                    ACTION
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="paymentTableBody">
+
+                            <tr>
+
+                                <td colspan="8">
+
+                                    <div class="empty-state">
+
+                                        <div class="empty-icon">
+                                            💳
+                                        </div>
+
+                                        <strong>
+                                            Loading payment data...
+                                        </strong>
+
+                                        <p>
+                                            Please wait.
+                                        </p>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+
+
+<!-- =========================================================
+     PAYMENT DETAILS MODAL
+========================================================= -->
+
+<div
+    class="modal-overlay"
+    id="paymentModal">
+
+    <div class="modal">
+
+
+        <div class="modal-header">
+
+            <h2 class="modal-title">
+                Payment Details
+            </h2>
+
+            <button
+                class="close-btn"
+                onclick="closePaymentModal()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <div
+            class="modal-body"
+            id="paymentModalBody">
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button
+                class="close-modal-btn"
+                onclick="closePaymentModal()">
+
+                Close
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+    /* =====================================================
+       CONFIG
+    ===================================================== */
+
+    const API_BASE =
+        "http://localhost:5000/api/admin";
+
+
+    let allPayments = [];
+
+
+    /* =====================================================
+       ELEMENTS
+    ===================================================== */
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+    const statusFilter =
+        document.getElementById("statusFilter");
+
+    const methodFilter =
+        document.getElementById("methodFilter");
+
+    const dateFilter =
+        document.getElementById("dateFilter");
+
+    const paymentTableBody =
+        document.getElementById("paymentTableBody");
+
+
+
+    /* =====================================================
+       TOKEN
+    ===================================================== */
+
+    function getAdminToken() {
+
+        return (
+            localStorage.getItem("adminToken") ||
+            localStorage.getItem("annapriya_admin_token") ||
+            ""
+        );
+
+    }
+
+
+
+    /* =====================================================
+       ADMIN INFORMATION
+    ===================================================== */
+
+    function loadAdminInformation() {
+
+        let admin = null;
+
+        try {
+
+            admin =
+                JSON.parse(
+                    localStorage.getItem("annapriya_admin")
+                );
+
+        } catch (error) {
+
+            admin = null;
+
+        }
+
+
+        const email =
+            admin?.email ||
+            admin?.username ||
+            localStorage.getItem("adminEmail") ||
+            "Admin";
+
+
+        document.getElementById("adminEmail")
+            .textContent = email;
+
+
+        document.getElementById("adminAvatar")
+            .textContent =
+            email.charAt(0).toUpperCase();
+
+    }
+
+
+
+    /* =====================================================
+       NORMALIZE PAYMENT DATA
+    ===================================================== */
+
+    function normalizePayment(payment) {
+
+        return {
+
+            paymentId:
+                payment.payment_id ??
+                payment.paymentId ??
+                payment.id ??
+                payment.id_payment ??
+                "-",
+
+            bookingId:
+                payment.request_id ??
+                payment.requestId ??
+                payment.booking_id ??
+                payment.bookingId ??
+                "-",
+
+            customerName:
+                payment.customer_name ??
+                payment.customerName ??
+                payment.full_name ??
+                payment.name ??
+                "-",
+
+            customerEmail:
+                payment.customer_email ??
+                payment.customerEmail ??
+                payment.email ??
+                "-",
+
+            customerPhone:
+                payment.customer_phone ??
+                payment.customerPhone ??
+                payment.phone ??
+                "-",
+
+            catererName:
+                payment.brand_name ??
+                payment.caterer_name ??
+                payment.catererName ??
+                payment.caterer_email ??
+                "-",
+
+            catererEmail:
+                payment.caterer_email ??
+                payment.catererEmail ??
+                "-",
+
+            amount:
+                Number(
+                    payment.amount ??
+                    payment.payment_amount ??
+                    payment.total_amount ??
+                    0
+                ),
+
+            method:
+                payment.payment_method ??
+                payment.paymentMethod ??
+                payment.method ??
+                "-",
+
+            transactionId:
+                payment.transaction_id ??
+                payment.transactionId ??
+                "-",
+
+            status:
+                String(
+                    payment.status ??
+                    payment.payment_status ??
+                    "pending"
+                ).toLowerCase(),
+
+            paymentDate:
+                payment.payment_date ??
+                payment.paid_at ??
+                payment.created_at ??
+                payment.createdAt ??
+                null,
+
+            eventType:
+                payment.event_type ??
+                payment.eventType ??
+                "-",
+
+            eventDate:
+                payment.event_date ??
+                payment.eventDate ??
+                null,
+
+            packageName:
+                payment.package_name ??
+                payment.packageName ??
+                "-"
+
+        };
+
+    }
+
+
+
+    /* =====================================================
+       LOAD PAYMENTS
+    ===================================================== */
+
+    async function loadPayments() {
+
+        const token =
+            getAdminToken();
+
+
+        if (!token) {
+
+            showError(
+                "Admin login required.",
+                "Please login again to view payment data."
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE}/payments`,
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "Authorization":
+                                `Bearer ${token}`,
+
+                            "Content-Type":
+                                "application/json"
+                        }
+                    }
+                );
+
+
+            const data =
+                await response.json()
+                    .catch(() => ({}));
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Could not load payment data."
+                );
+
+            }
+
+
+            let payments = [];
+
+
+            if (Array.isArray(data)) {
+
+                payments = data;
+
+            } else if (Array.isArray(data.payments)) {
+
+                payments = data.payments;
+
+            } else if (Array.isArray(data.data)) {
+
+                payments = data.data;
+
+            }
+
+
+            allPayments =
+                payments.map(normalizePayment);
+
+
+            updateSummary();
+
+            renderPayments();
+
+        } catch (error) {
+
+            console.error(
+                "Payment loading error:",
+                error
+            );
+
+
+            showError(
+                "Could not load payment data.",
+                "Please make sure the Admin Payments API is available."
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       SUMMARY
+    ===================================================== */
+
+    function updateSummary() {
+
+        const total =
+            allPayments.length;
+
+
+        const paid =
+            allPayments.filter(
+                payment =>
+                    isStatus(payment.status, [
+                        "paid",
+                        "successful",
+                        "success",
+                        "completed"
+                    ])
+            ).length;
+
+
+        const pending =
+            allPayments.filter(
+                payment =>
+                    isStatus(payment.status, [
+                        "pending",
+                        "payment_pending"
+                    ])
+            ).length;
+
+
+        const failed =
+            allPayments.filter(
+                payment =>
+                    isStatus(payment.status, [
+                        "failed",
+                        "failure"
+                    ])
+            ).length;
+
+
+        const refunded =
+            allPayments.filter(
+                payment =>
+                    isStatus(payment.status, [
+                        "refunded",
+                        "refund"
+                    ])
+            ).length;
+
+
+        const revenue =
+            allPayments
+                .filter(
+                    payment =>
+                        isStatus(payment.status, [
+                            "paid",
+                            "successful",
+                            "success",
+                            "completed"
+                        ])
+                )
+                .reduce(
+                    (sum, payment) =>
+                        sum + Number(payment.amount || 0),
+                    0
+                );
+
+
+        document.getElementById("totalPayments")
+            .textContent = total;
+
+
+        document.getElementById("paidPayments")
+            .textContent = paid;
+
+
+        document.getElementById("pendingPayments")
+            .textContent = pending;
+
+
+        document.getElementById("failedPayments")
+            .textContent = failed;
+
+
+        document.getElementById("refundedPayments")
+            .textContent = refunded;
+
+
+        document.getElementById("totalRevenue")
+            .textContent =
+                formatCurrency(revenue);
+
+    }
+
+
+
+    /* =====================================================
+       STATUS CHECK
+    ===================================================== */
+
+    function isStatus(status, values) {
+
+        const normalized =
+            String(status || "")
+                .toLowerCase()
+                .replace(/[\s-]+/g, "_");
+
+
+        return values.some(
+            value =>
+                normalized ===
+                String(value)
+                    .toLowerCase()
+                    .replace(/[\s-]+/g, "_")
+        );
+
+    }
+
+
+
+    /* =====================================================
+       RENDER PAYMENTS
+    ===================================================== */
+
+    function renderPayments() {
+
+        const search =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+
+        const selectedStatus =
+            statusFilter.value
+                .toLowerCase();
+
+
+        const selectedMethod =
+            methodFilter.value
+                .toLowerCase();
+
+
+        const selectedDate =
+            dateFilter.value
+                .toLowerCase();
+
+
+        const filtered =
+            allPayments.filter(payment => {
+
+                const searchableText = [
+
+                    payment.paymentId,
+
+                    payment.bookingId,
+
+                    payment.customerName,
+
+                    payment.customerEmail,
+
+                    payment.customerPhone,
+
+                    payment.catererName,
+
+                    payment.catererEmail,
+
+                    payment.transactionId
+
+                ]
+                .join(" ")
+                .toLowerCase();
+
+
+                const matchesSearch =
+                    !search ||
+                    searchableText.includes(search);
+
+
+                const normalizedStatus =
+                    String(payment.status)
+                        .toLowerCase();
+
+
+                let matchesStatus = true;
+
+
+                if (selectedStatus !== "all") {
+
+                    if (
+                        selectedStatus === "paid"
+                    ) {
+
+                        matchesStatus =
+                            isStatus(
+                                normalizedStatus,
+                                [
+                                    "paid",
+                                    "successful",
+                                    "success",
+                                    "completed"
+                                ]
+                            );
+
+                    } else {
+
+                        matchesStatus =
+                            normalizedStatus
+                                .replace(/[\s-]+/g, "_") ===
+                            selectedStatus
+                                .replace(/[\s-]+/g, "_");
+
+                    }
+
+                }
+
+
+                let matchesMethod = true;
+
+
+                if (selectedMethod !== "all") {
+
+                    matchesMethod =
+                        String(payment.method)
+                            .toLowerCase()
+                            .includes(
+                                selectedMethod
+                            );
+
+                }
+
+
+                const matchesDate =
+                    checkDateFilter(
+                        payment.paymentDate,
+                        selectedDate
+                    );
+
+
+                return (
+                    matchesSearch &&
+                    matchesStatus &&
+                    matchesMethod &&
+                    matchesDate
+                );
+
+            });
+
+
+        document.getElementById("paymentCount")
+            .textContent =
+                `${filtered.length} payment${filtered.length === 1 ? "" : "s"}`;
+
+
+        if (!filtered.length) {
+
+            paymentTableBody.innerHTML = `
+
+                <tr>
+
+                    <td colspan="8">
+
+                        <div class="empty-state">
+
+                            <div class="empty-icon">
+                                💳
+                            </div>
+
+                            <strong>
+                                No payments found
+                            </strong>
+
+                            <p>
+                                No payment records match the selected filters.
+                            </p>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+        paymentTableBody.innerHTML =
+            filtered.map(
+                payment =>
+                    createPaymentRow(payment)
+            ).join("");
+
+    }
+
+
+
+    /* =====================================================
+       PAYMENT ROW
+    ===================================================== */
+
+    function createPaymentRow(payment) {
+
+        const statusClass =
+            getStatusClass(payment.status);
+
+
+        const statusText =
+            formatStatus(payment.status);
+
+
+        return `
+
+            <tr>
+
+                <td>
+                    <span class="payment-id">
+                        ${escapeHtml(payment.paymentId)}
+                    </span>
+                </td>
+
+
+                <td>
+                    <span class="booking-id">
+                        ${escapeHtml(payment.bookingId)}
+                    </span>
+                </td>
+
+
+                <td>
+                    <span class="customer-name">
+                        ${escapeHtml(payment.customerName)}
+                    </span>
+                </td>
+
+
+                <td>
+                    ${escapeHtml(payment.catererName)}
+                </td>
+
+
+                <td>
+                    <span class="amount">
+                        ${formatCurrency(payment.amount)}
+                    </span>
+                </td>
+
+
+                <td>
+                    ${formatDate(payment.paymentDate)}
+                </td>
+
+
+                <td>
+
+                    <span class="status ${statusClass}">
+                        ${escapeHtml(statusText)}
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    <button
+                        class="view-btn"
+                        onclick='openPaymentModal(${JSON.stringify(payment).replace(/'/g, "&#39;")})'>
+
+                        View
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+
+
+    /* =====================================================
+       STATUS CLASS
+    ===================================================== */
+
+    function getStatusClass(status) {
+
+        const value =
+            String(status || "")
+                .toLowerCase();
+
+
+        if (
+            value === "paid" ||
+            value === "successful" ||
+            value === "success" ||
+            value === "completed"
+        ) {
+
+            return "paid";
+
+        }
+
+
+        if (
+            value === "pending" ||
+            value === "payment_pending"
+        ) {
+
+            return "pending";
+
+        }
+
+
+        if (
+            value === "failed" ||
+            value === "failure"
+        ) {
+
+            return "failed";
+
+        }
+
+
+        if (
+            value === "refunded" ||
+            value === "refund"
+        ) {
+
+            return "refunded";
+
+        }
+
+
+        if (
+            value === "processing"
+        ) {
+
+            return "processing";
+
+        }
+
+
+        return "unknown";
+
+    }
+
+
+
+    /* =====================================================
+       STATUS TEXT
+    ===================================================== */
+
+    function formatStatus(status) {
+
+        const value =
+            String(status || "Unknown")
+                .replace(/_/g, " ");
+
+
+        return value
+            .replace(/\b\w/g, letter =>
+                letter.toUpperCase()
+            );
+
+    }
+
+
+
+    /* =====================================================
+       DATE FILTER
+    ===================================================== */
+
+    function checkDateFilter(
+        dateValue,
+        filter
+    ) {
+
+        if (
+            filter === "all" ||
+            !dateValue
+        ) {
+
+            return true;
+
+        }
+
+
+        const date =
+            new Date(dateValue);
+
+
+        if (Number.isNaN(date.getTime())) {
+
+            return true;
+
+        }
+
+
+        const now =
+            new Date();
+
+
+        if (filter === "today") {
+
+            return (
+                date.toDateString() ===
+                now.toDateString()
+            );
+
+        }
+
+
+        if (filter === "week") {
+
+            const weekAgo =
+                new Date();
+
+            weekAgo.setDate(
+                now.getDate() - 7
+            );
+
+            return date >= weekAgo;
+
+        }
+
+
+        if (filter === "month") {
+
+            return (
+                date.getMonth() === now.getMonth() &&
+                date.getFullYear() === now.getFullYear()
+            );
+
+        }
+
+
+        return true;
+
+    }
+
+
+
+    /* =====================================================
+       PAYMENT MODAL
+    ===================================================== */
+
+    function openPaymentModal(payment) {
+
+        const modal =
+            document.getElementById(
+                "paymentModal"
+            );
+
+
+        const body =
+            document.getElementById(
+                "paymentModalBody"
+            );
+
+
+        body.innerHTML = `
+
+            <h3 class="section-heading">
+                Payment Information
+            </h3>
+
+
+            <div class="detail-grid">
+
+                <div class="detail-box">
+                    <div class="detail-label">
+                        Payment ID
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(payment.paymentId)}
+                    </div>
+                </div>
+
+
+                <div class="detail-box">
+                    <div class="detail-label">
+                        Transaction ID
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(payment.transactionId)}
+                    </div>
+                </div>
+
+
+                <div class="detail-box">
+                    <div class="detail-label">
+                        Amount
+                    </div>
+
+                    <div class="detail-value">
+                        ${formatCurrency(payment.amount)}
+                    </div>
+                </div>
+
+
+                <div class="detail-box">
+                    <div class="detail-label">
+                        Payment Method
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(payment.method)}
+                    </div>
+                </div>
+
+
+                <div class="detail-box">
+                    <div class="detail-label">
+                        Payment Date
+                    </div>
+
+                    <div class="detail-value">
+                        ${formatDate(payment.paymentDate)}
+                    </div>
+                </div>
+
+
+                <div class="detail-box">
+                    <div class="detail-label">
+                        Payment Status
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(
+                            formatStatus(payment.status)
+                        )}
+                    </div>
+                </div>
+
+            </div>
+
+
+            <h3 class="section-heading">
+                Customer Details
+            </h3>
+
+
+            <div class="detail-grid">
+
+                <div class="detail-box">
+
+                    <div class="detail-label">
+                        Customer Name
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(payment.customerName)}
+                    </div>
+
+                </div>
+
+
+                <div class="detail-box">
+
+                    <div class="detail-label">
+                        Email
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(payment.customerEmail)}
+                    </div>
+
+                </div>
+
+
+                <div class="detail-box">
+
+                    <div class="detail-label">
+                        Phone
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(payment.customerPhone)}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <h3 class="section-heading">
+                Caterer Details
+            </h3>
+
+
+            <div class="detail-grid">
+
+                <div class="detail-box">
+
+                    <div class="detail-label">
+                        Caterer / Brand
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(payment.catererName)}
+                    </div>
+
+                </div>
+
+
+                <div class="detail-box">
+
+                    <div class="detail-label">
+                        Caterer Email
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(payment.catererEmail)}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <h3 class="section-heading">
+                Booking Details
+            </h3>
+
+
+            <div class="detail-grid">
+
+                <div class="detail-box">
+
+                    <div class="detail-label">
+                        Request / Booking ID
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(payment.bookingId)}
+                    </div>
+
+                </div>
+
+
+                <div class="detail-box">
+
+                    <div class="detail-label">
+                        Event Type
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(payment.eventType)}
+                    </div>
+
+                </div>
+
+
+                <div class="detail-box">
+
+                    <div class="detail-label">
+                        Event Date
+                    </div>
+
+                    <div class="detail-value">
+                        ${formatDate(payment.eventDate)}
+                    </div>
+
+                </div>
+
+
+                <div class="detail-box">
+
+                    <div class="detail-label">
+                        Package
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(payment.packageName)}
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        modal.classList.add("show");
+
+    }
+
+
+
+    /* =====================================================
+       CLOSE MODAL
+    ===================================================== */
+
+    function closePaymentModal() {
+
+        document
+            .getElementById("paymentModal")
+            .classList.remove("show");
+
+    }
+
+
+    document
+        .getElementById("paymentModal")
+        .addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target === this
+                ) {
+
+                    closePaymentModal();
+
+                }
+
+            }
+        );
+
+
+
+    /* =====================================================
+       ERROR
+    ===================================================== */
+
+    function showError(
+        title,
+        message
+    ) {
+
+        document.getElementById(
+            "paymentTableBody"
+        ).innerHTML = `
+
+            <tr>
+
+                <td colspan="8">
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            ⚠️
+                        </div>
+
+                        <strong>
+                            ${escapeHtml(title)}
+                        </strong>
+
+                        <p>
+                            ${escapeHtml(message)}
+                        </p>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+
+        document.getElementById(
+            "paymentCount"
+        ).textContent = "0 payments";
+
+    }
+
+
+
+    /* =====================================================
+       FORMAT CURRENCY
+    ===================================================== */
+
+    function formatCurrency(amount) {
+
+        const value =
+            Number(amount || 0);
+
+
+        return "₹" +
+            value.toLocaleString(
+                "en-IN",
+                {
+                    maximumFractionDigits: 2
+                }
+            );
+
+    }
+
+
+
+    /* =====================================================
+       FORMAT DATE
+    ===================================================== */
+
+    function formatDate(value) {
+
+        if (!value) {
+            return "-";
+        }
+
+
+        const date =
+            new Date(value);
+
+
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
+
+            return String(value);
+
+        }
+
+
+        return date.toLocaleDateString(
+            "en-GB",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       ESCAPE HTML
+    ===================================================== */
+
+    function escapeHtml(value) {
+
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+
+    /* =====================================================
+       FILTER EVENTS
+    ===================================================== */
+
+    searchInput.addEventListener(
+        "input",
+        renderPayments
+    );
+
+    statusFilter.addEventListener(
+        "change",
+        renderPayments
+    );
+
+    methodFilter.addEventListener(
+        "change",
+        renderPayments
+    );
+
+    dateFilter.addEventListener(
+        "change",
+        renderPayments
+    );
+
+
+
+    /* =====================================================
+       LOGOUT
+    ===================================================== */
+
+    document
+        .getElementById("logoutBtn")
+        .addEventListener(
+            "click",
+            function(event) {
+
+                event.preventDefault();
+
+
+                localStorage.removeItem(
+                    "adminToken"
+                );
+
+                localStorage.removeItem(
+                    "annapriya_admin_token"
+                );
+
+                localStorage.removeItem(
+                    "annapriya_admin"
+                );
+
+                localStorage.removeItem(
+                    "adminEmail"
+                );
+
+
+                window.location.href =
+                    "index.html";
+
+            }
+        );
+
+
+
+    /* =====================================================
+       INITIALIZE
+    ===================================================== */
+
+    loadAdminInformation();
+
+    loadPayments();
+
+</script>
+
+</body>
+</html>
