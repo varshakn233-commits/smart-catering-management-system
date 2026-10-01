@@ -4,940 +4,632 @@
 <head>
 
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        Annapriya | Admin Dashboard
-    </title>
-
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Work+Sans:wght@400;500;600&display=swap"
-        rel="stylesheet"
-    >
-
+    <title>Admin Dashboard | Annapriya</title>
 
     <style>
 
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
-
 
         body {
-
-            font-family:
-                "Work Sans",
-                sans-serif;
-
-            background: #F5E9DA;
-
-            color: #1C1C1C;
-
-            min-height: 100vh;
-
+            font-family: Arial, sans-serif;
+            background: #f5e9da;
+            color: #1c1c1c;
         }
 
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
 
-        /* =========================================
-           HEADER
-        ========================================= */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
 
-        header {
+            width: 245px;
+            height: 100vh;
 
-            background: #1C1C1C;
+            background: #1c1c1c;
+            color: white;
 
-            color: #FFFDF9;
+            padding: 25px 18px;
 
-            padding: 20px 6%;
+            display: flex;
+            flex-direction: column;
 
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+
+            color: #d4a373;
+
+            text-align: center;
+
+            margin-bottom: 8px;
+        }
+
+        .admin-label {
+            text-align: center;
+            color: #aaa;
+
+            font-size: 12px;
+
+            margin-bottom: 30px;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+
+            gap: 7px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+
+            color: #ddd;
+
+            padding: 13px 14px;
+
+            border-radius: 9px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 11px;
+
+            font-size: 14px;
+
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: #8b1e3f;
+            color: white;
+        }
+
+        .nav-links a.active {
+            background: #8b1e3f;
+            color: white;
+        }
+
+        .nav-icon {
+            width: 25px;
+
+            text-align: center;
+
+            font-size: 17px;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+
+            padding-top: 20px;
+        }
+
+        .sidebar-bottom a {
             display: flex;
 
             align-items: center;
 
-            justify-content: space-between;
-
-        }
-
-
-        header h2 {
-
-            font-family:
-                "Fraunces",
-                serif;
-
-            font-weight: 600;
-
-        }
-
-
-        header a {
-
-            color: #D4A373;
-
-            font-weight: 600;
+            gap: 11px;
 
             text-decoration: none;
 
-            cursor: pointer;
+            color: #ddd;
 
+            padding: 13px 14px;
+
+            border-radius: 9px;
+
+            margin-top: 7px;
+        }
+
+        .sidebar-bottom a:hover {
+            background: #8b1e3f;
+        }
+
+        .logout {
+            color: #ffb3b3 !important;
         }
 
 
-        header a:hover {
+        /* =====================================================
+           MAIN CONTENT
+        ===================================================== */
 
-            color: #FFFDF9;
+        .main {
+            margin-left: 245px;
 
+            padding: 32px 40px;
+
+            min-height: 100vh;
         }
 
 
-        /* =========================================
-           MAIN
-        ========================================= */
+        /* =====================================================
+           TOP BAR
+        ===================================================== */
 
-        .wrap {
+        .top-bar {
+            display: flex;
 
-            max-width: 1100px;
+            justify-content: space-between;
 
-            margin: 50px auto;
-
-            padding: 0 20px 60px;
-
-        }
-
-
-        .wrap h1 {
-
-            font-family:
-                "Fraunces",
-                serif;
-
-            font-weight: 500;
-
-            font-size: 28px;
-
-            margin-bottom: 6px;
-
-        }
-
-
-        .intro {
-
-            color: #7a6f62;
+            align-items: center;
 
             margin-bottom: 30px;
-
-            font-size: 14px;
-
         }
 
+        .top-title h1 {
+            font-size: 32px;
 
-        /* =========================================
-           TABS
-        ========================================= */
+            color: #1c1c1c;
 
-        .tabs {
+            margin-bottom: 7px;
+        }
 
+        .top-title p {
+            color: #777;
+
+            font-size: 15px;
+        }
+
+        .admin-profile {
             display: flex;
 
-            gap: 10px;
+            align-items: center;
 
-            margin-bottom: 24px;
+            gap: 12px;
 
-            flex-wrap: wrap;
+            background: white;
 
-        }
-
-
-        .tab-btn {
-
-            padding: 10px 18px;
-
-            border-radius: 20px;
-
-            border: 1px solid #e2d3ba;
-
-            background: #FFFDF9;
-
-            font-size: 13px;
-
-            font-weight: 600;
-
-            cursor: pointer;
-
-            color: #4a3f37;
-
-        }
-
-
-        .tab-btn:hover {
-
-            border-color: #1C1C1C;
-
-        }
-
-
-        .tab-btn.active {
-
-            background: #1C1C1C;
-
-            color: #FFFDF9;
-
-            border-color: #1C1C1C;
-
-        }
-
-
-        /* =========================================
-           SUMMARY
-        ========================================= */
-
-        .summary-bar {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(4, 1fr);
-
-            gap: 10px;
-
-            margin-bottom: 24px;
-
-        }
-
-
-        .summary-item {
-
-            background: #FFFDF9;
-
-            border: 1px solid #e2d3ba;
-
-            border-radius: 8px;
-
-            padding: 14px 16px;
-
-        }
-
-
-        .summary-item span {
-
-            display: block;
-
-            color: #7a6f62;
-
-            font-size: 11px;
-
-            font-weight: 600;
-
-            text-transform: uppercase;
-
-            letter-spacing: .7px;
-
-            margin-bottom: 5px;
-
-        }
-
-
-        .summary-item strong {
-
-            font-family:
-                "Fraunces",
-                serif;
-
-            font-size: 23px;
-
-            font-weight: 600;
-
-        }
-
-
-        /* =========================================
-           CONTROLS
-        ========================================= */
-
-        .user-controls {
-
-            display: flex;
-
-            gap: 10px;
-
-            margin-bottom: 16px;
-
-        }
-
-
-        .search-box {
-
-            flex: 1;
-
-        }
-
-
-        .search-box input {
-
-            width: 100%;
-
-            padding: 11px 14px;
-
-            border-radius: 8px;
-
-            border: 1px solid #e2d3ba;
-
-            background: #FFFDF9;
-
-            color: #1C1C1C;
-
-            font-family:
-                "Work Sans",
-                sans-serif;
-
-            font-size: 13px;
-
-            outline: none;
-
-        }
-
-
-        .search-box input:focus {
-
-            border-color: #1C1C1C;
-
-        }
-
-
-        .status-filter {
-
-            padding: 11px 14px;
-
-            border-radius: 8px;
-
-            border: 1px solid #e2d3ba;
-
-            background: #FFFDF9;
-
-            color: #4a3f37;
-
-            font-family:
-                "Work Sans",
-                sans-serif;
-
-            font-size: 13px;
-
-            cursor: pointer;
-
-            outline: none;
-
-        }
-
-
-        /* =========================================
-           TABLE
-        ========================================= */
-
-        .table-wrap {
-
-            background: #FFFDF9;
-
-            border-radius: 8px;
-
-            overflow-x: auto;
-
-            box-shadow:
-                0 6px 20px
-                rgba(28, 20, 17, .06);
-
-        }
-
-
-        table {
-
-            width: 100%;
-
-            border-collapse: collapse;
-
-            font-size: 13px;
-
-        }
-
-
-        thead {
-
-            background: #1C1C1C;
-
-            color: #FFFDF9;
-
-        }
-
-
-        th,
-        td {
-
-            padding: 14px 16px;
-
-            text-align: left;
-
-            white-space: nowrap;
-
-        }
-
-
-        th {
-
-            font-size: 11px;
-
-            font-weight: 700;
-
-            letter-spacing: 1px;
-
-            text-transform: uppercase;
-
-        }
-
-
-        tbody tr {
-
-            border-bottom:
-                1px solid #F5E9DA;
-
-        }
-
-
-        tbody tr:hover {
-
-            background: #FBF6EE;
-
-        }
-
-
-        tbody tr:last-child {
-
-            border-bottom: none;
-
-        }
-
-
-        .customer-name {
-
-            font-weight: 600;
-
-        }
-
-
-        .customer-id {
-
-            color: #7a6f62;
-
-            font-size: 11px;
-
-            margin-top: 3px;
-
-        }
-
-
-        .contact-email {
-
-            font-size: 12px;
-
-        }
-
-
-        .contact-phone {
-
-            color: #7a6f62;
-
-            font-size: 11px;
-
-            margin-top: 3px;
-
-        }
-
-
-        /* =========================================
-           STATUS
-        ========================================= */
-
-        .status-badge {
-
-            display: inline-block;
-
-            padding: 4px 10px;
+            padding: 10px 16px;
 
             border-radius: 12px;
 
-            font-size: 10px;
-
-            font-weight: 700;
-
-            text-transform: uppercase;
-
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
         }
 
+        .admin-avatar {
+            width: 42px;
+            height: 42px;
 
-        .status-active {
+            border-radius: 50%;
 
-            background: #cdeacb;
+            background: #8b1e3f;
 
-            color: #1c6b1a;
-
-        }
-
-
-        .status-blocked {
-
-            background: #f3c9c9;
-
-            color: #8b1e1e;
-
-        }
-
-
-        /* =========================================
-           ACTIONS
-        ========================================= */
-
-        .action-cell {
-
-            display: flex;
-
-            gap: 7px;
-
-        }
-
-
-        .action-btn {
-
-            padding: 7px 11px;
-
-            border-radius: 6px;
-
-            border: 1px solid #d9c7ad;
-
-            background: #FFFDF9;
-
-            color: #4a3f37;
-
-            font-family:
-                "Work Sans",
-                sans-serif;
-
-            font-size: 11px;
-
-            font-weight: 600;
-
-            cursor: pointer;
-
-        }
-
-
-        .action-btn:hover {
-
-            background: #F5E9DA;
-
-        }
-
-
-        .view-btn {
-
-            background: #1C1C1C;
-
-            color: #FFFDF9;
-
-            border-color: #1C1C1C;
-
-        }
-
-
-        .view-btn:hover {
-
-            background: #342f2b;
-
-        }
-
-
-        .block-btn {
-
-            color: #8b1e1e;
-
-            border-color: #e2b9b9;
-
-        }
-
-
-        .unblock-btn {
-
-            color: #1c6b1a;
-
-            border-color: #b8d7b6;
-
-        }
-
-
-        /* =========================================
-           EMPTY / ERROR
-        ========================================= */
-
-        .empty-msg {
-
-            padding: 30px;
-
-            text-align: center;
-
-            color: #7a6f62;
-
-        }
-
-
-        .error-msg {
-
-            padding: 30px;
-
-            text-align: center;
-
-            color: #8b1e1e;
-
-        }
-
-
-        /* =========================================
-           MODAL
-        ========================================= */
-
-        .modal {
-
-            display: none;
-
-            position: fixed;
-
-            inset: 0;
-
-            background:
-                rgba(28,28,28,.55);
-
-            z-index: 1000;
-
-            padding: 30px 20px;
-
-            overflow-y: auto;
-
-        }
-
-
-        .modal.show {
+            color: white;
 
             display: flex;
 
             justify-content: center;
 
-            align-items: flex-start;
+            align-items: center;
 
+            font-weight: bold;
+
+            font-size: 18px;
+        }
+
+        .admin-info strong {
+            display: block;
+
+            font-size: 14px;
+        }
+
+        .admin-info span {
+            color: #777;
+
+            font-size: 12px;
         }
 
 
-        .modal-box {
+        /* =====================================================
+           SUMMARY CARDS
+        ===================================================== */
 
-            width: 100%;
+        .stats {
+            display: grid;
 
-            max-width: 850px;
+            grid-template-columns: repeat(4, 1fr);
 
-            background: #FFFDF9;
+            gap: 18px;
 
-            border-radius: 8px;
+            margin-bottom: 25px;
+        }
 
-            overflow: hidden;
+        .stat-card {
+            background: white;
 
-            box-shadow:
-                0 12px 40px
-                rgba(0,0,0,.18);
+            padding: 22px;
 
-            margin: 20px auto;
+            border-radius: 13px;
 
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+
+            border-top: 4px solid #8b1e3f;
+        }
+
+        .stat-card:nth-child(2) {
+            border-top-color: #d4a373;
+        }
+
+        .stat-card:nth-child(3) {
+            border-top-color: #4c8c70;
+        }
+
+        .stat-card:nth-child(4) {
+            border-top-color: #777;
+        }
+
+        .stat-card h3 {
+            font-size: 14px;
+
+            color: #777;
+
+            margin-bottom: 12px;
+        }
+
+        .stat-number {
+            font-size: 31px;
+
+            font-weight: bold;
+
+            color: #1c1c1c;
+        }
+
+        .stat-description {
+            color: #888;
+
+            font-size: 12px;
+
+            margin-top: 6px;
         }
 
 
-        .modal-header {
+        /* =====================================================
+           QUICK ACTIONS
+        ===================================================== */
 
-            background: #1C1C1C;
+        .quick-actions {
+            display: grid;
 
-            color: #FFFDF9;
+            grid-template-columns: repeat(4, 1fr);
 
-            padding: 18px 22px;
+            gap: 15px;
 
+            margin-bottom: 25px;
+        }
+
+        .quick-action {
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 18px;
+
+            text-decoration: none;
+
+            color: #1c1c1c;
+
+            border: 1px solid #eee;
+
+            transition: 0.2s;
+        }
+
+        .quick-action:hover {
+            border-color: #8b1e3f;
+
+            transform: translateY(-2px);
+
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .quick-action .icon {
+            font-size: 24px;
+
+            margin-bottom: 8px;
+        }
+
+        .quick-action strong {
+            display: block;
+
+            color: #8b1e3f;
+
+            margin-bottom: 5px;
+        }
+
+        .quick-action span {
+            font-size: 12px;
+
+            color: #777;
+        }
+
+
+        /* =====================================================
+           MAIN GRID
+        ===================================================== */
+
+        .dashboard-grid {
+            display: grid;
+
+            grid-template-columns: 2fr 1fr;
+
+            gap: 22px;
+        }
+
+        .card {
+            background: white;
+
+            border-radius: 13px;
+
+            padding: 24px;
+
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+
+            margin-bottom: 22px;
+        }
+
+        .card-header {
             display: flex;
 
             justify-content: space-between;
 
             align-items: center;
 
+            margin-bottom: 20px;
         }
 
-
-        .modal-header h2 {
-
-            font-family:
-                "Fraunces",
-                serif;
-
-            font-size: 22px;
-
-            font-weight: 500;
-
+        .card-header h2 {
+            font-size: 20px;
         }
 
+        .card-header a {
+            color: #8b1e3f;
 
-        .close-btn {
-
-            border: none;
-
-            background: transparent;
-
-            color: #D4A373;
-
-            font-size: 24px;
-
-            cursor: pointer;
-
-        }
-
-
-        .modal-body {
-
-            padding: 22px;
-
-        }
-
-
-        /* =========================================
-           CUSTOMER DETAILS
-        ========================================= */
-
-        .customer-info {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(2, 1fr);
-
-            gap: 10px;
-
-            margin-bottom: 28px;
-
-        }
-
-
-        .info-box {
-
-            border: 1px solid #e2d3ba;
-
-            border-radius: 7px;
-
-            background: #FBF6EE;
-
-            padding: 12px 14px;
-
-        }
-
-
-        .info-box small {
-
-            display: block;
-
-            color: #7a6f62;
-
-            font-size: 10px;
-
-            font-weight: 700;
-
-            text-transform: uppercase;
-
-            letter-spacing: .7px;
-
-            margin-bottom: 5px;
-
-        }
-
-
-        .info-box strong {
+            text-decoration: none;
 
             font-size: 13px;
 
-            font-weight: 600;
-
-            word-break: break-word;
-
+            font-weight: bold;
         }
 
 
-        /* =========================================
-           DETAIL SECTIONS
-        ========================================= */
+        /* =====================================================
+           CUSTOMER OVERVIEW
+        ===================================================== */
 
-        .detail-section {
+        .customer-summary {
+            display: grid;
 
-            margin-top: 25px;
+            grid-template-columns: repeat(3, 1fr);
 
+            gap: 15px;
+        }
+
+        .customer-box {
+            background: #faf7f2;
+
+            padding: 18px;
+
+            border-radius: 10px;
+        }
+
+        .customer-box strong {
+            display: block;
+
+            color: #777;
+
+            font-size: 13px;
+
+            margin-bottom: 8px;
+        }
+
+        .customer-box span {
+            font-size: 25px;
+
+            font-weight: bold;
+
+            color: #8b1e3f;
         }
 
 
-        .detail-section h3 {
+        /* =====================================================
+           STATUS
+        ===================================================== */
 
-            font-family:
-                "Fraunces",
-                serif;
-
-            font-size: 20px;
-
-            font-weight: 500;
-
-            padding-bottom: 9px;
-
-            border-bottom:
-                1px solid #e2d3ba;
-
-            margin-bottom: 12px;
-
-        }
-
-
-        /* =========================================
-           BOOKING
-        ========================================= */
-
-        .history-card {
-
-            border: 1px solid #e2d3ba;
-
-            border-radius: 7px;
-
-            padding: 13px 15px;
-
-            margin-bottom: 9px;
-
-            background: #FFFDF9;
-
-        }
-
-
-        .history-top {
-
+        .status-row {
             display: flex;
 
             justify-content: space-between;
 
-            gap: 10px;
+            align-items: center;
 
-            margin-bottom: 7px;
+            padding: 13px 0;
 
+            border-bottom: 1px solid #eee;
+        }
+
+        .status-row:last-child {
+            border-bottom: none;
+        }
+
+        .status-name {
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+
+            border-radius: 50%;
+
+            background: #4c8c70;
+        }
+
+        .status-dot.pending {
+            background: #d4a373;
+        }
+
+        .status-dot.blocked {
+            background: #8b1e3f;
+        }
+
+        .status-dot.review {
+            background: #777;
+        }
+
+        .status-count {
+            font-weight: bold;
         }
 
 
-        .history-card p {
+        /* =====================================================
+           RECENT CUSTOMERS
+        ===================================================== */
 
-            color: #7a6f62;
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+
+            background: #faf7f2;
+
+            color: #555;
 
             font-size: 12px;
 
-            line-height: 1.7;
-
-            white-space: normal;
-
+            padding: 12px;
         }
 
+        td {
+            padding: 13px 12px;
 
-        /* =========================================
-           REVIEWS
-        ========================================= */
+            border-bottom: 1px solid #eee;
 
-        .review-card {
-
-            border: 1px solid #e2d3ba;
-
-            border-radius: 7px;
-
-            padding: 13px 15px;
-
-            margin-bottom: 9px;
-
-            background: #FFFDF9;
-
+            font-size: 13px;
         }
 
-
-        .review-header {
-
-            display: flex;
-
-            justify-content: space-between;
-
-            gap: 10px;
-
+        .customer-name {
+            font-weight: bold;
         }
 
+        .customer-email {
+            color: #777;
 
-        .stars {
-
-            color: #D4A373;
-
-            font-size: 14px;
-
-            letter-spacing: 1px;
-
-            margin-top: 3px;
-
+            font-size: 12px;
         }
 
+        .badge {
+            display: inline-block;
 
-        .review-date {
+            padding: 5px 10px;
 
-            color: #7a6f62;
+            border-radius: 20px;
 
             font-size: 11px;
 
+            font-weight: bold;
+        }
+
+        .badge.active {
+            background: #dff2e6;
+
+            color: #267044;
+        }
+
+        .badge.blocked {
+            background: #f8d7da;
+
+            color: #8b1e3f;
         }
 
 
-        .review-text {
+        /* =====================================================
+           WELCOME PANEL
+        ===================================================== */
 
-            margin-top: 8px;
+        .welcome-panel {
+            background: linear-gradient(
+                135deg,
+                #8b1e3f,
+                #5f172c
+            );
 
-            color: #4a3f37;
+            color: white;
 
-            font-size: 12px;
+            border-radius: 13px;
 
-            line-height: 1.6;
+            padding: 25px;
 
-            white-space: normal;
-
+            margin-bottom: 22px;
         }
 
+        .welcome-panel h2 {
+            margin-bottom: 8px;
+        }
 
-        .no-data {
-
-            color: #7a6f62;
+        .welcome-panel p {
+            color: #f4dfe5;
 
             font-size: 13px;
 
-            padding: 10px 0;
-
+            line-height: 1.6;
         }
 
 
-        /* =========================================
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .footer {
+            text-align: center;
+
+            color: #888;
+
+            font-size: 12px;
+
+            padding: 20px;
+        }
+
+
+        /* =====================================================
            RESPONSIVE
-        ========================================= */
+        ===================================================== */
 
-        @media (max-width: 800px) {
+        @media (max-width: 1100px) {
 
-            .summary-bar {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
 
-                grid-template-columns:
-                    repeat(2, 1fr);
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
 
+            .dashboard-grid {
+                grid-template-columns: 1fr;
             }
 
         }
@@ -945,52 +637,38 @@
 
         @media (max-width: 700px) {
 
-            header {
+            .sidebar {
+                position: static;
 
-                padding: 18px 20px;
+                width: 100%;
 
+                height: auto;
             }
 
+            .main {
+                margin-left: 0;
 
-            .wrap {
-
-                margin: 30px auto;
-
+                padding: 22px;
             }
 
-
-            .user-controls {
-
+            .top-bar {
                 flex-direction: column;
 
+                align-items: flex-start;
+
+                gap: 15px;
             }
 
-
-            .summary-bar {
-
+            .stats {
                 grid-template-columns: 1fr;
-
             }
 
-
-            .customer-info {
-
+            .quick-actions {
                 grid-template-columns: 1fr;
-
             }
 
-
-            .modal {
-
-                padding: 10px;
-
-            }
-
-
-            .modal-body {
-
-                padding: 16px;
-
+            .customer-summary {
+                grid-template-columns: 1fr;
             }
 
         }
@@ -1004,23 +682,85 @@
 
 
 <!-- =====================================================
-     HEADER
+     SIDEBAR
 ===================================================== -->
 
-<header>
+<aside class="sidebar">
 
-    <h2>
-        🪔 Annapriya · Admin
-    </h2>
+    <div class="logo">
+        Annapriya
+    </div>
+
+    <div class="admin-label">
+        ADMIN PANEL
+    </div>
 
 
-    <a
-        onclick="logout()"
-    >
-        Logout
-    </a>
+    <nav class="nav-links">
 
-</header>
+        <a href="admindashboard.html" class="active">
+            <span class="nav-icon">🏠</span>
+            Dashboard
+        </a>
+
+        <a href="adminusers.html">
+            <span class="nav-icon">👥</span>
+            Manage Users
+        </a>
+
+        <a href="admincaterers.html">
+            <span class="nav-icon">👨‍🍳</span>
+            Manage Caterers
+        </a>
+
+        <a href="adminenquiries.html">
+            <span class="nav-icon">✉️</span>
+            Customer Enquiries
+        </a>
+
+        <a href="adminbookings.html">
+            <span class="nav-icon">📅</span>
+            Manage Bookings
+        </a>
+
+        <a href="adminpayments.html">
+            <span class="nav-icon">💳</span>
+            Manage Payments
+        </a>
+
+        <a href="adminreviews.html">
+            <span class="nav-icon">⭐</span>
+            Manage Reviews
+        </a>
+
+        <a href="adminreports.html">
+            <span class="nav-icon">📊</span>
+            Reports & Analytics
+        </a>
+
+        <a href="adminsettings.html">
+            <span class="nav-icon">⚙️</span>
+            System Settings
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+        <a href="adminprofile.html">
+            <span class="nav-icon">👤</span>
+            Account Settings
+        </a>
+
+        <a href="#" class="logout" onclick="logoutAdmin()">
+            <span class="nav-icon">🚪</span>
+            Logout
+        </a>
+
+    </div>
+
+</aside>
 
 
 
@@ -1028,291 +768,320 @@
      MAIN
 ===================================================== -->
 
-<div class="wrap">
+<main class="main">
 
 
-    <h1>
-        Manage Users
-    </h1>
+    <!-- TOP BAR -->
+
+    <div class="top-bar">
+
+        <div class="top-title">
+
+            <h1>
+                Admin Dashboard
+            </h1>
+
+            <p>
+                Manage and monitor the Annapriya catering platform.
+            </p>
+
+        </div>
 
 
-    <p class="intro">
-        View registered customers, manage account status,
-        bookings and reviews.
-    </p>
+        <div class="admin-profile">
+
+            <div class="admin-avatar">
+                A
+            </div>
+
+            <div class="admin-info">
+
+                <strong id="adminName">
+                    Admin
+                </strong>
+
+                <span>
+                    Super Admin
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
 
 
 
-    <!-- =================================================
-         FILTER TABS
-    ================================================== -->
+    <!-- WELCOME -->
 
-    <div class="tabs">
+    <div class="welcome-panel">
 
-        <button
-            class="tab-btn active"
-            data-status=""
-            onclick="selectTab('', this)"
-        >
-            All Customers
-        </button>
+        <h2>
+            Welcome to Annapriya Admin Panel 👋
+        </h2>
 
-
-        <button
-            class="tab-btn"
-            data-status="active"
-            onclick="selectTab('active', this)"
-        >
-            Active
-        </button>
-
-
-        <button
-            class="tab-btn"
-            data-status="blocked"
-            onclick="selectTab('blocked', this)"
-        >
-            Blocked
-        </button>
+        <p>
+            From here you can manage customers, caterers,
+            bookings, payments, reviews and other platform
+            activities.
+        </p>
 
     </div>
 
 
 
     <!-- =================================================
-         SUMMARY
+         SUMMARY CARDS
     ================================================== -->
 
-    <div class="summary-bar">
+    <section class="stats">
 
 
-        <div class="summary-item">
+        <div class="stat-card">
 
-            <span>
+            <h3>
                 Total Customers
-            </span>
-
-            <strong id="totalCustomers">
-                0
-            </strong>
-
-        </div>
-
-
-        <div class="summary-item">
-
-            <span>
-                Active Customers
-            </span>
-
-            <strong id="activeCustomers">
-                0
-            </strong>
-
-        </div>
-
-
-        <div class="summary-item">
-
-            <span>
-                Blocked Customers
-            </span>
-
-            <strong id="blockedCustomers">
-                0
-            </strong>
-
-        </div>
-
-
-        <div class="summary-item">
-
-            <span>
-                New Customers
-            </span>
-
-            <strong id="newCustomers">
-                0
-            </strong>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- =================================================
-         SEARCH + FILTER
-    ================================================== -->
-
-    <div class="user-controls">
-
-
-        <div class="search-box">
-
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Search by customer name, email, phone or ID..."
-            >
-
-        </div>
-
-
-        <select
-            id="statusFilter"
-            class="status-filter"
-        >
-
-            <option value="">
-                All Status
-            </option>
-
-            <option value="active">
-                Active
-            </option>
-
-            <option value="blocked">
-                Blocked
-            </option>
-
-        </select>
-
-    </div>
-
-
-
-    <!-- =================================================
-         CUSTOMER TABLE
-    ================================================== -->
-
-    <div class="table-wrap">
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>
-                        Customer
-                    </th>
-
-                    <th>
-                        Email
-                    </th>
-
-                    <th>
-                        Phone
-                    </th>
-
-                    <th>
-                        Gender
-                    </th>
-
-                    <th>
-                        Joined
-                    </th>
-
-                    <th>
-                        Status
-                    </th>
-
-                    <th>
-                        Actions
-                    </th>
-
-                </tr>
-
-            </thead>
-
-
-            <tbody
-                id="customerTableBody"
-            >
-
-                <tr>
-
-                    <td
-                        colspan="7"
-                        class="empty-msg"
-                    >
-                        Loading customers...
-                    </td>
-
-                </tr>
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-</div>
-
-
-
-<!-- =====================================================
-     CUSTOMER DETAILS MODAL
-===================================================== -->
-
-<div
-    class="modal"
-    id="customerModal"
->
-
-    <div class="modal-box">
-
-
-        <div class="modal-header">
-
-            <h2>
-                Customer Details
-            </h2>
-
-
-            <button
-                class="close-btn"
-                onclick="closeModal()"
-            >
-                ×
-            </button>
-
-        </div>
-
-
-        <div class="modal-body">
-
+            </h3>
 
             <div
-                class="customer-info"
-                id="customerInfo"
+                class="stat-number"
+                id="totalCustomers"
             >
-
-                <p class="no-data">
-                    Loading...
-                </p>
-
+                0
             </div>
 
+            <div class="stat-description">
+                Registered customers
+            </div>
+
+        </div>
 
 
-            <!-- BOOKING HISTORY -->
+        <div class="stat-card">
 
-            <div class="detail-section">
+            <h3>
+                Active Customers
+            </h3>
 
-                <h3>
-                    Booking History
-                </h3>
+            <div
+                class="stat-number"
+                id="activeCustomers"
+            >
+                0
+            </div>
+
+            <div class="stat-description">
+                Currently active accounts
+            </div>
+
+        </div>
 
 
-                <div
-                    id="bookingHistory"
-                >
+        <div class="stat-card">
 
-                    <p class="no-data">
-                        Loading...
-                    </p>
+            <h3>
+                Blocked Customers
+            </h3>
+
+            <div
+                class="stat-number"
+                id="blockedCustomers"
+            >
+                0
+            </div>
+
+            <div class="stat-description">
+                Blocked accounts
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>
+                New Customers
+            </h3>
+
+            <div
+                class="stat-number"
+                id="newCustomers"
+            >
+                0
+            </div>
+
+            <div class="stat-description">
+                Recently registered
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         QUICK ACTIONS
+    ================================================== -->
+
+    <section class="quick-actions">
+
+
+        <a
+            href="adminusers.html"
+            class="quick-action"
+        >
+
+            <div class="icon">
+                👥
+            </div>
+
+            <strong>
+                Manage Users
+            </strong>
+
+            <span>
+                View and manage customer accounts.
+            </span>
+
+        </a>
+
+
+        <a
+            href="admincaterers.html"
+            class="quick-action"
+        >
+
+            <div class="icon">
+                👨‍🍳
+            </div>
+
+            <strong>
+                Manage Caterers
+            </strong>
+
+            <span>
+                View and manage caterer accounts.
+            </span>
+
+        </a>
+
+
+        <a
+            href="adminbookings.html"
+            class="quick-action"
+        >
+
+            <div class="icon">
+                📅
+            </div>
+
+            <strong>
+                Manage Bookings
+            </strong>
+
+            <span>
+                Monitor customer event bookings.
+            </span>
+
+        </a>
+
+
+        <a
+            href="adminpayments.html"
+            class="quick-action"
+        >
+
+            <div class="icon">
+                💳
+            </div>
+
+            <strong>
+                Manage Payments
+            </strong>
+
+            <span>
+                Monitor payment records.
+            </span>
+
+        </a>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         DASHBOARD GRID
+    ================================================== -->
+
+    <div class="dashboard-grid">
+
+
+        <!-- LEFT -->
+
+        <div>
+
+
+            <!-- CUSTOMER OVERVIEW -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h2>
+                        Customer Overview
+                    </h2>
+
+                    <a href="adminusers.html">
+                        View Customers →
+                    </a>
+
+                </div>
+
+
+                <div class="customer-summary">
+
+
+                    <div class="customer-box">
+
+                        <strong>
+                            Total Customers
+                        </strong>
+
+                        <span id="overviewTotal">
+                            0
+                        </span>
+
+                    </div>
+
+
+                    <div class="customer-box">
+
+                        <strong>
+                            Active
+                        </strong>
+
+                        <span id="overviewActive">
+                            0
+                        </span>
+
+                    </div>
+
+
+                    <div class="customer-box">
+
+                        <strong>
+                            Blocked
+                        </strong>
+
+                        <span id="overviewBlocked">
+                            0
+                        </span>
+
+                    </div>
+
 
                 </div>
 
@@ -1320,451 +1089,618 @@
 
 
 
-            <!-- REVIEWS -->
+            <!-- RECENT CUSTOMERS -->
 
-            <div class="detail-section">
+            <div class="card">
 
-                <h3>
-                    Reviews
-                </h3>
+                <div class="card-header">
+
+                    <h2>
+                        Recent Customers
+                    </h2>
+
+                    <a href="adminusers.html">
+                        View All →
+                    </a>
+
+                </div>
 
 
-                <div
-                    id="reviewHistory"
-                >
+                <div class="table-wrapper">
 
-                    <p class="no-data">
-                        Loading...
-                    </p>
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Customer
+                                </th>
+
+                                <th>
+                                    Phone
+                                </th>
+
+                                <th>
+                                    Joined
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="recentCustomersBody">
+
+                            <tr>
+
+                                <td colspan="4">
+                                    Loading customers...
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
 
                 </div>
 
             </div>
+
+
+        </div>
+
+
+
+        <!-- RIGHT -->
+
+        <div>
+
+
+            <!-- ACCOUNT STATUS -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h2>
+                        Account Status
+                    </h2>
+
+                </div>
+
+
+                <div class="status-row">
+
+                    <div class="status-name">
+
+                        <span class="status-dot"></span>
+
+                        Active Customers
+
+                    </div>
+
+                    <span
+                        class="status-count"
+                        id="statusActive"
+                    >
+                        0
+                    </span>
+
+                </div>
+
+
+                <div class="status-row">
+
+                    <div class="status-name">
+
+                        <span class="status-dot blocked"></span>
+
+                        Blocked Customers
+
+                    </div>
+
+                    <span
+                        class="status-count"
+                        id="statusBlocked"
+                    >
+                        0
+                    </span>
+
+                </div>
+
+
+                <div class="status-row">
+
+                    <div class="status-name">
+
+                        <span class="status-dot pending"></span>
+
+                        New Customers
+
+                    </div>
+
+                    <span
+                        class="status-count"
+                        id="statusNew"
+                    >
+                        0
+                    </span>
+
+                </div>
+
+
+                <div class="status-row">
+
+                    <div class="status-name">
+
+                        <span class="status-dot review"></span>
+
+                        Platform Users
+
+                    </div>
+
+                    <span
+                        class="status-count"
+                        id="statusUsers"
+                    >
+                        0
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ADMIN MODULES -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h2>
+                        Admin Modules
+                    </h2>
+
+                </div>
+
+
+                <div class="status-row">
+
+                    <div class="status-name">
+                        👨‍🍳 Manage Caterers
+                    </div>
+
+                    <a
+                        href="admincaterers.html"
+                        style="
+                            color:#8b1e3f;
+                            text-decoration:none;
+                        "
+                    >
+                        →
+                    </a>
+
+                </div>
+
+
+                <div class="status-row">
+
+                    <div class="status-name">
+                        📅 Manage Bookings
+                    </div>
+
+                    <a
+                        href="adminbookings.html"
+                        style="
+                            color:#8b1e3f;
+                            text-decoration:none;
+                        "
+                    >
+                        →
+                    </a>
+
+                </div>
+
+
+                <div class="status-row">
+
+                    <div class="status-name">
+                        💳 Manage Payments
+                    </div>
+
+                    <a
+                        href="adminpayments.html"
+                        style="
+                            color:#8b1e3f;
+                            text-decoration:none;
+                        "
+                    >
+                        →
+                    </a>
+
+                </div>
+
+
+                <div class="status-row">
+
+                    <div class="status-name">
+                        ⭐ Manage Reviews
+                    </div>
+
+                    <a
+                        href="adminreviews.html"
+                        style="
+                            color:#8b1e3f;
+                            text-decoration:none;
+                        "
+                    >
+                        →
+                    </a>
+
+                </div>
+
+            </div>
+
 
         </div>
 
     </div>
 
-</div>
+
+
+    <div class="footer">
+
+        Annapriya Admin Panel
+        &nbsp; | &nbsp;
+        Traditional Catering, Delivered With Care
+
+    </div>
+
+
+</main>
 
 
 
 <script>
 
+/* =====================================================
+   ADMIN DATA
+===================================================== */
 
-// =====================================================
-// API
-// =====================================================
-
-const API_BASE =
-    "http://localhost:5000/api";
-
-
-// =====================================================
-// TOKEN
-// =====================================================
-
-let token =
-    localStorage.getItem(
-        "adminToken"
-    )
-    ||
-    localStorage.getItem(
-        "annapriya_admin_token"
+const adminData =
+    JSON.parse(
+        localStorage.getItem("admin") || "null"
     );
 
 
-if (!token) {
+if (adminData) {
 
-    window.location.href =
-        "index.html";
+    const possibleNames = [
+        adminData.name,
+        adminData.full_name,
+        adminData.username,
+        adminData.adminName
+    ];
 
-}
-
-
-
-// =====================================================
-// HEADERS
-// =====================================================
-
-function getHeaders() {
-
-    return {
-
-        "Authorization":
-            `Bearer ${token}`,
-
-        "Content-Type":
-            "application/json"
-
-    };
-
-}
-
-
-
-// =====================================================
-// LOGOUT
-// =====================================================
-
-function logout() {
-
-    localStorage.removeItem(
-        "adminToken"
-    );
-
-    localStorage.removeItem(
-        "adminUsername"
-    );
-
-    localStorage.removeItem(
-        "annapriya_admin_token"
-    );
-
-    localStorage.removeItem(
-        "annapriya_admin"
-    );
-
-    window.location.href =
-        "index.html";
-
-}
-
-
-
-// =====================================================
-// SUMMARY
-// =====================================================
-
-async function loadSummary() {
-
-    try {
-
-        const response =
-            await fetch(
-
-                `${API_BASE}/admin/customers/summary`,
-
-                {
-                    headers:
-                        getHeaders()
-                }
-
-            );
-
-
-        const data =
-            await response.json();
-
-
-        if (
-            response.status === 401
-            ||
-            response.status === 403
-        ) {
-
-            logout();
-
-            return;
-
-        }
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                data.message
-                ||
-                "Could not load summary."
-            );
-
-        }
-
-
-        // Backend returns the counts inside data.summary.
-        // This also supports the older direct format.
-        const summary =
-            data.summary || data || {};
-
-
-        document.getElementById(
-            "totalCustomers"
-        ).textContent =
-            Number(
-                summary.totalCustomers
-            ) || 0;
-
-
-        document.getElementById(
-            "activeCustomers"
-        ).textContent =
-            Number(
-                summary.activeCustomers
-            ) || 0;
-
-
-        document.getElementById(
-            "blockedCustomers"
-        ).textContent =
-            Number(
-                summary.blockedCustomers
-            ) || 0;
-
-
-        document.getElementById(
-            "newCustomers"
-        ).textContent =
-            Number(
-                summary.newCustomers
-            ) || 0;
-
-
-    } catch (error) {
-
-        console.error(
-            "Summary error:",
-            error
+    const name =
+        possibleNames.find(
+            value =>
+                value &&
+                String(value).trim() !== ""
         );
+
+    if (name) {
+
+        document.getElementById(
+            "adminName"
+        ).textContent = name;
 
     }
 
 }
 
 
+/* =====================================================
+   LOAD CUSTOMER DASHBOARD DATA
+===================================================== */
 
-// =====================================================
-// CURRENT STATUS
-// =====================================================
+async function loadCustomerDashboard() {
 
-let currentStatus = "";
+    try {
+
+        const token =
+            localStorage.getItem("adminToken");
 
 
+        /*
+            Try the admin customer endpoint.
 
-// =====================================================
-// SELECT TAB
-// =====================================================
+            This should connect to the customer
+            management backend already created.
+        */
 
-function selectTab(
-    status,
-    button
-) {
+        const response =
+            await fetch(
+                "http://localhost:5000/api/admin/customers",
+                {
+                    headers: token
+                        ? {
+                            "Authorization":
+                                "Bearer " + token
+                        }
+                        : {}
+                }
+            );
 
-    document
-        .querySelectorAll(
-            ".tab-btn"
-        )
-        .forEach(
-            btn => {
 
-                btn.classList.remove(
-                    "active"
+        if (!response.ok) {
+
+            throw new Error(
+                "Customer API returned " +
+                response.status
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Admin customer data:",
+            data
+        );
+
+
+        const customers =
+            data.customers ||
+            data.users ||
+            data.data ||
+            [];
+
+
+        updateCustomerDashboard(
+            customers
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Could not load customer dashboard:",
+            error
+        );
+
+        /*
+            Do not crash the page if the backend
+            endpoint is temporarily unavailable.
+        */
+
+    }
+
+}
+
+
+/* =====================================================
+   UPDATE CUSTOMER COUNTS
+===================================================== */
+
+function updateCustomerDashboard(customers) {
+
+
+    if (!Array.isArray(customers)) {
+
+        return;
+
+    }
+
+
+    const total =
+        customers.length;
+
+
+    const active =
+        customers.filter(
+            customer =>
+                String(
+                    customer.status || "active"
+                ).toLowerCase() === "active"
+        ).length;
+
+
+    const blocked =
+        customers.filter(
+            customer =>
+                String(
+                    customer.status || ""
+                ).toLowerCase() === "blocked"
+        ).length;
+
+
+    /*
+        New customers = registered during
+        the last 30 days.
+    */
+
+    const now =
+        new Date();
+
+
+    const newCustomers =
+        customers.filter(
+            customer => {
+
+                const created =
+                    customer.created_at ||
+                    customer.createdAt;
+
+                if (!created) {
+
+                    return false;
+
+                }
+
+                const createdDate =
+                    new Date(created);
+
+                const difference =
+                    now - createdDate;
+
+                const thirtyDays =
+                    30 *
+                    24 *
+                    60 *
+                    60 *
+                    1000;
+
+                return (
+                    difference >= 0 &&
+                    difference <= thirtyDays
                 );
 
             }
-        );
+        ).length;
 
 
-    button.classList.add(
-        "active"
+    /* MAIN CARDS */
+
+    setText(
+        "totalCustomers",
+        total
+    );
+
+    setText(
+        "activeCustomers",
+        active
+    );
+
+    setText(
+        "blockedCustomers",
+        blocked
+    );
+
+    setText(
+        "newCustomers",
+        newCustomers
     );
 
 
-    currentStatus =
-        status;
+    /* OVERVIEW */
+
+    setText(
+        "overviewTotal",
+        total
+    );
+
+    setText(
+        "overviewActive",
+        active
+    );
+
+    setText(
+        "overviewBlocked",
+        blocked
+    );
 
 
-    document.getElementById(
-        "statusFilter"
-    ).value =
-        status;
+    /* STATUS */
+
+    setText(
+        "statusActive",
+        active
+    );
+
+    setText(
+        "statusBlocked",
+        blocked
+    );
+
+    setText(
+        "statusNew",
+        newCustomers
+    );
+
+    setText(
+        "statusUsers",
+        total
+    );
 
 
-    loadCustomers();
+    /* RECENT CUSTOMERS */
 
-}
-
-
-
-// =====================================================
-// LOAD CUSTOMERS
-// =====================================================
-
-async function loadCustomers() {
-
-    const search =
-        document.getElementById(
-            "searchInput"
-        ).value.trim();
-
-
-    const status =
-        document.getElementById(
-            "statusFilter"
-        ).value;
-
-
-    currentStatus =
-        status;
-
-
-    const params =
-        new URLSearchParams();
-
-
-    if (search) {
-
-        params.append(
-            "search",
-            search
-        );
-
-    }
-
-
-    if (status) {
-
-        params.append(
-            "status",
-            status
-        );
-
-    }
-
-
-    const tbody =
-        document.getElementById(
-            "customerTableBody"
-        );
-
-
-    tbody.innerHTML = `
-
-        <tr>
-
-            <td
-                colspan="7"
-                class="empty-msg"
-            >
-                Loading customers...
-            </td>
-
-        </tr>
-
-    `;
-
-
-    try {
-
-        const response =
-            await fetch(
-
-                `${API_BASE}/admin/customers?${params.toString()}`,
-
-                {
-                    headers:
-                        getHeaders()
-                }
-
-            );
-
-
-        const data =
-            await response.json();
-
-
-        if (
-            response.status === 401
-            ||
-            response.status === 403
-        ) {
-
-            logout();
-
-            return;
-
-        }
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                data.message
-                ||
-                "Could not load customers."
-            );
-
-        }
-
-
-        renderCustomers(
-            data.customers || []
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            "Customer error:",
-            error
-        );
-
-
-        tbody.innerHTML = `
-
-            <tr>
-
-                <td
-                    colspan="7"
-                    class="error-msg"
-                >
-
-                    ${escapeHtml(
-                        error.message
-                    )}
-
-                </td>
-
-            </tr>
-
-        `;
-
-    }
+    displayRecentCustomers(
+        customers
+    );
 
 }
 
 
+/* =====================================================
+   DISPLAY RECENT CUSTOMERS
+===================================================== */
 
-// =====================================================
-// RENDER CUSTOMERS
-// =====================================================
-
-function renderCustomers(
+function displayRecentCustomers(
     customers
 ) {
 
-    const tbody =
+    const body =
         document.getElementById(
-            "customerTableBody"
+            "recentCustomersBody"
         );
 
 
-    if (
-        customers.length === 0
-    ) {
+    if (!body) {
 
-        tbody.innerHTML = `
+        return;
 
+    }
+
+
+    const sorted =
+        [...customers].sort(
+            (a, b) => {
+
+                const dateA =
+                    new Date(
+                        a.created_at ||
+                        a.createdAt ||
+                        0
+                    );
+
+                const dateB =
+                    new Date(
+                        b.created_at ||
+                        b.createdAt ||
+                        0
+                    );
+
+                return dateB - dateA;
+
+            }
+        );
+
+
+    const recent =
+        sorted.slice(0, 5);
+
+
+    if (recent.length === 0) {
+
+        body.innerHTML = `
             <tr>
-
-                <td
-                    colspan="7"
-                    class="empty-msg"
-                >
+                <td colspan="4">
                     No customers found.
                 </td>
-
             </tr>
-
         `;
 
         return;
@@ -1772,995 +1708,129 @@ function renderCustomers(
     }
 
 
-    tbody.innerHTML =
-        customers
-            .map(
-                customer => {
+    body.innerHTML =
+        recent.map(
+            customer => {
 
-                    const status =
-                        customer.status ===
-                        "blocked"
-                            ? "blocked"
-                            : "active";
+                const name =
+                    customer.full_name ||
+                    customer.fullName ||
+                    customer.name ||
+                    "Unknown";
 
 
-                    const statusText =
-                        status === "blocked"
-                            ? "Blocked"
-                            : "Active";
+                const phone =
+                    customer.phone ||
+                    "-";
 
 
-                    const actionClass =
-                        status === "blocked"
-                            ? "unblock-btn"
-                            : "block-btn";
+                const created =
+                    customer.created_at ||
+                    customer.createdAt;
 
 
-                    const actionText =
-                        status === "blocked"
-                            ? "Unblock"
-                            : "Block";
+                const joined =
+                    created
+                        ? formatDate(created)
+                        : "-";
 
 
-                    return `
+                const status =
+                    String(
+                        customer.status ||
+                        "active"
+                    ).toLowerCase();
 
-                        <tr>
 
+                const statusClass =
+                    status === "blocked"
+                        ? "blocked"
+                        : "active";
 
-                            <td>
 
-                                <div
-                                    class="customer-name"
-                                >
+                return `
 
-                                    ${escapeHtml(
-                                        customer.full_name
-                                    )}
+                    <tr>
 
-                                </div>
+                        <td>
 
-
-                                <div
-                                    class="customer-id"
-                                >
-
-                                    #${customer.customer_id}
-
-                                </div>
-
-                            </td>
-
-
-                            <td>
-
-                                <div
-                                    class="contact-email"
-                                >
-
-                                    ${escapeHtml(
-                                        customer.email
-                                    )}
-
-                                </div>
-
-                            </td>
-
-
-                            <td>
-
-                                <div
-                                    class="contact-phone"
-                                >
-
-                                    ${escapeHtml(
-                                        customer.phone
-                                    )}
-
-                                </div>
-
-                            </td>
-
-
-                            <td>
-
-                                ${escapeHtml(
-                                    customer.gender
-                                )}
-
-                            </td>
-
-
-                            <td>
-
-                                ${formatDate(
-                                    customer.created_at
-                                )}
-
-                            </td>
-
-
-                            <td>
-
-                                <span
-                                    class="
-                                        status-badge
-                                        status-${status}
-                                    "
-                                >
-
-                                    ${statusText}
-
-                                </span>
-
-                            </td>
-
-
-                            <td>
-
-                                <div
-                                    class="action-cell"
-                                >
-
-
-                                    <button
-                                        class="
-                                            action-btn
-                                            view-btn
-                                        "
-                                        onclick="
-                                            viewCustomer(
-                                                ${customer.customer_id}
-                                            )
-                                        "
-                                    >
-                                        View
-                                    </button>
-
-
-                                    <button
-                                        class="
-                                            action-btn
-                                            ${actionClass}
-                                        "
-                                        onclick="
-                                            changeStatus(
-                                                ${customer.customer_id},
-                                                '${status}'
-                                            )
-                                        "
-                                    >
-
-                                        ${actionText}
-
-                                    </button>
-
-
-                                </div>
-
-                            </td>
-
-
-                        </tr>
-
-                    `;
-
-                }
-            )
-            .join("");
-
-}
-
-
-
-// =====================================================
-// VIEW CUSTOMER
-// =====================================================
-
-async function viewCustomer(
-    customerId
-) {
-
-    const modal =
-        document.getElementById(
-            "customerModal"
-        );
-
-
-    const info =
-        document.getElementById(
-            "customerInfo"
-        );
-
-
-    const bookings =
-        document.getElementById(
-            "bookingHistory"
-        );
-
-
-    const reviews =
-        document.getElementById(
-            "reviewHistory"
-        );
-
-
-    modal.classList.add(
-        "show"
-    );
-
-
-    info.innerHTML = `
-
-        <p class="no-data">
-            Loading customer details...
-        </p>
-
-    `;
-
-
-    bookings.innerHTML = `
-
-        <p class="no-data">
-            Loading booking history...
-        </p>
-
-    `;
-
-
-    reviews.innerHTML = `
-
-        <p class="no-data">
-            Loading reviews...
-        </p>
-
-    `;
-
-
-    try {
-
-        const response =
-            await fetch(
-
-                `${API_BASE}/admin/customers/${customerId}`,
-
-                {
-                    headers:
-                        getHeaders()
-                }
-
-            );
-
-
-        const data =
-            await response.json();
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                data.message
-                ||
-                "Could not load customer details."
-            );
-
-        }
-
-
-        const customer =
-            data.customer;
-
-
-
-        // =============================================
-        // CUSTOMER DETAILS
-        // =============================================
-
-        info.innerHTML = `
-
-            <div class="info-box">
-
-                <small>
-                    Customer ID
-                </small>
-
-                <strong>
-                    #${customer.customer_id}
-                </strong>
-
-            </div>
-
-
-            <div class="info-box">
-
-                <small>
-                    Name
-                </small>
-
-                <strong>
-                    ${escapeHtml(
-                        customer.full_name
-                    )}
-                </strong>
-
-            </div>
-
-
-            <div class="info-box">
-
-                <small>
-                    Email
-                </small>
-
-                <strong>
-                    ${escapeHtml(
-                        customer.email
-                    )}
-                </strong>
-
-            </div>
-
-
-            <div class="info-box">
-
-                <small>
-                    Phone
-                </small>
-
-                <strong>
-                    ${escapeHtml(
-                        customer.phone
-                    )}
-                </strong>
-
-            </div>
-
-
-            <div class="info-box">
-
-                <small>
-                    Gender
-                </small>
-
-                <strong>
-                    ${escapeHtml(
-                        customer.gender
-                    )}
-                </strong>
-
-            </div>
-
-
-            <div class="info-box">
-
-                <small>
-                    Joined
-                </small>
-
-                <strong>
-                    ${formatDate(
-                        customer.created_at
-                    )}
-                </strong>
-
-            </div>
-
-
-            <div class="info-box">
-
-                <small>
-                    Account Status
-                </small>
-
-                <strong>
-
-                    ${
-                        customer.status ===
-                        "blocked"
-                            ? "Blocked"
-                            : "Active"
-                    }
-
-                </strong>
-
-            </div>
-
-
-            <div class="info-box">
-
-                <small>
-                    Address
-                </small>
-
-                <strong>
-                    ${escapeHtml(
-                        customer.address
-                    )}
-                </strong>
-
-            </div>
-
-        `;
-
-
-
-        // =============================================
-        // BOOKING HISTORY
-        // =============================================
-
-        const bookingList =
-            data.bookings || [];
-
-
-        if (
-            bookingList.length === 0
-        ) {
-
-            bookings.innerHTML = `
-
-                <p class="no-data">
-                    No booking history found.
-                </p>
-
-            `;
-
-        } else {
-
-            bookings.innerHTML =
-                bookingList
-                    .map(
-                        booking => `
-
-                            <div
-                                class="history-card"
-                            >
-
-                                <div
-                                    class="history-top"
-                                >
-
-                                    <strong>
-
-                                        ${escapeHtml(
-                                            booking.event_type
-                                            ||
-                                            "Event"
-                                        )}
-
-                                    </strong>
-
-
-                                    <span
-                                        class="
-                                            status-badge
-                                            status-active
-                                        "
-                                    >
-
-                                        ${escapeHtml(
-                                            booking.status
-                                            ||
-                                            "Pending"
-                                        )}
-
-                                    </span>
-
-                                </div>
-
-
-                                <p>
-
-                                    <strong>
-                                        Caterer:
-                                    </strong>
-
-                                    ${escapeHtml(
-                                        booking.caterer_name
-                                        ||
-                                        booking.caterer_email
-                                        ||
-                                        "-"
-                                    )}
-
-                                    <br>
-
-
-                                    <strong>
-                                        Event Date:
-                                    </strong>
-
-                                    ${formatDate(
-                                        booking.event_date
-                                    )}
-
-                                    <br>
-
-
-                                    <strong>
-                                        Guests:
-                                    </strong>
-
-                                    ${escapeHtml(
-                                        booking.guest_count
-                                        ||
-                                        "-"
-                                    )}
-
-                                    <br>
-
-
-                                    <strong>
-                                        Venue:
-                                    </strong>
-
-                                    ${escapeHtml(
-                                        booking.venue_location
-                                        ||
-                                        "-"
-                                    )}
-
-                                </p>
-
+                            <div class="customer-name">
+                                ${escapeHtml(name)}
                             </div>
 
-                        `
-                    )
-                    .join("");
+                        </td>
 
-        }
+                        <td>
+                            ${escapeHtml(phone)}
+                        </td>
 
+                        <td>
+                            ${joined}
+                        </td>
 
+                        <td>
 
-        // =============================================
-        // REVIEWS
-        // =============================================
+                            <span
+                                class="badge ${statusClass}"
+                            >
+                                ${status}
+                            </span>
 
-        const reviewList =
-            Array.isArray(data.reviews)
-                ? data.reviews
-                : [];
+                        </td>
 
+                    </tr>
 
-        if (
-            reviewList.length === 0
-        ) {
-
-            reviews.innerHTML = `
-
-                <p class="no-data">
-                    This customer has not written
-                    any reviews yet.
-                </p>
-
-            `;
-
-        } else {
-
-            reviews.innerHTML =
-                reviewList
-                    .map(
-                        review => {
-
-                            const rating =
-                                Math.max(
-                                    0,
-                                    Math.min(
-                                        5,
-                                        Number(
-                                            review.rating
-                                        ) || 0
-                                    )
-                                );
-
-
-                            const stars =
-                                "★".repeat(
-                                    rating
-                                )
-                                +
-                                "☆".repeat(
-                                    5 - rating
-                                );
-
-
-                            return `
-
-                                <div
-                                    class="review-card"
-                                >
-
-                                    <div
-                                        class="review-header"
-                                    >
-
-                                        <div>
-
-                                            <strong>
-
-                                                ${escapeHtml(
-                                                    review.caterer_name
-                                                    ||
-                                                    "Caterer"
-                                                )}
-
-                                            </strong>
-
-
-                                            <div
-                                                class="stars"
-                                            >
-
-                                                ${stars}
-
-                                            </div>
-
-                                        </div>
-
-
-                                        <span
-                                            class="review-date"
-                                        >
-
-                                            ${formatDate(
-                                                review.created_at
-                                            )}
-
-                                        </span>
-
-                                    </div>
-
-
-                                    <div
-                                        class="review-text"
-                                    >
-
-                                        ${escapeHtml(
-                                            review.review_text
-                                            ||
-                                            "No review text."
-                                        )}
-
-                                    </div>
-
-                                </div>
-
-                            `;
-
-                        }
-                    )
-                    .join("");
-
-        }
-
-
-    } catch (error) {
-
-        console.error(
-            "View customer error:",
-            error
-        );
-
-
-        info.innerHTML = `
-
-            <p class="error-msg">
-
-                ${escapeHtml(
-                    error.message
-                )}
-
-            </p>
-
-        `;
-
-
-        bookings.innerHTML = "";
-
-        reviews.innerHTML = "";
-
-    }
-
-}
-
-
-
-// =====================================================
-// BLOCK / UNBLOCK
-// =====================================================
-
-async function changeStatus(
-    customerId,
-    currentStatus
-) {
-
-    const newStatus =
-        currentStatus === "blocked"
-            ? "active"
-            : "blocked";
-
-
-    const action =
-        newStatus === "blocked"
-            ? "block"
-            : "unblock";
-
-
-    const confirmed =
-        confirm(
-
-            `Are you sure you want to ${action} this customer?`
-
-        );
-
-
-    if (!confirmed) {
-
-        return;
-
-    }
-
-
-    try {
-
-        const response =
-            await fetch(
-
-                `${API_BASE}/admin/customers/${customerId}/status`,
-
-                {
-
-                    method: "PUT",
-
-                    headers:
-                        getHeaders(),
-
-                    body:
-                        JSON.stringify({
-
-                            status:
-                                newStatus
-
-                        })
-
-                }
-
-            );
-
-
-        const data =
-            await response.json();
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                data.message
-                ||
-                "Could not update customer."
-            );
-
-        }
-
-
-        alert(
-            data.message
-            ||
-            "Customer status updated."
-        );
-
-
-        // Refresh summary numbers
-        await loadSummary();
-
-
-        // Refresh customer table
-        await loadCustomers();
-
-
-    } catch (error) {
-
-        console.error(
-            "Status error:",
-            error
-        );
-
-
-        alert(
-            error.message
-        );
-
-    }
-
-}
-
-
-
-// =====================================================
-// CLOSE MODAL
-// =====================================================
-
-function closeModal() {
-
-    document
-        .getElementById(
-            "customerModal"
-        )
-        .classList.remove(
-            "show"
-        );
-
-}
-
-
-
-// =====================================================
-// SEARCH
-// =====================================================
-
-let searchTimer;
-
-
-document
-    .getElementById(
-        "searchInput"
-    )
-    .addEventListener(
-        "input",
-        function () {
-
-            clearTimeout(
-                searchTimer
-            );
-
-
-            searchTimer =
-                setTimeout(
-                    () => {
-
-                        loadCustomers();
-
-                    },
-                    300
-                );
-
-        }
-    );
-
-
-
-// =====================================================
-// STATUS DROPDOWN
-// =====================================================
-
-document
-    .getElementById(
-        "statusFilter"
-    )
-    .addEventListener(
-        "change",
-        function () {
-
-            const selected =
-                this.value;
-
-
-            currentStatus =
-                selected;
-
-
-            document
-                .querySelectorAll(
-                    ".tab-btn"
-                )
-                .forEach(
-                    btn => {
-
-                        btn.classList.remove(
-                            "active"
-                        );
-
-                    }
-                );
-
-
-            const matchingTab =
-                document.querySelector(
-                    `.tab-btn[data-status="${selected}"]`
-                );
-
-
-            if (matchingTab) {
-
-                matchingTab.classList.add(
-                    "active"
-                );
+                `;
 
             }
+        ).join("");
+
+}
 
 
-            loadCustomers();
+/* =====================================================
+   HELPERS
+===================================================== */
 
-        }
-    );
-
-
-
-// =====================================================
-// CLOSE MODAL WHEN CLICKING OUTSIDE
-// =====================================================
-
-document
-    .getElementById(
-        "customerModal"
-    )
-    .addEventListener(
-        "click",
-        function (event) {
-
-            if (
-                event.target === this
-            ) {
-
-                closeModal();
-
-            }
-
-        }
-    );
-
-
-
-// =====================================================
-// ESC CLOSE
-// =====================================================
-
-document.addEventListener(
-    "keydown",
-    function (event) {
-
-        if (
-            event.key === "Escape"
-        ) {
-
-            closeModal();
-
-        }
-
-    }
-);
-
-
-
-// =====================================================
-// DATE
-// =====================================================
-
-function formatDate(
+function setText(
+    id,
     value
 ) {
 
-    if (!value) {
+    const element =
+        document.getElementById(id);
+
+
+    if (element) {
+
+        element.textContent =
+            value;
+
+    }
+
+}
+
+
+function formatDate(
+    date
+) {
+
+    const d =
+        new Date(date);
+
+
+    if (
+        Number.isNaN(
+            d.getTime()
+        )
+    ) {
 
         return "-";
 
     }
 
 
-    const date =
-        new Date(value);
-
-
-    if (
-        Number.isNaN(
-            date.getTime()
-        )
-    ) {
-
-        return value;
-
-    }
-
-
-    return date.toLocaleDateString(
+    return d.toLocaleDateString(
         "en-IN",
         {
             day: "2-digit",
@@ -2772,66 +1842,55 @@ function formatDate(
 }
 
 
-
-// =====================================================
-// HTML ESCAPE
-// =====================================================
-
 function escapeHtml(
     value
 ) {
 
-    if (
-        value === null
-        ||
-        value === undefined
-    ) {
-
-        return "";
-
-    }
-
-
     return String(value)
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
 
 }
 
 
+/* =====================================================
+   LOGOUT
+===================================================== */
 
-// =====================================================
-// INITIAL LOAD
-// =====================================================
+function logoutAdmin() {
 
-loadSummary();
+    localStorage.removeItem(
+        "adminToken"
+    );
 
-loadCustomers();
+    localStorage.removeItem(
+        "admin"
+    );
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        loadCustomerDashboard();
+
+    }
+);
 
 </script>
+
 
 </body>
 
