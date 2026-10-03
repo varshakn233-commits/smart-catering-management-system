@@ -126,13 +126,34 @@
 
             flex-direction: column;
 
-            overflow-y: auto;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            scrollbar-width: auto;
+            scrollbar-color: #FFFFFF #1C1C1C;
 
             box-shadow:
                 4px 0 18px rgba(0, 0, 0, 0.10);
 
             z-index: 1000;
 
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 9px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #1C1C1C;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #FFFFFF;
+            border-radius: 2px;
+            border: 1px solid #1C1C1C;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #E8E8E8;
         }
 
 

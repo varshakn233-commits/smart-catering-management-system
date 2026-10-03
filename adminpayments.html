@@ -73,52 +73,53 @@
         ===================================================== */
 
         .sidebar {
-            width: 245px;
-            min-height: 100vh;
-            background: var(--accent);
-            color: var(--white);
-
             position: fixed;
             left: 0;
             top: 0;
-            bottom: 0;
-
+            width: 245px;
+            height: 100vh;
+            background: var(--accent);
+            color: white;
+            padding: 25px 18px;
             display: flex;
             flex-direction: column;
-
-            padding: 28px 14px 18px;
-
-            overflow-y: auto;
-            z-index: 100;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            scrollbar-width: auto;
+            scrollbar-color: #FFFFFF #1C1C1C;
+            box-shadow: 4px 0 18px rgba(0, 0, 0, 0.10);
+            z-index: 1000;
         }
 
-
-        /* LOGO */
+        .sidebar::-webkit-scrollbar { width: 9px; }
+        .sidebar::-webkit-scrollbar-track { background: #1C1C1C; }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #FFFFFF;
+            border-radius: 2px;
+            border: 1px solid #1C1C1C;
+        }
+        .sidebar::-webkit-scrollbar-thumb:hover { background: #E8E8E8; }
 
         .brand {
             text-align: center;
-            padding: 0 10px 25px;
+            margin-bottom: 30px;
         }
 
-        .brand-name {
-            font-family: Georgia, "Times New Roman", serif;
-            font-size: 30px;
-            font-weight: 700;
+        .brand h2 {
+            font-size: 28px;
             color: var(--highlight);
-            letter-spacing: -0.5px;
+            font-family: Georgia, serif;
+            letter-spacing: 0.5px;
         }
 
-        .brand-subtitle {
-            margin-top: 5px;
-            font-size: 12px;
-            letter-spacing: 1.5px;
-            color: #aaa;
+        .brand span {
+            display: block;
+            margin-top: 6px;
+            color: #999;
+            font-size: 10px;
+            letter-spacing: 1.7px;
+            text-transform: uppercase;
         }
-
-
-        /* =====================================================
-           SIDEBAR NAVIGATION
-        ===================================================== */
 
         .sidebar-nav {
             display: flex;
@@ -129,61 +130,46 @@
         .sidebar-nav a,
         .sidebar-bottom a {
             text-decoration: none;
-
+            color: #DDD;
+            padding: 13px 14px;
+            border-radius: 9px;
             display: flex;
             align-items: center;
-            gap: 13px;
-
-            padding: 13px 16px;
-
-            border-radius: 9px;
-
-            color: rgba(255,255,255,0.88);
-
+            gap: 11px;
             font-size: 14px;
-            font-weight: 500;
-
-            transition: 0.2s ease;
+            transition: all 0.25s ease;
         }
 
         .sidebar-nav a:hover,
         .sidebar-bottom a:hover {
-            background: #292929;
-            color: var(--white);
+            background: var(--primary);
+            color: white;
+            transform: translateX(2px);
         }
 
         .sidebar-nav a.active {
             background: var(--primary);
-            color: var(--white);
-            font-weight: 700;
-
+            color: white;
             box-shadow: 0 5px 15px rgba(139, 30, 63, 0.30);
         }
 
         .nav-icon {
-            width: 20px;
-            min-width: 20px;
-
+            width: 25px;
+            min-width: 25px;
             text-align: center;
-
-            font-size: 16px;
+            font-size: 17px;
         }
-
-
-        /* =====================================================
-           SIDEBAR BOTTOM
-        ===================================================== */
 
         .sidebar-bottom {
             margin-top: auto;
             padding-top: 20px;
-
             border-top: 1px solid rgba(255,255,255,0.08);
         }
 
-        .sidebar-bottom a:last-child {
-            color: #ff9b9b;
+        .sidebar-bottom a.logout {
+            color: #FFB3B3 !important;
         }
+
 
 
         /* =====================================================
@@ -996,73 +982,25 @@
     <aside class="sidebar">
 
         <div class="brand">
-            <div class="brand-name">Annapriya</div>
-            <div class="brand-subtitle">ADMIN PANEL</div>
+            <h2>Annapriya</h2>
+            <span>ADMIN PANEL</span>
         </div>
 
-
         <nav class="sidebar-nav">
-
-            <a href="admindashboard.html">
-                <span class="nav-icon">🏠</span>
-                <span>Dashboard</span>
-            </a>
-
-            <a href="adminusers.html">
-                <span class="nav-icon">👥</span>
-                <span>Manage Users</span>
-            </a>
-
-            <a href="admincaterers.html">
-                <span class="nav-icon">👨‍🍳</span>
-                <span>Manage Caterers</span>
-            </a>
-
-            <a href="adminenquiries.html">
-                <span class="nav-icon">✉️</span>
-                <span>Customer Enquiries</span>
-            </a>
-
-            <a href="adminbookings.html">
-                <span class="nav-icon">🗓️</span>
-                <span>Manage Bookings</span>
-            </a>
-
-            <a href="adminpayments.html" class="active">
-                <span class="nav-icon">💳</span>
-                <span>Manage Payments</span>
-            </a>
-
-            <a href="adminreviews.html">
-                <span class="nav-icon">⭐</span>
-                <span>Manage Reviews</span>
-            </a>
-
-            <a href="adminreports.html">
-                <span class="nav-icon">📊</span>
-                <span>Reports &amp; Analytics</span>
-            </a>
-
-            <a href="adminsettings.html">
-                <span class="nav-icon">⚙️</span>
-                <span>System Settings</span>
-            </a>
-
+            <a href="admindashboard.html"><span class="nav-icon">🏠</span><span>Dashboard</span></a>
+            <a href="adminusers.html"><span class="nav-icon">👥</span><span>Manage Users</span></a>
+            <a href="admincaterers.html"><span class="nav-icon">👨‍🍳</span><span>Manage Caterers</span></a>
+            <a href="adminenquiries.html"><span class="nav-icon">✉️</span><span>Customer Enquiries</span></a>
+            <a href="adminbookings.html"><span class="nav-icon">🗓️</span><span>Manage Bookings</span></a>
+            <a href="adminpayments.html" class="active"><span class="nav-icon">💳</span><span>Manage Payments</span></a>
+            <a href="adminreviews.html"><span class="nav-icon">⭐</span><span>Manage Reviews</span></a>
+            <a href="adminreports.html"><span class="nav-icon">📊</span><span>Reports &amp; Analytics</span></a>
+            <a href="adminsettings.html"><span class="nav-icon">⚙️</span><span>System Settings</span></a>
         </nav>
 
-
         <div class="sidebar-bottom">
-
-            <a href="adminprofile.html">
-                <span class="nav-icon">👤</span>
-                <span>Account Settings</span>
-            </a>
-
-            <a href="#" id="logoutBtn">
-                <span class="nav-icon">🚪</span>
-                <span>Logout</span>
-            </a>
-
+            <a href="adminprofile.html"><span class="nav-icon">👤</span><span>Account Settings</span></a>
+            <a href="#" id="logoutBtn" class="logout"><span class="nav-icon">🚪</span><span>Logout</span></a>
         </div>
 
     </aside>

@@ -92,21 +92,19 @@
 
         /* =====================================================
            SIDEBAR
+           EXACT SAME STYLE AS ADMIN USERS
         ===================================================== */
 
         .sidebar {
 
             position: fixed;
-
             left: 0;
-
             top: 0;
 
             width: 245px;
-
             height: 100vh;
 
-            background: #1C1C1C;
+            background: var(--accent);
 
             color: white;
 
@@ -116,46 +114,77 @@
 
             flex-direction: column;
 
-            overflow-y: auto;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            scrollbar-width: auto;
+            scrollbar-color: #FFFFFF #1C1C1C;
+
+            box-shadow:
+                4px 0 18px rgba(0, 0, 0, 0.10);
 
             z-index: 1000;
 
         }
 
+        .sidebar::-webkit-scrollbar {
+            width: 9px;
+        }
 
-        .logo {
+        .sidebar::-webkit-scrollbar-track {
+            background: #1C1C1C;
+        }
 
-            font-family: Georgia, serif;
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #FFFFFF;
+            border-radius: 2px;
+            border: 1px solid #1C1C1C;
+        }
 
-            font-size: 27px;
-
-            font-weight: bold;
-
-            color: #D4A373;
-
-            text-align: center;
-
-            margin-bottom: 8px;
-
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #E8E8E8;
         }
 
 
-        .admin-label {
+        .brand {
 
             text-align: center;
-
-            color: #aaa;
-
-            font-size: 12px;
 
             margin-bottom: 30px;
 
-            letter-spacing: 1px;
+        }
+
+
+        .brand h2 {
+
+            font-size: 28px;
+
+            color: var(--highlight);
+
+            font-family: Georgia, serif;
+
+            letter-spacing: 0.5px;
 
         }
 
 
-        .nav-links {
+        .brand span {
+
+            display: block;
+
+            margin-top: 6px;
+
+            color: #999;
+
+            font-size: 10px;
+
+            letter-spacing: 1.7px;
+
+            text-transform: uppercase;
+
+        }
+
+
+        .sidebar-nav {
 
             display: flex;
 
@@ -166,11 +195,12 @@
         }
 
 
-        .nav-links a {
+        .sidebar-nav a,
+        .sidebar-bottom a {
 
             text-decoration: none;
 
-            color: #ddd;
+            color: #DDD;
 
             padding: 13px 14px;
 
@@ -184,27 +214,31 @@
 
             font-size: 14px;
 
-            transition: 0.2s;
+            transition: all 0.25s ease;
 
         }
 
 
-        .nav-links a:hover {
+        .sidebar-nav a:hover,
+        .sidebar-bottom a:hover {
 
-            background: #8B1E3F;
+            background: var(--primary);
 
             color: white;
+
+            transform: translateX(2px);
 
         }
 
 
-        .nav-links a.active {
+        .sidebar-nav a.active {
 
-            background: #8B1E3F;
+            background: var(--primary);
 
             color: white;
 
-            font-weight: 700;
+            box-shadow:
+                0 5px 15px rgba(139, 30, 63, 0.30);
 
         }
 
@@ -212,6 +246,8 @@
         .nav-icon {
 
             width: 25px;
+
+            min-width: 25px;
 
             text-align: center;
 
@@ -226,35 +262,8 @@
 
             padding-top: 20px;
 
-        }
-
-
-        .sidebar-bottom a {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 11px;
-
-            text-decoration: none;
-
-            color: #ddd;
-
-            padding: 13px 14px;
-
-            border-radius: 9px;
-
-            margin-top: 7px;
-
-            font-size: 14px;
-
-        }
-
-
-        .sidebar-bottom a:hover {
-
-            background: #8B1E3F;
+            border-top:
+                1px solid rgba(255,255,255,0.08);
 
         }
 
@@ -273,7 +282,7 @@
         .main {
 
             margin-left: 245px;
-
+            width: calc(100% - 245px);
             padding: 0;
 
             min-height: 100vh;
@@ -1628,57 +1637,20 @@
 
         }
 
-
         @media (max-width: 1000px) {
 
-            .sidebar {
-
-                width: 210px;
-
-            }
-
-
-            .main {
-
-                margin-left: 210px;
-
-            }
-
-
             .content {
-
                 padding: 30px 25px;
-
             }
-
 
             .event-sections {
-
                 grid-template-columns: 1fr;
-
             }
 
         }
 
 
         @media (max-width: 750px) {
-
-            .sidebar {
-
-                position: static;
-
-                width: 100%;
-
-                height: auto;
-
-            }
-
-
-            .main {
-
-                margin-left: 0;
-
-            }
 
 
             .stats {
@@ -1774,6 +1746,49 @@
 
         }
 
+
+        /* =====================================================
+           SIDEBAR RESPONSIVE OVERRIDES
+           SAME BEHAVIOUR AS ADMIN USERS
+        ===================================================== */
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                width: 75px;
+                padding: 20px 10px;
+            }
+
+            .brand h2 {
+                font-size: 17px;
+            }
+
+            .brand span {
+                display: none;
+            }
+
+            .sidebar-nav a,
+            .sidebar-bottom a {
+                justify-content: center;
+                padding: 13px 5px;
+            }
+
+            .sidebar-nav a span:not(.nav-icon),
+            .sidebar-bottom a span:not(.nav-icon) {
+                display: none;
+            }
+
+            .main {
+                margin-left: 75px;
+                width: calc(100% - 75px);
+            }
+
+            .admin-details {
+                display: none;
+            }
+        }
+
+
     </style>
 
 </head>
@@ -1789,17 +1804,23 @@
 <aside class="sidebar">
 
 
-    <div class="logo">
-        Annapriya
+    <div class="brand">
+
+        <h2>
+            Annapriya
+        </h2>
+
+        <span>
+            Admin Panel
+        </span>
+
     </div>
 
 
-    <div class="admin-label">
-        ADMIN PANEL
-    </div>
 
 
-    <nav class="nav-links">
+
+    <nav class="sidebar-nav">
 
 
         <a href="admindashboard.html">
@@ -1831,7 +1852,7 @@
         <a href="admincaterers.html">
 
             <span class="nav-icon">
-                🧑‍🍳
+                👨‍🍳
             </span>
 
             <span>
@@ -1860,7 +1881,7 @@
         >
 
             <span class="nav-icon">
-                🗓️
+                📅
             </span>
 
             <span>

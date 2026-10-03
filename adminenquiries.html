@@ -1726,7 +1726,198 @@
 
         }
 
-    </style>
+    
+
+    /* =====================================================
+       ADMIN SIDEBAR — SAME AS ADMIN USERS PAGE
+       ===================================================== */
+
+    .sidebar {
+        position: fixed !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 245px !important;
+        height: 100vh !important;
+        min-height: 100vh !important;
+        box-sizing: border-box !important;
+        background: #1C1C1C !important;
+        color: #FFFFFF !important;
+        padding: 25px 18px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow-y: scroll !important;
+        overflow-x: hidden !important;
+        box-shadow: 4px 0 18px rgba(0,0,0,0.10) !important;
+        z-index: 1000 !important;
+        scrollbar-width: auto !important;
+        scrollbar-color: #FFFFFF #1C1C1C !important;
+    }
+
+    /* White sliding scrollbar/thumb on the black sidebar */
+    .sidebar::-webkit-scrollbar {
+        width: 9px;
+    }
+
+    .sidebar::-webkit-scrollbar-track {
+        background: #1C1C1C;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb {
+        background: #FFFFFF;
+        border-radius: 2px;
+        border: 1px solid #1C1C1C;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb:hover {
+        background: #E8E8E8;
+    }
+
+    .brand {
+        flex-shrink: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        margin: 0 0 30px !important;
+        text-align: center !important;
+    }
+
+    .brand h2 {
+        font-family: Georgia, serif !important;
+        font-size: 28px !important;
+        font-weight: bold !important;
+        color: #D4A373 !important;
+        letter-spacing: 0.5px !important;
+        margin: 0 !important;
+    }
+
+    .brand span {
+        display: block !important;
+        margin-top: 7px !important;
+        font-size: 11px !important;
+        letter-spacing: 1.5px !important;
+        color: #999999 !important;
+        text-transform: uppercase !important;
+    }
+
+    .sidebar-nav {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 7px !important;
+        flex-shrink: 0 !important;
+    }
+
+    .sidebar-nav a,
+    .sidebar-bottom a {
+        text-decoration: none !important;
+        color: #DDDDDD !important;
+        padding: 13px 14px !important;
+        border-radius: 9px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 11px !important;
+        font-size: 14px !important;
+        line-height: 1.2 !important;
+        white-space: nowrap !important;
+        transition: all 0.25s ease !important;
+        box-sizing: border-box !important;
+    }
+
+    .sidebar-nav a:hover,
+    .sidebar-bottom a:hover {
+        background: #8B1E3F !important;
+        color: #FFFFFF !important;
+        transform: translateX(2px) !important;
+    }
+
+    .sidebar-nav a.active {
+        background: #8B1E3F !important;
+        color: #FFFFFF !important;
+        font-weight: 700 !important;
+        box-shadow: 0 5px 15px rgba(139,30,63,0.30) !important;
+    }
+
+    .nav-icon {
+        width: 25px !important;
+        min-width: 25px !important;
+        text-align: center !important;
+        font-size: 17px !important;
+        flex-shrink: 0 !important;
+    }
+
+    .sidebar-bottom {
+        margin-top: 20px !important;
+        padding-top: 20px !important;
+        padding-bottom: 12px !important;
+        border-top: 1px solid rgba(255,255,255,0.08) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 7px !important;
+        flex-shrink: 0 !important;
+    }
+
+    .sidebar-bottom a {
+        margin-bottom: 0 !important;
+    }
+
+    .sidebar-bottom .logout,
+    .logout {
+        color: #FFB3B3 !important;
+    }
+
+    .main,
+    .main-content {
+        margin-left: 245px !important;
+        width: calc(100% - 245px) !important;
+        min-height: 100vh !important;
+    }
+
+    @media (max-width: 800px) {
+        .sidebar {
+            width: 75px !important;
+            padding: 20px 10px !important;
+        }
+
+        .brand h2 {
+            font-size: 17px !important;
+        }
+
+        .brand span {
+            display: none !important;
+        }
+
+        .sidebar-nav a,
+        .sidebar-bottom a {
+            justify-content: center !important;
+            padding: 13px 5px !important;
+        }
+
+        .sidebar-nav a span:not(.nav-icon),
+        .sidebar-bottom a span:not(.nav-icon) {
+            display: none !important;
+        }
+
+        .main,
+        .main-content {
+            margin-left: 75px !important;
+            width: calc(100% - 75px) !important;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .sidebar {
+            position: static !important;
+            width: 100% !important;
+            height: auto !important;
+            min-height: auto !important;
+            overflow-y: visible !important;
+        }
+
+        .main,
+        .main-content {
+            margin-left: 0 !important;
+            width: 100% !important;
+        }
+    }
+</style>
 
 </head>
 
@@ -1740,134 +1931,69 @@
 
 <aside class="sidebar">
 
-
-    <div class="logo">
-        Annapriya
+    <div class="brand">
+        <h2>Annapriya</h2>
+        <span>Admin Panel</span>
     </div>
-
-
-    <div class="admin-label">
-        ADMIN PANEL
-    </div>
-
 
     <nav class="sidebar-nav">
-
-
         <a href="admindashboard.html">
-
             <span class="nav-icon">🏠</span>
-
             <span>Dashboard</span>
-
         </a>
-
 
         <a href="adminusers.html">
-
             <span class="nav-icon">👥</span>
-
             <span>Manage Users</span>
-
         </a>
-
 
         <a href="admincaterers.html">
-
-            <span class="nav-icon">🧑‍🍳</span>
-
+            <span class="nav-icon">👨‍🍳</span>
             <span>Manage Caterers</span>
-
         </a>
 
-
-        <a
-            href="adminenquiries.html"
-            class="active"
-        >
-
+        <a href="adminenquiries.html" class="active">
             <span class="nav-icon">✉️</span>
-
             <span>Customer Enquiries</span>
-
         </a>
-
 
         <a href="adminbookings.html">
-
-            <span class="nav-icon">🗓️</span>
-
+            <span class="nav-icon">📅</span>
             <span>Manage Bookings</span>
-
         </a>
-
 
         <a href="adminpayments.html">
-
             <span class="nav-icon">💳</span>
-
             <span>Manage Payments</span>
-
         </a>
-
 
         <a href="adminreviews.html">
-
             <span class="nav-icon">⭐</span>
-
             <span>Manage Reviews</span>
-
         </a>
-
 
         <a href="adminreports.html">
-
             <span class="nav-icon">📊</span>
-
-            <span>Reports & Analytics</span>
-
+            <span>Reports &amp; Analytics</span>
         </a>
-
 
         <a href="adminsettings.html">
-
             <span class="nav-icon">⚙️</span>
-
             <span>System Settings</span>
-
         </a>
-
-
     </nav>
 
-
     <div class="sidebar-bottom">
-
-
         <a href="adminprofile.html">
-
             <span class="nav-icon">👤</span>
-
             <span>Account Settings</span>
-
         </a>
 
-
-        <a
-            href="#"
-            class="logout-link"
-            onclick="logoutAdmin(event)"
-        >
-
-            <span class="nav-icon">◼</span>
-
+        <a href="#" class="logout" onclick="logoutAdmin(event)">
+            <span class="nav-icon">🚪</span>
             <span>Logout</span>
-
         </a>
-
-
     </div>
-
 
 </aside>
 

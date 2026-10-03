@@ -1,14 +1,10 @@
 const db = require("../config/db");
 
-
-// =====================================================
-// CREATE EVENT REQUEST
-// =====================================================
-
+/* =========================================================
+   CREATE EVENT REQUEST
+========================================================= */
 async function createRequest(req, res) {
-
     try {
-
         const {
             enquiryId,
             customerId,
@@ -29,105 +25,70 @@ async function createRequest(req, res) {
             catererEmail
         } = req.body;
 
-
-        // =================================================
-        // VALIDATE REQUIRED FIELDS
-        // =================================================
-
+        // Required fields
         if (
+            !customerId ||
             !customerName ||
             !phone ||
             !email ||
             !eventType ||
             !eventDate ||
-            !eventTime ||
             !venueLocation ||
             !guestCount ||
-            !foodType ||
             !catererEmail
         ) {
-
             return res.status(400).json({
-                success: false,
                 message: "Please fill all required fields."
             });
-
         }
 
-
-        // =================================================
-        // IF THIS BOOKING CAME FROM AN ENQUIRY,
-        // VERIFY THAT THE ENQUIRY EXISTS
-        // =================================================
-
+        /* -------------------------------------------------
+           If request came from a customer enquiry,
+           verify that the enquiry exists and belongs
+           to the customer + caterer.
+        ------------------------------------------------- */
         if (enquiryId) {
-
-            const [enquiryRows] = await db.query(
-                `SELECT
-                    enquiry_id,
-                    customer_id,
-                    caterer_email,
-                    status
+            const [enquiries] = await db.query(
+                `SELECT enquiry_id, customer_id, caterer_email, status
                  FROM customer_enquiries
                  WHERE enquiry_id = ?`,
                 [enquiryId]
             );
 
-
-            if (enquiryRows.length === 0) {
-
+            if (enquiries.length === 0) {
                 return res.status(404).json({
-                    success: false,
                     message: "Enquiry not found."
                 });
-
             }
 
+            const enquiry = enquiries[0];
 
-            const enquiry = enquiryRows[0];
-
-
-            // Make sure the enquiry belongs to this customer
-            if (
-                customerId &&
-                enquiry.customer_id &&
-                Number(enquiry.customer_id) !== Number(customerId)
-            ) {
-
+            if (String(enquiry.customer_id) !== String(customerId)) {
                 return res.status(403).json({
-                    success: false,
                     message: "This enquiry does not belong to this customer."
                 });
-
             }
 
-
-            // Make sure the booking is going to the same caterer
             if (
                 enquiry.caterer_email &&
                 enquiry.caterer_email.toLowerCase() !==
-                catererEmail.trim().toLowerCase()
+                    catererEmail.toLowerCase()
             ) {
-
                 return res.status(403).json({
-                    success: false,
-                    message: "The selected caterer does not match the enquiry."
+                    message: "This enquiry does not belong to this caterer."
                 });
-
             }
-
         }
 
-
-        // =================================================
-        // INSERT EVENT REQUEST
-        // =================================================
+        /* -------------------------------------------------
+           IMPORTANT:
+           event_request DOES NOT have enquiry_id.
+           So do NOT insert enquiry_id here.
+        ------------------------------------------------- */
 
         const [result] = await db.query(
-
             `INSERT INTO event_request
             (
-                enquiry_id,
                 customer_id,
                 customer_name,
                 phone,
@@ -146,20 +107,18 @@ async function createRequest(req, res) {
                 caterer_email,
                 status
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')`,
-
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')`,
             [
-                enquiryId || null,
-                customerId || null,
+                customerId,
                 customerName,
                 phone,
                 email,
                 eventType,
                 eventDate,
-                eventTime,
+                eventTime || null,
                 venueLocation,
                 guestCount,
-                foodType,
+                foodType || null,
                 packageName || null,
                 budget || null,
                 cateringService || null,
@@ -167,787 +126,417 @@ async function createRequest(req, res) {
                 message || null,
                 catererEmail
             ]
-
         );
 
-
-        const requestId = result.insertId;
-
-
-        // =================================================
-        // MARK ENQUIRY AS BOOKING CREATED
-        // =================================================
-
+        /* -------------------------------------------------
+           Mark enquiry as booking_created
+           AFTER event request is successfully created.
+        ------------------------------------------------- */
         if (enquiryId) {
-
             try {
-
                 await db.query(
                     `UPDATE customer_enquiries
                      SET status = 'booking_created'
                      WHERE enquiry_id = ?`,
                     [enquiryId]
                 );
-
-            } catch (enquiryUpdateError) {
-
-                /*
-                 * The booking has already been created.
-                 * Log the enquiry update error without
-                 * cancelling the successful booking.
-                 */
-
+            } catch (error) {
                 console.error(
                     "Could not update enquiry status:",
-                    enquiryUpdateError
+                    error.message
                 );
-
             }
-
         }
-
-
-        // =================================================
-        // FINAL SUCCESS RESPONSE
-        // =================================================
 
         return res.status(201).json({
-
-            success: true,
-
-            message:
-                "Event request sent successfully!",
-
-            requestId: requestId,
-
-            enquiryId:
-                enquiryId ? Number(enquiryId) : null
-
+            message: "Event request created successfully.",
+            requestId: result.insertId,
+            enquiryId: enquiryId || null
         });
-
 
     } catch (error) {
-
-        console.error(
-            "Create request error:",
-            error
-        );
+        console.error("Create request error:", error);
 
         return res.status(500).json({
-
-            success: false,
-
-            message:
-                "Could not send event request."
-
+            message: "Could not create event request.",
+            error: error.message
         });
-
     }
-
 }
 
 
-
-// =====================================================
-// GET CUSTOMER'S EVENT REQUESTS
-// =====================================================
-
+/* =========================================================
+   GET CUSTOMER REQUESTS
+========================================================= */
 async function getCustomerRequests(req, res) {
-
     try {
-
-        const {
-            customerId
-        } = req.params;
-
+        const customerId =
+            req.query.customerId ||
+            req.user?.customerId ||
+            req.user?.id;
 
         if (!customerId) {
-
             return res.status(400).json({
-
-                success: false,
-
-                message:
-                    "Customer ID is required."
-
+                message: "Customer ID is required."
             });
-
         }
 
-
         const [rows] = await db.query(
-
             `SELECT
-
                 er.request_id,
-                er.enquiry_id,
-
                 er.customer_id,
-
                 er.customer_name,
                 er.phone,
                 er.email,
-
                 er.event_type,
                 er.event_date,
                 er.event_time,
-
                 er.venue_location,
                 er.guest_count,
-
                 er.food_type,
                 er.package_name,
-
                 er.budget,
                 er.catering_service,
-
                 er.special_requirements,
                 er.message,
-
+                er.caterer_email,
                 er.status,
                 er.created_at,
-
-                er.caterer_email,
-
-                c.brand_name AS caterer_name
-
+                c.brand_name
              FROM event_request er
-
              LEFT JOIN caterers c
-                ON er.caterer_email = c.email
-
+                ON LOWER(c.email) = LOWER(er.caterer_email)
              WHERE er.customer_id = ?
-
              ORDER BY er.created_at DESC`,
-
             [customerId]
-
         );
-
 
         return res.status(200).json({
-
-            success: true,
-
             requests: rows
-
         });
-
 
     } catch (error) {
-
-        console.error(
-            "Get customer requests error:",
-            error
-        );
+        console.error("Get customer requests error:", error);
 
         return res.status(500).json({
-
-            success: false,
-
-            message:
-                "Could not fetch customer requests."
-
+            message: "Could not fetch customer requests.",
+            error: error.message
         });
-
     }
-
 }
 
 
-
-// =====================================================
-// GET CATERER EVENT REQUESTS
-//
-// Supports:
-// /api/requests/caterer?email=...
-// /api/requests/caterer?catererEmail=...
-// /api/requests/caterer/:catererEmail
-// =====================================================
-
+/* =========================================================
+   GET ALL / CATERER REQUESTS
+========================================================= */
 async function getRequests(req, res) {
-
     try {
-
         const catererEmail =
             req.query.catererEmail ||
             req.query.email ||
-            req.params.catererEmail;
-
+            req.user?.email;
 
         let query = `
-
             SELECT
-
                 er.request_id,
-                er.enquiry_id,
-
                 er.customer_id,
-
                 er.customer_name,
                 er.phone,
                 er.email,
-
                 er.event_type,
                 er.event_date,
                 er.event_time,
-
                 er.venue_location,
                 er.guest_count,
-
                 er.food_type,
                 er.package_name,
-
                 er.budget,
                 er.catering_service,
-
                 er.special_requirements,
                 er.message,
-
                 er.caterer_email,
-
                 er.status,
-                er.accepted_by,
-
                 er.created_at
-
             FROM event_request er
-
         `;
 
-
-        const queryParams = [];
-
-
-        // =================================================
-        // FILTER BY CATERER EMAIL
-        // =================================================
+        const params = [];
 
         if (catererEmail) {
-
             query += `
-
-                WHERE LOWER(er.caterer_email)
-                = LOWER(?)
-
+                WHERE LOWER(er.caterer_email) = LOWER(?)
             `;
 
-            queryParams.push(
-                catererEmail.trim()
-            );
-
+            params.push(catererEmail);
         }
 
-
         query += `
-
             ORDER BY er.created_at DESC
-
         `;
 
-
-        const [rows] = await db.query(
-
-            query,
-
-            queryParams
-
-        );
-
+        const [rows] = await db.query(query, params);
 
         return res.status(200).json({
-
-            success: true,
-
             requests: rows
-
         });
-
 
     } catch (error) {
-
-        console.error(
-            "Get event requests error:",
-            error
-        );
+        console.error("Get requests error:", error);
 
         return res.status(500).json({
-
-            success: false,
-
-            message:
-                "Could not fetch event requests."
-
+            message: "Could not fetch event requests.",
+            error: error.message
         });
-
     }
-
 }
 
 
-
-// =====================================================
-// GET CATERER'S EVENTS
-//
-// Accepted requests become payment_pending.
-// After payment they become confirmed.
-// =====================================================
-
+/* =========================================================
+   GET CATERER EVENTS
+========================================================= */
 async function getCatererEvents(req, res) {
-
     try {
-
         const catererEmail =
             req.query.catererEmail ||
             req.query.email ||
-            req.params.catererEmail;
-
+            req.user?.email;
 
         if (!catererEmail) {
-
             return res.status(400).json({
-
-                success: false,
-
-                message:
-                    "Caterer email is required."
-
+                message: "Caterer email is required."
             });
-
         }
 
-
         const [rows] = await db.query(
-
             `SELECT
-
                 er.request_id,
-                er.enquiry_id,
-
                 er.customer_id,
-
                 er.customer_name,
                 er.phone,
                 er.email,
-
                 er.event_type,
                 er.event_date,
                 er.event_time,
-
                 er.venue_location,
                 er.guest_count,
-
                 er.food_type,
                 er.package_name,
-
                 er.budget,
                 er.catering_service,
-
                 er.special_requirements,
                 er.message,
-
                 er.caterer_email,
-
                 er.status,
-                er.accepted_by,
-
                 er.created_at
-
              FROM event_request er
-
-             WHERE
-                LOWER(er.caterer_email)
-                = LOWER(?)
-
-             AND er.status IN
-                (
-                    'accepted',
-                    'payment_pending',
-                    'confirmed'
-                )
-
-             ORDER BY
-                er.event_date ASC,
-                er.event_time ASC`,
-
-            [
-                catererEmail.trim()
-            ]
-
+             WHERE LOWER(er.caterer_email) = LOWER(?)
+             AND er.status IN ('accepted', 'payment_pending', 'confirmed', 'completed')
+             ORDER BY er.event_date ASC, er.created_at DESC`,
+            [catererEmail]
         );
-
 
         return res.status(200).json({
-
-            success: true,
-
             events: rows
-
         });
-
 
     } catch (error) {
-
-        console.error(
-            "Get caterer events error:",
-            error
-        );
+        console.error("Get caterer events error:", error);
 
         return res.status(500).json({
-
-            success: false,
-
-            message:
-                "Could not fetch caterer events."
-
+            message: "Could not fetch caterer events.",
+            error: error.message
         });
-
     }
-
 }
 
 
-
-// =====================================================
-// ACCEPT / REJECT EVENT REQUEST
-// =====================================================
-
+/* =========================================================
+   UPDATE REQUEST STATUS
+========================================================= */
 async function updateRequestStatus(req, res) {
-
     try {
+        const { id } = req.params;
+        const { status, catererId } = req.body;
 
-        const {
-            id
-        } = req.params;
-
-
-        const {
-            status,
-            catererId,
-            catererEmail
-        } = req.body;
-
-
-        // =================================================
-        // VALIDATE STATUS
-        // =================================================
-
-        if (
-            ![
-                "accepted",
-                "rejected"
-            ].includes(status)
-        ) {
-
+        if (!id) {
             return res.status(400).json({
-
-                success: false,
-
-                message:
-                    "Invalid status."
-
+                message: "Request ID is required."
             });
-
         }
 
+        if (!["accepted", "rejected"].includes(status)) {
+            return res.status(400).json({
+                message: "Status must be accepted or rejected."
+            });
+        }
 
-        // =================================================
-        // CHECK REQUEST EXISTS
-        // =================================================
+        /* -------------------------------------------------
+           Get request
+           IMPORTANT:
+           No enquiry_id here because event_request
+           does not contain that column.
+        ------------------------------------------------- */
+        const [requests] = await db.query(
+            `SELECT
+                request_id,
+                customer_id,
+                customer_name,
+                phone,
+                email,
+                caterer_email,
+                budget,
+                status
+             FROM event_request
+             WHERE request_id = ?`,
+            [id]
+        );
 
-        const [existingRows] =
-            await db.query(
-
-                `SELECT
-
-                    request_id,
-                    enquiry_id,
-                    customer_id,
-                    customer_name,
-
-                    caterer_email,
-                    budget,
-
-                    status
-
-                 FROM event_request
-
-                 WHERE request_id = ?`,
-
-                [id]
-
-            );
-
-
-        if (
-            existingRows.length === 0
-        ) {
-
+        if (requests.length === 0) {
             return res.status(404).json({
-
-                success: false,
-
-                message:
-                    "Request not found."
-
+                message: "Event request not found."
             });
-
         }
 
+        const request = requests[0];
 
-        const request =
-            existingRows[0];
+        /* -------------------------------------------------
+           Optional caterer ownership verification
+        ------------------------------------------------- */
+        if (catererId) {
+            try {
+                const [caterers] = await db.query(
+                    `SELECT caterer_id, email
+                     FROM caterers
+                     WHERE caterer_id = ?`,
+                    [catererId]
+                );
 
+                if (caterers.length > 0) {
+                    const caterer = caterers[0];
 
-        // =================================================
-        // PREVENT REPEATED ACCEPTANCE
-        // =================================================
-
-        if (
-            request.status ===
-                "payment_pending" ||
-            request.status ===
-                "confirmed"
-        ) {
-
-            return res.status(400).json({
-
-                success: false,
-
-                message:
-                    "This request has already been accepted."
-
-            });
-
+                    if (
+                        caterer.email &&
+                        request.caterer_email &&
+                        caterer.email.toLowerCase() !==
+                            request.caterer_email.toLowerCase()
+                    ) {
+                        return res.status(403).json({
+                            message: "This request does not belong to this caterer."
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error(
+                    "Caterer ownership check failed:",
+                    error.message
+                );
+            }
         }
 
-
-        // =================================================
-        // REJECT REQUEST
-        // =================================================
-
+        /* -------------------------------------------------
+           REJECT
+        ------------------------------------------------- */
         if (status === "rejected") {
-
             await db.query(
-
                 `UPDATE event_request
-
-                 SET
-                    status = 'rejected',
-                    accepted_by = ?
-
+                 SET status = 'rejected'
                  WHERE request_id = ?`,
-
-                [
-
-                    catererId ||
-                    catererEmail ||
-                    request.caterer_email ||
-                    null,
-
-                    id
-
-                ]
-
+                [id]
             );
-
 
             return res.status(200).json({
-
-                success: true,
-
-                message:
-                    "Request rejected successfully.",
-
-                status:
-                    "rejected"
-
+                message: "Event request rejected successfully."
             });
-
         }
 
-
-        // =================================================
-        // ACCEPT REQUEST
-        // =================================================
-
+        /* -------------------------------------------------
+           ACCEPT
+           Move request to payment_pending.
+        ------------------------------------------------- */
         await db.query(
-
             `UPDATE event_request
-
-             SET
-                status = 'payment_pending',
-                accepted_by = ?
-
+             SET status = 'payment_pending'
              WHERE request_id = ?`,
-
-            [
-
-                catererId ||
-                catererEmail ||
-                request.caterer_email ||
-                null,
-
-                id
-
-            ]
-
+            [id]
         );
 
 
-        // =================================================
-        // CREATE PAYMENT RECORD
-        // =================================================
-
+        /* =================================================
+           CREATE PAYMENT RECORD
+           This is wrapped in try/catch so that an issue
+           with the optional payment table does not stop
+           the request from being accepted.
+        ================================================= */
         try {
-
             await db.query(
-
                 `INSERT INTO event_payments
                 (
                     request_id,
                     customer_id,
                     amount,
-                    payment_status
+                    status
                 )
-                VALUES
-                (
-                    ?,
-                    ?,
-                    ?,
-                    'pending'
-                )`,
-
+                VALUES (?, ?, ?, 'pending')`,
                 [
-
-                    id,
-
+                    request.request_id,
                     request.customer_id,
-
                     request.budget || 0
-
                 ]
-
             );
-
         } catch (paymentError) {
-
-            /*
-             * If a payment record already exists,
-             * do not crash the whole Accept operation.
-             */
-
             console.error(
-                "Payment record error:",
-                paymentError
+                "Payment record could not be created:",
+                paymentError.message
             );
-
         }
 
 
-        // =================================================
-        // CREATE EVENT TRACKING RECORD
-        // =================================================
-
+        /* =================================================
+           CREATE TRACKING RECORD
+        ================================================= */
         try {
-
             await db.query(
-
                 `INSERT INTO event_tracking
                 (
                     request_id,
-                    tracking_status
+                    status
                 )
-                VALUES
-                (
-                    ?,
-                    'caterer_accepted'
-                )`,
-
-                [id]
-
+                VALUES (?, 'accepted')`,
+                [request.request_id]
             );
-
         } catch (trackingError) {
-
-            /*
-             * Tracking failure should not undo
-             * the successful acceptance.
-             */
-
             console.error(
-                "Tracking record error:",
-                trackingError
+                "Tracking record could not be created:",
+                trackingError.message
             );
-
         }
 
-
-        // =================================================
-        // FINAL SUCCESS RESPONSE
-        // =================================================
-
         return res.status(200).json({
-
-            success: true,
-
-            message:
-                "Request accepted. Payment is now pending.",
-
-            requestId:
-                Number(id),
-
-            enquiryId:
-                request.enquiry_id
-                    ? Number(request.enquiry_id)
-                    : null,
-
-            status:
-                "payment_pending"
-
+            message: "Event request accepted successfully.",
+            requestId: request.request_id,
+            status: "payment_pending",
+            enquiryId: null
         });
-
 
     } catch (error) {
-
-        console.error(
-            "Update request error:",
-            error
-        );
-
+        console.error("Update request status error:", error);
 
         return res.status(500).json({
-
-            success: false,
-
-            message:
-                "Could not update event request.",
-
-            error:
-                error.message
-
+            message: "Could not update request status.",
+            error: error.message
         });
-
     }
-
 }
 
 
-
-// =====================================================
-// EXPORT
-// =====================================================
+/* =========================================================
+   EXPORT FUNCTIONS
+========================================================= */
 
 module.exports = {
-
     createRequest,
-
     getCustomerRequests,
-
     getRequests,
-
     getCatererEvents,
-
     updateRequestStatus
-
 };

@@ -89,55 +89,90 @@
 
             position: fixed;
 
+            left: 0;
             top: 0;
 
-            left: 0;
-
-            width: 230px;
-
+            width: 245px;
             height: 100vh;
 
-            background: #1C1C1C;
+            background: var(--accent);
 
             color: white;
 
-            padding: 25px 14px;
+            padding: 25px 18px;
+
+            display: flex;
+
+            flex-direction: column;
 
             overflow-y: auto;
+
+            box-shadow:
+                4px 0 18px rgba(0, 0, 0, 0.10);
 
             z-index: 1000;
 
         }
 
 
-        .logo {
+        .sidebar::-webkit-scrollbar {
+            width: 9px;
+        }
 
-            font-family: Georgia, serif;
+        .sidebar::-webkit-scrollbar-track {
+            background: #1C1C1C;
+        }
 
-            font-size: 29px;
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #FFFFFF;
+            border-radius: 2px;
+            border: 1px solid #1C1C1C;
+        }
 
-            font-weight: 700;
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #E8E8E8;
+        }
 
-            color: #D4A373;
+        .sidebar {
+            scrollbar-width: auto;
+            scrollbar-color: #FFFFFF #1C1C1C;
+        }
 
-            padding-left: 26px;
+        .brand {
 
-            margin-bottom: 2px;
+            text-align: center;
+
+            margin-bottom: 30px;
 
         }
 
 
-        .admin-label {
+        .brand h2 {
+
+            font-size: 28px;
+
+            color: var(--highlight);
+
+            font-family: Georgia, serif;
+
+            letter-spacing: 0.5px;
+
+        }
+
+
+        .brand span {
+
+            display: block;
+
+            margin-top: 6px;
+
+            color: #999;
 
             font-size: 10px;
 
-            letter-spacing: 1.5px;
+            letter-spacing: 1.7px;
 
-            color: #A8A8A8;
-
-            padding-left: 58px;
-
-            margin-bottom: 30px;
+            text-transform: uppercase;
 
         }
 
@@ -148,37 +183,39 @@
 
             flex-direction: column;
 
-            gap: 5px;
+            gap: 7px;
 
         }
 
 
-        .sidebar-nav a {
+        .sidebar-nav a,
+        .sidebar-bottom a {
+
+            text-decoration: none;
+
+            color: #DDD;
+
+            padding: 13px 14px;
+
+            border-radius: 9px;
 
             display: flex;
 
             align-items: center;
 
-            gap: 13px;
-
-            text-decoration: none;
-
-            color: rgba(255,255,255,0.85);
-
-            padding: 13px 17px;
-
-            border-radius: 9px;
+            gap: 11px;
 
             font-size: 14px;
 
-            transition: 0.2s ease;
+            transition: all 0.25s ease;
 
         }
 
 
-        .sidebar-nav a:hover {
+        .sidebar-nav a:hover,
+        .sidebar-bottom a:hover {
 
-            background: #292929;
+            background: var(--primary);
 
             color: white;
 
@@ -193,90 +230,53 @@
 
             color: white;
 
-            font-weight: 700;
-
             box-shadow:
-                0 5px 15px rgba(139, 30, 63, 0.25);
+                0 5px 15px rgba(139, 30, 63, 0.30);
 
         }
 
 
         .nav-icon {
 
-            width: 22px;
+            width: 25px;
+
+            min-width: 25px;
 
             text-align: center;
 
-            font-size: 16px;
-
-            flex-shrink: 0;
+            font-size: 17px;
 
         }
 
 
         .sidebar-bottom {
 
-            margin-top: 25px;
+            margin-top: auto;
 
-            padding-top: 18px;
+            padding-top: 20px;
 
-            border-top: 1px solid rgba(255,255,255,0.10);
-
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 5px;
+            border-top:
+                1px solid rgba(255,255,255,0.08);
 
         }
 
 
-        .sidebar-bottom a {
+        .logout {
 
-            display: flex;
-
-            align-items: center;
-
-            gap: 13px;
-
-            text-decoration: none;
-
-            color: rgba(255,255,255,0.85);
-
-            padding: 13px 17px;
-
-            border-radius: 9px;
-
-            font-size: 14px;
-
-            transition: 0.2s ease;
-
-        }
-
-
-        .sidebar-bottom a:hover {
-
-            background: #292929;
-
-            color: white;
-
-        }
-
-
-        .logout-link {
-
-            color: #E9A0A0 !important;
+            color: #FFB3B3 !important;
 
         }
 
 
         /* =====================================================
-           MAIN AREA
+           MAIN CONTENT
         ===================================================== */
 
         .main {
 
-            margin-left: 230px;
+            margin-left: 245px;
+
+            width: calc(100% - 245px);
 
             min-height: 100vh;
 
@@ -1405,14 +1405,16 @@
 
             .sidebar {
 
-                width: 210px;
+                width: 245px;
 
             }
 
 
             .main {
 
-                margin-left: 210px;
+                margin-left: 245px;
+
+                width: calc(100% - 245px);
 
             }
 
@@ -1437,11 +1439,15 @@
 
             .sidebar {
 
-                position: relative;
+                position: static;
 
                 width: 100%;
 
                 height: auto;
+
+                min-height: auto;
+
+                overflow-y: visible;
 
             }
 
@@ -1528,140 +1534,88 @@
      SIDEBAR
 ===================================================== -->
 
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
 <aside class="sidebar">
 
+    <div class="brand">
 
-    <div class="logo">
-        Annapriya
+        <h2>
+            Annapriya
+        </h2>
+
+        <span>
+            Admin Panel
+        </span>
+
     </div>
-
-
-    <div class="admin-label">
-        ADMIN PANEL
-    </div>
-
 
     <nav class="sidebar-nav">
 
-
         <a href="admindashboard.html">
-
             <span class="nav-icon">🏠</span>
-
             <span>Dashboard</span>
-
         </a>
-
 
         <a href="adminusers.html">
-
             <span class="nav-icon">👥</span>
-
             <span>Manage Users</span>
-
         </a>
 
-
-        <a
-            href="admincaterers.html"
-            class="active"
-        >
-
-            <span class="nav-icon">🧑‍🍳</span>
-
+        <a href="admincaterers.html" class="active">
+            <span class="nav-icon">👨‍🍳</span>
             <span>Manage Caterers</span>
-
         </a>
-
 
         <a href="adminenquiries.html">
-
             <span class="nav-icon">✉️</span>
-
             <span>Customer Enquiries</span>
-
         </a>
-
 
         <a href="adminbookings.html">
-
-            <span class="nav-icon">🗓️</span>
-
+            <span class="nav-icon">📅</span>
             <span>Manage Bookings</span>
-
         </a>
-
 
         <a href="adminpayments.html">
-
             <span class="nav-icon">💳</span>
-
             <span>Manage Payments</span>
-
         </a>
-
 
         <a href="adminreviews.html">
-
             <span class="nav-icon">⭐</span>
-
             <span>Manage Reviews</span>
-
         </a>
-
 
         <a href="adminreports.html">
-
             <span class="nav-icon">📊</span>
-
-            <span>Reports & Analytics</span>
-
+            <span>Reports &amp; Analytics</span>
         </a>
-
 
         <a href="adminsettings.html">
-
             <span class="nav-icon">⚙️</span>
-
             <span>System Settings</span>
-
         </a>
-
 
     </nav>
 
-
     <div class="sidebar-bottom">
 
-
         <a href="adminprofile.html">
-
             <span class="nav-icon">👤</span>
-
             <span>Account Settings</span>
-
         </a>
 
-
-        <a
-            href="#"
-            class="logout-link"
-            onclick="logoutAdmin(event)"
-        >
-
-            <span class="nav-icon">◼</span>
-
+        <a href="#" class="logout" onclick="logoutAdmin(event)">
+            <span class="nav-icon">🚪</span>
             <span>Logout</span>
-
         </a>
-
 
     </div>
 
-
 </aside>
-
-
 
 <!-- =====================================================
      MAIN

@@ -109,192 +109,126 @@
 
 
     /* =====================================================
-       SIDEBAR
-       SAME AS ADMIN REVIEWS PAGE
-    ===================================================== */
-
-    .sidebar {
-
-        width: 218px;
-
-        min-height: 100vh;
-
-        background:
-            #1C1C1C;
-
-        color:
-            var(--white);
-
-        padding:
-            28px 14px 18px;
-
-        position: fixed;
-
-        left: 0;
-        top: 0;
-        bottom: 0;
-
-        z-index: 100;
-
-        overflow-y: auto;
-
-        box-shadow:
-            6px 0 25px
-            rgba(28, 28, 28, 0.12);
-
-    }
-
-
-    .brand {
-
-        padding:
-            8px 15px 30px;
-
-        border-bottom:
-            1px solid
-            rgba(255,255,255,0.18);
-
-        margin-bottom:
-            25px;
-
-    }
-
-
-    .brand h2 {
-
-        font-size: 27px;
-
-        font-family:
-            Georgia, serif;
-
-        letter-spacing:
-            0.5px;
-
-    }
-
-
-    .brand span {
-
-        display: block;
-
-        margin-top: 5px;
-
-        font-size: 11px;
-
-        letter-spacing: 1.5px;
-
-        text-transform:
-            uppercase;
-
-        opacity:
-            0.75;
-
-    }
-
-
-    .sidebar-nav {
-
-        display: flex;
-
-        flex-direction:
-            column;
-
-        gap: 7px;
-
-    }
-
-
-    .sidebar-nav a {
-
-        text-decoration: none;
-
-        color:
-            rgba(255,255,255,0.82);
-
-        padding:
-            13px 15px;
-
-        border-radius:
-            9px;
-
-        display: flex;
-
-        align-items: center;
-
-        gap: 12px;
-
-        font-size: 14px;
-
-        transition:
-            0.25s ease;
-
-    }
-
-
-    .sidebar-nav a:hover {
-
-        background:
-            rgba(255,255,255,0.08);
-
-        color:
-            var(--white);
-
-    }
-
-
-    .sidebar-nav a.active {
-
-        background:
-            var(--primary);
-
-        color:
-            var(--white);
-
-        font-weight:
-            700;
-
-        box-shadow:
-            0 5px 15px
-            rgba(0,0,0,0.12);
-
-    }
-
-
-    .nav-icon {
-
-        width:
-            22px;
-
-        text-align:
-            center;
-
-        font-size:
-            16px;
-
-        flex-shrink:
-            0;
-
-    }
-
-
-    /* =====================================================
-       MAIN CONTENT
-       SAME 218px OFFSET AS REVIEWS PAGE
-    ===================================================== */
-
-    .main-content {
-
-        margin-left:
-            218px;
-
-        width:
-            calc(100% - 218px);
-
-        min-height:
-            100vh;
-
-    }
-
+   SIDEBAR — SAME AS ADMIN DASHBOARD / ADMIN REVIEWS
+===================================================== */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 245px;
+    height: 100vh;
+    min-height: 100vh;
+    background: #1C1C1C;
+    color: #FFFFFF;
+    padding: 25px 18px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    box-shadow: 4px 0 18px rgba(0,0,0,0.10);
+    z-index: 1000;
+    scrollbar-width: auto;
+    scrollbar-color: #FFFFFF #1C1C1C;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 9px;
+}
+.sidebar::-webkit-scrollbar-track {
+    background: #1C1C1C;
+}
+.sidebar::-webkit-scrollbar-thumb {
+    background: #FFFFFF;
+    border-radius: 2px;
+    border: 1px solid #1C1C1C;
+}
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #E8E8E8;
+}
+
+.brand {
+    flex-shrink: 0;
+    padding: 0;
+    border: none;
+    margin: 0 0 30px;
+    text-align: center;
+}
+.brand h2 {
+    font-family: Georgia, serif;
+    font-size: 28px;
+    font-weight: bold;
+    color: #D4A373;
+    letter-spacing: 0.5px;
+}
+.brand span {
+    display: block;
+    margin-top: 7px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: #999999;
+    text-transform: uppercase;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    flex-shrink: 0;
+}
+.sidebar-nav a,
+.sidebar-bottom a {
+    text-decoration: none;
+    color: #DDDDDD;
+    padding: 13px 14px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    font-size: 14px;
+    line-height: 1.2;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+}
+.sidebar-nav a:hover,
+.sidebar-bottom a:hover {
+    background: #8B1E3F;
+    color: #FFFFFF;
+    transform: translateX(2px);
+}
+.sidebar-nav a.active {
+    background: #8B1E3F;
+    color: #FFFFFF;
+    font-weight: 700;
+    box-shadow: 0 5px 15px rgba(139,30,63,0.30);
+}
+.nav-icon {
+    width: 25px;
+    min-width: 25px;
+    text-align: center;
+    font-size: 17px;
+}
+.sidebar-bottom {
+    margin-top: 20px;
+    padding-top: 20px;
+    padding-bottom: 12px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    flex-shrink: 0;
+}
+.sidebar-bottom a {
+    margin-bottom: 7px;
+}
+.sidebar-bottom .logout {
+    color: #FFB3B3 !important;
+}
+
+/* =====================================================
+   MAIN CONTENT — SAME 245px OFFSET
+===================================================== */
+.main-content {
+    margin-left: 245px;
+    width: calc(100% - 245px);
+    min-height: 100vh;
+}
 
     /* =====================================================
        TOP BAR
@@ -1467,6 +1401,13 @@
 
     }
 
+
+/* FINAL SIDEBAR RESPONSIVE CORRECTION */
+@media (max-width: 650px) {
+    .sidebar { position: static; width: 100%; height: auto; min-height: auto; overflow-y: visible; }
+    .main-content { margin-left: 0; width: 100%; }
+}
+
 </style>
 ```
 
@@ -1483,117 +1424,27 @@
 
 <aside class="sidebar">
 
-
     <div class="brand">
-
-        <h2>
-            Annapriya
-        </h2>
-
-        <span>
-            Admin Panel
-        </span>
-
+        <h2>Annapriya</h2>
+        <span>ADMIN PANEL</span>
     </div>
 
-
     <nav class="sidebar-nav">
-
-
-        <a href="admindashboard.html">
-
-            <span class="nav-icon">
-                ⌂
-            </span>
-
-            <span>
-                Dashboard
-            </span>
-
-        </a>
-
-
-        <a href="adminusers.html">
-
-            <span class="nav-icon">
-                ♙
-            </span>
-
-            <span>
-                Manage Users
-            </span>
-
-        </a>
-
-
-        <a href="admincaterers.html">
-
-            <span class="nav-icon">
-                ♨
-            </span>
-
-            <span>
-                Manage Caterers
-            </span>
-
-        </a>
-
-
-        <a href="adminbookings.html">
-
-            <span class="nav-icon">
-                ▣
-            </span>
-
-            <span>
-                Bookings
-            </span>
-
-        </a>
-
-
-        <a href="adminreviews.html">
-
-            <span class="nav-icon">
-                ★
-            </span>
-
-            <span>
-                Reviews
-            </span>
-
-        </a>
-
-
-        <a
-            href="adminreports.html"
-            class="active">
-
-            <span class="nav-icon">
-                ▤
-            </span>
-
-            <span>
-                Reports & Analytics
-            </span>
-
-        </a>
-
-
-        <a href="adminsettings.html">
-
-            <span class="nav-icon">
-                ⚙
-            </span>
-
-            <span>
-                Settings
-            </span>
-
-        </a>
-
-
+        <a href="admindashboard.html"><span class="nav-icon">🏠</span><span>Dashboard</span></a>
+        <a href="adminusers.html"><span class="nav-icon">👥</span><span>Manage Users</span></a>
+        <a href="admincaterers.html"><span class="nav-icon">👨‍🍳</span><span>Manage Caterers</span></a>
+        <a href="adminenquiries.html"><span class="nav-icon">✉️</span><span>Customer Enquiries</span></a>
+        <a href="adminbookings.html"><span class="nav-icon">📅</span><span>Manage Bookings</span></a>
+        <a href="adminpayments.html"><span class="nav-icon">💳</span><span>Manage Payments</span></a>
+        <a href="adminreviews.html"><span class="nav-icon">⭐</span><span>Manage Reviews</span></a>
+        <a href="adminreports.html" class="active"><span class="nav-icon">📊</span><span>Reports &amp; Analytics</span></a>
+        <a href="adminsettings.html"><span class="nav-icon">⚙️</span><span>System Settings</span></a>
     </nav>
+
+    <div class="sidebar-bottom">
+        <a href="adminprofile.html"><span class="nav-icon">👤</span><span>Account Settings</span></a>
+        <a href="#" class="logout" onclick="logoutAdmin(event)"><span class="nav-icon">🚪</span><span>Logout</span></a>
+    </div>
 
 </aside>
 
@@ -4013,7 +3864,7 @@
                 "block";
 
         }
-
+ 
     }
 
 
