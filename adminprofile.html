@@ -1,0 +1,2288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Account Settings | Annapriya</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #F5E9DA;
+            color: #1C1C1C;
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           TOP HEADER
+        ===================================================== */
+
+        .top-header {
+
+            height: 72px;
+
+            background: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 32px;
+
+            box-shadow:
+                0 2px 10px
+                rgba(0, 0, 0, 0.06);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+        }
+
+
+        /* =====================================================
+           HEADER LEFT
+        ===================================================== */
+
+        .header-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+
+        .back-button {
+
+            width: 44px;
+
+            height: 44px;
+
+            border-radius: 50%;
+
+            background: #F5E9DA;
+
+            color: #8B1E3F;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-decoration: none;
+
+            font-size: 22px;
+
+            transition: 0.2s ease;
+        }
+
+
+        .back-button:hover {
+
+            background: #8B1E3F;
+
+            color: white;
+
+            transform: translateX(-2px);
+        }
+
+
+        .brand-name {
+
+            font-family: Georgia, serif;
+
+            font-size: 27px;
+
+            font-weight: bold;
+
+            color: #8B1E3F;
+        }
+
+
+        /* =====================================================
+           HEADER RIGHT
+        ===================================================== */
+
+        .header-profile {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .profile-circle {
+
+            width: 40px;
+
+            height: 40px;
+
+            border-radius: 50%;
+
+            background: #8B1E3F;
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+
+        .profile-name {
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #1C1C1C;
+
+            max-width: 180px;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main {
+
+            width: 100%;
+
+            max-width: 920px;
+
+            margin: 0 auto;
+
+            padding: 48px 30px 70px;
+        }
+
+
+        /* =====================================================
+           PAGE HEADER
+        ===================================================== */
+
+        .page-header {
+
+            margin-bottom: 30px;
+        }
+
+
+        .page-label {
+
+            color: #8B1E3F;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .page-header h1 {
+
+            font-family: Georgia, serif;
+
+            font-size: 38px;
+
+            color: #8B1E3F;
+
+            margin-bottom: 8px;
+        }
+
+
+        .page-header p {
+
+            font-size: 14px;
+
+            color: #666;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           SETTINGS CARD
+        ===================================================== */
+
+        .settings-card {
+
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 25px;
+
+            margin-bottom: 18px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 0, 0, 0.07);
+        }
+
+
+        /* =====================================================
+           CARD HEADER
+        ===================================================== */
+
+        .card-header {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .card-icon {
+
+            width: 52px;
+
+            height: 52px;
+
+            border-radius: 13px;
+
+            background: #F5E9DA;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 24px;
+
+            flex-shrink: 0;
+        }
+
+
+        .card-title h2 {
+
+            font-family: Georgia, serif;
+
+            font-size: 21px;
+
+            color: #8B1E3F;
+
+            margin-bottom: 4px;
+        }
+
+
+        .card-title p {
+
+            font-size: 13px;
+
+            color: #777;
+        }
+
+
+        /* =====================================================
+           ACCOUNT INFORMATION
+        ===================================================== */
+
+        .account-info {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+
+        .profile-info {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+
+        .large-avatar {
+
+            width: 58px;
+
+            height: 58px;
+
+            border-radius: 50%;
+
+            background: #8B1E3F;
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 21px;
+
+            font-weight: bold;
+
+            flex-shrink: 0;
+        }
+
+
+        .profile-text h3 {
+
+            font-size: 17px;
+
+            margin-bottom: 5px;
+
+            color: #333;
+        }
+
+
+        .profile-text p {
+
+            font-size: 13px;
+
+            color: #777;
+
+            margin-bottom: 6px;
+        }
+
+
+        .admin-badge {
+
+            display: inline-block;
+
+            padding: 4px 10px;
+
+            border-radius: 20px;
+
+            background: #F5E9DA;
+
+            color: #8B1E3F;
+
+            font-size: 10px;
+
+            font-weight: bold;
+
+            letter-spacing: 0.5px;
+        }
+
+
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+
+        .primary-button {
+
+            border: none;
+
+            background: #8B1E3F;
+
+            color: white;
+
+            padding: 12px 20px;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+        }
+
+
+        .primary-button:hover {
+
+            background: #6F1632;
+
+            transform: translateY(-1px);
+        }
+
+
+        .primary-button:disabled {
+
+            opacity: 0.65;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+
+        .secondary-button {
+
+            border: 1px solid #8B1E3F;
+
+            background: white;
+
+            color: #8B1E3F;
+
+            padding: 11px 20px;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+        }
+
+
+        .secondary-button:hover {
+
+            background: #8B1E3F;
+
+            color: white;
+        }
+
+
+        /* =====================================================
+           EDIT PROFILE FORM
+        ===================================================== */
+
+        .edit-form {
+
+            display: none;
+
+            margin-top: 22px;
+
+            padding-top: 22px;
+
+            border-top: 1px solid #eee;
+        }
+
+
+        .edit-form.show {
+
+            display: block;
+        }
+
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 17px;
+        }
+
+
+        .form-group {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+        }
+
+
+        .form-group.full {
+
+            grid-column: 1 / -1;
+        }
+
+
+        .form-group label {
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            color: #444;
+        }
+
+
+        .form-group input {
+
+            width: 100%;
+
+            padding: 11px 13px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
+            outline: none;
+        }
+
+
+        .form-group input:focus {
+
+            border-color: #8B1E3F;
+        }
+
+
+        .form-group input:disabled {
+
+            background: #f5f5f5;
+
+            color: #777;
+
+            cursor: not-allowed;
+        }
+
+
+        .form-buttons {
+
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 10px;
+
+            margin-top: 18px;
+        }
+
+
+        /* =====================================================
+           PASSWORD SECTION
+        ===================================================== */
+
+        .password-form {
+
+            display: none;
+
+            margin-top: 22px;
+
+            padding-top: 22px;
+
+            border-top: 1px solid #eee;
+        }
+
+
+        .password-form.show {
+
+            display: block;
+        }
+
+
+        /* =====================================================
+           SECURITY STATUS
+        ===================================================== */
+
+        .security-list {
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+
+        .security-item {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 15px 0;
+
+            border-bottom: 1px solid #eee;
+        }
+
+
+        .security-item:last-child {
+
+            border-bottom: none;
+
+            padding-bottom: 0;
+        }
+
+
+        .security-item:first-child {
+
+            padding-top: 0;
+        }
+
+
+        .security-info h3 {
+
+            font-size: 14px;
+
+            color: #333;
+
+            margin-bottom: 4px;
+        }
+
+
+        .security-info p {
+
+            font-size: 12px;
+
+            color: #888;
+        }
+
+
+        /* =====================================================
+           TOGGLE
+        ===================================================== */
+
+        .toggle {
+
+            position: relative;
+
+            width: 50px;
+
+            height: 28px;
+
+            flex-shrink: 0;
+        }
+
+
+        .toggle input {
+
+            opacity: 0;
+
+            width: 0;
+
+            height: 0;
+        }
+
+
+        .slider {
+
+            position: absolute;
+
+            cursor: pointer;
+
+            inset: 0;
+
+            background: #ccc;
+
+            border-radius: 30px;
+
+            transition: 0.3s;
+        }
+
+
+        .slider:before {
+
+            content: "";
+
+            position: absolute;
+
+            height: 22px;
+
+            width: 22px;
+
+            left: 3px;
+
+            top: 3px;
+
+            background: white;
+
+            border-radius: 50%;
+
+            transition: 0.3s;
+
+            box-shadow:
+                0 2px 4px
+                rgba(0,0,0,0.2);
+        }
+
+
+        .toggle input:checked + .slider {
+
+            background: #8B1E3F;
+        }
+
+
+        .toggle input:checked + .slider:before {
+
+            transform: translateX(22px);
+        }
+
+
+        /* =====================================================
+           NOTIFICATIONS
+        ===================================================== */
+
+        .notification-row {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+
+        .notification-info h3 {
+
+            font-size: 14px;
+
+            color: #333;
+
+            margin-bottom: 4px;
+        }
+
+
+        .notification-info p {
+
+            font-size: 12px;
+
+            color: #888;
+
+            line-height: 1.5;
+        }
+
+
+        /* =====================================================
+           ACCOUNT / LOGOUT
+        ===================================================== */
+
+        .account-action {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+
+        .account-action-text h3 {
+
+            font-size: 14px;
+
+            color: #333;
+
+            margin-bottom: 5px;
+        }
+
+
+        .account-action-text p {
+
+            font-size: 12px;
+
+            color: #888;
+
+            line-height: 1.5;
+        }
+
+
+        .logout-button {
+
+            border: 1px solid #8B1E3F;
+
+            background: white;
+
+            color: #8B1E3F;
+
+            padding: 11px 20px;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+
+            white-space: nowrap;
+        }
+
+
+        .logout-button:hover {
+
+            background: #8B1E3F;
+
+            color: white;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 700px) {
+
+            .top-header {
+
+                padding: 0 15px;
+
+                height: 65px;
+            }
+
+
+            .brand-name {
+
+                font-size: 22px;
+            }
+
+
+            .profile-name {
+
+                display: none;
+            }
+
+
+            .main {
+
+                padding: 35px 18px 50px;
+            }
+
+
+            .page-header h1 {
+
+                font-size: 31px;
+            }
+
+
+            .account-info {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .form-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .form-group.full {
+
+                grid-column: auto;
+            }
+
+
+            .notification-row,
+            .account-action {
+
+                align-items: flex-start;
+            }
+
+
+            .settings-card {
+
+                padding: 21px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         TOP HEADER
+    ===================================================== -->
+
+    <header class="top-header">
+
+        <div class="header-left">
+
+            <a
+                href="admindashboard.html"
+                class="back-button"
+                title="Back to Dashboard"
+            >
+                ←
+            </a>
+
+            <div class="brand-name">
+                Annapriya
+            </div>
+
+        </div>
+
+
+        <div class="header-profile">
+
+            <div
+                class="profile-circle"
+                id="headerInitial"
+            >
+                A
+            </div>
+
+            <div
+                class="profile-name"
+                id="headerName"
+            >
+                Administrator
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ===================================================== -->
+
+    <main class="main">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header">
+
+            <div class="page-label">
+                ADMINISTRATOR
+            </div>
+
+            <h1>
+                ⚙️ Account Settings
+            </h1>
+
+            <p>
+                Manage your administrator account preferences and security.
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             ACCOUNT INFORMATION
+        ================================================= -->
+
+        <section class="settings-card">
+
+            <div class="card-header">
+
+                <div class="card-icon">
+                    👤
+                </div>
+
+                <div class="card-title">
+
+                    <h2>
+                        Account Information
+                    </h2>
+
+                    <p>
+                        Manage your administrator account details.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="account-info">
+
+                <div class="profile-info">
+
+                    <div
+                        class="large-avatar"
+                        id="profileInitial"
+                    >
+                        A
+                    </div>
+
+                    <div class="profile-text">
+
+                        <h3 id="displayName">
+                            Administrator
+                        </h3>
+
+                        <p id="displayEmail">
+                            admin@annapriya.com
+                        </p>
+
+                        <span class="admin-badge">
+                            ADMIN
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="primary-button"
+                    onclick="openProfileEditor()"
+                >
+                    ✏️ Edit Profile
+                </button>
+
+            </div>
+
+
+
+            <!-- EDIT PROFILE -->
+
+            <div
+                class="edit-form"
+                id="profileEditor"
+            >
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            Username
+                        </label>
+
+                        <input
+                            type="text"
+                            id="username"
+                            value="admin"
+                            disabled
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Role
+                        </label>
+
+                        <input
+                            type="text"
+                            value="Administrator"
+                            disabled
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="adminName"
+                            placeholder="Enter your name"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="adminEmail"
+                            placeholder="admin@annapriya.com"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label>
+                            Phone Number
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="adminPhone"
+                            placeholder="+91 XXXXX XXXXX"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-buttons">
+
+                    <button
+                        class="secondary-button"
+                        onclick="closeProfileEditor()"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        class="primary-button"
+                        onclick="saveProfile()"
+                    >
+                        Save Changes
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             PASSWORD & SECURITY
+        ================================================= -->
+
+        <section class="settings-card">
+
+            <div class="card-header">
+
+                <div class="card-icon">
+                    🔐
+                </div>
+
+                <div class="card-title">
+
+                    <h2>
+                        Password & Security
+                    </h2>
+
+                    <p>
+                        Keep your administrator account secure.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="security-list">
+
+
+                <!-- PASSWORD PROTECTION -->
+
+                <div class="security-item">
+
+                    <div class="security-info">
+
+                        <h3>
+                            Password Protection
+                        </h3>
+
+                        <p>
+                            Your administrator account uses password authentication.
+                        </p>
+
+                    </div>
+
+                    <label class="toggle">
+
+                        <input
+                            type="checkbox"
+                            id="passwordProtectionToggle"
+                            onchange="savePasswordProtectionSetting()"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- LOGIN PROTECTION -->
+
+                <div class="security-item">
+
+                    <div class="security-info">
+
+                        <h3>
+                            Login Protection
+                        </h3>
+
+                        <p>
+                            Administrator login is protected.
+                        </p>
+
+                    </div>
+
+                    <label class="toggle">
+
+                        <input
+                            type="checkbox"
+                            id="loginProtectionToggle"
+                            onchange="saveLoginProtectionSetting()"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- TWO FACTOR AUTHENTICATION -->
+
+                <div class="security-item">
+
+                    <div class="security-info">
+
+                        <h3>
+                            Two-Factor Authentication
+                        </h3>
+
+                        <p>
+                            Additional verification is not enabled.
+                        </p>
+
+                    </div>
+
+                    <label class="toggle">
+
+                        <input
+                            type="checkbox"
+                            id="twoFactorToggle"
+                            onchange="saveTwoFactorSetting()"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <div style="margin-top:20px;">
+
+                <button
+                    class="primary-button"
+                    onclick="openPasswordForm()"
+                >
+                    🔑 Change Password
+                </button>
+
+            </div>
+
+
+
+            <!-- PASSWORD FORM -->
+
+            <div
+                class="password-form"
+                id="passwordForm"
+            >
+
+                <div class="form-grid">
+
+
+                    <div class="form-group full">
+
+                        <label>
+                            Current Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="currentPassword"
+                            placeholder="Enter current password"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            New Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="newPassword"
+                            placeholder="Enter new password"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Confirm New Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            placeholder="Confirm new password"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-buttons">
+
+                    <button
+                        class="secondary-button"
+                        onclick="closePasswordForm()"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        class="primary-button"
+                        id="updatePasswordButton"
+                        onclick="changePassword()"
+                    >
+                        Update Password
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             NOTIFICATIONS
+        ================================================= -->
+
+        <section class="settings-card">
+
+            <div class="card-header">
+
+                <div class="card-icon">
+                    🔔
+                </div>
+
+                <div class="card-title">
+
+                    <h2>
+                        Notifications
+                    </h2>
+
+                    <p>
+                        Manage administrator account and system updates.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="notification-row">
+
+                <div class="notification-info">
+
+                    <h3>
+                        Admin notifications
+                    </h3>
+
+                    <p>
+                        Receive updates about users, bookings, payments,
+                        enquiries and reviews.
+                    </p>
+
+                </div>
+
+
+                <label class="toggle">
+
+                    <input
+                        type="checkbox"
+                        id="notificationToggle"
+                        onchange="saveNotificationSetting()"
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             ACCOUNT
+        ================================================= -->
+
+        <section class="settings-card">
+
+            <div class="card-header">
+
+                <div class="card-icon">
+                    ⚠️
+                </div>
+
+                <div class="card-title">
+
+                    <h2>
+                        Account
+                    </h2>
+
+                    <p>
+                        Sign out from your Annapriya administrator account.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="account-action">
+
+                <div class="account-action-text">
+
+                    <h3>
+                        Logout from Admin Panel
+                    </h3>
+
+                    <p>
+                        Logging out will end your current administrator
+                        session and return you to the Annapriya home page.
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="logout-button"
+                    onclick="logoutAdmin()"
+                >
+                    ↪ Logout
+                </button>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ===================================================== -->
+
+    <script>
+
+
+        /* =====================================================
+           LOAD ADMIN DATA
+        ===================================================== */
+
+        function loadAdminData() {
+
+            try {
+
+                const adminData =
+                    JSON.parse(
+                        localStorage.getItem("admin")
+                    );
+
+
+                if (!adminData) {
+                    return;
+                }
+
+
+                const username =
+                    adminData.username ||
+                    "admin";
+
+
+                const name =
+                    adminData.name ||
+                    "Administrator";
+
+
+                const email =
+                    adminData.email ||
+                    "admin@annapriya.com";
+
+
+                const phone =
+                    adminData.phone ||
+                    "";
+
+
+                document.getElementById(
+                    "username"
+                ).value = username;
+
+
+                document.getElementById(
+                    "adminName"
+                ).value = name;
+
+
+                document.getElementById(
+                    "adminEmail"
+                ).value = email;
+
+
+                document.getElementById(
+                    "adminPhone"
+                ).value = phone;
+
+
+                document.getElementById(
+                    "displayName"
+                ).textContent = name;
+
+
+                document.getElementById(
+                    "displayEmail"
+                ).textContent = email;
+
+
+                document.getElementById(
+                    "headerName"
+                ).textContent = name;
+
+
+                const initial =
+                    name.charAt(0).toUpperCase();
+
+
+                document.getElementById(
+                    "profileInitial"
+                ).textContent = initial;
+
+
+                document.getElementById(
+                    "headerInitial"
+                ).textContent = initial;
+
+
+                /* =================================================
+                   NOTIFICATION SETTING
+                ================================================= */
+
+                const notificationSetting =
+                    localStorage.getItem(
+                        "adminNotifications"
+                    );
+
+
+                if (
+                    notificationSetting !== null &&
+                    notificationSetting === "true"
+                ) {
+
+                    document.getElementById(
+                        "notificationToggle"
+                    ).checked = true;
+
+                }
+
+
+                /* =================================================
+                   PASSWORD PROTECTION
+                ================================================= */
+
+                const passwordProtectionSetting =
+                    localStorage.getItem(
+                        "adminPasswordProtection"
+                    );
+
+
+                if (
+                    passwordProtectionSetting !== null
+                ) {
+
+                    document.getElementById(
+                        "passwordProtectionToggle"
+                    ).checked =
+                        passwordProtectionSetting === "true";
+
+                } else {
+
+                    document.getElementById(
+                        "passwordProtectionToggle"
+                    ).checked = false;
+
+                }
+
+
+                /* =================================================
+                   LOGIN PROTECTION
+                ================================================= */
+
+                const loginProtectionSetting =
+                    localStorage.getItem(
+                        "adminLoginProtection"
+                    );
+
+
+                if (
+                    loginProtectionSetting !== null
+                ) {
+
+                    document.getElementById(
+                        "loginProtectionToggle"
+                    ).checked =
+                        loginProtectionSetting === "true";
+
+                } else {
+
+                    document.getElementById(
+                        "loginProtectionToggle"
+                    ).checked = false;
+
+                }
+
+
+                /* =================================================
+                   TWO FACTOR AUTHENTICATION
+                ================================================= */
+
+                const twoFactorSetting =
+                    localStorage.getItem(
+                        "adminTwoFactor"
+                    );
+
+
+                if (
+                    twoFactorSetting !== null
+                ) {
+
+                    document.getElementById(
+                        "twoFactorToggle"
+                    ).checked =
+                        twoFactorSetting === "true";
+
+                } else {
+
+                    document.getElementById(
+                        "twoFactorToggle"
+                    ).checked = false;
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Unable to load admin data:",
+                    error
+                );
+
+            }
+
+        }
+
+
+
+        /* =====================================================
+           OPEN PROFILE EDITOR
+        ===================================================== */
+
+        function openProfileEditor() {
+
+            document
+                .getElementById("profileEditor")
+                .classList
+                .add("show");
+
+        }
+
+
+
+        /* =====================================================
+           CLOSE PROFILE EDITOR
+        ===================================================== */
+
+        function closeProfileEditor() {
+
+            document
+                .getElementById("profileEditor")
+                .classList
+                .remove("show");
+
+        }
+
+
+
+        /* =====================================================
+           SAVE PROFILE
+        ===================================================== */
+
+        function saveProfile() {
+
+            const name =
+                document
+                    .getElementById("adminName")
+                    .value
+                    .trim();
+
+
+            const email =
+                document
+                    .getElementById("adminEmail")
+                    .value
+                    .trim();
+
+
+            const phone =
+                document
+                    .getElementById("adminPhone")
+                    .value
+                    .trim();
+
+
+            if (!name) {
+
+                alert(
+                    "Please enter your name."
+                );
+
+                return;
+            }
+
+
+            if (!email) {
+
+                alert(
+                    "Please enter your email address."
+                );
+
+                return;
+            }
+
+
+            try {
+
+                let adminData =
+                    JSON.parse(
+                        localStorage.getItem("admin")
+                    );
+
+
+                if (!adminData) {
+
+                    adminData = {
+                        role: "admin",
+                        username: "admin"
+                    };
+
+                }
+
+
+                adminData.name =
+                    name;
+
+
+                adminData.email =
+                    email;
+
+
+                adminData.phone =
+                    phone;
+
+
+                localStorage.setItem(
+                    "admin",
+                    JSON.stringify(adminData)
+                );
+
+
+                document.getElementById(
+                    "displayName"
+                ).textContent = name;
+
+
+                document.getElementById(
+                    "displayEmail"
+                ).textContent = email;
+
+
+                document.getElementById(
+                    "headerName"
+                ).textContent = name;
+
+
+                const initial =
+                    name.charAt(0).toUpperCase();
+
+
+                document.getElementById(
+                    "profileInitial"
+                ).textContent = initial;
+
+
+                document.getElementById(
+                    "headerInitial"
+                ).textContent = initial;
+
+
+                closeProfileEditor();
+
+
+                alert(
+                    "Account information saved successfully."
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Profile save error:",
+                    error
+                );
+
+
+                alert(
+                    "Unable to save account information."
+                );
+
+            }
+
+        }
+
+
+
+        /* =====================================================
+           OPEN PASSWORD FORM
+        ===================================================== */
+
+        function openPasswordForm() {
+
+            document
+                .getElementById("passwordForm")
+                .classList
+                .add("show");
+
+        }
+
+
+
+        /* =====================================================
+           CLOSE PASSWORD FORM
+        ===================================================== */
+
+        function closePasswordForm() {
+
+            document
+                .getElementById("passwordForm")
+                .classList
+                .remove("show");
+
+        }
+
+
+
+        /* =====================================================
+           CHANGE PASSWORD - BACKEND
+        ===================================================== */
+
+        async function changePassword() {
+
+            const currentPassword =
+                document
+                    .getElementById("currentPassword")
+                    .value;
+
+
+            const newPassword =
+                document
+                    .getElementById("newPassword")
+                    .value;
+
+
+            const confirmPassword =
+                document
+                    .getElementById("confirmPassword")
+                    .value;
+
+
+            if (
+                !currentPassword ||
+                !newPassword ||
+                !confirmPassword
+            ) {
+
+                alert(
+                    "Please fill in all password fields."
+                );
+
+                return;
+
+            }
+
+
+            if (newPassword.length < 6) {
+
+                alert(
+                    "New password must contain at least 6 characters."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                newPassword !==
+                confirmPassword
+            ) {
+
+                alert(
+                    "New passwords do not match."
+                );
+
+                return;
+
+            }
+
+
+            /* =================================================
+               GET ADMIN JWT TOKEN
+            ================================================= */
+
+            const token =
+                localStorage.getItem(
+                    "adminToken"
+                );
+
+
+            if (!token) {
+
+                alert(
+                    "Your admin session has expired. Please login again."
+                );
+
+                window.location.replace(
+                    "index.html"
+                );
+
+                return;
+
+            }
+
+
+            const updateButton =
+                document.getElementById(
+                    "updatePasswordButton"
+                );
+
+
+            try {
+
+                updateButton.disabled = true;
+
+                updateButton.textContent =
+                    "Updating...";
+
+
+                /* =================================================
+                   SEND PASSWORD CHANGE REQUEST TO BACKEND
+                ================================================= */
+
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/admin/change-password",
+                        {
+                            method: "PUT",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json",
+
+                                "Authorization":
+                                    "Bearer " + token
+
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    currentPassword:
+                                        currentPassword,
+
+                                    newPassword:
+                                        newPassword,
+
+                                    confirmPassword:
+                                        confirmPassword
+
+                                })
+
+                        }
+                    );
+
+
+                let data = {};
+
+                try {
+
+                    data =
+                        await response.json();
+
+                } catch (jsonError) {
+
+                    data = {
+                        message:
+                            "Invalid response from server."
+                    };
+
+                }
+
+
+                if (!response.ok) {
+
+                    alert(
+                        data.message ||
+                        "Failed to change password."
+                    );
+
+                    return;
+
+                }
+
+
+                alert(
+                    data.message ||
+                    "Password changed successfully."
+                );
+
+
+                document.getElementById(
+                    "currentPassword"
+                ).value = "";
+
+
+                document.getElementById(
+                    "newPassword"
+                ).value = "";
+
+
+                document.getElementById(
+                    "confirmPassword"
+                ).value = "";
+
+
+                closePasswordForm();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Admin password change error:",
+                    error
+                );
+
+
+                alert(
+                    "Unable to connect to the backend. Make sure the server is running."
+                );
+
+
+            } finally {
+
+                updateButton.disabled = false;
+
+                updateButton.textContent =
+                    "Update Password";
+
+            }
+
+        }
+
+
+
+        /* =====================================================
+           PASSWORD PROTECTION SETTING
+        ===================================================== */
+
+        function savePasswordProtectionSetting() {
+
+            const enabled =
+                document.getElementById(
+                    "passwordProtectionToggle"
+                ).checked;
+
+
+            localStorage.setItem(
+                "adminPasswordProtection",
+                enabled
+            );
+
+        }
+
+
+
+        /* =====================================================
+           LOGIN PROTECTION SETTING
+        ===================================================== */
+
+        function saveLoginProtectionSetting() {
+
+            const enabled =
+                document.getElementById(
+                    "loginProtectionToggle"
+                ).checked;
+
+
+            localStorage.setItem(
+                "adminLoginProtection",
+                enabled
+            );
+
+        }
+
+
+
+        /* =====================================================
+           TWO-FACTOR SETTING
+        ===================================================== */
+
+        function saveTwoFactorSetting() {
+
+            const enabled =
+                document.getElementById(
+                    "twoFactorToggle"
+                ).checked;
+
+
+            localStorage.setItem(
+                "adminTwoFactor",
+                enabled
+            );
+
+        }
+
+
+
+        /* =====================================================
+           NOTIFICATION SETTING
+        ===================================================== */
+
+        function saveNotificationSetting() {
+
+            const enabled =
+                document.getElementById(
+                    "notificationToggle"
+                ).checked;
+
+
+            localStorage.setItem(
+                "adminNotifications",
+                enabled
+            );
+
+        }
+
+
+
+        /* =====================================================
+           ADMIN LOGOUT
+        ===================================================== */
+
+        function logoutAdmin() {
+
+            const confirmLogout =
+                confirm(
+                    "Are you sure you want to logout?"
+                );
+
+
+            if (!confirmLogout) {
+                return;
+            }
+
+
+            localStorage.removeItem(
+                "adminToken"
+            );
+
+
+            localStorage.removeItem(
+                "admin"
+            );
+
+
+            sessionStorage.clear();
+
+
+            window.location.replace(
+                "index.html"
+            );
+
+        }
+
+
+
+        /* =====================================================
+           INITIAL LOAD
+        ===================================================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            loadAdminData
+        );
+
+    </script>
+
+</body>
+
+</html>

@@ -1481,6 +1481,8 @@
 
             line-height: 1.7;
 
+            white-space: pre-wrap;
+
         }
 
 
@@ -1577,6 +1579,222 @@
             background: #F7EBDD;
 
             color: var(--primary);
+
+        }
+
+
+        /* =====================================================
+           CONTACT CATERER MODAL
+        ===================================================== */
+
+        .contact-modal {
+
+            max-width: 560px;
+
+        }
+
+
+        .contact-modal-body {
+
+            padding: 24px;
+
+        }
+
+
+        .contact-info {
+
+            background: #FAF7F3;
+
+            border: 1px solid #EEE5DE;
+
+            border-radius: 9px;
+
+            padding: 14px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .contact-info-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .contact-info-row:last-child {
+
+            margin-bottom: 0;
+
+        }
+
+
+        .contact-info-label {
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+        }
+
+
+        .contact-info-value {
+
+            color: var(--accent);
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            text-align: right;
+
+            word-break: break-word;
+
+        }
+
+
+        .contact-field {
+
+            margin-bottom: 17px;
+
+        }
+
+
+        .contact-field label {
+
+            display: block;
+
+            color: var(--primary);
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .contact-field input,
+
+        .contact-field textarea {
+
+            width: 100%;
+
+            border: 1px solid #DED8D3;
+
+            border-radius: 8px;
+
+            padding: 11px 12px;
+
+            outline: none;
+
+            font-size: 13px;
+
+            color: var(--accent);
+
+            background: white;
+
+        }
+
+
+        .contact-field input {
+
+            height: 43px;
+
+        }
+
+
+        .contact-field textarea {
+
+            min-height: 130px;
+
+            resize: vertical;
+
+            line-height: 1.6;
+
+        }
+
+
+        .contact-field input:focus,
+
+        .contact-field textarea:focus {
+
+            border-color: var(--primary);
+
+            box-shadow:
+                0 0 0 2px rgba(139,30,63,0.08);
+
+        }
+
+
+        .contact-actions {
+
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 10px;
+
+            margin-top: 5px;
+
+        }
+
+
+        .contact-cancel-btn {
+
+            background: #F7EBDD;
+
+            color: var(--primary);
+
+            border: none;
+
+            border-radius: 7px;
+
+            padding: 11px 18px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+        }
+
+
+        .contact-send-btn {
+
+            background: var(--primary);
+
+            color: white;
+
+            border: none;
+
+            border-radius: 7px;
+
+            padding: 11px 18px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+        }
+
+
+        .contact-cancel-btn:hover,
+
+        .contact-send-btn:hover {
+
+            opacity: 0.92;
 
         }
 
@@ -1724,200 +1942,414 @@
 
             }
 
+
+            .contact-info-row {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+                gap: 3px;
+
+            }
+
+
+            .contact-info-value {
+
+                text-align: left;
+
+            }
+
+
+            .contact-actions {
+
+                flex-direction: column-reverse;
+
+            }
+
+
+            .contact-cancel-btn,
+
+            .contact-send-btn {
+
+                width: 100%;
+
+            }
+
         }
 
-    
 
-    /* =====================================================
-       ADMIN SIDEBAR — SAME AS ADMIN USERS PAGE
-       ===================================================== */
+        /* =====================================================
+           ADMIN SIDEBAR — SAME AS ADMIN USERS PAGE
+        ===================================================== */
 
-    .sidebar {
-        position: fixed !important;
-        left: 0 !important;
-        top: 0 !important;
-        width: 245px !important;
-        height: 100vh !important;
-        min-height: 100vh !important;
-        box-sizing: border-box !important;
-        background: #1C1C1C !important;
-        color: #FFFFFF !important;
-        padding: 25px 18px !important;
-        display: flex !important;
-        flex-direction: column !important;
-        overflow-y: scroll !important;
-        overflow-x: hidden !important;
-        box-shadow: 4px 0 18px rgba(0,0,0,0.10) !important;
-        z-index: 1000 !important;
-        scrollbar-width: auto !important;
-        scrollbar-color: #FFFFFF #1C1C1C !important;
-    }
-
-    /* White sliding scrollbar/thumb on the black sidebar */
-    .sidebar::-webkit-scrollbar {
-        width: 9px;
-    }
-
-    .sidebar::-webkit-scrollbar-track {
-        background: #1C1C1C;
-    }
-
-    .sidebar::-webkit-scrollbar-thumb {
-        background: #FFFFFF;
-        border-radius: 2px;
-        border: 1px solid #1C1C1C;
-    }
-
-    .sidebar::-webkit-scrollbar-thumb:hover {
-        background: #E8E8E8;
-    }
-
-    .brand {
-        flex-shrink: 0 !important;
-        padding: 0 !important;
-        border: none !important;
-        margin: 0 0 30px !important;
-        text-align: center !important;
-    }
-
-    .brand h2 {
-        font-family: Georgia, serif !important;
-        font-size: 28px !important;
-        font-weight: bold !important;
-        color: #D4A373 !important;
-        letter-spacing: 0.5px !important;
-        margin: 0 !important;
-    }
-
-    .brand span {
-        display: block !important;
-        margin-top: 7px !important;
-        font-size: 11px !important;
-        letter-spacing: 1.5px !important;
-        color: #999999 !important;
-        text-transform: uppercase !important;
-    }
-
-    .sidebar-nav {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 7px !important;
-        flex-shrink: 0 !important;
-    }
-
-    .sidebar-nav a,
-    .sidebar-bottom a {
-        text-decoration: none !important;
-        color: #DDDDDD !important;
-        padding: 13px 14px !important;
-        border-radius: 9px !important;
-        display: flex !important;
-        align-items: center !important;
-        gap: 11px !important;
-        font-size: 14px !important;
-        line-height: 1.2 !important;
-        white-space: nowrap !important;
-        transition: all 0.25s ease !important;
-        box-sizing: border-box !important;
-    }
-
-    .sidebar-nav a:hover,
-    .sidebar-bottom a:hover {
-        background: #8B1E3F !important;
-        color: #FFFFFF !important;
-        transform: translateX(2px) !important;
-    }
-
-    .sidebar-nav a.active {
-        background: #8B1E3F !important;
-        color: #FFFFFF !important;
-        font-weight: 700 !important;
-        box-shadow: 0 5px 15px rgba(139,30,63,0.30) !important;
-    }
-
-    .nav-icon {
-        width: 25px !important;
-        min-width: 25px !important;
-        text-align: center !important;
-        font-size: 17px !important;
-        flex-shrink: 0 !important;
-    }
-
-    .sidebar-bottom {
-        margin-top: 20px !important;
-        padding-top: 20px !important;
-        padding-bottom: 12px !important;
-        border-top: 1px solid rgba(255,255,255,0.08) !important;
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 7px !important;
-        flex-shrink: 0 !important;
-    }
-
-    .sidebar-bottom a {
-        margin-bottom: 0 !important;
-    }
-
-    .sidebar-bottom .logout,
-    .logout {
-        color: #FFB3B3 !important;
-    }
-
-    .main,
-    .main-content {
-        margin-left: 245px !important;
-        width: calc(100% - 245px) !important;
-        min-height: 100vh !important;
-    }
-
-    @media (max-width: 800px) {
         .sidebar {
-            width: 75px !important;
-            padding: 20px 10px !important;
+
+            position: fixed !important;
+
+            left: 0 !important;
+
+            top: 0 !important;
+
+            width: 245px !important;
+
+            height: 100vh !important;
+
+            min-height: 100vh !important;
+
+            box-sizing: border-box !important;
+
+            background: #1C1C1C !important;
+
+            color: #FFFFFF !important;
+
+            padding: 25px 18px !important;
+
+            display: flex !important;
+
+            flex-direction: column !important;
+
+            overflow-y: scroll !important;
+
+            overflow-x: hidden !important;
+
+            box-shadow:
+                4px 0 18px rgba(0,0,0,0.10) !important;
+
+            z-index: 1000 !important;
+
+            scrollbar-width: auto !important;
+
+            scrollbar-color: #FFFFFF #1C1C1C !important;
+
         }
+
+
+        .sidebar::-webkit-scrollbar {
+
+            width: 9px;
+
+        }
+
+
+        .sidebar::-webkit-scrollbar-track {
+
+            background: #1C1C1C;
+
+        }
+
+
+        .sidebar::-webkit-scrollbar-thumb {
+
+            background: #FFFFFF;
+
+            border-radius: 2px;
+
+            border: 1px solid #1C1C1C;
+
+        }
+
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+
+            background: #E8E8E8;
+
+        }
+
+
+        .brand {
+
+            flex-shrink: 0 !important;
+
+            padding: 0 !important;
+
+            border: none !important;
+
+            margin: 0 0 30px !important;
+
+            text-align: center !important;
+
+        }
+
 
         .brand h2 {
-            font-size: 17px !important;
+
+            font-family: Georgia, serif !important;
+
+            font-size: 28px !important;
+
+            font-weight: bold !important;
+
+            color: #D4A373 !important;
+
+            letter-spacing: 0.5px !important;
+
+            margin: 0 !important;
+
         }
 
+
         .brand span {
-            display: none !important;
+
+            display: block !important;
+
+            margin-top: 7px !important;
+
+            font-size: 11px !important;
+
+            letter-spacing: 1.5px !important;
+
+            color: #999999 !important;
+
+            text-transform: uppercase !important;
+
         }
+
+
+        .sidebar-nav {
+
+            display: flex !important;
+
+            flex-direction: column !important;
+
+            gap: 7px !important;
+
+            flex-shrink: 0 !important;
+
+        }
+
 
         .sidebar-nav a,
         .sidebar-bottom a {
-            justify-content: center !important;
-            padding: 13px 5px !important;
+
+            text-decoration: none !important;
+
+            color: #DDDDDD !important;
+
+            padding: 13px 14px !important;
+
+            border-radius: 9px !important;
+
+            display: flex !important;
+
+            align-items: center !important;
+
+            gap: 11px !important;
+
+            font-size: 14px !important;
+
+            line-height: 1.2 !important;
+
+            white-space: nowrap !important;
+
+            transition: all 0.25s ease !important;
+
+            box-sizing: border-box !important;
+
         }
 
-        .sidebar-nav a span:not(.nav-icon),
-        .sidebar-bottom a span:not(.nav-icon) {
-            display: none !important;
+
+        .sidebar-nav a:hover,
+        .sidebar-bottom a:hover {
+
+            background: #8B1E3F !important;
+
+            color: #FFFFFF !important;
+
+            transform: translateX(2px) !important;
+
         }
+
+
+        .sidebar-nav a.active {
+
+            background: #8B1E3F !important;
+
+            color: #FFFFFF !important;
+
+            font-weight: 700 !important;
+
+            box-shadow:
+                0 5px 15px rgba(139,30,63,0.30) !important;
+
+        }
+
+
+        .nav-icon {
+
+            width: 25px !important;
+
+            min-width: 25px !important;
+
+            text-align: center !important;
+
+            font-size: 17px !important;
+
+            flex-shrink: 0 !important;
+
+        }
+
+
+        .sidebar-bottom {
+
+            margin-top: 20px !important;
+
+            padding-top: 20px !important;
+
+            padding-bottom: 12px !important;
+
+            border-top:
+                1px solid rgba(255,255,255,0.08) !important;
+
+            display: flex !important;
+
+            flex-direction: column !important;
+
+            gap: 7px !important;
+
+            flex-shrink: 0 !important;
+
+        }
+
+
+        .sidebar-bottom a {
+
+            margin-bottom: 0 !important;
+
+        }
+
+
+        .sidebar-bottom .logout,
+        .logout {
+
+            color: #FFB3B3 !important;
+
+        }
+
 
         .main,
         .main-content {
-            margin-left: 75px !important;
-            width: calc(100% - 75px) !important;
-        }
-    }
 
-    @media (max-width: 600px) {
-        .sidebar {
-            position: static !important;
-            width: 100% !important;
-            height: auto !important;
-            min-height: auto !important;
-            overflow-y: visible !important;
+            margin-left: 245px !important;
+
+            width: calc(100% - 245px) !important;
+
+            min-height: 100vh !important;
+
         }
 
-        .main,
-        .main-content {
-            margin-left: 0 !important;
-            width: 100% !important;
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+
+                width: 75px !important;
+
+                padding: 20px 10px !important;
+
+            }
+
+
+            .brand h2 {
+
+                font-size: 17px !important;
+
+            }
+
+
+            .brand span {
+
+                display: none !important;
+
+            }
+
+
+            .sidebar-nav a,
+            .sidebar-bottom a {
+
+                justify-content: center !important;
+
+                padding: 13px 5px !important;
+
+            }
+
+
+            .sidebar-nav a span:not(.nav-icon),
+            .sidebar-bottom a span:not(.nav-icon) {
+
+                display: none !important;
+
+            }
+
+
+            .main,
+            .main-content {
+
+                margin-left: 75px !important;
+
+                width: calc(100% - 75px) !important;
+
+            }
+
         }
-    }
-</style>
+
+
+        @media (max-width: 600px) {
+
+            .sidebar {
+
+                position: static !important;
+
+                width: 100% !important;
+
+                height: auto !important;
+
+                min-height: auto !important;
+
+                overflow-y: visible !important;
+
+            }
+
+
+            .main,
+            .main-content {
+
+                margin-left: 0 !important;
+
+                width: 100% !important;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           BACKEND LOADING / ERROR
+        ===================================================== */
+
+        .backend-message {
+
+            padding: 55px 25px;
+
+            text-align: center;
+
+        }
+
+
+        .backend-message .empty-icon {
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .backend-message.error .empty-icon {
+
+            background: #FDEEEE;
+
+        }
+
+    </style>
 
 </head>
 
@@ -1932,67 +2364,125 @@
 <aside class="sidebar">
 
     <div class="brand">
+
         <h2>Annapriya</h2>
+
         <span>Admin Panel</span>
+
     </div>
 
+
     <nav class="sidebar-nav">
+
         <a href="admindashboard.html">
+
             <span class="nav-icon">🏠</span>
+
             <span>Dashboard</span>
+
         </a>
+
 
         <a href="adminusers.html">
+
             <span class="nav-icon">👥</span>
+
             <span>Manage Users</span>
+
         </a>
+
 
         <a href="admincaterers.html">
+
             <span class="nav-icon">👨‍🍳</span>
+
             <span>Manage Caterers</span>
+
         </a>
 
-        <a href="adminenquiries.html" class="active">
+
+        <a
+            href="adminenquiries.html"
+            class="active"
+        >
+
             <span class="nav-icon">✉️</span>
+
             <span>Customer Enquiries</span>
+
         </a>
+
 
         <a href="adminbookings.html">
+
             <span class="nav-icon">📅</span>
+
             <span>Manage Bookings</span>
+
         </a>
+
 
         <a href="adminpayments.html">
+
             <span class="nav-icon">💳</span>
+
             <span>Manage Payments</span>
+
         </a>
+
 
         <a href="adminreviews.html">
+
             <span class="nav-icon">⭐</span>
+
             <span>Manage Reviews</span>
+
         </a>
+
 
         <a href="adminreports.html">
+
             <span class="nav-icon">📊</span>
+
             <span>Reports &amp; Analytics</span>
+
         </a>
+
 
         <a href="adminsettings.html">
+
             <span class="nav-icon">⚙️</span>
+
             <span>System Settings</span>
+
         </a>
+
     </nav>
 
+
     <div class="sidebar-bottom">
+
         <a href="adminprofile.html">
+
             <span class="nav-icon">👤</span>
+
             <span>Account Settings</span>
+
         </a>
 
-        <a href="#" class="logout" onclick="logoutAdmin(event)">
+
+        <a
+            href="#"
+            class="logout"
+            onclick="logoutAdmin(event)"
+        >
+
             <span class="nav-icon">🚪</span>
+
             <span>Logout</span>
+
         </a>
+
     </div>
 
 </aside>
@@ -2045,6 +2535,7 @@
                 >
                     Admin
                 </div>
+
 
                 <div class="admin-role">
                     Super Admin
@@ -2121,6 +2612,7 @@
                         Total Enquiries
                     </div>
 
+
                     <div class="stat-icon">
                         ✉️
                     </div>
@@ -2135,7 +2627,6 @@
                     0
                 </div>
 
-
             </div>
 
 
@@ -2148,6 +2639,7 @@
                     <div class="stat-title">
                         Open
                     </div>
+
 
                     <div class="stat-icon">
                         !
@@ -2163,7 +2655,6 @@
                     0
                 </div>
 
-
             </div>
 
 
@@ -2176,6 +2667,7 @@
                     <div class="stat-title">
                         In Progress
                     </div>
+
 
                     <div class="stat-icon">
                         ↻
@@ -2191,7 +2683,6 @@
                     0
                 </div>
 
-
             </div>
 
 
@@ -2204,6 +2695,7 @@
                     <div class="stat-title">
                         Resolved
                     </div>
+
 
                     <div class="stat-icon">
                         ✓
@@ -2218,7 +2710,6 @@
                 >
                     0
                 </div>
-
 
             </div>
 
@@ -2277,13 +2768,16 @@
                         All Status
                     </option>
 
+
                     <option value="open">
                         Open
                     </option>
 
+
                     <option value="in_progress">
                         In Progress
                     </option>
+
 
                     <option value="resolved">
                         Resolved
@@ -2301,13 +2795,16 @@
                         All Priority
                     </option>
 
+
                     <option value="normal">
                         Normal
                     </option>
 
+
                     <option value="high">
                         High
                     </option>
+
 
                     <option value="urgent">
                         Urgent
@@ -2344,7 +2841,6 @@
                     0 enquiries
                 </span>
 
-
             </div>
 
 
@@ -2362,29 +2858,36 @@
                                 ENQUIRY ID
                             </th>
 
+
                             <th>
                                 CUSTOMER
                             </th>
+
 
                             <th>
                                 CATERER
                             </th>
 
+
                             <th>
                                 SUBJECT
                             </th>
+
 
                             <th>
                                 DATE
                             </th>
 
+
                             <th>
                                 PRIORITY
                             </th>
 
+
                             <th>
                                 STATUS
                             </th>
+
 
                             <th>
                                 ACTION
@@ -2396,38 +2899,6 @@
 
 
                     <tbody id="enquiryTableBody">
-
-
-                        <tr>
-
-                            <td colspan="8">
-
-                                <div class="empty-state">
-
-
-                                    <div class="empty-icon">
-                                        ✉️
-                                    </div>
-
-
-                                    <h3>
-                                        No Enquiries Available
-                                    </h3>
-
-
-                                    <p>
-                                        Customer enquiry data will appear here
-                                        after the enquiry backend and database
-                                        structure are connected.
-                                    </p>
-
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-
 
                     </tbody>
 
@@ -2470,9 +2941,11 @@
                         1
                     </div>
 
+
                     <strong>
                         Customer
                     </strong>
+
 
                     <span>
                         Customer submits an enquiry.
@@ -2487,9 +2960,11 @@
                         2
                     </div>
 
+
                     <strong>
                         Admin Receives
                     </strong>
+
 
                     <span>
                         Admin reviews the complaint.
@@ -2504,9 +2979,11 @@
                         3
                     </div>
 
+
                     <strong>
                         Contact Caterer
                     </strong>
+
 
                     <span>
                         Admin contacts the concerned caterer.
@@ -2521,9 +2998,11 @@
                         4
                     </div>
 
+
                     <strong>
                         Follow Up
                     </strong>
+
 
                     <span>
                         Admin updates the customer.
@@ -2538,9 +3017,11 @@
                         5
                     </div>
 
+
                     <strong>
                         Resolve
                     </strong>
+
 
                     <span>
                         Admin marks the enquiry resolved.
@@ -2611,6 +3092,7 @@
                         Customer Name
                     </div>
 
+
                     <div
                         class="detail-value"
                         id="detailCustomerName"
@@ -2626,6 +3108,7 @@
                     <div class="detail-label">
                         Email
                     </div>
+
 
                     <div
                         class="detail-value"
@@ -2643,6 +3126,7 @@
                         Phone
                     </div>
 
+
                     <div
                         class="detail-value"
                         id="detailCustomerPhone"
@@ -2651,7 +3135,6 @@
                     </div>
 
                 </div>
-
 
             </div>
 
@@ -2673,6 +3156,7 @@
                         Caterer / Brand
                     </div>
 
+
                     <div
                         class="detail-value"
                         id="detailCatererName"
@@ -2688,6 +3172,7 @@
                     <div class="detail-label">
                         Email
                     </div>
+
 
                     <div
                         class="detail-value"
@@ -2705,6 +3190,7 @@
                         Phone
                     </div>
 
+
                     <div
                         class="detail-value"
                         id="detailCatererPhone"
@@ -2713,7 +3199,6 @@
                     </div>
 
                 </div>
-
 
             </div>
 
@@ -2735,6 +3220,7 @@
                         Request ID
                     </div>
 
+
                     <div
                         class="detail-value"
                         id="detailRequestId"
@@ -2750,6 +3236,7 @@
                     <div class="detail-label">
                         Event Type
                     </div>
+
 
                     <div
                         class="detail-value"
@@ -2767,6 +3254,7 @@
                         Event Date
                     </div>
 
+
                     <div
                         class="detail-value"
                         id="detailEventDate"
@@ -2782,6 +3270,7 @@
                     <div class="detail-label">
                         Guest Count
                     </div>
+
 
                     <div
                         class="detail-value"
@@ -2799,6 +3288,7 @@
                         Venue
                     </div>
 
+
                     <div
                         class="detail-value"
                         id="detailVenue"
@@ -2815,6 +3305,7 @@
                         Package
                     </div>
 
+
                     <div
                         class="detail-value"
                         id="detailPackage"
@@ -2823,7 +3314,6 @@
                     </div>
 
                 </div>
-
 
             </div>
 
@@ -2869,6 +3359,7 @@
 
 
                 <button
+                    type="button"
                     class="modal-btn primary-btn"
                     onclick="showBackendNotice('reply')"
                 >
@@ -2877,6 +3368,7 @@
 
 
                 <button
+                    type="button"
                     class="modal-btn warning-btn"
                     onclick="showBackendNotice('caterer')"
                 >
@@ -2885,6 +3377,7 @@
 
 
                 <button
+                    type="button"
                     class="modal-btn secondary-btn"
                     onclick="showBackendNotice('progress')"
                 >
@@ -2893,6 +3386,7 @@
 
 
                 <button
+                    type="button"
                     class="modal-btn success-btn"
                     onclick="showBackendNotice('resolved')"
                 >
@@ -2913,7 +3407,162 @@
 
 
 
+<!-- =====================================================
+     CONTACT CATERER MODAL
+===================================================== -->
+
+<div
+    class="modal-overlay"
+    id="contactCatererModal"
+>
+
+
+    <div class="modal contact-modal">
+
+
+        <div class="modal-header">
+
+            <h2>
+                Contact Caterer
+            </h2>
+
+
+            <button
+                type="button"
+                class="close-btn"
+                onclick="closeContactCatererModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="contact-modal-body">
+
+
+            <div class="contact-info">
+
+
+                <div class="contact-info-row">
+
+                    <span class="contact-info-label">
+                        Caterer
+                    </span>
+
+
+                    <span
+                        class="contact-info-value"
+                        id="contactCatererName"
+                    >
+                        —
+                    </span>
+
+                </div>
+
+
+                <div class="contact-info-row">
+
+                    <span class="contact-info-label">
+                        Complaint ID
+                    </span>
+
+
+                    <span
+                        class="contact-info-value"
+                        id="contactComplaintId"
+                    >
+                        —
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="contact-field">
+
+                <label for="catererMessageSubject">
+                    Message Subject
+                </label>
+
+
+                <input
+                    type="text"
+                    id="catererMessageSubject"
+                    placeholder="Enter message subject"
+                    maxlength="200"
+                >
+
+            </div>
+
+
+
+            <div class="contact-field">
+
+                <label for="catererMessageText">
+                    Message
+                </label>
+
+
+                <textarea
+                    id="catererMessageText"
+                    placeholder="Write your message to the caterer..."
+                ></textarea>
+
+            </div>
+
+
+
+            <div class="contact-actions">
+
+
+                <button
+                    type="button"
+                    class="contact-cancel-btn"
+                    onclick="closeContactCatererModal()"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    type="button"
+                    class="contact-send-btn"
+                    onclick="sendCatererMessage()"
+                >
+                    Send Message
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
 <script>
+
+    /* =====================================================
+       GLOBAL DATA
+    ===================================================== */
+
+    let complaints = [];
+
+    let selectedComplaint = null;
+
+    const API_URL =
+        "http://localhost:5000/api/complaints";
+
 
     /* =====================================================
        ADMIN PROFILE
@@ -2995,20 +3644,87 @@
 
 
     /* =====================================================
-       SEARCH
-       Ready for backend data later.
+       ESCAPE HTML
     ===================================================== */
 
-    function filterEnquiries() {
+    function escapeHTML(value) {
 
-        /*
-         * Enquiry filtering will be connected to the
-         * actual enquiry backend after the enquiry table
-         * and API are finalized.
-         */
+        if (
+            value === null ||
+            value === undefined
+        ) {
 
-        console.log(
-            "Enquiry filters ready."
+            return "";
+
+        }
+
+
+        return String(value)
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+
+    /* =====================================================
+       FORMAT DATE
+    ===================================================== */
+
+    function formatDate(value) {
+
+        if (!value) {
+
+            return "—";
+
+        }
+
+
+        const date =
+            new Date(value);
+
+
+        if (
+            isNaN(
+                date.getTime()
+            )
+        ) {
+
+            return escapeHTML(value);
+
+        }
+
+
+        return date.toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
         );
 
     }
@@ -3016,7 +3732,688 @@
 
 
     /* =====================================================
-       MODAL
+       STATUS TEXT
+    ===================================================== */
+
+    function getStatusText(status) {
+
+        if (
+            status === "in_progress"
+        ) {
+
+            return "In Progress";
+
+        }
+
+
+        if (
+            status === "resolved"
+        ) {
+
+            return "Resolved";
+
+        }
+
+
+        return "Open";
+
+    }
+
+
+
+    /* =====================================================
+       STATUS HTML
+    ===================================================== */
+
+    function getStatusHTML(status) {
+
+        let statusClass =
+            "status-open";
+
+
+        if (
+            status === "in_progress"
+        ) {
+
+            statusClass =
+                "status-progress";
+
+        }
+
+
+        if (
+            status === "resolved"
+        ) {
+
+            statusClass =
+                "status-resolved";
+
+        }
+
+
+        return `
+            <span class="status-badge ${statusClass}">
+                <span class="status-dot"></span>
+                ${escapeHTML(
+                    getStatusText(status)
+                )}
+            </span>
+        `;
+
+    }
+
+
+
+    /* =====================================================
+       PRIORITY HTML
+    ===================================================== */
+
+    function getPriorityHTML(priority) {
+
+        const value =
+            priority ||
+            "normal";
+
+
+        const label =
+            value.charAt(0).toUpperCase() +
+            value.slice(1);
+
+
+        return `
+            <span class="priority-badge priority-${escapeHTML(value)}">
+                ${escapeHTML(label)}
+            </span>
+        `;
+
+    }
+
+
+
+    /* =====================================================
+       UPDATE SUMMARY
+    ===================================================== */
+
+    function updateSummary() {
+
+        const total =
+            complaints.length;
+
+
+        const open =
+            complaints.filter(
+                complaint =>
+                    complaint.status === "open"
+            ).length;
+
+
+        const progress =
+            complaints.filter(
+                complaint =>
+                    complaint.status === "in_progress"
+            ).length;
+
+
+        const resolved =
+            complaints.filter(
+                complaint =>
+                    complaint.status === "resolved"
+            ).length;
+
+
+        document.getElementById(
+            "totalEnquiries"
+        ).textContent =
+            total;
+
+
+        document.getElementById(
+            "openEnquiries"
+        ).textContent =
+            open;
+
+
+        document.getElementById(
+            "progressEnquiries"
+        ).textContent =
+            progress;
+
+
+        document.getElementById(
+            "resolvedEnquiries"
+        ).textContent =
+            resolved;
+
+    }
+
+
+
+    /* =====================================================
+       EMPTY STATE
+    ===================================================== */
+
+    function showEmptyState(
+        title,
+        message,
+        error = false
+    ) {
+
+        const tbody =
+            document.getElementById(
+                "enquiryTableBody"
+            );
+
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="8">
+                    <div class="backend-message ${error ? "error" : ""}">
+                        <div class="empty-icon">
+                            ${error ? "⚠️" : "✉️"}
+                        </div>
+
+                        <h3>
+                            ${escapeHTML(title)}
+                        </h3>
+
+                        <p>
+                            ${escapeHTML(message)}
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        `;
+
+    }
+
+
+
+    /* =====================================================
+       RENDER COMPLAINTS
+    ===================================================== */
+
+    function renderComplaints() {
+
+        const tbody =
+            document.getElementById(
+                "enquiryTableBody"
+            );
+
+
+        const searchValue =
+            document.getElementById(
+                "searchInput"
+            ).value
+                .trim()
+                .toLowerCase();
+
+
+        const statusValue =
+            document.getElementById(
+                "statusFilter"
+            ).value;
+
+
+        const priorityValue =
+            document.getElementById(
+                "priorityFilter"
+            ).value;
+
+
+        const filtered =
+            complaints.filter(
+                complaint => {
+
+                    const searchableText = [
+
+                        complaint.complaint_id,
+
+                        complaint.customer_id,
+
+                        complaint.customer_name,
+
+                        complaint.customer_email,
+
+                        complaint.caterer_name,
+
+                        complaint.complaint_category,
+
+                        complaint.complaint_subject,
+
+                        complaint.complaint_description,
+
+                        complaint.status,
+
+                        complaint.priority
+
+                    ]
+                        .filter(
+                            value =>
+                                value !== null &&
+                                value !== undefined
+                        )
+                        .join(" ")
+                        .toLowerCase();
+
+
+                    const matchesSearch =
+                        !searchValue ||
+                        searchableText.includes(
+                            searchValue
+                        );
+
+
+                    const matchesStatus =
+                        !statusValue ||
+                        complaint.status ===
+                            statusValue;
+
+
+                    const matchesPriority =
+                        !priorityValue ||
+                        complaint.priority ===
+                            priorityValue;
+
+
+                    return (
+                        matchesSearch &&
+                        matchesStatus &&
+                        matchesPriority
+                    );
+
+                }
+            );
+
+
+        document.getElementById(
+            "enquiryCount"
+        ).textContent =
+            `${filtered.length} ${
+                filtered.length === 1
+                    ? "enquiry"
+                    : "enquiries"
+            }`;
+
+
+        if (
+            filtered.length === 0
+        ) {
+
+            if (
+                complaints.length === 0
+            ) {
+
+                showEmptyState(
+                    "No Enquiries Available",
+                    "Customer enquiry data will appear here after a customer submits a complaint."
+                );
+
+            } else {
+
+                showEmptyState(
+                    "No Matching Enquiries",
+                    "No complaints match the current search or filter."
+                );
+
+            }
+
+            return;
+
+        }
+
+
+        tbody.innerHTML =
+            filtered
+                .map(
+                    complaint => {
+
+                        const id =
+                            Number(
+                                complaint.complaint_id
+                            );
+
+
+                        const customerName =
+                            complaint.customer_name ||
+                            "Customer";
+
+
+                        const catererName =
+                            complaint.caterer_name ||
+                            "—";
+
+
+                        const subject =
+                            complaint.complaint_subject ||
+                            "—";
+
+
+                        return `
+                            <tr>
+
+                                <td>
+                                    <span class="enquiry-id">
+                                        CMP-${id}
+                                    </span>
+                                </td>
+
+
+                                <td>
+                                    <div class="customer-name">
+                                        ${escapeHTML(
+                                            customerName
+                                        )}
+                                    </div>
+
+                                    <div style="
+                                        font-size:10px;
+                                        color:#766D68;
+                                        margin-top:3px;
+                                    ">
+                                        ${escapeHTML(
+                                            complaint.customer_email ||
+                                            "—"
+                                        )}
+                                    </div>
+                                </td>
+
+
+                                <td>
+                                    <span class="caterer-name">
+                                        ${escapeHTML(
+                                            catererName
+                                        )}
+                                    </span>
+                                </td>
+
+
+                                <td>
+                                    <div class="subject">
+                                        ${escapeHTML(
+                                            subject
+                                        )}
+                                    </div>
+                                </td>
+
+
+                                <td>
+                                    <span class="date">
+                                        ${formatDate(
+                                            complaint.created_at
+                                        )}
+                                    </span>
+                                </td>
+
+
+                                <td>
+                                    ${getPriorityHTML(
+                                        complaint.priority
+                                    )}
+                                </td>
+
+
+                                <td>
+                                    ${getStatusHTML(
+                                        complaint.status
+                                    )}
+                                </td>
+
+
+                                <td>
+                                    <button
+                                        type="button"
+                                        class="view-btn"
+                                        onclick="viewComplaint(${id})"
+                                    >
+                                        View
+                                    </button>
+                                </td>
+
+                            </tr>
+                        `;
+
+                    }
+                )
+                .join("");
+
+    }
+
+
+
+    /* =====================================================
+       LOAD COMPLAINTS
+    ===================================================== */
+
+    async function loadComplaints() {
+
+        try {
+
+            const response =
+                await fetch(
+                    API_URL
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Could not load complaints."
+                );
+
+            }
+
+
+            complaints =
+                Array.isArray(
+                    data.complaints
+                )
+                    ? data.complaints
+                    : [];
+
+
+            updateSummary();
+
+            renderComplaints();
+
+        } catch (error) {
+
+            console.error(
+                "Load complaints error:",
+                error
+            );
+
+
+            complaints = [];
+
+
+            updateSummary();
+
+
+            document.getElementById(
+                "enquiryCount"
+            ).textContent =
+                "0 enquiries";
+
+
+            showEmptyState(
+                "Unable to Load Enquiries",
+                "Could not connect to the complaint backend. Make sure the backend server is running on port 5000.",
+                true
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       SEARCH / FILTER
+    ===================================================== */
+
+    function filterEnquiries() {
+
+        renderComplaints();
+
+    }
+
+
+
+    /* =====================================================
+       VIEW COMPLAINT
+    ===================================================== */
+
+    function viewComplaint(
+        complaintId
+    ) {
+
+        const complaint =
+            complaints.find(
+                item =>
+                    Number(
+                        item.complaint_id
+                    ) ===
+                    Number(
+                        complaintId
+                    )
+            );
+
+
+        if (!complaint) {
+
+            alert(
+                "Complaint details could not be found."
+            );
+
+            return;
+
+        }
+
+
+        selectedComplaint =
+            complaint;
+
+
+        document.getElementById(
+            "detailCustomerName"
+        ).textContent =
+            complaint.customer_name ||
+            "—";
+
+
+        document.getElementById(
+            "detailCustomerEmail"
+        ).textContent =
+            complaint.customer_email ||
+            "—";
+
+
+        document.getElementById(
+            "detailCustomerPhone"
+        ).textContent =
+            complaint.customer_phone ||
+            complaint.phone ||
+            "—";
+
+
+        document.getElementById(
+            "detailCatererName"
+        ).textContent =
+            complaint.caterer_name ||
+            "—";
+
+
+        document.getElementById(
+            "detailCatererEmail"
+        ).textContent =
+            complaint.caterer_email ||
+            "—";
+
+
+        document.getElementById(
+            "detailCatererPhone"
+        ).textContent =
+            complaint.caterer_phone ||
+            "—";
+
+
+        document.getElementById(
+            "detailRequestId"
+        ).textContent =
+            complaint.request_id ||
+            `CMP-${complaint.complaint_id}`;
+
+
+        document.getElementById(
+            "detailEventType"
+        ).textContent =
+            complaint.event_type ||
+            complaint.complaint_category ||
+            "—";
+
+
+        document.getElementById(
+            "detailEventDate"
+        ).textContent =
+            complaint.event_date ||
+            "—";
+
+
+        document.getElementById(
+            "detailGuestCount"
+        ).textContent =
+            complaint.guest_count ||
+            "—";
+
+
+        document.getElementById(
+            "detailVenue"
+        ).textContent =
+            complaint.venue ||
+            "—";
+
+
+        document.getElementById(
+            "detailPackage"
+        ).textContent =
+            complaint.package_name ||
+            complaint.package ||
+            "—";
+
+
+        document.getElementById(
+            "detailMessage"
+        ).textContent =
+            complaint.complaint_description ||
+            "—";
+
+
+        document.getElementById(
+            "adminReply"
+        ).value =
+            complaint.admin_reply ||
+            "";
+
+
+        document
+            .getElementById(
+                "enquiryModal"
+            )
+            .classList.add(
+                "show"
+            );
+
+    }
+
+
+
+    /* =====================================================
+       CLOSE ENQUIRY MODAL
     ===================================================== */
 
     function closeEnquiryModal() {
@@ -3029,63 +4426,674 @@
                 "show"
             );
 
+
+        selectedComplaint =
+            null;
+
     }
 
 
 
     /* =====================================================
-       BACKEND NOTICE
+       SEND ADMIN REPLY
     ===================================================== */
 
-    function showBackendNotice(
-        action
+    async function sendAdminReply() {
+
+        if (!selectedComplaint) {
+
+            alert(
+                "Please select an enquiry first."
+            );
+
+            return;
+
+        }
+
+
+        const reply =
+            document.getElementById(
+                "adminReply"
+            ).value.trim();
+
+
+        if (!reply) {
+
+            alert(
+                "Please write a reply before sending."
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/${selectedComplaint.complaint_id}/reply`,
+                    {
+                        method: "PUT",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            adminReply:
+                                reply
+                        })
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Failed to send reply."
+                );
+
+            }
+
+
+            alert(
+                data.message ||
+                "Admin reply saved successfully."
+            );
+
+
+            closeEnquiryModal();
+
+            await loadComplaints();
+
+        } catch (error) {
+
+            console.error(
+                "Send reply error:",
+                error
+            );
+
+
+            alert(
+                error.message ||
+                "Failed to send admin reply."
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       UPDATE STATUS
+    ===================================================== */
+
+    async function updateComplaintStatus(
+        status
     ) {
 
-        let message =
-            "This action will be connected after the Customer Enquiry database table and backend API are finalized.";
+        if (!selectedComplaint) {
 
+            alert(
+                "Please select an enquiry first."
+            );
 
-        if (
-            action === "reply"
-        ) {
-
-            message =
-                "Admin Reply will be connected after the enquiry backend is created.";
+            return;
 
         }
 
 
-        if (
-            action === "caterer"
-        ) {
+        try {
 
-            message =
-                "Contact Caterer will be connected after the enquiry backend and communication flow are created.";
+            const response =
+                await fetch(
+                    `${API_URL}/${selectedComplaint.complaint_id}/status`,
+                    {
+                        method: "PUT",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            status:
+                                status
+                        })
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Failed to update status."
+                );
+
+            }
+
+
+            alert(
+                data.message ||
+                "Complaint status updated successfully."
+            );
+
+
+            closeEnquiryModal();
+
+            await loadComplaints();
+
+        } catch (error) {
+
+            console.error(
+                "Update status error:",
+                error
+            );
+
+
+            alert(
+                error.message ||
+                "Failed to update complaint status."
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       OPEN CONTACT CATERER MODAL
+    ===================================================== */
+
+    async function contactCaterer() {
+
+        if (!selectedComplaint) {
+
+            alert(
+                "Please select an enquiry first."
+            );
+
+            return;
 
         }
 
 
-        if (
-            action === "progress"
-        ) {
-
-            message =
-                "In Progress status will be connected after the enquiry status backend is created.";
-
-        }
+        const catererName =
+            selectedComplaint.caterer_name;
 
 
-        if (
-            action === "resolved"
-        ) {
+        if (!catererName) {
 
-            message =
-                "Resolved status will be connected after the enquiry status backend is created.";
+            alert(
+                "No caterer is associated with this complaint."
+            );
+
+            return;
 
         }
 
 
-        alert(message);
+        document.getElementById(
+            "contactCatererName"
+        ).textContent =
+            catererName;
+
+
+        document.getElementById(
+            "contactComplaintId"
+        ).textContent =
+            `CMP-${selectedComplaint.complaint_id}`;
+
+
+        document.getElementById(
+            "catererMessageSubject"
+        ).value =
+            "";
+
+
+        document.getElementById(
+            "catererMessageText"
+        ).value =
+            "";
+
+
+        document
+            .getElementById(
+                "contactCatererModal"
+            )
+            .classList.add(
+                "show"
+            );
+
+
+        setTimeout(
+            function() {
+
+                document
+                    .getElementById(
+                        "catererMessageSubject"
+                    )
+                    .focus();
+
+            },
+            100
+        );
+
+    }
+
+
+
+    /* =====================================================
+       CLOSE CONTACT CATERER MODAL
+    ===================================================== */
+
+    function closeContactCatererModal() {
+
+        document
+            .getElementById(
+                "contactCatererModal"
+            )
+            .classList.remove(
+                "show"
+            );
+
+
+        document.getElementById(
+            "catererMessageSubject"
+        ).value =
+            "";
+
+
+        document.getElementById(
+            "catererMessageText"
+        ).value =
+            "";
+
+    }
+
+
+
+    /* =====================================================
+       SEND CATERER MESSAGE
+    ===================================================== */
+
+    async function sendCatererMessage() {
+
+        if (!selectedComplaint) {
+
+            alert(
+                "Please select an enquiry first."
+            );
+
+            closeContactCatererModal();
+
+            return;
+
+        }
+
+
+        const catererName =
+            selectedComplaint.caterer_name;
+
+
+        if (!catererName) {
+
+            alert(
+                "No caterer is associated with this complaint."
+            );
+
+            return;
+
+        }
+
+
+        const subject =
+            document
+                .getElementById(
+                    "catererMessageSubject"
+                )
+                .value
+                .trim();
+
+
+        const message =
+            document
+                .getElementById(
+                    "catererMessageText"
+                )
+                .value
+                .trim();
+
+
+        if (!subject) {
+
+            alert(
+                "Please enter a message subject."
+            );
+
+            document
+                .getElementById(
+                    "catererMessageSubject"
+                )
+                .focus();
+
+            return;
+
+        }
+
+
+        if (!message) {
+
+            alert(
+                "Please enter a message for the caterer."
+            );
+
+            document
+                .getElementById(
+                    "catererMessageText"
+                )
+                .focus();
+
+            return;
+
+        }
+
+
+        try {
+
+            const adminToken =
+                localStorage.getItem(
+                    "adminToken"
+                );
+
+
+            if (!adminToken) {
+
+                alert(
+                    "Admin session expired. Please login again."
+                );
+
+                closeContactCatererModal();
+
+                return;
+
+            }
+
+
+            /* =================================================
+               FIND CATERER ID
+            ================================================= */
+
+            const catererResponse =
+                await fetch(
+                    "http://localhost:5000/api/admin/caterers",
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "Authorization":
+                                `Bearer ${adminToken}`
+                        }
+                    }
+                );
+
+
+            const catererData =
+                await catererResponse.json();
+
+
+            if (!catererResponse.ok) {
+
+                throw new Error(
+                    catererData.message ||
+                    "Could not load caterer details."
+                );
+
+            }
+
+
+            /*
+               SUPPORT DIFFERENT POSSIBLE
+               BACKEND RESPONSE STRUCTURES
+            */
+
+            const caterers =
+                Array.isArray(catererData)
+                    ? catererData
+                    : (
+                        Array.isArray(
+                            catererData.caterers
+                        )
+                            ? catererData.caterers
+                            : (
+                                Array.isArray(
+                                    catererData.data
+                                )
+                                    ? catererData.data
+                                    : []
+                            )
+                    );
+
+
+            const normalizedCatererName =
+                String(catererName)
+                    .trim()
+                    .toLowerCase();
+
+
+            const selectedCaterer =
+                caterers.find(
+                    caterer => {
+
+                        const names = [
+
+                            caterer.caterer_name,
+
+                            caterer.name,
+
+                            caterer.business_name,
+
+                            caterer.brand_name,
+
+                            caterer.catering_name,
+
+                            caterer.head_name,
+
+                            caterer.headName
+
+                        ]
+                            .filter(Boolean)
+                            .map(
+                                value =>
+                                    String(value)
+                                        .trim()
+                                        .toLowerCase()
+                            );
+
+
+                        return names.includes(
+                            normalizedCatererName
+                        );
+
+                    }
+                );
+
+
+            if (!selectedCaterer) {
+
+                alert(
+                    `Could not find the caterer's account for "${catererName}".`
+                );
+
+                return;
+
+            }
+
+
+            /* =================================================
+               GET CATERER ID
+            ================================================= */
+
+            const catererId =
+                selectedCaterer.caterer_id ||
+                selectedCaterer.catererId ||
+                selectedCaterer.id;
+
+
+            if (!catererId) {
+
+                alert(
+                    "Caterer ID could not be found."
+                );
+
+                return;
+
+            }
+
+
+            /* =================================================
+               SEND ADMIN MESSAGE TO CATERER
+            ================================================= */
+
+            const response =
+                await fetch(
+                    "http://localhost:5000/api/admin-caterer-messages",
+                    {
+                        method: "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json",
+
+                            "Authorization":
+                                `Bearer ${adminToken}`
+
+                        },
+
+                        body: JSON.stringify({
+
+                            catererId:
+                                catererId,
+
+                            catererName:
+                                catererName,
+
+                            complaintId:
+                                selectedComplaint.complaint_id,
+
+                            subject:
+                                subject,
+
+                            message:
+                                message
+
+                        })
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Failed to send message to caterer."
+                );
+
+            }
+
+
+            closeContactCatererModal();
+
+
+            alert(
+                data.message ||
+                "Message sent to caterer successfully."
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Contact caterer error:",
+                error
+            );
+
+
+            alert(
+                error.message ||
+                "Failed to contact caterer."
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       BACKEND ACTIONS
+    ===================================================== */
+
+    async function showBackendNotice(action) {
+
+        if (action === "reply") {
+
+            await sendAdminReply();
+
+            return;
+
+        }
+
+
+        if (action === "progress") {
+
+            await updateComplaintStatus(
+                "in_progress"
+            );
+
+            return;
+
+        }
+
+
+        if (action === "resolved") {
+
+            await updateComplaintStatus(
+                "resolved"
+            );
+
+            return;
+
+        }
+
+
+        if (action === "caterer") {
+
+            await contactCaterer();
+
+            return;
+
+        }
 
     }
 
@@ -3137,6 +5145,110 @@
 
 
     /* =====================================================
+       ENQUIRY MODAL BACKGROUND CLOSE
+    ===================================================== */
+
+    document
+        .getElementById(
+            "enquiryModal"
+        )
+        .addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target === this
+                ) {
+
+                    closeEnquiryModal();
+
+                }
+
+            }
+        );
+
+
+
+    /* =====================================================
+       CONTACT CATERER MODAL BACKGROUND CLOSE
+    ===================================================== */
+
+    document
+        .getElementById(
+            "contactCatererModal"
+        )
+        .addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target === this
+                ) {
+
+                    closeContactCatererModal();
+
+                }
+
+            }
+        );
+
+
+
+    /* =====================================================
+       ESC KEY FOR MODALS
+    ===================================================== */
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                const contactModal =
+                    document.getElementById(
+                        "contactCatererModal"
+                    );
+
+
+                if (
+                    contactModal.classList.contains(
+                        "show"
+                    )
+                ) {
+
+                    closeContactCatererModal();
+
+                    return;
+
+                }
+
+
+                const enquiryModal =
+                    document.getElementById(
+                        "enquiryModal"
+                    );
+
+
+                if (
+                    enquiryModal.classList.contains(
+                        "show"
+                    )
+                ) {
+
+                    closeEnquiryModal();
+
+                }
+
+            }
+
+        }
+    );
+
+
+
+    /* =====================================================
        SEARCH EVENTS
     ===================================================== */
 
@@ -3172,35 +5284,12 @@
 
 
     /* =====================================================
-       MODAL BACKGROUND CLOSE
-    ===================================================== */
-
-    document
-        .getElementById(
-            "enquiryModal"
-        )
-        .addEventListener(
-            "click",
-            function(event) {
-
-                if (
-                    event.target === this
-                ) {
-
-                    closeEnquiryModal();
-
-                }
-
-            }
-        );
-
-
-
-    /* =====================================================
        INITIAL LOAD
     ===================================================== */
 
     loadAdminProfile();
+
+    loadComplaints();
 
 </script>
 

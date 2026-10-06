@@ -22,6 +22,116 @@
         href="customerdashboard.css"
     >
 
+
+    <!-- =====================================================
+         NOTIFICATION ENHANCEMENT STYLES
+         Only notification scrolling + delete menu
+    ====================================================== -->
+
+    <style>
+
+        /* =====================================================
+           SCROLLABLE NOTIFICATION LIST
+        ====================================================== */
+
+        .notification-list {
+            max-height: 320px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+
+        /* =====================================================
+           NOTIFICATION SCROLLBAR
+        ====================================================== */
+
+        .notification-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .notification-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .notification-list::-webkit-scrollbar-thumb {
+            background: #D4A373;
+            border-radius: 10px;
+        }
+
+        .notification-list::-webkit-scrollbar-thumb:hover {
+            background: #8B1E3F;
+        }
+
+
+        /* =====================================================
+           SELECTED NOTIFICATION
+        ====================================================== */
+
+        .notification-item.notification-selected {
+            background: #F5E9DA;
+        }
+
+
+        /* =====================================================
+           RIGHT-CLICK DELETE MENU
+        ====================================================== */
+
+        .notification-context-menu {
+            position: fixed;
+            display: none;
+            min-width: 190px;
+            background: #FFFFFF;
+            border: 1px solid rgba(28, 28, 28, 0.10);
+            border-radius: 8px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+            z-index: 9999;
+            overflow: hidden;
+        }
+
+
+        .notification-context-menu.show {
+            display: block;
+        }
+
+
+        .notification-delete-option {
+            width: 100%;
+            border: none;
+            background: #FFFFFF;
+            color: #8B1E3F;
+            padding: 12px 14px;
+            text-align: left;
+            font-family: "Work Sans", sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+
+        .notification-delete-option:hover {
+            background: #F5E9DA;
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (max-width: 600px) {
+
+            .notification-list {
+                max-height: 280px;
+            }
+
+            .notification-context-menu {
+                min-width: 175px;
+            }
+
+        }
+
+    </style>
+
 </head>
 
 
@@ -209,9 +319,7 @@
         </a>
 
 
-        <!-- =================================================
-             CUSTOMER ENQUIRIES
-        ================================================== -->
+        <!-- CUSTOMER ENQUIRIES -->
 
         <a
             href="customerenquiries.html"
@@ -263,6 +371,22 @@
             </span>
 
         </a>
+       <!-- ADMIN MESSAGES -->
+
+<a
+    href="adminmessages.html"
+    class="menu-item"
+>
+
+    <span class="menu-icon">
+        💌
+    </span>
+
+    <span>
+        Admin Messages
+    </span>
+
+</a>
 
 
         <!-- MY REVIEWS -->
@@ -407,6 +531,28 @@
 
 
     <!-- =====================================================
+         NOTIFICATION RIGHT-CLICK MENU
+    ====================================================== -->
+
+    <div
+        class="notification-context-menu"
+        id="notificationContextMenu"
+    >
+
+        <button
+            type="button"
+            class="notification-delete-option"
+            id="deleteNotificationOption"
+        >
+
+            🗑️ Delete Notification
+
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
          MAIN DASHBOARD
     ====================================================== -->
 
@@ -454,7 +600,9 @@
                 title="Event Requests"
                 type="button"
             >
+
                 ⌕
+
             </button>
 
         </section>
@@ -585,7 +733,18 @@
     </main>
 
 
+    <!-- =====================================================
+         ONLY CATERER DASHBOARD JAVASCRIPT
+         
+         IMPORTANT:
+         Notification functionality is handled inside
+         catererdashboard.js.
+         
+         Do NOT add another notification script here.
+    ====================================================== -->
+
     <script src="catererdashboard.js"></script>
+
 
 </body>
 

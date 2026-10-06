@@ -18,6 +18,80 @@
 
     <!-- Customer Dashboard CSS -->
     <link rel="stylesheet" href="customerdashboard.css">
+
+    <!-- =====================================================
+         NOTIFICATION EXTRA STYLES
+         ONLY FOR SCROLL + RIGHT CLICK DELETE
+    ====================================================== -->
+
+    <style>
+
+        /* Scrollable notification list */
+        .notification-list {
+            max-height: 320px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* Smooth scrollbar */
+        .notification-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .notification-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .notification-list::-webkit-scrollbar-thumb {
+            background: #8B1E3F;
+            border-radius: 10px;
+        }
+
+        .notification-list::-webkit-scrollbar-thumb:hover {
+            background: #6f1832;
+        }
+
+        /* Right-clicked notification */
+        .notification-item.notification-selected {
+            background: #F5E9DA;
+        }
+
+        /* Custom right-click menu */
+        .notification-context-menu {
+            position: fixed;
+            display: none;
+            min-width: 170px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+            border: 1px solid rgba(28, 28, 28, 0.08);
+            z-index: 9999;
+            overflow: hidden;
+        }
+
+        .notification-context-menu.show {
+            display: block;
+        }
+
+        .notification-context-delete {
+            width: 100%;
+            border: none;
+            background: #ffffff;
+            color: #8B1E3F;
+            padding: 12px 15px;
+            text-align: left;
+            font-family: "Work Sans", sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .notification-context-delete:hover {
+            background: #F5E9DA;
+        }
+
+    </style>
+
 </head>
 
 <body>
@@ -71,7 +145,7 @@
 
             <!-- =================================================
                  CUSTOMER PROFILE
-                 
+
                  CLICKING PROFILE:
                  ONLY MY PROFILE
             ================================================== -->
@@ -103,9 +177,9 @@
 
             <!-- =================================================
                  HAMBURGER MENU
-                 
+
                  CLICKING ☰:
-                 ALL 9 OPTIONS
+                 ALL OPTIONS
             ================================================== -->
 
             <button
@@ -126,7 +200,7 @@
 
     <!-- =====================================================
          PROFILE BUTTON MENU
-         
+
          ONLY:
          👤 My Profile
     ====================================================== -->
@@ -157,8 +231,6 @@
 
     <!-- =====================================================
          HAMBURGER MENU
-         
-         ALL 9 OPTIONS
     ====================================================== -->
 
     <div
@@ -320,6 +392,27 @@
 
 
 
+        <!-- =================================================
+             7. RAISE COMPLAINT
+        ================================================== -->
+
+        <a
+            href="raisecomplaint.html"
+            class="menu-item"
+        >
+
+            <span class="menu-icon">
+                📝
+            </span>
+
+            <span>
+                Raise Complaint
+            </span>
+
+        </a>
+
+
+
         <!-- Divider -->
 
         <div class="menu-divider"></div>
@@ -327,7 +420,7 @@
 
 
         <!-- =================================================
-             7. EDIT PROFILE
+             8. EDIT PROFILE
         ================================================== -->
 
         <a
@@ -348,7 +441,7 @@
 
 
         <!-- =================================================
-             8. ACCOUNT SETTINGS
+             9. ACCOUNT SETTINGS
         ================================================== -->
 
         <a
@@ -375,7 +468,7 @@
 
 
         <!-- =================================================
-             9. LOGOUT
+             10. LOGOUT
         ================================================== -->
 
         <button
@@ -509,6 +602,27 @@
             </div>
 
         </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         CUSTOM NOTIFICATION RIGHT-CLICK MENU
+    ====================================================== -->
+
+    <div
+        class="notification-context-menu"
+        id="notificationContextMenu"
+    >
+
+        <button
+            type="button"
+            class="notification-context-delete"
+            id="deleteNotificationButton"
+        >
+            🗑️ Delete Notification
+        </button>
 
     </div>
 
@@ -778,6 +892,257 @@
 
     <!-- Customer Dashboard JavaScript -->
     <script src="customerdashboard.js"></script>
+
+
+
+    <!-- =====================================================
+         NOTIFICATION SCROLL + RIGHT-CLICK DELETE
+         ONLY ADDITIONAL NOTIFICATION FUNCTIONALITY
+    ====================================================== -->
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const notificationList =
+                document.querySelector(".notification-list");
+
+            const notificationBadge =
+                document.getElementById("notificationBadge");
+
+            const contextMenu =
+                document.getElementById("notificationContextMenu");
+
+            const deleteButton =
+                document.getElementById("deleteNotificationButton");
+
+
+            let selectedNotification = null;
+
+
+            /* =================================================
+               UPDATE NOTIFICATION COUNT
+            ================================================== */
+
+            function updateNotificationCount() {
+
+                if (!notificationList || !notificationBadge) {
+                    return;
+                }
+
+                const notifications =
+                    notificationList.querySelectorAll(
+                        ".notification-item"
+                    );
+
+                const count = notifications.length;
+
+                notificationBadge.textContent = count;
+
+                if (count === 0) {
+
+                    notificationBadge.style.display = "none";
+
+                } else {
+
+                    notificationBadge.style.display = "flex";
+
+                }
+
+            }
+
+
+            /* =================================================
+               SHOW RIGHT-CLICK MENU
+            ================================================== */
+
+            if (notificationList) {
+
+                notificationList.addEventListener(
+                    "contextmenu",
+                    function (event) {
+
+                        const notification =
+                            event.target.closest(
+                                ".notification-item"
+                            );
+
+
+                        if (!notification) {
+                            return;
+                        }
+
+
+                        event.preventDefault();
+
+
+                        /* Remove previous selection */
+
+                        document
+                            .querySelectorAll(
+                                ".notification-item.notification-selected"
+                            )
+                            .forEach(function (item) {
+
+                                item.classList.remove(
+                                    "notification-selected"
+                                );
+
+                            });
+
+
+                        /* Select current notification */
+
+                        selectedNotification =
+                            notification;
+
+                        selectedNotification.classList.add(
+                            "notification-selected"
+                        );
+
+
+                        /* Show context menu */
+
+                        contextMenu.classList.add("show");
+
+
+                        let menuX =
+                            event.clientX;
+
+                        let menuY =
+                            event.clientY;
+
+
+                        const menuWidth =
+                            170;
+
+                        const menuHeight =
+                            45;
+
+
+                        /* Keep menu inside screen */
+
+                        if (
+                            menuX + menuWidth >
+                            window.innerWidth
+                        ) {
+
+                            menuX =
+                                window.innerWidth -
+                                menuWidth -
+                                10;
+
+                        }
+
+
+                        if (
+                            menuY + menuHeight >
+                            window.innerHeight
+                        ) {
+
+                            menuY =
+                                window.innerHeight -
+                                menuHeight -
+                                10;
+
+                        }
+
+
+                        contextMenu.style.left =
+                            menuX + "px";
+
+                        contextMenu.style.top =
+                            menuY + "px";
+
+                    }
+                );
+
+            }
+
+
+            /* =================================================
+               DELETE SELECTED NOTIFICATION
+            ================================================== */
+
+            if (deleteButton) {
+
+                deleteButton.addEventListener(
+                    "click",
+                    function () {
+
+                        if (selectedNotification) {
+
+                            selectedNotification.remove();
+
+                            selectedNotification =
+                                null;
+
+                            contextMenu.classList.remove(
+                                "show"
+                            );
+
+                            updateNotificationCount();
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            /* =================================================
+               CLOSE CONTEXT MENU
+            ================================================== */
+
+            document.addEventListener(
+                "click",
+                function (event) {
+
+                    if (
+                        contextMenu &&
+                        !contextMenu.contains(event.target)
+                    ) {
+
+                        contextMenu.classList.remove(
+                            "show"
+                        );
+
+                    }
+
+                }
+            );
+
+
+            /* =================================================
+               ESCAPE KEY CLOSES CONTEXT MENU
+            ================================================== */
+
+            document.addEventListener(
+                "keydown",
+                function (event) {
+
+                    if (event.key === "Escape") {
+
+                        contextMenu.classList.remove(
+                            "show"
+                        );
+
+                    }
+
+                }
+            );
+
+
+            /* =================================================
+               INITIAL NOTIFICATION COUNT
+            ================================================== */
+
+            updateNotificationCount();
+
+        });
+
+    </script>
 
 </body>
 

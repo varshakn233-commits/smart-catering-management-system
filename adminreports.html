@@ -1443,7 +1443,7 @@
 
     <div class="sidebar-bottom">
         <a href="adminprofile.html"><span class="nav-icon">👤</span><span>Account Settings</span></a>
-        <a href="#" class="logout" onclick="logoutAdmin(event)"><span class="nav-icon">🚪</span><span>Logout</span></a>
+        <a href="index.html" class="logout" onclick="logoutAdmin(event)"><span class="nav-icon">🚪</span><span>Logout</span></a>
     </div>
 
 </aside>
@@ -3866,7 +3866,37 @@
         }
  
     }
+    /* =====================================================
+       LOGOUT
+    ===================================================== */
 
+    function logoutAdmin(event) {
+
+        if (event) {
+
+            event.preventDefault();
+
+        }
+
+
+        localStorage.removeItem(
+            "adminToken"
+        );
+
+        localStorage.removeItem(
+            "admin"
+        );
+
+        sessionStorage.clear();
+
+
+        window.location.replace(
+            "index.html"
+        );
+
+    }
+
+    
 
     /* =========================================================
        INITIAL LOAD

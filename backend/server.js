@@ -15,6 +15,9 @@ const reviewRoutes = require("./routes/reviewRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const trackingRoutes = require("./routes/trackingRoutes");
 const enquiryRoutes = require("./routes/enquiryRoutes");
+const complaintRoutes = require("./routes/complaintRoutes");
+const adminCatererMessageRoutes =
+    require("./routes/adminCatererMessageRoutes");
 
 const app = express();
 
@@ -61,10 +64,11 @@ app.use(
     "/api/admin",
     adminRoutes
 );
+
 app.use(
     "/api/forgot-password",
     forgotPasswordRoutes
-);  
+);
 
 app.use(
     "/api/requests",
@@ -95,10 +99,21 @@ app.use(
     "/api/tracking",
     trackingRoutes
 );
+
 app.use(
     "/api/enquiries",
     enquiryRoutes
 );
+
+app.use(
+    "/api/complaints",
+    complaintRoutes
+);
+app.use(
+    "/api/admin-caterer-messages",
+    adminCatererMessageRoutes
+);
+
 
 /* =====================================================
    TEST ROUTE

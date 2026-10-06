@@ -97,7 +97,7 @@
 
 
         /* =====================================================
-           SIDEBAR — MATCHES ADMIN DASHBOARD
+           SIDEBAR
         ===================================================== */
 
         .sidebar {
@@ -121,7 +121,6 @@
             overscroll-behavior: contain;
         }
 
-        /* Always-visible plain white scrollbar */
         .sidebar::-webkit-scrollbar {
             width: 8px;
         }
@@ -222,6 +221,7 @@
         .sidebar-bottom .logout {
             color: #FFB3B3 !important;
         }
+
 
         /* =====================================================
            TOP HEADER
@@ -997,7 +997,17 @@
         }
 
 
-        .customer-name,
+        .customer-name {
+
+            font-weight:
+                600;
+
+            color:
+                var(--accent);
+
+        }
+
+
         .caterer-name {
 
             font-weight:
@@ -1718,9 +1728,9 @@
 
 
             <a
-                href="#"
-                class="logout"
-                onclick="logoutAdmin(event)">
+               href="index.html"
+               class="logout"
+               onclick="logoutAdmin(event)">
 
                 <span class="nav-icon">🚪</span>
 
@@ -2028,6 +2038,7 @@
                 <!-- SEARCH -->
 
                 <div class="input-wrap">
+
 
                     <span class="input-icon">
 
@@ -3436,9 +3447,7 @@
        LOGOUT
     ===================================================== */
 
-    function logoutAdmin(
-        event
-    ) {
+    function logoutAdmin(event) {
 
         if (event) {
 
@@ -3451,9 +3460,16 @@
             "adminToken"
         );
 
+        localStorage.removeItem(
+            "admin"
+        );
 
-        window.location.href =
-            "adminlogin.html";
+        sessionStorage.clear();
+
+
+        window.location.replace(
+            "index.html"
+        );
 
     }
 

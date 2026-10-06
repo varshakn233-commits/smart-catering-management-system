@@ -4,6 +4,7 @@ const router = express.Router();
 
 const {
     login,
+    changeAdminPassword,
 
     // CATERERS
     listCaterers,
@@ -19,6 +20,11 @@ const {
     getPaymentSummary,
     listPayments,
     getPaymentDetails,
+
+    // REVIEWS
+    getReviewSummary,
+    listReviews,
+    getReviewDetails,
 
     // REPORTS
     getReportsOverview,
@@ -44,6 +50,17 @@ const verifyAdminToken =
 router.post(
     "/login",
     login
+);
+
+
+// =====================================================
+// ADMIN CHANGE PASSWORD
+// =====================================================
+
+router.put(
+    "/change-password",
+    verifyAdminToken,
+    changeAdminPassword
 );
 
 
@@ -117,6 +134,29 @@ router.get(
 
 
 // =====================================================
+// REVIEW MANAGEMENT
+// =====================================================
+
+router.get(
+    "/reviews/summary",
+    verifyAdminToken,
+    getReviewSummary
+);
+
+router.get(
+    "/reviews",
+    verifyAdminToken,
+    listReviews
+);
+
+router.get(
+    "/reviews/:id",
+    verifyAdminToken,
+    getReviewDetails
+);
+
+
+// =====================================================
 // REPORTS & ANALYTICS
 // =====================================================
 
@@ -168,5 +208,9 @@ router.get(
     getCatererPerformance
 );
 
+
+// =====================================================
+// EXPORT ROUTER
+// =====================================================
 
 module.exports = router;

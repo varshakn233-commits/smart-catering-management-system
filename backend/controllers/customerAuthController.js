@@ -18,6 +18,7 @@ const PASSWORD_REGEX =
 // =====================================================
 
 async function signup(req, res) {
+
     try {
 
         const {
@@ -32,6 +33,7 @@ async function signup(req, res) {
 
 
         // Required fields
+
         if (
             !fullName ||
             !gender ||
@@ -41,35 +43,46 @@ async function signup(req, res) {
             !password ||
             !confirmPassword
         ) {
+
             return res.status(400).json({
                 message: "All fields are required."
             });
+
         }
 
 
         // Gmail validation
+
         if (!GMAIL_REGEX.test(email.trim())) {
+
             return res.status(400).json({
                 message:
                     "Please use a valid Gmail address ending with @gmail.com."
             });
+
         }
 
 
         // Password confirmation
+
         if (password !== confirmPassword) {
+
             return res.status(400).json({
                 message: "Passwords do not match."
             });
+
         }
 
 
         // Strong password validation
+
         if (!PASSWORD_REGEX.test(password)) {
+
             return res.status(400).json({
                 message:
                     "Password must be at least 6 characters long and contain at least one letter, one number, and one special character."
             });
+
         }
 
 
@@ -78,6 +91,7 @@ async function signup(req, res) {
 
 
         // Check existing customer
+
         const [existing] = await db.query(
             "SELECT customer_id FROM customers WHERE email = ?",
             [cleanEmail]
@@ -85,18 +99,22 @@ async function signup(req, res) {
 
 
         if (existing.length > 0) {
+
             return res.status(409).json({
                 message: "Email already registered."
             });
+
         }
 
 
         // Hash password
+
         const passwordHash =
             await bcrypt.hash(password, 10);
 
 
         // Insert customer
+
         const [result] = await db.query(
             `INSERT INTO customers
             (
@@ -120,8 +138,13 @@ async function signup(req, res) {
 
 
         return res.status(201).json({
-            message: "Account created successfully.",
-            customerId: result.insertId
+
+            message:
+                "Account created successfully.",
+
+            customerId:
+                result.insertId
+
         });
 
 
@@ -134,10 +157,14 @@ async function signup(req, res) {
 
 
         return res.status(500).json({
+
             message:
                 "Server error while creating account."
+
         });
+
     }
+
 }
 
 
@@ -146,6 +173,7 @@ async function signup(req, res) {
 // =====================================================
 
 async function login(req, res) {
+
     try {
 
         const {
@@ -155,10 +183,14 @@ async function login(req, res) {
 
 
         if (!email || !password) {
+
             return res.status(400).json({
+
                 message:
                     "Email and password are required."
+
             });
+
         }
 
 
@@ -173,21 +205,39 @@ async function login(req, res) {
 
 
         if (rows.length === 0) {
+
             return res.status(401).json({
+
                 message:
                     "Invalid email or password."
+
             });
+
         }
 
 
-        const customer = rows[0];
-if (customer.status === "blocked") {
-    return res.status(403).json({
-        message: "Your account has been blocked by the administrator."
-    });
-}
+        const customer =
+            rows[0];
+
+
+        // Check blocked status
+
+        if (
+            customer.status === "blocked"
+        ) {
+
+            return res.status(403).json({
+
+                message:
+                    "Your account has been blocked by the administrator."
+
+            });
+
+        }
+
 
         // Check password
+
         const passwordMatch =
             await bcrypt.compare(
                 password,
@@ -196,29 +246,37 @@ if (customer.status === "blocked") {
 
 
         if (!passwordMatch) {
+
             return res.status(401).json({
+
                 message:
                     "Invalid email or password."
+
             });
+
         }
 
 
         // Create JWT
-        const token = jwt.sign(
-            {
-                customerId:
-                    customer.customer_id,
 
-                email:
-                    customer.email
-            },
+        const token =
+            jwt.sign(
 
-            process.env.JWT_SECRET,
+                {
+                    customerId:
+                        customer.customer_id,
 
-            {
-                expiresIn: "7d"
-            }
-        );
+                    email:
+                        customer.email
+                },
+
+                process.env.JWT_SECRET,
+
+                {
+                    expiresIn: "7d"
+                }
+
+            );
 
 
         return res.status(200).json({
@@ -226,9 +284,12 @@ if (customer.status === "blocked") {
             message:
                 "Login successful.",
 
-            token: token,
+            token:
+
+                token,
 
             customer: {
+
                 id:
                     customer.customer_id,
 
@@ -246,6 +307,7 @@ if (customer.status === "blocked") {
 
                 phone:
                     customer.phone
+
             }
 
         });
@@ -260,10 +322,14 @@ if (customer.status === "blocked") {
 
 
         return res.status(500).json({
+
             message:
                 "Server error while logging in."
+
         });
+
     }
+
 }
 
 
@@ -276,10 +342,10 @@ async function changePassword(req, res) {
     try {
 
         /*
-        The customer ID comes from the JWT token.
+            The customer ID comes from the JWT token.
 
-        It should NOT be taken from the URL or
-        from the request body.
+            It should NOT be taken from the URL
+            or from the request body.
         */
 
         const customerId =
@@ -289,8 +355,10 @@ async function changePassword(req, res) {
         if (!customerId) {
 
             return res.status(401).json({
+
                 message:
                     "Authentication required. Please login again."
+
             });
 
         }
@@ -304,6 +372,7 @@ async function changePassword(req, res) {
 
 
         // Check required fields
+
         if (
             !currentPassword ||
             !newPassword ||
@@ -311,53 +380,67 @@ async function changePassword(req, res) {
         ) {
 
             return res.status(400).json({
+
                 message:
                     "All password fields are required."
+
             });
 
         }
 
 
         // Check new password confirmation
+
         if (
             newPassword !== confirmPassword
         ) {
 
             return res.status(400).json({
+
                 message:
                     "New passwords do not match."
+
             });
 
         }
 
 
         // Strong password validation
+
         if (
             !PASSWORD_REGEX.test(newPassword)
         ) {
 
             return res.status(400).json({
+
                 message:
                     "New password must be at least 6 characters long and contain at least one letter, one number, and one special character."
+
             });
 
         }
 
 
         // Get current password
+
         const [rows] = await db.query(
+
             `SELECT password_hash
              FROM customers
              WHERE customer_id = ?`,
+
             [customerId]
+
         );
 
 
         if (rows.length === 0) {
 
             return res.status(404).json({
+
                 message:
                     "Customer account not found."
+
             });
 
         }
@@ -368,6 +451,7 @@ async function changePassword(req, res) {
 
 
         // Verify current password
+
         const currentPasswordMatch =
             await bcrypt.compare(
                 currentPassword,
@@ -378,14 +462,17 @@ async function changePassword(req, res) {
         if (!currentPasswordMatch) {
 
             return res.status(401).json({
+
                 message:
                     "Current password is incorrect."
+
             });
 
         }
 
 
         // Prevent same password
+
         const samePassword =
             await bcrypt.compare(
                 newPassword,
@@ -396,14 +483,17 @@ async function changePassword(req, res) {
         if (samePassword) {
 
             return res.status(400).json({
+
                 message:
                     "New password must be different from your current password."
+
             });
 
         }
 
 
         // Hash new password
+
         const newPasswordHash =
             await bcrypt.hash(
                 newPassword,
@@ -411,31 +501,39 @@ async function changePassword(req, res) {
             );
 
 
-        // Update SAME password_hash column
+        // Update password
+
         const [result] = await db.query(
+
             `UPDATE customers
              SET password_hash = ?
              WHERE customer_id = ?`,
+
             [
                 newPasswordHash,
                 customerId
             ]
+
         );
 
 
         if (result.affectedRows === 0) {
 
             return res.status(500).json({
+
                 message:
                     "Password could not be updated."
+
             });
 
         }
 
 
         return res.status(200).json({
+
             message:
                 "Password changed successfully."
+
         });
 
 
@@ -448,11 +546,14 @@ async function changePassword(req, res) {
 
 
         return res.status(500).json({
+
             message:
                 "Server error while changing password."
+
         });
 
     }
+
 }
 
 
@@ -472,14 +573,17 @@ async function getCustomerProfile(req, res) {
         if (!customerId) {
 
             return res.status(400).json({
+
                 message:
                     "Customer ID is required."
+
             });
 
         }
 
 
         const [rows] = await db.query(
+
             `SELECT
                 customer_id,
                 full_name,
@@ -489,22 +593,29 @@ async function getCustomerProfile(req, res) {
                 email
              FROM customers
              WHERE customer_id = ?`,
+
             [customerId]
+
         );
 
 
         if (rows.length === 0) {
 
             return res.status(404).json({
+
                 message:
                     "Customer not found."
+
             });
 
         }
 
 
         return res.status(200).json({
-            customer: rows[0]
+
+            customer:
+                rows[0]
+
         });
 
 
@@ -517,11 +628,14 @@ async function getCustomerProfile(req, res) {
 
 
         return res.status(500).json({
+
             message:
                 "Could not load customer profile."
+
         });
 
     }
+
 }
 
 
@@ -549,8 +663,10 @@ async function updateCustomerProfile(req, res) {
         if (!customerId) {
 
             return res.status(400).json({
+
                 message:
                     "Customer ID is required."
+
             });
 
         }
@@ -564,14 +680,17 @@ async function updateCustomerProfile(req, res) {
         ) {
 
             return res.status(400).json({
+
                 message:
                     "All profile fields are required."
+
             });
 
         }
 
 
         const [result] = await db.query(
+
             `UPDATE customers
              SET
                 full_name = ?,
@@ -579,6 +698,7 @@ async function updateCustomerProfile(req, res) {
                 address = ?,
                 phone = ?
              WHERE customer_id = ?`,
+
             [
                 fullName.trim(),
                 gender,
@@ -586,20 +706,24 @@ async function updateCustomerProfile(req, res) {
                 phone.trim(),
                 customerId
             ]
+
         );
 
 
         if (result.affectedRows === 0) {
 
             return res.status(404).json({
+
                 message:
                     "Customer not found."
+
             });
 
         }
 
 
         const [rows] = await db.query(
+
             `SELECT
                 customer_id,
                 full_name,
@@ -609,7 +733,9 @@ async function updateCustomerProfile(req, res) {
                 email
              FROM customers
              WHERE customer_id = ?`,
+
             [customerId]
+
         );
 
 
@@ -633,11 +759,14 @@ async function updateCustomerProfile(req, res) {
 
 
         return res.status(500).json({
+
             message:
                 "Could not update customer profile."
+
         });
 
     }
+
 }
 
 

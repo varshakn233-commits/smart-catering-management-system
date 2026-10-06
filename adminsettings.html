@@ -1,0 +1,2733 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>System Settings | Annapriya</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #F5E9DA;
+            color: #1C1C1C;
+        }
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 245px;
+            height: 100vh;
+            background: #1C1C1C;
+            color: white;
+            padding: 25px 18px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            box-shadow: 4px 0 18px rgba(0, 0, 0, 0.10);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #D4A373;
+            text-align: center;
+            margin-bottom: 7px;
+            letter-spacing: 0.5px;
+        }
+
+        .admin-label {
+            text-align: center;
+            color: #999;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            margin-bottom: 30px;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .nav-links a,
+        .sidebar-bottom a {
+            text-decoration: none;
+            color: #DDD;
+            padding: 13px 14px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-size: 14px;
+            transition: all 0.25s ease;
+        }
+
+        .nav-links a:hover,
+        .sidebar-bottom a:hover {
+            background: #8B1E3F;
+            color: white;
+            transform: translateX(2px);
+        }
+
+        .nav-links a.active {
+            background: #8B1E3F;
+            color: white;
+            box-shadow: 0 5px 15px rgba(139, 30, 63, 0.30);
+        }
+
+        .nav-icon {
+            width: 25px;
+            min-width: 25px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .logout {
+            color: #FFB3B3 !important;
+        }
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main {
+            margin-left: 245px;
+            padding: 32px 40px;
+            min-height: 100vh;
+        }
+
+        /* =====================================================
+           BACK TO DASHBOARD
+        ===================================================== */
+
+        .back-dashboard {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            text-decoration: none;
+            color: #8B1E3F;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 18px;
+            transition: 0.2s ease;
+        }
+
+        .back-dashboard:hover {
+            color: #D4A373;
+            transform: translateX(-2px);
+        }
+
+        /* =====================================================
+           PAGE HEADER
+        ===================================================== */
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 30px;
+            color: #1C1C1C;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           SETTINGS CONTAINER
+        ===================================================== */
+
+        .settings-container {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* =====================================================
+           SETTINGS CARD
+        ===================================================== */
+
+        .settings-card {
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .settings-header {
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+
+        .settings-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .settings-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #F5E9DA;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .settings-title h2 {
+            font-size: 17px;
+            color: #1C1C1C;
+        }
+
+        .settings-title p {
+            font-size: 12px;
+            color: #888;
+            margin-top: 3px;
+        }
+
+        .arrow {
+            font-size: 18px;
+            color: #777;
+            transition: transform 0.3s ease;
+        }
+
+        .settings-card.open .arrow {
+            transform: rotate(180deg);
+        }
+
+        .settings-content {
+            display: none;
+            padding: 25px;
+        }
+
+        .settings-card.open .settings-content {
+            display: block;
+        }
+
+        /* =====================================================
+           FORM GRID
+        ===================================================== */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 11px 13px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+            background: white;
+        }
+
+        .form-group textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #8B1E3F;
+        }
+
+        /* =====================================================
+           TOGGLE
+        ===================================================== */
+
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .toggle-row:last-child {
+            border-bottom: none;
+        }
+
+        .toggle-info h3 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .toggle-info p {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .switch {
+            position: relative;
+            width: 46px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #ccc;
+            border-radius: 30px;
+            transition: 0.3s;
+        }
+
+        .slider:before {
+            content: "";
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .switch input:checked + .slider {
+            background: #8B1E3F;
+        }
+
+        .switch input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+
+        /* =====================================================
+           CHECKBOX GROUP
+        ===================================================== */
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #444;
+        }
+
+        .checkbox-item input {
+            accent-color: #8B1E3F;
+        }
+
+        /* =====================================================
+           SAVE BUTTON
+        ===================================================== */
+
+        .save-section {
+            margin-top: 25px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .save-btn {
+            background: #8B1E3F;
+            color: white;
+            border: none;
+            padding: 11px 22px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .save-btn:hover {
+            background: #6F1632;
+        }
+
+        /* =====================================================
+           MAINTENANCE BUTTONS
+        ===================================================== */
+
+        .action-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .secondary-btn {
+            padding: 10px 18px;
+            border: 1px solid #8B1E3F;
+            color: #8B1E3F;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .secondary-btn:hover {
+            background: #8B1E3F;
+            color: white;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 22px;
+            }
+
+            .page-header h1 {
+                font-size: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ===================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            Annapriya
+        </div>
+
+        <div class="admin-label">
+            ADMIN PANEL
+        </div>
+
+        <nav class="nav-links">
+
+            <a href="admindashboard.html">
+                <span class="nav-icon">🏠</span>
+                Dashboard
+            </a>
+
+            <a href="adminusers.html">
+                <span class="nav-icon">👥</span>
+                Manage Users
+            </a>
+
+            <a href="admincaterers.html">
+                <span class="nav-icon">👨‍🍳</span>
+                Manage Caterers
+            </a>
+
+            <a href="adminenquiries.html">
+                <span class="nav-icon">✉️</span>
+                Customer Enquiries
+            </a>
+
+            <a href="adminbookings.html">
+                <span class="nav-icon">📅</span>
+                Manage Bookings
+            </a>
+
+            <a href="adminpayments.html">
+                <span class="nav-icon">💳</span>
+                Manage Payments
+            </a>
+
+            <a href="adminreviews.html">
+                <span class="nav-icon">⭐</span>
+                Manage Reviews
+            </a>
+
+            <a href="adminreports.html">
+                <span class="nav-icon">📊</span>
+                Reports & Analytics
+            </a>
+
+            <a
+                href="adminsettings.html"
+                class="active"
+            >
+                <span class="nav-icon">⚙️</span>
+                System Settings
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="adminprofile.html">
+                <span class="nav-icon">👤</span>
+                Account Settings
+            </a>
+
+            <a
+                href="index.html"
+                class="logout"
+                onclick="logoutAdmin(event)"
+            >
+                <span class="nav-icon">🚪</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ===================================================== -->
+
+    <main class="main">
+
+        <a
+            href="admindashboard.html"
+            class="back-dashboard"
+        >
+            ← Back to Dashboard
+        </a>
+
+
+        <div class="page-header">
+
+            <h1>
+                System Settings
+            </h1>
+
+            <p>
+                Configure system-wide settings for the Annapriya catering management system.
+            </p>
+
+        </div>
+
+
+        <div class="settings-container">
+
+
+            <!-- =================================================
+                 1. GENERAL SETTINGS
+            ================================================= -->
+
+            <div class="settings-card open">
+
+                <div
+                    class="settings-header"
+                    onclick="toggleSection(this)"
+                >
+
+                    <div class="settings-title">
+
+                        <div class="settings-icon">
+                            ⚙️
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                General Settings
+                            </h2>
+
+                            <p>
+                                Basic information about your system
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <span class="arrow">
+                        ▼
+                    </span>
+
+                </div>
+
+
+                <div class="settings-content">
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label>
+                                System Name
+                            </label>
+
+                            <input
+                                type="text"
+                                value="Annapriya"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Website Name
+                            </label>
+
+                            <input
+                                type="text"
+                                value="Annapriya | Traditional Catering, Delivered With Care"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Contact Email
+                            </label>
+
+                            <input
+                                type="email"
+                                placeholder="admin@annapriya.com"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Contact Phone
+                            </label>
+
+                            <input
+                                type="tel"
+                                placeholder="+91 XXXXX XXXXX"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label>
+                                Business Address
+                            </label>
+
+                            <textarea
+                                placeholder="Enter business address"
+                            ></textarea>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Currency
+                            </label>
+
+                            <select>
+
+                                <option selected>
+                                    Indian Rupee (₹)
+                                </option>
+
+                                <option>
+                                    US Dollar ($)
+                                </option>
+
+                                <option>
+                                    Euro (€)
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Timezone
+                            </label>
+
+                            <select>
+
+                                <option selected>
+                                    Asia/Kolkata
+                                </option>
+
+                                <option>
+                                    Asia/Dubai
+                                </option>
+
+                                <option>
+                                    Asia/Singapore
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Date Format
+                            </label>
+
+                            <select>
+
+                                <option selected>
+                                    DD/MM/YYYY
+                                </option>
+
+                                <option>
+                                    MM/DD/YYYY
+                                </option>
+
+                                <option>
+                                    YYYY-MM-DD
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="save-section">
+
+                        <button
+                            class="save-btn"
+                            onclick="saveSettings('General Settings', this)"
+                        >
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 2. USER MANAGEMENT
+            ================================================= -->
+
+            <div class="settings-card">
+
+                <div
+                    class="settings-header"
+                    onclick="toggleSection(this)"
+                >
+
+                    <div class="settings-title">
+
+                        <div class="settings-icon">
+                            👥
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                User Management
+                            </h2>
+
+                            <p>
+                                Control customer and caterer registration
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <span class="arrow">
+                        ▼
+                    </span>
+
+                </div>
+
+
+                <div class="settings-content">
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+
+                            <h3>
+                                Allow Customer Registration
+                            </h3>
+
+                            <p>
+                                Allow new customers to create accounts
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="allowCustomerRegistration"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+
+                            <h3>
+                                Allow Caterer Registration
+                            </h3>
+
+                            <p>
+                                Allow new caterers to register
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="allowCatererRegistration"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+
+                            <h3>
+                                Require Caterer Approval
+                            </h3>
+
+                            <p>
+                                Admin approval required before caterers become active
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="requireCatererApproval"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+
+                            <h3>
+                                Auto Activate Customers
+                            </h3>
+
+                            <p>
+                                Automatically activate newly registered customers
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="autoActivateCustomers"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+
+                            <h3>
+                                Allow Profile Updates
+                            </h3>
+
+                            <p>
+                                Allow customers and caterers to update profiles
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="allowProfileUpdates"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="save-section">
+
+                        <button
+                            class="save-btn"
+                            onclick="saveSettings('User Management', this)"
+                        >
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 3. BOOKING SETTINGS
+            ================================================= -->
+
+            <div class="settings-card">
+
+                <div
+                    class="settings-header"
+                    onclick="toggleSection(this)"
+                >
+
+                    <div class="settings-title">
+
+                        <div class="settings-icon">
+                            📅
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                Booking Settings
+                            </h2>
+
+                            <p>
+                                Configure booking and cancellation rules
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <span class="arrow">
+                        ▼
+                    </span>
+
+                </div>
+
+
+                <div class="settings-content">
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+
+                            <h3>
+                                Enable Online Booking
+                            </h3>
+
+                            <p>
+                                Allow customers to make bookings online
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="enableOnlineBooking"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label>
+                                Minimum Advance Booking
+                            </label>
+
+                            <input
+                                type="number"
+                                value="1"
+                                min="0"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Maximum Advance Booking
+                            </label>
+
+                            <input
+                                type="number"
+                                value="90"
+                                min="1"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Cancellation Notice (Hours)
+                            </label>
+
+                            <input
+                                type="number"
+                                value="24"
+                                min="0"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Maximum Guests
+                            </label>
+
+                            <input
+                                type="number"
+                                value="1000"
+                                min="1"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <br>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+
+                            <h3>
+                                Allow Cancellation
+                            </h3>
+
+                            <p>
+                                Allow customers to cancel bookings
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="allowCancellation"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+
+                            <h3>
+                                Require Booking Confirmation
+                            </h3>
+
+                            <p>
+                                Require confirmation before finalizing bookings
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="requireBookingConfirmation"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="save-section">
+
+                        <button
+                            class="save-btn"
+                            onclick="saveSettings('Booking Settings', this)"
+                        >
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 4. PAYMENT SETTINGS
+            ================================================= -->
+
+            <div class="settings-card">
+
+                <div
+                    class="settings-header"
+                    onclick="toggleSection(this)"
+                >
+
+                    <div class="settings-title">
+
+                        <div class="settings-icon">
+                            💳
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                Payment Settings
+                            </h2>
+
+                            <p>
+                                Configure online payment options
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <span class="arrow">
+                        ▼
+                    </span>
+
+                </div>
+
+
+                <div class="settings-content">
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+
+                            <h3>
+                                Enable Online Payment
+                            </h3>
+
+                            <p>
+                                Allow customers to pay online
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="enableOnlinePayment"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+
+                            <h3>
+                                Require Payment Confirmation
+                            </h3>
+
+                            <p>
+                                Confirm payments before updating booking status
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="requirePaymentConfirmation"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+
+                            <h3>
+                                Allow Refunds
+                            </h3>
+
+                            <p>
+                                Allow administrators to process refunds
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="allowRefunds"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Payment Methods
+                        </label>
+
+
+                        <div class="checkbox-group">
+
+                            <label class="checkbox-item">
+
+                                <input
+                                    type="checkbox"
+                                    checked
+                                >
+
+                                UPI
+
+                            </label>
+
+
+                            <label class="checkbox-item">
+
+                                <input
+                                    type="checkbox"
+                                    checked
+                                >
+
+                                Credit / Debit Card
+
+                            </label>
+
+
+                            <label class="checkbox-item">
+
+                                <input
+                                    type="checkbox"
+                                    checked
+                                >
+
+                                Net Banking
+
+                            </label>
+
+
+                            <label class="checkbox-item">
+
+                                <input
+                                    type="checkbox"
+                                    checked
+                                >
+
+                                Cash
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <br>
+
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label>
+                                Tax (%)
+                            </label>
+
+                            <input
+                                type="number"
+                                value="0"
+                                min="0"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Service Charge (%)
+                            </label>
+
+                            <input
+                                type="number"
+                                value="0"
+                                min="0"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="save-section">
+
+                        <button
+                            class="save-btn"
+                            onclick="saveSettings('Payment Settings', this)"
+                        >
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 5. REVIEW SETTINGS
+            ================================================= -->
+
+            <div class="settings-card">
+
+                <div
+                    class="settings-header"
+                    onclick="toggleSection(this)"
+                >
+
+                    <div class="settings-title">
+
+                        <div class="settings-icon">
+                            ⭐
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                Review Settings
+                            </h2>
+
+                            <p>
+                                Manage customer reviews and moderation
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <span class="arrow">
+                        ▼
+                    </span>
+
+                </div>
+
+
+                <div class="settings-content">
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+
+                            <h3>
+                                Allow Reviews
+                            </h3>
+
+                            <p>
+                                Allow customers to submit reviews
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="allowReviews"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+
+                            <h3>
+                                Allow Review Editing
+                            </h3>
+
+                            <p>
+                                Allow customers to edit their reviews
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="allowReviewEditing"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+
+                            <h3>
+                                Allow Review Deletion
+                            </h3>
+
+                            <p>
+                                Allow customers to delete their reviews
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="allowReviewDeletion"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+
+                            <h3>
+                                Review Moderation
+                            </h3>
+
+                            <p>
+                                Require admin moderation before displaying reviews
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                data-setting="reviewModeration"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+
+                            <h3>
+                                Reviews Only After Completed Booking
+                            </h3>
+
+                            <p>
+                                Customers can review only completed bookings
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="reviewsOnlyAfterCompletedBooking"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label>
+                                Minimum Rating
+                            </label>
+
+                            <select>
+
+                                <option selected>
+                                    1
+                                </option>
+
+                                <option>
+                                    2
+                                </option>
+
+                                <option>
+                                    3
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Maximum Rating
+                            </label>
+
+                            <select>
+
+                                <option>
+                                    4
+                                </option>
+
+                                <option selected>
+                                    5
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="save-section">
+
+                        <button
+                            class="save-btn"
+                            onclick="saveSettings('Review Settings', this)"
+                        >
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 6. NOTIFICATION SETTINGS
+            ================================================= -->
+
+            <div class="settings-card">
+
+                <div
+                    class="settings-header"
+                    onclick="toggleSection(this)"
+                >
+
+                    <div class="settings-title">
+
+                        <div class="settings-icon">
+                            🔔
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                Notification Settings
+                            </h2>
+
+                            <p>
+                                Control system notifications
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <span class="arrow">
+                        ▼
+                    </span>
+
+                </div>
+
+
+                <div class="settings-content">
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+                            <h3>New Customer</h3>
+                            <p>Notify admin when a new customer registers</p>
+                        </div>
+
+                        <label class="switch">
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="notificationNewCustomer"
+                            >
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+                            <h3>New Caterer</h3>
+                            <p>Notify admin when a new caterer registers</p>
+                        </div>
+
+                        <label class="switch">
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="notificationNewCaterer"
+                            >
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+                            <h3>New Booking</h3>
+                            <p>Notify admin when a new booking is created</p>
+                        </div>
+
+                        <label class="switch">
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="notificationNewBooking"
+                            >
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+                            <h3>Booking Confirmation</h3>
+                            <p>Send booking confirmation notifications</p>
+                        </div>
+
+                        <label class="switch">
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="notificationBookingConfirmation"
+                            >
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+                            <h3>Booking Cancellation</h3>
+                            <p>Notify when a booking is cancelled</p>
+                        </div>
+
+                        <label class="switch">
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="notificationBookingCancellation"
+                            >
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+                            <h3>Payment Received</h3>
+                            <p>Notify when a payment is received</p>
+                        </div>
+
+                        <label class="switch">
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="notificationPaymentReceived"
+                            >
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+                            <h3>Payment Failed</h3>
+                            <p>Notify when a payment fails</p>
+                        </div>
+
+                        <label class="switch">
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="notificationPaymentFailed"
+                            >
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+                            <h3>New Review</h3>
+                            <p>Notify admin when a new review is submitted</p>
+                        </div>
+
+                        <label class="switch">
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="notificationNewReview"
+                            >
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+                            <h3>Customer Enquiry</h3>
+                            <p>Notify admin about new customer enquiries</p>
+                        </div>
+
+                        <label class="switch">
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="notificationCustomerEnquiry"
+                            >
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="save-section">
+
+                        <button
+                            class="save-btn"
+                            onclick="saveSettings('Notification Settings', this)"
+                        >
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 7. SECURITY SETTINGS
+            ================================================= -->
+
+            <div class="settings-card">
+
+                <div
+                    class="settings-header"
+                    onclick="toggleSection(this)"
+                >
+
+                    <div class="settings-title">
+
+                        <div class="settings-icon">
+                            🔐
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                Security Settings
+                            </h2>
+
+                            <p>
+                                Configure administrator security options
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <span class="arrow">
+                        ▼
+                    </span>
+
+                </div>
+
+
+                <div class="settings-content">
+
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label>
+                                Admin Session Timeout (Minutes)
+                            </label>
+
+                            <input
+                                type="number"
+                                value="30"
+                                min="1"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Maximum Login Attempts
+                            </label>
+
+                            <input
+                                type="number"
+                                value="5"
+                                min="1"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Password Expiry (Days)
+                            </label>
+
+                            <input
+                                type="number"
+                                value="90"
+                                min="0"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <br>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+
+                            <h3>
+                                Auto Logout
+                            </h3>
+
+                            <p>
+                                Automatically logout inactive administrators
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                data-setting="autoLogout"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+
+                            <h3>
+                                Two-Factor Authentication
+                            </h3>
+
+                            <p>
+                                Require an additional verification step for admin login
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                data-setting="twoFactorAuthentication"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+
+                            <h3>
+                                Login Activity Logging
+                            </h3>
+
+                            <p>
+                                Keep a record of administrator login activity
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                data-setting="loginActivityLogging"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="save-section">
+
+                        <button
+                            class="save-btn"
+                            onclick="saveSettings('Security Settings', this)"
+                        >
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 8. MAINTENANCE SETTINGS
+            ================================================= -->
+
+            <div class="settings-card">
+
+                <div
+                    class="settings-header"
+                    onclick="toggleSection(this)"
+                >
+
+                    <div class="settings-title">
+
+                        <div class="settings-icon">
+                            🛠️
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                Maintenance Settings
+                            </h2>
+
+                            <p>
+                                Manage maintenance and system operations
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <span class="arrow">
+                        ▼
+                    </span>
+
+                </div>
+
+
+                <div class="settings-content">
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+
+                            <h3>
+                                Maintenance Mode
+                            </h3>
+
+                            <p>
+                                Temporarily disable access to the website
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                data-setting="maintenanceMode"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Maintenance Message
+                        </label>
+
+                        <textarea
+                            placeholder="Enter message shown during maintenance"
+                        >Annapriya is currently under maintenance. Please check back later.</textarea>
+
+                    </div>
+
+
+                    <br>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+
+                            <h3>
+                                Allow Admin Access During Maintenance
+                            </h3>
+
+                            <p>
+                                Administrators can continue accessing the system
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="allowAdminAccessDuringMaintenance"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="action-row">
+
+                        <button
+                            class="secondary-btn"
+                            onclick="clearTemporaryData()"
+                        >
+                            Clear Temporary Data
+                        </button>
+
+
+                        <button
+                            class="secondary-btn"
+                            onclick="databaseBackup()"
+                        >
+                            Database Backup
+                        </button>
+
+                    </div>
+
+
+                    <div class="save-section">
+
+                        <button
+                            class="save-btn"
+                            onclick="saveSettings('Maintenance Settings', this)"
+                        >
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 9. DASHBOARD DISPLAY
+            ================================================= -->
+
+            <div class="settings-card">
+
+                <div
+                    class="settings-header"
+                    onclick="toggleSection(this)"
+                >
+
+                    <div class="settings-title">
+
+                        <div class="settings-icon">
+                            📊
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                Dashboard Display
+                            </h2>
+
+                            <p>
+                                Choose information displayed on the dashboard
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <span class="arrow">
+                        ▼
+                    </span>
+
+                </div>
+
+
+                <div class="settings-content">
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+                            <h3>Total Customers</h3>
+                            <p>Show customer statistics on dashboard</p>
+                        </div>
+
+                        <label class="switch">
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="dashboardTotalCustomers"
+                            >
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+                            <h3>Total Caterers</h3>
+                            <p>Show caterer statistics on dashboard</p>
+                        </div>
+
+                        <label class="switch">
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="dashboardTotalCaterers"
+                            >
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+                            <h3>Total Bookings</h3>
+                            <p>Show booking statistics on dashboard</p>
+                        </div>
+
+                        <label class="switch">
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="dashboardTotalBookings"
+                            >
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+                            <h3>Total Revenue</h3>
+                            <p>Show revenue statistics on dashboard</p>
+                        </div>
+
+                        <label class="switch">
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="dashboardTotalRevenue"
+                            >
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+                            <h3>Total Reviews</h3>
+                            <p>Show review statistics on dashboard</p>
+                        </div>
+
+                        <label class="switch">
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="dashboardTotalReviews"
+                            >
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+                            <h3>Customer Enquiries</h3>
+                            <p>Show enquiry statistics on dashboard</p>
+                        </div>
+
+                        <label class="switch">
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="dashboardCustomerEnquiries"
+                            >
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+                            <h3>Recent Activities</h3>
+                            <p>Show recent system activities</p>
+                        </div>
+
+                        <label class="switch">
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="dashboardRecentActivities"
+                            >
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="toggle-row">
+
+                        <div class="toggle-info">
+                            <h3>Charts</h3>
+                            <p>Show analytics charts on dashboard</p>
+                        </div>
+
+                        <label class="switch">
+                            <input
+                                type="checkbox"
+                                checked
+                                data-setting="dashboardCharts"
+                            >
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="save-section">
+
+                        <button
+                            class="save-btn"
+                            onclick="saveSettings('Dashboard Display', this)"
+                        >
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ===================================================== -->
+
+    <script>
+
+        /* =====================================================
+           STORAGE KEY
+        ===================================================== */
+
+        const SYSTEM_SETTINGS_STORAGE =
+            "annapriya_system_settings";
+
+
+        /* =====================================================
+           TOGGLE SETTINGS SECTIONS
+        ===================================================== */
+
+        function toggleSection(header) {
+
+            const card =
+                header.parentElement;
+
+            card.classList.toggle("open");
+
+        }
+
+
+        /* =====================================================
+           LOAD SAVED TOGGLE SETTINGS
+        ===================================================== */
+
+        function loadSavedSettings() {
+
+            let savedSettings = {};
+
+            try {
+
+                savedSettings =
+                    JSON.parse(
+                        localStorage.getItem(
+                            SYSTEM_SETTINGS_STORAGE
+                        ) || "{}"
+                    );
+
+            } catch (error) {
+
+                console.error(
+                    "Could not load system settings:",
+                    error
+                );
+
+                savedSettings = {};
+
+            }
+
+
+            const toggles =
+                document.querySelectorAll(
+                    "input[type='checkbox'][data-setting]"
+                );
+
+
+            toggles.forEach(function(toggle) {
+
+                const settingName =
+                    toggle.dataset.setting;
+
+
+                if (
+                    Object.prototype.hasOwnProperty.call(
+                        savedSettings,
+                        settingName
+                    )
+                ) {
+
+                    toggle.checked =
+                        savedSettings[settingName];
+
+                }
+
+            });
+
+        }
+
+
+        /* =====================================================
+           SAVE TOGGLE SETTINGS
+        ===================================================== */
+
+        function saveSettings(sectionName, button) {
+
+            let savedSettings = {};
+
+            try {
+
+                savedSettings =
+                    JSON.parse(
+                        localStorage.getItem(
+                            SYSTEM_SETTINGS_STORAGE
+                        ) || "{}"
+                    );
+
+            } catch (error) {
+
+                savedSettings = {};
+
+            }
+
+
+            let section =
+                null;
+
+
+            if (button) {
+
+                section =
+                    button.closest(
+                        ".settings-card"
+                    );
+
+            }
+
+
+            if (section) {
+
+                const toggles =
+                    section.querySelectorAll(
+                        "input[type='checkbox'][data-setting]"
+                    );
+
+
+                toggles.forEach(function(toggle) {
+
+                    savedSettings[
+                        toggle.dataset.setting
+                    ] =
+                        toggle.checked;
+
+                });
+
+            }
+
+
+            localStorage.setItem(
+                SYSTEM_SETTINGS_STORAGE,
+                JSON.stringify(savedSettings)
+            );
+
+
+            alert(
+                sectionName +
+                " saved successfully."
+            );
+
+        }
+
+
+        /* =====================================================
+           CLEAR TEMPORARY DATA
+        ===================================================== */
+
+        function clearTemporaryData() {
+
+            const confirmed =
+                confirm(
+                    "Are you sure you want to clear temporary data?"
+                );
+
+
+            if (confirmed) {
+
+                alert(
+                    "Temporary data cleared successfully."
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           DATABASE BACKUP
+        ===================================================== */
+
+        function databaseBackup() {
+
+            alert(
+                "Database backup feature will be connected to the backend later."
+            );
+
+        }
+
+
+        /* =====================================================
+           ADMIN LOGOUT
+        ===================================================== */
+
+        function logoutAdmin(event) {
+
+            if (event) {
+
+                event.preventDefault();
+
+            }
+
+
+            localStorage.removeItem(
+                "adminToken"
+            );
+
+            localStorage.removeItem(
+                "admin"
+            );
+
+            sessionStorage.clear();
+
+
+            window.location.replace(
+                "index.html"
+            );
+
+        }
+
+
+        /* =====================================================
+           LOAD SETTINGS WHEN PAGE OPENS
+        ===================================================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadSavedSettings();
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>
