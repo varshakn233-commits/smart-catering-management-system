@@ -1,3 +1,4 @@
+
 /* =====================================================
    ANNAPRIYA — SAVED CATERERS
 ===================================================== */
@@ -14,7 +15,6 @@ body {
     color: #1C1C1C;
     min-height: 100vh;
 }
-
 
 /* =====================================================
    HEADER
@@ -33,13 +33,11 @@ body {
     z-index: 100;
 }
 
-
 .header-left {
     display: flex;
     align-items: center;
     gap: 14px;
 }
-
 
 .brand-name {
     color: #8B1E3F;
@@ -47,7 +45,6 @@ body {
     font-weight: 700;
     letter-spacing: -0.5px;
 }
-
 
 .back-button {
     width: 40px;
@@ -61,16 +58,13 @@ body {
     transition: 0.2s ease;
 }
 
-
 .back-button:hover {
     background: #ead7c2;
 }
 
-
 .header-right {
     position: relative;
 }
-
 
 .profile-button {
     border: none;
@@ -83,11 +77,9 @@ body {
     border-radius: 25px;
 }
 
-
 .profile-button:hover {
     background: #F5E9DA;
 }
-
 
 .avatar {
     width: 38px;
@@ -101,12 +93,10 @@ body {
     font-weight: 700;
 }
 
-
 .customer-name {
     font-size: 14px;
     font-weight: 600;
 }
-
 
 /* =====================================================
    PROFILE MENU
@@ -125,11 +115,9 @@ body {
     display: none;
 }
 
-
 .profile-menu.show {
     display: block;
 }
-
 
 .profile-menu a {
     display: block;
@@ -140,12 +128,10 @@ body {
     font-size: 14px;
 }
 
-
 .profile-menu a:hover {
     background: #F5E9DA;
     color: #8B1E3F;
 }
-
 
 /* =====================================================
    MAIN CONTENT
@@ -157,11 +143,9 @@ body {
     padding: 42px 0 60px;
 }
 
-
 .page-heading {
     margin-bottom: 30px;
 }
-
 
 .page-label {
     color: #8B1E3F;
@@ -170,20 +154,17 @@ body {
     letter-spacing: 1.5px;
 }
 
-
 .page-heading h1 {
     margin-top: 7px;
     font-size: 34px;
     color: #1C1C1C;
 }
 
-
 .page-heading p {
     margin-top: 8px;
     color: #6d625b;
     font-size: 15px;
 }
-
 
 /* =====================================================
    STATE SECTIONS
@@ -202,23 +183,20 @@ body {
     box-shadow: 0 5px 18px rgba(80, 45, 20, 0.06);
 }
 
-
 .state-section h2 {
     margin-top: 12px;
     color: #1C1C1C;
 }
 
-
 .state-section p {
     margin-top: 8px;
     color: #766b63;
+    line-height: 1.8;
 }
-
 
 .state-icon {
     font-size: 42px;
 }
-
 
 .loader {
     width: 38px;
@@ -229,13 +207,41 @@ body {
     animation: spin 0.8s linear infinite;
 }
 
-
 @keyframes spin {
     to {
         transform: rotate(360deg);
     }
 }
 
+/* =====================================================
+   EMPTY SAVED CATERERS — SPACING FIX
+===================================================== */
+
+#emptySection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+
+    /* Space between empty section and Browse Caterers */
+    margin-bottom: 24px;
+}
+
+#emptySection .state-icon {
+    margin-bottom: 12px;
+}
+
+#emptySection h2 {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+#emptySection p {
+    margin-top: 30px !important;
+    line-height: 1.8;
+    max-width: 600px;
+}
 
 /* =====================================================
    BUTTONS
@@ -253,11 +259,9 @@ body {
     transition: 0.2s ease;
 }
 
-
 .primary-button:hover {
     background: #721732;
 }
-
 
 .refresh-button {
     border: 1px solid #d8c3ae;
@@ -269,11 +273,9 @@ body {
     cursor: pointer;
 }
 
-
 .refresh-button:hover {
     background: #F5E9DA;
 }
-
 
 /* =====================================================
    SAVED SECTION
@@ -286,7 +288,6 @@ body {
     box-shadow: 0 5px 18px rgba(80, 45, 20, 0.06);
 }
 
-
 .section-top {
     display: flex;
     justify-content: space-between;
@@ -294,19 +295,16 @@ body {
     margin-bottom: 22px;
 }
 
-
 .section-top h2 {
     color: #1C1C1C;
     font-size: 21px;
 }
-
 
 .section-top p {
     margin-top: 5px;
     color: #766b63;
     font-size: 14px;
 }
-
 
 /* =====================================================
    TABLE
@@ -317,18 +315,15 @@ body {
     overflow-x: auto;
 }
 
-
 table {
     width: 100%;
     border-collapse: collapse;
     min-width: 950px;
 }
 
-
 thead {
     background: #F5E9DA;
 }
-
 
 th {
     text-align: left;
@@ -339,7 +334,6 @@ th {
     white-space: nowrap;
 }
 
-
 td {
     padding: 15px 14px;
     border-bottom: 1px solid #eee3d8;
@@ -347,11 +341,9 @@ td {
     vertical-align: middle;
 }
 
-
 tbody tr:hover {
     background: #fffaf5;
 }
-
 
 /* =====================================================
    CATERER
@@ -363,7 +355,6 @@ tbody tr:hover {
     gap: 11px;
     min-width: 210px;
 }
-
 
 .caterer-avatar {
     width: 40px;
@@ -377,24 +368,20 @@ tbody tr:hover {
     font-weight: 700;
 }
 
-
 .caterer-name-text {
     display: flex;
     flex-direction: column;
     gap: 3px;
 }
 
-
 .caterer-name-text strong {
     color: #1C1C1C;
 }
-
 
 .caterer-name-text span {
     color: #81756d;
     font-size: 12px;
 }
-
 
 /* =====================================================
    STATUS
@@ -411,7 +398,6 @@ tbody tr:hover {
     font-weight: 700;
 }
 
-
 /* =====================================================
    ACTION BUTTONS
 ===================================================== */
@@ -421,7 +407,6 @@ tbody tr:hover {
     gap: 8px;
     align-items: center;
 }
-
 
 .remove-button {
     border: 1px solid #e1c4c4;
@@ -435,11 +420,9 @@ tbody tr:hover {
     white-space: nowrap;
 }
 
-
 .remove-button:hover {
     background: #fff0f0;
 }
-
 
 .enquiry-button {
     border: none;
@@ -453,11 +436,9 @@ tbody tr:hover {
     white-space: nowrap;
 }
 
-
 .enquiry-button:hover {
     background: #721732;
 }
-
 
 /* =====================================================
    ERROR
@@ -467,59 +448,57 @@ tbody tr:hover {
     color: #8B1E3F;
 }
 
-
 /* =====================================================
    MOBILE
 ===================================================== */
 
 @media (max-width: 768px) {
-
     .customer-header {
         padding: 0 16px;
         height: 65px;
     }
 
-
     .brand-name {
         font-size: 22px;
     }
 
-
     .customer-name {
         display: none;
     }
-
 
     .main-content {
         width: 94%;
         padding-top: 28px;
     }
 
-
     .page-heading h1 {
         font-size: 28px;
     }
 
-
     .saved-section {
         padding: 17px;
     }
-
 
     .section-top {
         align-items: flex-start;
         gap: 15px;
     }
 
-
     .section-top h2 {
         font-size: 18px;
     }
-
 
     .refresh-button {
         font-size: 12px;
         padding: 8px 11px;
     }
 
+    #emptySection {
+        padding: 35px 18px;
+        margin-bottom: 24px;
+    }
+
+    #emptySection p {
+        margin-top: 25px !important;
+    }
 }

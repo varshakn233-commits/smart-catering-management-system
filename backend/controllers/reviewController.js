@@ -1,3 +1,8 @@
+// ============================================================
+// FILE
+// backend/controllers/reviewController.js
+// ============================================================
+
 const db = require("../config/db");
 
 
@@ -15,7 +20,6 @@ async function getCustomerReviews(req, res) {
                 message: "Customer ID is required."
             });
         }
-
 
         const [rows] = await db.query(
             `SELECT
@@ -35,11 +39,9 @@ async function getCustomerReviews(req, res) {
             [customerId]
         );
 
-
         return res.status(200).json({
             reviews: rows
         });
-
 
     } catch (error) {
 
@@ -48,14 +50,68 @@ async function getCustomerReviews(req, res) {
             error
         );
 
-
         return res.status(500).json({
-            message: "Could not fetch reviews."
+            message:
+                "Could not fetch reviews."
         });
-
     }
 }
 
+
+// =====================================================
+// GET CATERER REVIEWS
+// =====================================================
+
+async function getCatererReviews(req, res) {
+    try {
+
+        const { catererId } = req.params;
+
+        if (!catererId) {
+            return res.status(400).json({
+                message:
+                    "Caterer ID is required."
+            });
+        }
+
+        const [rows] = await db.query(
+            `SELECT
+                r.review_id,
+                r.customer_id,
+                r.caterer_id,
+                r.rating,
+                r.review_text,
+                r.created_at,
+                r.updated_at,
+                cu.full_name AS customer_name,
+                c.brand_name AS caterer_name
+             FROM reviews r
+             LEFT JOIN customers cu
+                ON r.customer_id = cu.customer_id
+             LEFT JOIN caterers c
+                ON r.caterer_id = c.caterer_id
+             WHERE r.caterer_id = ?
+             ORDER BY r.created_at DESC`,
+            [catererId]
+        );
+
+        return res.status(200).json({
+            reviews: rows
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Get caterer reviews error:",
+            error
+        );
+
+        return res.status(500).json({
+            message:
+                "Could not fetch caterer reviews."
+        });
+    }
+}
 
 
 // =====================================================
@@ -72,7 +128,6 @@ async function createReview(req, res) {
             reviewText
         } = req.body;
 
-
         if (
             !customerId ||
             !catererId ||
@@ -84,10 +139,8 @@ async function createReview(req, res) {
             });
         }
 
-
         const numericRating =
             Number(rating);
-
 
         if (
             !Number.isInteger(numericRating) ||
@@ -99,7 +152,6 @@ async function createReview(req, res) {
                     "Rating must be between 1 and 5."
             });
         }
-
 
         const [result] = await db.query(
             `INSERT INTO reviews
@@ -118,12 +170,12 @@ async function createReview(req, res) {
             ]
         );
 
-
         return res.status(201).json({
-            message: "Review submitted successfully.",
-            reviewId: result.insertId
+            message:
+                "Review submitted successfully.",
+            reviewId:
+                result.insertId
         });
-
 
     } catch (error) {
 
@@ -132,14 +184,12 @@ async function createReview(req, res) {
             error
         );
 
-
         return res.status(500).json({
-            message: "Could not submit review."
+            message:
+                "Could not submit review."
         });
-
     }
 }
-
 
 
 // =====================================================
@@ -151,13 +201,12 @@ async function deleteReview(req, res) {
 
         const { id } = req.params;
 
-
         if (!id) {
             return res.status(400).json({
-                message: "Review ID is required."
+                message:
+                    "Review ID is required."
             });
         }
-
 
         const [result] = await db.query(
             `DELETE FROM reviews
@@ -165,20 +214,18 @@ async function deleteReview(req, res) {
             [id]
         );
 
-
         if (result.affectedRows === 0) {
 
             return res.status(404).json({
-                message: "Review not found."
+                message:
+                    "Review not found."
             });
-
         }
 
-
         return res.status(200).json({
-            message: "Review deleted successfully."
+            message:
+                "Review deleted successfully."
         });
-
 
     } catch (error) {
 
@@ -187,18 +234,21 @@ async function deleteReview(req, res) {
             error
         );
 
-
         return res.status(500).json({
-            message: "Could not delete review."
+            message:
+                "Could not delete review."
         });
-
     }
 }
 
 
+// =====================================================
+// EXPORTS
+// =====================================================
 
 module.exports = {
     getCustomerReviews,
+    getCatererReviews,
     createReview,
     deleteReview
 };

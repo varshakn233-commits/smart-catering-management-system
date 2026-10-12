@@ -2,16 +2,37 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>My Requests | Annapriya</title>
 
     <link
         href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap"
-        rel="stylesheet">
+        rel="stylesheet"
+    >
 
     <style>
+
+        :root {
+            --maroon: #8B1E3F;
+            --maroon-dark: #701631;
+            --beige: #F5E9DA;
+            --black: #1C1C1C;
+            --gold: #D4A373;
+            --white: #FFFFFF;
+            --border: #ead9c8;
+            --text-light: #6f6258;
+            --success: #2e8b57;
+            --warning: #d89b24;
+            --danger: #c0392b;
+        }
+
 
         * {
             margin: 0;
@@ -19,26 +40,41 @@
             box-sizing: border-box;
         }
 
+
+        html,
         body {
-            font-family: "Work Sans", sans-serif;
-            background: #F5E9DA;
-            color: #1C1C1C;
-            min-height: 100vh;
+            width: 100%;
+            min-height: 100%;
         }
 
-        /* =========================
+
+        body {
+            font-family: "Work Sans", sans-serif;
+            background: var(--beige);
+            color: var(--black);
+            overflow-x: hidden;
+        }
+
+
+        /* =====================================================
            HEADER
-        ========================= */
+        ===================================================== */
 
         .header {
+            width: 100%;
             height: 90px;
+
             background: #FFFDF9;
+
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 35px;
+
+            padding: 0 5%;
+
             border-bottom: 1px solid #eadfd3;
         }
+
 
         .header-left {
             display: flex;
@@ -46,82 +82,132 @@
             gap: 20px;
         }
 
+
         .back-button {
             width: 44px;
             height: 44px;
+
             border: none;
             border-radius: 50%;
-            background: #F5E9DA;
-            color: #8B1E3F;
+
+            background: var(--beige);
+            color: var(--maroon);
+
             font-size: 25px;
+
             cursor: pointer;
+
+            transition: 0.2s ease;
         }
+
+
+        .back-button:hover {
+            background: #ead9c8;
+        }
+
 
         .brand {
             font-family: "Fraunces", serif;
+
             font-size: 32px;
             font-weight: 700;
-            color: #8B1E3F;
+
+            color: var(--maroon);
         }
+
 
         .refresh-button {
             border: none;
-            background: #8B1E3F;
-            color: white;
+
+            background: var(--maroon);
+            color: var(--white);
+
             padding: 11px 18px;
+
             border-radius: 8px;
+
             cursor: pointer;
+
             font-family: "Work Sans", sans-serif;
             font-weight: 600;
+
+            transition: 0.2s ease;
+
+            white-space: nowrap;
         }
+
 
         .refresh-button:hover {
-            opacity: 0.9;
+            background: var(--maroon-dark);
         }
 
-        /* =========================
+
+        /* =====================================================
            MAIN
-        ========================= */
+        ===================================================== */
 
         .main {
-            max-width: 1250px;
-            margin: auto;
-            padding: 60px 35px;
+            width: 100%;
+            max-width: none;
+
+            margin: 0;
+
+            padding: 55px 5% 70px;
         }
 
+
         .small-heading {
-            color: #D4A373;
+            color: var(--gold);
+
             font-size: 13px;
             font-weight: 600;
+
             letter-spacing: 2px;
+
             margin-bottom: 10px;
         }
 
+
         h1 {
             font-family: "Fraunces", serif;
+
             font-size: 46px;
-            color: #8B1E3F;
+
+            color: var(--maroon);
+
             margin-bottom: 12px;
         }
 
+
         .subtitle {
-            color: #666;
+            color: var(--text-light);
+
             font-size: 16px;
+
             margin-bottom: 35px;
         }
 
-        /* =========================
-           MESSAGES
-        ========================= */
+
+        /* =====================================================
+           MESSAGE
+        ===================================================== */
 
         .message {
-            background: #FFFDF9;
+            width: 100%;
+
+            background: var(--white);
+
             padding: 22px;
+
             border-radius: 12px;
+
             text-align: center;
-            color: #777;
+
+            color: var(--text-light);
+
             margin-bottom: 20px;
         }
+
 
         #loadingMessage,
         #errorMessage,
@@ -129,353 +215,646 @@
             display: none;
         }
 
+
         #errorMessage {
-            color: #8B1E3F;
+            color: var(--maroon);
         }
 
-        /* =========================
-           SECTION HEADER
-        ========================= */
+
+        #errorText {
+            color: var(--text-light);
+        }
+
+
+        /* =====================================================
+           REQUEST SECTION
+        ===================================================== */
+
+        #requestsSection {
+            width: 100%;
+        }
+
 
         .section-header {
+            width: 100%;
+
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start;
+
             margin: 30px 0 20px;
         }
 
+
         .section-title {
             font-family: "Fraunces", serif;
-            color: #8B1E3F;
-            font-size: 28px;
+
+            color: var(--maroon);
+
+            font-size: 30px;
         }
 
-        .request-count {
-            background: #D4A373;
-            color: #1C1C1C;
-            padding: 7px 13px;
-            border-radius: 20px;
-            font-size: 12px;
+
+        #requestCount {
+            display: none !important;
+        }
+
+
+        /* =====================================================
+           REQUEST LIST
+        ===================================================== */
+
+        .requests-list {
+            width: 100%;
+            display: block;
+        }
+
+
+        /* =====================================================
+           TABLE WRAPPER
+        ===================================================== */
+
+        .table-scroll {
+            width: 100%;
+
+            background: var(--white);
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 5px 18px rgba(77, 45, 25, 0.08);
+
+            overflow: hidden;
+        }
+
+
+        /* =====================================================
+           TABLE
+        ===================================================== */
+
+        .requests-table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            table-layout: fixed;
+        }
+
+
+        .requests-table thead {
+            background: var(--white);
+        }
+
+
+        .requests-table th {
+            padding: 18px 10px;
+
+            text-align: left;
+
+            color: var(--black);
+
+            font-size: 13px;
             font-weight: 600;
+
+            border-bottom: 1px solid var(--border);
+
+            white-space: nowrap;
+
+            vertical-align: middle;
         }
 
-        /* =========================
-           REQUEST GRID
-        ========================= */
 
-        .requests-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 22px;
+        .requests-table td {
+            padding: 20px 10px;
+
+            color: #333;
+
+            font-size: 13px;
+
+            border-bottom: 1px solid #eee3d8;
+
+            vertical-align: middle;
+
+            overflow: hidden;
+
+            overflow-wrap: normal;
+
+            word-break: normal;
         }
 
-        .request-card {
-            background: #FFFDF9;
-            border-radius: 18px;
-            padding: 25px;
-            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.07);
+
+        .requests-table tbody tr:last-child td {
+            border-bottom: none;
         }
 
-        .request-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 15px;
-            margin-bottom: 20px;
+
+        .requests-table tbody tr:hover {
+            background: #fffaf5;
         }
 
-        .request-title {
-            font-family: "Fraunces", serif;
-            color: #8B1E3F;
-            font-size: 24px;
-            margin-bottom: 5px;
+
+        /* =====================================================
+           COLUMN WIDTHS
+           TOTAL = 100%
+        ===================================================== */
+
+        .requests-table th:nth-child(1),
+        .requests-table td:nth-child(1) {
+            width: 12%;
         }
 
-        .request-subtitle {
-            color: #666;
-            font-size: 14px;
+
+        .requests-table th:nth-child(2),
+        .requests-table td:nth-child(2) {
+            width: 13%;
         }
+
+
+        .requests-table th:nth-child(3),
+        .requests-table td:nth-child(3) {
+            width: 11%;
+        }
+
+
+        .requests-table th:nth-child(4),
+        .requests-table td:nth-child(4) {
+            width: 15%;
+        }
+
+
+        .requests-table th:nth-child(5),
+        .requests-table td:nth-child(5) {
+            width: 7%;
+
+            text-align: center;
+        }
+
+
+        .requests-table th:nth-child(6),
+        .requests-table td:nth-child(6) {
+            width: 15%;
+        }
+
+
+        .requests-table th:nth-child(7),
+        .requests-table td:nth-child(7) {
+            width: 15%;
+        }
+
+
+        .requests-table th:nth-child(8),
+        .requests-table td:nth-child(8) {
+            width: 12%;
+        }
+
+
+        /* =====================================================
+           REQUEST CONTENT
+        ===================================================== */
+
+        .requests-table strong {
+            display: block;
+
+            color: var(--black);
+
+            font-weight: 600;
+
+            line-height: 1.4;
+        }
+
+
+        .requests-table small {
+            display: block;
+
+            margin-top: 5px;
+
+            color: var(--text-light);
+
+            font-size: 11px;
+
+            line-height: 1.4;
+        }
+
+
+        .linked-enquiry {
+            color: var(--maroon) !important;
+        }
+
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
 
         .status {
-            padding: 7px 13px;
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 7px 10px;
+
             border-radius: 20px;
-            background: #D4A373;
-            font-size: 12px;
+
+            font-size: 10px;
+
             font-weight: 600;
+
             white-space: nowrap;
+
+            line-height: 1.3;
+
             text-transform: capitalize;
+
+            max-width: 100%;
         }
 
-        /* =========================
-           DETAILS
-        ========================= */
 
-        .details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .detail {
-            background: #F5E9DA;
-            padding: 13px;
-            border-radius: 10px;
-        }
-
-        .detail-label {
-            display: block;
-            font-size: 11px;
-            color: #777;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-        }
-
-        .detail-value {
-            font-size: 14px;
-            font-weight: 600;
-            word-break: break-word;
-        }
-
-        /* =========================
-           ENQUIRY CARD
-        ========================= */
-
-        .enquiry-card {
-            border-left: 5px solid #D4A373;
-        }
-
-        .enquiry-reply {
-            margin-top: 18px;
-            padding: 15px;
-            background: #faf5ef;
-            border-radius: 10px;
-            color: #555;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .enquiry-reply strong {
-            color: #8B1E3F;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .waiting-reply {
-            margin-top: 18px;
-            padding: 15px;
-            background: #F5E9DA;
-            border-radius: 10px;
-            color: #777;
-            font-size: 14px;
-        }
-
-        /* =========================
-           BUTTONS
-        ========================= */
-
-        .button-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 18px;
-        }
-
-        .book-event-button,
-        .pay-button,
-        .track-button {
-            flex: 1;
-            border: none;
-            padding: 12px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-            font-weight: 600;
-            font-family: "Work Sans", sans-serif;
-            display: inline-block;
-        }
-
-        .book-event-button {
-            background: #8B1E3F;
-            color: white;
-        }
-
-        .pay-button {
-            background: #8B1E3F;
-            color: white;
-        }
-
-        .track-button {
-            background: #D4A373;
-            color: #1C1C1C;
-        }
-
-        .book-event-button:hover,
-        .pay-button:hover,
-        .track-button:hover {
-            opacity: 0.9;
-        }
-
-        /* =========================
-           MESSAGE BOX
-        ========================= */
-
-        .message-box {
-            margin-top: 15px;
-            padding: 13px;
-            background: #faf5ef;
-            border-radius: 10px;
-            font-size: 14px;
-            color: #555;
-            line-height: 1.5;
-        }
-
-        /* =========================
-           TRACKER
-        ========================= */
-
-        .timeline-container {
-            margin-top: 25px;
-            padding: 20px;
-            background: #faf5ef;
-            border-radius: 14px;
-        }
-
-        .timeline-title {
-            font-family: "Fraunces", serif;
-            font-size: 20px;
-            color: #8B1E3F;
-            margin-bottom: 18px;
-        }
-
-        .request-timeline {
-            position: relative;
-            padding-left: 30px;
-        }
-
-        .request-timeline::before {
-            content: "";
-            position: absolute;
-            left: 8px;
-            top: 8px;
-            bottom: 8px;
-            width: 2px;
-            background: #D4A373;
-        }
-
-        .timeline-item {
-            position: relative;
-            margin-bottom: 17px;
-            min-height: 24px;
-        }
-
-        .timeline-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .timeline-dot {
-            position: absolute;
-            left: -27px;
-            top: 2px;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: #ddd;
-            border: 3px solid #faf5ef;
-            box-shadow: 0 0 0 1px #ddd;
-        }
-
-        .timeline-item.completed .timeline-dot,
-        .timeline-item.active .timeline-dot {
-            background: #8B1E3F;
-            box-shadow: 0 0 0 1px #8B1E3F;
-        }
-
-        .timeline-item.completed .timeline-label,
-        .timeline-item.active .timeline-label {
-            color: #8B1E3F;
-            font-weight: 600;
-        }
-
-        .timeline-label {
-            color: #999;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        /* =========================
-           STATUS COLORS
-        ========================= */
-
-        .status.pending {
+        .status-pending {
             background: #F0D9A8;
+            color: var(--black);
         }
 
-        .status.accepted {
+
+        .status-accepted {
             background: #D8E8D0;
+            color: var(--black);
         }
 
-        .status.payment_pending {
+
+        .status-payment {
             background: #F0D9A8;
+            color: var(--black);
         }
 
-        .status.confirmed {
+
+        .status-confirmed {
             background: #D8E8D0;
+            color: var(--black);
         }
 
-        .status.rejected {
+
+        .status-preparing {
+            background: #D8E8D0;
+            color: var(--black);
+        }
+
+
+        .status-on-the-way {
+            background: #D8E8D0;
+            color: var(--black);
+        }
+
+
+        .status-event-started {
+            background: #D8E8D0;
+            color: var(--black);
+        }
+
+
+        .status-rejected {
             background: #E7C5C5;
+            color: var(--black);
         }
 
-        .status.completed {
+
+        .status-completed {
             background: #CDE4D2;
+            color: var(--black);
         }
 
-        /* =========================
+
+        .status-enquiry {
+            background: var(--gold);
+            color: var(--black);
+        }
+
+
+        /* =====================================================
+           PROGRESS
+        ===================================================== */
+
+        .progress-wrap {
+            width: 100%;
+        }
+
+
+        .progress-dots {
+            width: 100%;
+
+            display: flex;
+
+            align-items: center;
+        }
+
+
+        .progress-step {
+            display: flex;
+
+            align-items: center;
+
+            flex: 1;
+
+            min-width: 0;
+        }
+
+
+        .progress-step:last-child {
+            flex: 0 0 auto;
+        }
+
+
+        .progress-dot {
+            width: 11px;
+            height: 11px;
+
+            min-width: 11px;
+
+            border-radius: 50%;
+
+            background: #ddd;
+
+            border: 2px solid #ddd;
+
+            display: block;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        .progress-dot.completed {
+            background: var(--gold);
+
+            border-color: var(--gold);
+        }
+
+
+        .progress-dot.active {
+            width: 14px;
+            height: 14px;
+
+            min-width: 14px;
+
+            background: var(--maroon);
+
+            border-color: var(--maroon);
+
+            box-shadow:
+                0 0 0 3px rgba(139, 30, 63, 0.15);
+        }
+
+
+        .progress-line {
+            flex: 1;
+
+            min-width: 4px;
+
+            height: 3px;
+
+            background: #ddd;
+        }
+
+
+        .progress-line.completed {
+            background: var(--gold);
+        }
+
+
+        /* =====================================================
+           WAITING
+        ===================================================== */
+
+        .waiting-text {
+            display: inline-block;
+
+            color: #777;
+
+            font-size: 11px;
+
+            line-height: 1.4;
+
+            white-space: nowrap;
+        }
+
+
+        .no-action {
+            color: #999;
+
+            font-size: 13px;
+
+            white-space: nowrap;
+        }
+
+
+        /* =====================================================
+           ACTION
+        ===================================================== */
+
+        .table-action {
+            display: inline-block;
+
+            border: none;
+
+            border-radius: 7px;
+
+            padding: 8px 10px;
+
+            cursor: pointer;
+
+            font-family: "Work Sans", sans-serif;
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+
+            transition: 0.2s ease;
+        }
+
+
+        .table-action:hover {
+            opacity: 0.88;
+        }
+
+
+        .book-action {
+            background: var(--maroon);
+            color: var(--white);
+        }
+
+
+        .pay-action {
+            background: var(--maroon);
+            color: var(--white);
+        }
+
+
+        .track-action {
+            background: var(--gold);
+            color: var(--black);
+        }
+
+
+        /* =====================================================
            RESPONSIVE
-        ========================= */
+        ===================================================== */
 
-        @media (max-width: 850px) {
+        @media (max-width: 1100px) {
 
-            .requests-container {
-                grid-template-columns: 1fr;
+            .main {
+                padding-left: 3%;
+                padding-right: 3%;
+            }
+
+
+            .requests-table th,
+            .requests-table td {
+                padding-left: 7px;
+                padding-right: 7px;
+            }
+
+
+            .requests-table th {
+                font-size: 11px;
+            }
+
+
+            .requests-table td {
+                font-size: 11px;
+            }
+
+
+            .status {
+                font-size: 9px;
+                padding: 6px 8px;
+            }
+
+
+            .waiting-text {
+                font-size: 10px;
+            }
+
+
+            .progress-dot {
+                width: 9px;
+                height: 9px;
+                min-width: 9px;
+            }
+
+
+            .progress-dot.active {
+                width: 12px;
+                height: 12px;
+                min-width: 12px;
             }
 
         }
 
-        @media (max-width: 600px) {
+
+        @media (max-width: 700px) {
 
             .header {
+                height: 75px;
+
                 padding: 0 18px;
             }
+
 
             .brand {
                 font-size: 26px;
             }
 
-            .main {
-                padding: 35px 18px;
+
+            .back-button {
+                width: 40px;
+                height: 40px;
+
+                font-size: 22px;
             }
+
+
+            .refresh-button {
+                padding: 9px 13px;
+
+                font-size: 12px;
+            }
+
+
+            .main {
+                padding: 35px 12px 50px;
+            }
+
 
             h1 {
                 font-size: 36px;
             }
 
-            .details {
-                grid-template-columns: 1fr;
+
+            .section-title {
+                font-size: 26px;
             }
 
-            .request-top {
-                flex-direction: column;
+
+            .table-scroll {
+                border-radius: 12px;
             }
 
-            .button-row {
-                flex-direction: column;
+
+            .requests-table th {
+                padding: 14px 6px;
+
+                font-size: 10px;
             }
 
-            .section-header {
-                align-items: flex-start;
-                gap: 10px;
+
+            .requests-table td {
+                padding: 16px 6px;
+
+                font-size: 10px;
+            }
+
+
+            .status {
+                font-size: 8px;
+
+                padding: 5px 6px;
+            }
+
+
+            .waiting-text {
+                font-size: 9px;
+            }
+
+
+            .table-action {
+                padding: 7px 8px;
+
+                font-size: 9px;
+            }
+
+
+            .progress-dot {
+                width: 8px;
+                height: 8px;
+
+                min-width: 8px;
+            }
+
+
+            .progress-dot.active {
+                width: 11px;
+                height: 11px;
+
+                min-width: 11px;
+            }
+
+
+            .progress-line {
+                height: 2px;
+
+                min-width: 2px;
             }
 
         }
@@ -484,21 +863,26 @@
 
 </head>
 
+
 <body>
 
-    <!-- =========================
+
+    <!-- =====================================================
          HEADER
-    ========================= -->
+    ===================================================== -->
 
     <header class="header">
 
         <div class="header-left">
 
             <button
+                type="button"
                 class="back-button"
-                onclick="goBack()">
+                onclick="goBack()"
+            >
                 ←
             </button>
+
 
             <div class="brand">
                 Annapriya
@@ -506,18 +890,21 @@
 
         </div>
 
+
         <button
+            type="button"
             class="refresh-button"
-            onclick="loadRequests()">
+            onclick="window.location.reload()"
+        >
             ↻ Refresh
         </button>
 
     </header>
 
 
-    <!-- =========================
+    <!-- =====================================================
          MAIN
-    ========================= -->
+    ===================================================== -->
 
     <main class="main">
 
@@ -525,51 +912,74 @@
             CUSTOMER
         </div>
 
+
         <h1>
             My Requests
         </h1>
+
 
         <p class="subtitle">
             Track your enquiries, bookings, payments, and event progress.
         </p>
 
 
-        <!-- LOADING -->
+        <!-- =================================================
+             LOADING
+        ================================================= -->
 
         <div
             class="message"
-            id="loadingMessage">
-
+            id="loadingMessage"
+        >
             Loading your requests...
-
         </div>
 
 
-        <!-- ERROR -->
+        <!-- =================================================
+             ERROR
+        ================================================= -->
 
         <div
             class="message"
-            id="errorMessage">
+            id="errorMessage"
+        >
 
             Unable to load your requests.
 
+
+            <div
+                id="errorText"
+                style="margin-top: 8px;"
+            ></div>
+
+
+            <button
+                type="button"
+                class="table-action book-action"
+                style="margin-top: 15px;"
+                onclick="window.location.reload()"
+            >
+                Try Again
+            </button>
+
         </div>
 
 
-        <!-- EMPTY -->
+        <!-- =================================================
+             EMPTY
+        ================================================= -->
 
         <div
             class="message"
-            id="emptyMessage">
-
+            id="emptyMessage"
+        >
             You don't have any enquiries or event requests yet.
-
         </div>
 
 
-        <!-- =========================
+        <!-- =================================================
              REQUEST SECTION
-        ========================= -->
+        ================================================= -->
 
         <div id="requestsSection">
 
@@ -579,44 +989,39 @@
                     Your Requests
                 </div>
 
-                <div
-                    class="request-count"
-                    id="requestCount">
+
+                <span
+                    id="requestCount"
+                    aria-hidden="true"
+                >
                     0
-                </div>
+                </span>
 
             </div>
 
 
             <div
-                class="requests-container"
-                id="requestsList">
-
-            </div>
+                class="requests-list"
+                id="requestsList"
+            ></div>
 
         </div>
 
     </main>
 
 
-    <!-- =========================
-         SCRIPT
-    ========================= -->
+    <!-- =====================================================
+         EXISTING JAVASCRIPT
+    ===================================================== -->
 
     <script src="myrequests.js"></script>
 
 
     <script>
 
-        /* =========================
-           BACK BUTTON
-        ========================= */
-
         function goBack() {
 
-            if (
-                window.history.length > 1
-            ) {
+            if (window.history.length > 1) {
 
                 window.history.back();
 
@@ -630,6 +1035,7 @@
         }
 
     </script>
+
 
 </body>
 

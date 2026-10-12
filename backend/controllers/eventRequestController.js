@@ -170,7 +170,17 @@ async function createRequest(req, res) {
 ========================================================= */
 async function getCustomerRequests(req, res) {
     try {
+        /*
+         * Customer ID comes from the URL:
+         * /api/requests/customer/:customerId
+         *
+         * Example:
+         * /api/requests/customer/5
+         *
+         * Therefore we must read req.params.customerId.
+         */
         const customerId =
+            req.params.customerId ||
             req.query.customerId ||
             req.user?.customerId ||
             req.user?.id;

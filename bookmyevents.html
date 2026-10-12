@@ -146,23 +146,57 @@
                 </div>
 
 
-                <div class="form-grid">
+                ```html
+<div class="form-grid">
 
-                    <div class="form-group">
+    <div class="form-group">
 
-                        <label for="customerName">
-                            Full Name
-                        </label>
+        <label for="customerName">
+            Full Name
+        </label>
 
-                        <input
-                            type="text"
-                            id="customerName"
-                            readonly
-                        >
+        <input
+            type="text"
+            id="customerName"
+            name="customerName"
+            placeholder="Your registered full name"
+            readonly
+        >
 
-                    </div>
+    </div>
 
+    <div class="form-group">
 
+        <label for="customerPhone">
+            Phone Number
+        </label>
+
+        <input
+            type="tel"
+            id="customerPhone"
+            name="customerPhone"
+            readonly
+        >
+
+    </div>
+
+    <div class="form-group full-width">
+
+        <label for="customerEmail">
+            Email Address
+        </label>
+
+        <input
+            type="email"
+            id="customerEmail"
+            name="customerEmail"
+            readonly
+        >
+
+    </div>
+
+</div>
+```
                     <div class="form-group">
 
                         <label for="customerPhone">
@@ -316,18 +350,27 @@
 
 
                     <div class="form-group">
-
-                        <label for="eventTime">
-                            Event Time
-                        </label>
-
-                        <input
-                            type="time"
-                            id="eventTime"
-                            required
-                        >
-
-                    </div>
+    <label for="eventTime">Event Time</label>
+    <select id="eventTime" name="eventTime" required>
+        <option value="">Select Event Time</option>
+        <option value="08:00 AM">08:00 AM</option>
+        <option value="09:00 AM">09:00 AM</option>
+        <option value="10:00 AM">10:00 AM</option>
+        <option value="11:00 AM">11:00 AM</option>
+        <option value="12:00 PM">12:00 PM</option>
+        <option value="01:00 PM">01:00 PM</option>
+        <option value="02:00 PM">02:00 PM</option>
+        <option value="03:00 PM">03:00 PM</option>
+        <option value="04:00 PM">04:00 PM</option>
+        <option value="05:00 PM">05:00 PM</option>
+        <option value="06:00 PM">06:00 PM</option>
+        <option value="07:00 PM">07:00 PM</option>
+        <option value="08:00 PM">08:00 PM</option>
+        <option value="09:00 PM">09:00 PM</option>
+        <option value="10:00 PM">10:00 PM</option>
+        <option value="11:00 PM">11:00 PM</option>
+    </select>
+</div>
 
 
                     <div class="form-group full-width">

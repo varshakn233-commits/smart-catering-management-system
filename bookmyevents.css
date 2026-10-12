@@ -649,3 +649,48 @@ body {
     }
 
 }
+
+/* CUSTOM PACKAGE AND CATERING SERVICE */
+
+#customOptionsContainer {
+    margin-top: 20px;
+}
+
+#customPackageFields,
+#customServiceFields {
+    padding: 20px;
+    margin-bottom: 18px;
+    border: 1px solid #e5d2c0;
+    border-radius: 12px;
+    background: #fffaf5;
+}
+
+#customOptionsContainer h3 {
+    color: #8B1E3F;
+    margin-bottom: 15px;
+}
+
+#customOptionsContainer label {
+    display: block;
+    margin: 12px 0 6px;
+}
+
+#customOptionsContainer select,
+#customOptionsContainer textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d8c7ba;
+    border-radius: 8px;
+    font: inherit;
+}
+
+#customOptionsContainer textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+#customServiceFields input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: #8B1E3F;
+}

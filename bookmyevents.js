@@ -75,6 +75,86 @@ const submitButton =
     document.getElementById("submitButton");
 
 
+
+/* CUSTOM PACKAGE AND CATERING SERVICE */
+
+const packageSelect = document.getElementById("packageName");
+const cateringServiceSelect = document.getElementById("cateringService");
+
+const customOptionsContainer = document.createElement("div");
+customOptionsContainer.id = "customOptionsContainer";
+
+customOptionsContainer.innerHTML = `
+    <div id="customPackageFields" hidden>
+        <h3>Customize Your Package</h3>
+
+        <label for="customMeals">Meals Required</label>
+        <select id="customMeals">
+            <option value="">Select meals</option>
+            <option value="Breakfast">Breakfast</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+            <option value="Snacks">Snacks</option>
+            <option value="All Meals">All Meals</option>
+        </select>
+
+        <label for="customDishes">Preferred Dishes</label>
+        <textarea id="customDishes"
+            placeholder="Enter your preferred dishes"></textarea>
+
+        <label for="customDietary">Dietary Preferences</label>
+        <textarea id="customDietary"
+            placeholder="Enter dietary preferences"></textarea>
+    </div>
+
+    <div id="customServiceFields" hidden>
+        <h3>Choose Custom Catering Services</h3>
+
+        <label><input type="checkbox" name="customServices"
+            value="Food Preparation"> Food Preparation</label>
+
+        <label><input type="checkbox" name="customServices"
+            value="Food Delivery"> Food Delivery</label>
+
+        <label><input type="checkbox" name="customServices"
+            value="Buffet Setup"> Buffet Setup</label>
+
+        <label><input type="checkbox" name="customServices"
+            value="Serving Staff"> Serving Staff</label>
+
+        <label><input type="checkbox" name="customServices"
+            value="Plates and Utensils"> Plates and Utensils</label>
+
+        <label><input type="checkbox" name="customServices"
+            value="Cleanup"> Cleanup</label>
+    </div>
+`;
+
+cateringServiceSelect.parentElement.insertAdjacentElement(
+    "afterend",
+    customOptionsContainer
+);
+
+function updateCustomFields() {
+    document.getElementById("customPackageFields").hidden =
+        packageSelect.value !== "Custom";
+
+    document.getElementById("customServiceFields").hidden =
+        cateringServiceSelect.value !== "Custom Service";
+
+    updateSummary();
+}
+
+packageSelect.addEventListener("change", updateCustomFields);
+cateringServiceSelect.addEventListener("change", updateCustomFields);
+
+customOptionsContainer.addEventListener("input", updateSummary);
+customOptionsContainer.addEventListener("change", updateSummary);
+
+updateCustomFields();
+
+
+
 // =====================================================
 // CUSTOMER INFORMATION
 // =====================================================
@@ -658,6 +738,33 @@ eventBookingForm.addEventListener(
         }
 
 
+const customDetails = [];
+
+if (packageSelect.value === "Custom") {
+    const meals = document.getElementById("customMeals").value;
+    const dishes = document.getElementById("customDishes").value.trim();
+    const dietary = document.getElementById("customDietary").value.trim();
+
+    if (meals) customDetails.push(`Meals: ${meals}`);
+    if (dishes) customDetails.push(`Preferred dishes: ${dishes}`);
+    if (dietary) customDetails.push(`Dietary preferences: ${dietary}`);
+}
+
+if (cateringServiceSelect.value === "Custom Service") {
+    const services = Array.from(
+        document.querySelectorAll(
+            'input[name="customServices"]:checked'
+        )
+    ).map(input => input.value);
+
+    if (services.length) {
+        customDetails.push(`Custom services: ${services.join(", ")}`);
+    }
+}
+
+        
+        
+        
         // =================================================
         // CREATE BOOKING REQUEST DATA
         // =================================================
@@ -728,10 +835,12 @@ eventBookingForm.addEventListener(
                     "cateringService"
                 ).value,
 
-            specialRequirements:
-                document.getElementById(
-                    "specialRequirements"
-                ).value.trim(),
+            
+specialRequirements: [
+    document.getElementById("specialRequirements").value.trim(),
+    ...customDetails
+].filter(Boolean).join("\n"),
+
 
             message:
                 document.getElementById(

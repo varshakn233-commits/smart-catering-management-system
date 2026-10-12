@@ -1381,6 +1381,13 @@
         }
 
 
+        .close-btn:hover {
+
+            color: var(--primary);
+
+        }
+
+
         .modal-body {
 
             padding: 22px;
@@ -1591,17 +1598,75 @@
 
             max-width: 560px;
 
+            overflow: hidden;
+
+        }
+
+
+        .contact-modal-header {
+
+            padding: 22px 24px 18px;
+
+            align-items: flex-start;
+
+        }
+
+
+        .contact-modal-header h2 {
+
+            margin: 0;
+
+            font-family: Georgia, serif;
+
+            color: var(--primary);
+
+            font-size: 21px;
+
+        }
+
+
+        .contact-modal-subtitle {
+
+            margin-top: 5px;
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
         }
 
 
         .contact-modal-body {
 
-            padding: 24px;
+            padding: 22px 24px 8px;
 
         }
 
 
-        .contact-info {
+        .contact-section-label {
+
+            color: var(--muted);
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .caterer-message-card {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
 
             background: #FAF7F3;
 
@@ -1611,62 +1676,77 @@
 
             padding: 14px;
 
-            margin-bottom: 20px;
+            margin-bottom: 22px;
 
         }
 
 
-        .contact-info-row {
+        .caterer-message-icon {
+
+            width: 42px;
+
+            height: 42px;
+
+            min-width: 42px;
+
+            border-radius: 50%;
+
+            background: var(--secondary);
 
             display: flex;
 
-            justify-content: space-between;
-
             align-items: center;
 
-            gap: 15px;
+            justify-content: center;
 
-            margin-bottom: 8px;
-
-        }
-
-
-        .contact-info-row:last-child {
-
-            margin-bottom: 0;
+            font-size: 21px;
 
         }
 
 
-        .contact-info-label {
+        .caterer-message-details {
 
-            color: var(--muted);
-
-            font-size: 11px;
-
-            font-weight: 600;
+            min-width: 0;
 
         }
 
 
-        .contact-info-value {
+        .caterer-message-name {
 
             color: var(--accent);
 
-            font-size: 12px;
+            font-size: 14px;
 
-            font-weight: 700;
+            font-weight: 800;
 
-            text-align: right;
+            margin-bottom: 4px;
 
             word-break: break-word;
 
         }
 
 
+        .caterer-message-reference {
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+        }
+
+
+        .caterer-message-reference strong {
+
+            color: var(--primary);
+
+            font-weight: 700;
+
+        }
+
+
         .contact-field {
 
-            margin-bottom: 17px;
+            margin-bottom: 18px;
 
         }
 
@@ -1677,9 +1757,11 @@
 
             color: var(--primary);
 
-            font-size: 11px;
+            font-size: 10px;
 
-            font-weight: 700;
+            font-weight: 800;
+
+            letter-spacing: 0.8px;
 
             margin-bottom: 7px;
 
@@ -1711,14 +1793,14 @@
 
         .contact-field input {
 
-            height: 43px;
+            height: 44px;
 
         }
 
 
         .contact-field textarea {
 
-            min-height: 130px;
+            min-height: 135px;
 
             resize: vertical;
 
@@ -1739,15 +1821,41 @@
         }
 
 
-        .contact-actions {
+        .message-field {
+
+            margin-bottom: 0;
+
+        }
+
+
+        .message-counter {
+
+            text-align: right;
+
+            color: var(--muted);
+
+            font-size: 10px;
+
+            margin-top: 5px;
+
+        }
+
+
+        .contact-modal-footer {
 
             display: flex;
 
             justify-content: flex-end;
 
+            align-items: center;
+
             gap: 10px;
 
-            margin-top: 5px;
+            padding: 17px 24px;
+
+            border-top: 1px solid #EEE5DE;
+
+            background: #FFFCF9;
 
         }
 
@@ -1762,7 +1870,7 @@
 
             border-radius: 7px;
 
-            padding: 11px 18px;
+            padding: 11px 19px;
 
             font-size: 11px;
 
@@ -1781,7 +1889,7 @@
 
             border-radius: 7px;
 
-            padding: 11px 18px;
+            padding: 11px 19px;
 
             font-size: 11px;
 
@@ -1943,25 +2051,23 @@
             }
 
 
-            .contact-info-row {
+            .contact-modal-header {
 
-                align-items: flex-start;
-
-                flex-direction: column;
-
-                gap: 3px;
+                padding: 20px;
 
             }
 
 
-            .contact-info-value {
+            .contact-modal-body {
 
-                text-align: left;
+                padding: 20px 20px 8px;
 
             }
 
 
-            .contact-actions {
+            .contact-modal-footer {
+
+                padding: 15px 20px;
 
                 flex-direction: column-reverse;
 
@@ -2349,7 +2455,33 @@
 
         }
 
-    </style>
+    
+        /* Enquiry details redesign — main enquiry list remains unchanged */
+        #enquiryModal .modal { width:min(980px,96vw); max-width:980px; max-height:94vh; border-radius:18px; overflow:hidden; box-shadow:0 24px 70px rgba(30,20,20,.24); }
+        #enquiryModal .modal-header { padding:18px 24px; border-bottom:1px solid #eee5de; background:#fffdfb; }
+        #enquiryModal .modal-header h2 { color:var(--primary); font-family:Georgia,serif; font-size:23px; }
+        #enquiryModal .modal-body { padding:18px 24px 24px; overflow-y:auto; max-height:calc(94vh - 68px); }
+        #enquiryModal .section-title { display:flex; align-items:center; gap:8px; padding:10px 12px; margin:0 0 9px; background:#fbf5f0; border-radius:9px; font-size:14px; }
+        #enquiryModal .section-title-icon span { display:inline-flex; align-items:center; justify-content:center; width:23px; height:23px; border-radius:7px; background:#f3e3e6; color:var(--primary); font-family:Arial,sans-serif; font-size:14px; }
+        #enquiryModal .details-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-bottom:14px; }
+        #enquiryModal .detail-item { min-width:0; padding:11px 12px; border:1px solid #eee4dc; border-radius:10px; background:linear-gradient(135deg,#fffdfb,#faf5ef); }
+        #enquiryModal .detail-item.full { grid-column:1/-1; }
+        #enquiryModal .detail-label { margin-bottom:5px; color:#8a7b74; font-size:9px; font-weight:800; letter-spacing:.65px; text-transform:uppercase; }
+        #enquiryModal .detail-value { overflow-wrap:anywhere; color:#332b29; font-size:12px; line-height:1.45; }
+        #enquiryModal .message-box { padding:13px 14px; margin-bottom:15px; background:#fffaf5; border:1px solid #efdfd0; border-radius:10px; min-height:52px; white-space:pre-wrap; overflow-wrap:anywhere; }
+        #enquiryModal .reply-area { padding:13px; margin-bottom:14px; border:1px solid #eee3d9; border-radius:12px; background:#fffaf6; }
+        #enquiryModal .reply-area .section-title { padding:0; background:transparent; }
+        #enquiryModal .reply-area textarea { width:100%; min-height:90px; resize:vertical; border:1px solid #e4d8ce; border-radius:9px; padding:11px 12px; }
+        #enquiryModal .modal-actions { display:flex; flex-wrap:wrap; gap:9px; align-items:center; padding-top:13px; border-top:1px solid #eee5de; }
+        #enquiryModal .status-update-control { display:flex; align-items:center; gap:8px; margin-left:auto; }
+        #enquiryModal .status-update-control label { color:#8a7b74; font-size:10px; font-weight:800; text-transform:uppercase; }
+        #enquiryModal .status-update-control select { padding:10px 12px; border:1px solid #e4d8ce; border-radius:8px; background:white; color:#332b29; }
+        #enquiryModal .existing-reply-card { margin:-2px 0 14px; }
+        #enquiryModal .reply-counter-row { display:flex; justify-content:flex-end; margin-top:5px; }
+        #enquiryModal .reply-character-counter { color:#8a7b74; font-size:10px; }
+        @media(max-width:700px) { #enquiryModal .modal { width:96vw; max-height:95vh; } #enquiryModal .modal-body { padding:14px; } #enquiryModal .details-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } #enquiryModal .modal-actions { position:static; } #enquiryModal .status-update-control { width:100%; margin-left:0; flex-wrap:wrap; } #enquiryModal .status-update-control select { flex:1; } }
+
+</style>
 
 </head>
 
@@ -2411,6 +2543,12 @@
             <span>Customer Enquiries</span>
 
         </a>
+
+       <a href="admincontactmessages.html">
+            <span class="nav-icon">📩</span>
+            <span>Contact Messages</span>
+    </a>
+
 
 
         <a href="adminbookings.html">
@@ -3064,8 +3202,10 @@
 
 
             <button
+                type="button"
                 class="close-btn"
                 onclick="closeEnquiryModal()"
+                aria-label="Close enquiry details"
             >
                 ×
             </button>
@@ -3078,8 +3218,8 @@
 
             <!-- CUSTOMER -->
 
-            <h3 class="section-title">
-                Customer Details
+            <h3 class="section-title section-title-icon">
+                <span aria-hidden="true">♙</span> Customer Details
             </h3>
 
 
@@ -3142,8 +3282,8 @@
 
             <!-- CATERER -->
 
-            <h3 class="section-title">
-                Caterer Details
+            <h3 class="section-title section-title-icon">
+                <span aria-hidden="true">♧</span> Caterer Details
             </h3>
 
 
@@ -3206,8 +3346,8 @@
 
             <!-- REQUEST -->
 
-            <h3 class="section-title">
-                Related Request
+            <h3 class="section-title section-title-icon">
+                <span aria-hidden="true">▣</span> Booking / Request Details
             </h3>
 
 
@@ -3281,48 +3421,78 @@
 
                 </div>
 
-
-                <div class="detail-item full">
-
-                    <div class="detail-label">
-                        Venue
-                    </div>
-
-
-                    <div
-                        class="detail-value"
-                        id="detailVenue"
-                    >
-                        —
-                    </div>
-
-                </div>
-
-
-                <div class="detail-item full">
-
-                    <div class="detail-label">
-                        Package
-                    </div>
-
-
-                    <div
-                        class="detail-value"
-                        id="detailPackage"
-                    >
-                        —
-                    </div>
-
-                </div>
-
             </div>
 
+            <!-- EVENT DETAILS -->
+            <h3 class="section-title section-title-icon">
+                <span aria-hidden="true">▦</span> Event Details
+            </h3>
+            <div class="details-grid">
+                <div class="detail-item">
+                    <div class="detail-label">Venue</div>
+                    <div class="detail-value" id="detailVenue">—</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Package</div>
+                    <div class="detail-value" id="detailPackage">—</div>
+                </div>
+            </div>
 
+            <!-- COMPLAINT DETAILS -->
+            <h3 class="section-title section-title-icon">
+                <span aria-hidden="true">◉</span> Complaint Details
+            </h3>
+            <div class="details-grid complaint-details-grid">
+                <div class="detail-item">
+                    <div class="detail-label">Complaint ID</div>
+                    <div class="detail-value" id="detailComplaintId">—</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Category</div>
+                    <div class="detail-value" id="detailComplaintCategory">—</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Subject</div>
+                    <div class="detail-value" id="detailComplaintSubject">—</div>
+                </div>
+                <div class="detail-item full">
+                    <div class="detail-label">Description</div>
+                    <div class="detail-value" id="detailComplaintDescription">—</div>
+                </div>
+            </div>
+
+            <!-- RESOLUTION AND ADMIN INFO -->
+            <h3 class="section-title section-title-icon">
+                <span aria-hidden="true">▤</span> Resolution &amp; Admin Info
+            </h3>
+            <div class="details-grid resolution-details-grid">
+                <div class="detail-item">
+                    <div class="detail-label">Preferred Resolution</div>
+                    <div class="detail-value" id="detailPreferredResolution">—</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Submitted Date</div>
+                    <div class="detail-value" id="detailComplaintCreatedAt">—</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Priority</div>
+                    <div class="detail-value" id="detailComplaintPriority">—</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Status</div>
+                    <div class="detail-value" id="detailComplaintStatus">—</div>
+                </div>
+            </div>
+
+            <div class="detail-item existing-reply-card" id="existingAdminReplyCard" style="display:none;">
+                <div class="detail-label">Previous Admin Reply</div>
+                <div class="detail-value" id="detailExistingAdminReply">—</div>
+            </div>
 
             <!-- MESSAGE -->
 
-            <h3 class="section-title">
-                Customer Message
+            <h3 class="section-title section-title-icon">
+                <span aria-hidden="true">☏</span> Customer Message
             </h3>
 
 
@@ -3339,15 +3509,18 @@
 
             <div class="reply-area">
 
-                <h3 class="section-title">
-                    Admin Reply
+                <h3 class="section-title section-title-icon">
+                    <span aria-hidden="true">♡</span> Admin Reply
                 </h3>
 
 
                 <textarea
                     id="adminReply"
                     placeholder="Write a response to the customer..."
+                    maxlength="1000"
+                    aria-label="Write a reply to the customer"
                 ></textarea>
+                <div class="reply-counter-row"><span id="adminReplyCounter" class="reply-character-counter">0 / 1000</span></div>
 
             </div>
 
@@ -3376,22 +3549,15 @@
                 </button>
 
 
-                <button
-                    type="button"
-                    class="modal-btn secondary-btn"
-                    onclick="showBackendNotice('progress')"
-                >
-                    Mark In Progress
-                </button>
-
-
-                <button
-                    type="button"
-                    class="modal-btn success-btn"
-                    onclick="showBackendNotice('resolved')"
-                >
-                    Mark Resolved
-                </button>
+                <div class="status-update-control">
+                    <label for="detailStatusSelect">Update Status</label>
+                    <select id="detailStatusSelect" aria-label="Update enquiry status">
+                        <option value="open">Open</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="resolved">Resolved</option>
+                    </select>
+                    <button type="button" class="modal-btn secondary-btn" onclick="updateSelectedComplaintStatus()">Update</button>
+                </div>
 
 
             </div>
@@ -3420,17 +3586,27 @@
     <div class="modal contact-modal">
 
 
-        <div class="modal-header">
+        <div class="modal-header contact-modal-header">
 
-            <h2>
-                Contact Caterer
-            </h2>
+            <div>
+
+                <h2>
+                    Contact Caterer
+                </h2>
+
+
+                <p class="contact-modal-subtitle">
+                    Send a message directly to the caterer
+                </p>
+
+            </div>
 
 
             <button
                 type="button"
                 class="close-btn"
                 onclick="closeContactCatererModal()"
+                aria-label="Close"
             >
                 ×
             </button>
@@ -3441,58 +3617,62 @@
         <div class="contact-modal-body">
 
 
-            <div class="contact-info">
+            <!-- CATERER -->
+
+            <div class="contact-section-label">
+                CATERER
+            </div>
 
 
-                <div class="contact-info-row">
+            <div class="caterer-message-card">
 
-                    <span class="contact-info-label">
-                        Caterer
-                    </span>
+                <div class="caterer-message-icon">
+                    👨‍🍳
+                </div>
 
 
-                    <span
-                        class="contact-info-value"
+                <div class="caterer-message-details">
+
+                    <div
+                        class="caterer-message-name"
                         id="contactCatererName"
                     >
                         —
-                    </span>
+                    </div>
+
+
+                    <div class="caterer-message-reference">
+
+                        Complaint reference:
+
+                        <strong
+                            id="contactComplaintId"
+                        >
+                            —
+                        </strong>
+
+                    </div>
 
                 </div>
-
-
-                <div class="contact-info-row">
-
-                    <span class="contact-info-label">
-                        Complaint ID
-                    </span>
-
-
-                    <span
-                        class="contact-info-value"
-                        id="contactComplaintId"
-                    >
-                        —
-                    </span>
-
-                </div>
-
 
             </div>
 
 
 
+            <!-- MESSAGE SUBJECT -->
+
             <div class="contact-field">
 
                 <label for="catererMessageSubject">
-                    Message Subject
+                    MESSAGE SUBJECT
                 </label>
 
 
                 <input
                     type="text"
                     id="catererMessageSubject"
-                    placeholder="Enter message subject"
+                    value="Follow-up regarding customer complaint"
+                    placeholder="Follow-up regarding customer complaint"
                     maxlength="200"
                 >
 
@@ -3500,42 +3680,28 @@
 
 
 
-            <div class="contact-field">
+            <!-- MESSAGE -->
+
+            <div class="contact-field message-field">
 
                 <label for="catererMessageText">
-                    Message
+                    MESSAGE
                 </label>
 
 
                 <textarea
                     id="catererMessageText"
                     placeholder="Write your message to the caterer..."
+                    maxlength="1000"
                 ></textarea>
 
-            </div>
 
-
-
-            <div class="contact-actions">
-
-
-                <button
-                    type="button"
-                    class="contact-cancel-btn"
-                    onclick="closeContactCatererModal()"
+                <div
+                    class="message-counter"
+                    id="catererMessageCounter"
                 >
-                    Cancel
-                </button>
-
-
-                <button
-                    type="button"
-                    class="contact-send-btn"
-                    onclick="sendCatererMessage()"
-                >
-                    Send Message
-                </button>
-
+                    0 / 1000
+                </div>
 
             </div>
 
@@ -3543,8 +3709,31 @@
         </div>
 
 
-    </div>
 
+        <!-- FOOTER -->
+
+        <div class="contact-modal-footer">
+
+            <button
+                type="button"
+                class="contact-cancel-btn"
+                onclick="closeContactCatererModal()"
+            >
+                Cancel
+            </button>
+
+
+            <button
+                type="button"
+                class="contact-send-btn"
+                onclick="sendCatererMessage()"
+            >
+                Send Message
+            </button>
+
+        </div>
+
+    </div>
 
 </div>
 
@@ -4386,6 +4575,29 @@
             "—";
 
 
+        document.getElementById("detailComplaintId").textContent =
+            `CMP-${complaint.complaint_id}`;
+        document.getElementById("detailComplaintCategory").textContent =
+            complaint.complaint_category || complaint.event_type || "—";
+        document.getElementById("detailComplaintSubject").textContent =
+            complaint.complaint_subject || "—";
+        document.getElementById("detailComplaintDescription").textContent =
+            complaint.complaint_description || "—";
+        document.getElementById("detailPreferredResolution").textContent =
+            complaint.preferred_resolution || complaint.resolution_preference || "—";
+        document.getElementById("detailComplaintCreatedAt").textContent =
+            complaint.created_at ? new Date(complaint.created_at).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }) : "—";
+        document.getElementById("detailComplaintPriority").textContent =
+            complaint.priority || "Normal";
+        document.getElementById("detailComplaintStatus").textContent =
+            (complaint.status || "open").replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+        document.getElementById("detailStatusSelect").value =
+            ["open", "in_progress", "resolved"].includes(complaint.status) ? complaint.status : "open";
+        const previousReply = complaint.admin_reply || "";
+        document.getElementById("existingAdminReplyCard").style.display = previousReply ? "block" : "none";
+        document.getElementById("detailExistingAdminReply").textContent = previousReply || "—";
+        updateAdminReplyCounter();
+
         document.getElementById(
             "detailMessage"
         ).textContent =
@@ -4411,6 +4623,21 @@
     }
 
 
+
+    function updateSelectedComplaintStatus() {
+        const select = document.getElementById("detailStatusSelect");
+        if (!select || !selectedComplaint) {
+            alert("Please select an enquiry first.");
+            return;
+        }
+        updateComplaintStatus(select.value);
+    }
+
+    function updateAdminReplyCounter() {
+        const input = document.getElementById("adminReply");
+        const counter = document.getElementById("adminReplyCounter");
+        if (input && counter) counter.textContent = `${input.value.length} / 1000`;
+    }
 
     /* =====================================================
        CLOSE ENQUIRY MODAL
@@ -4662,13 +4889,16 @@
         document.getElementById(
             "catererMessageSubject"
         ).value =
-            "";
+            "Follow-up regarding customer complaint";
 
 
         document.getElementById(
             "catererMessageText"
         ).value =
             "";
+
+
+        updateCatererMessageCounter();
 
 
         document
@@ -4715,13 +4945,70 @@
         document.getElementById(
             "catererMessageSubject"
         ).value =
-            "";
+            "Follow-up regarding customer complaint";
 
 
         document.getElementById(
             "catererMessageText"
         ).value =
             "";
+
+
+        updateCatererMessageCounter();
+
+    }
+
+
+
+    /* =====================================================
+       CATERER MESSAGE CHARACTER COUNTER
+    ===================================================== */
+
+    function updateCatererMessageCounter() {
+
+        const messageField =
+            document.getElementById(
+                "catererMessageText"
+            );
+
+
+        const counter =
+            document.getElementById(
+                "catererMessageCounter"
+            );
+
+
+        if (
+            !messageField ||
+            !counter
+        ) {
+
+            return;
+
+        }
+
+
+        const currentLength =
+            messageField.value.length;
+
+
+        counter.textContent =
+            `${currentLength} / 1000`;
+
+
+        if (
+            currentLength >= 900
+        ) {
+
+            counter.style.color =
+                "#B42318";
+
+        } else {
+
+            counter.style.color =
+                "#766D68";
+
+        }
 
     }
 
@@ -5279,6 +5566,23 @@
         .addEventListener(
             "change",
             filterEnquiries
+        );
+
+
+
+    document.getElementById("adminReply").addEventListener("input", updateAdminReplyCounter);
+
+    /* =====================================================
+       CATERER MESSAGE CHARACTER COUNTER EVENT
+    ===================================================== */
+
+    document
+        .getElementById(
+            "catererMessageText"
+        )
+        .addEventListener(
+            "input",
+            updateCatererMessageCounter
         );
 
 
