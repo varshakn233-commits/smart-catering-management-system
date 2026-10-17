@@ -1,4 +1,74 @@
+
 const db = require("../config/db");
+
+/* =========================================================
+   CONVERT EVENT TIME TO MYSQL TIME FORMAT
+========================================================= */
+function convertEventTime(eventTime) {
+    if (eventTime === undefined || eventTime === null || String(eventTime).trim() === "") {
+        return null;
+    }
+
+    const time = String(eventTime).trim();
+
+    // Supports 7:00 PM, 07:00 PM, and optional seconds
+    const amPmMatch = time.match(
+        /^(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM)$/i
+    );
+
+    if (amPmMatch) {
+        let hours = Number(amPmMatch[1]);
+        const minutes = Number(amPmMatch[2]);
+        const seconds = Number(amPmMatch[3] || 0);
+        const period = amPmMatch[4].toUpperCase();
+
+        if (
+            hours < 1 || hours > 12 ||
+            minutes > 59 || seconds > 59
+        ) {
+            throw new Error("Invalid event time: " + time);
+        }
+
+        if (period === "PM" && hours !== 12) {
+            hours += 12;
+        } else if (period === "AM" && hours === 12) {
+            hours = 0;
+        }
+
+        return (
+            String(hours).padStart(2, "0") + ":" +
+            String(minutes).padStart(2, "0") + ":" +
+            String(seconds).padStart(2, "0")
+        );
+    }
+
+    // Also supports 19:00 or 19:00:00
+    const twentyFourHourMatch = time.match(
+        /^(\d{1,2}):(\d{2})(?::(\d{2}))?$/
+    );
+
+    if (twentyFourHourMatch) {
+        const hours = Number(twentyFourHourMatch[1]);
+        const minutes = Number(twentyFourHourMatch[2]);
+        const seconds = Number(twentyFourHourMatch[3] || 0);
+
+        if (
+            hours > 23 ||
+            minutes > 59 ||
+            seconds > 59
+        ) {
+            throw new Error("Invalid event time: " + time);
+        }
+
+        return (
+            String(hours).padStart(2, "0") + ":" +
+            String(minutes).padStart(2, "0") + ":" +
+            String(seconds).padStart(2, "0")
+        );
+    }
+
+    throw new Error("Invalid event time format: " + time);
+}
 
 /* =========================================================
    CREATE EVENT REQUEST
@@ -25,7 +95,7 @@ async function createRequest(req, res) {
             catererEmail
         } = req.body;
 
-        // Required fields
+        // Validate required fields
         if (
             !customerId ||
             !customerName ||
@@ -42,11 +112,18 @@ async function createRequest(req, res) {
             });
         }
 
-        /* -------------------------------------------------
-           If request came from a customer enquiry,
-           verify that the enquiry exists and belongs
-           to the customer + caterer.
-        ------------------------------------------------- */
+        // Validate and convert event time
+        let formattedEventTime;
+
+        try {
+            formattedEventTime = convertEventTime(eventTime);
+        } catch (timeError) {
+            return res.status(400).json({
+                message: timeError.message
+            });
+        }
+
+        // If booking originated from an enquiry, verify ownership
         if (enquiryId) {
             const [enquiries] = await db.query(
                 `SELECT enquiry_id, customer_id, caterer_email, status
@@ -72,7 +149,7 @@ async function createRequest(req, res) {
             if (
                 enquiry.caterer_email &&
                 enquiry.caterer_email.toLowerCase() !==
-                    catererEmail.toLowerCase()
+                String(catererEmail).toLowerCase()
             ) {
                 return res.status(403).json({
                     message: "This enquiry does not belong to this caterer."
@@ -80,12 +157,7 @@ async function createRequest(req, res) {
             }
         }
 
-        /* -------------------------------------------------
-           IMPORTANT:
-           event_request DOES NOT have enquiry_id.
-           So do NOT insert enquiry_id here.
-        ------------------------------------------------- */
-
+        // Create event request
         const [result] = await db.query(
             `INSERT INTO event_request
             (
@@ -115,7 +187,7 @@ async function createRequest(req, res) {
                 email,
                 eventType,
                 eventDate,
-                eventTime || null,
+                formattedEventTime,
                 venueLocation,
                 guestCount,
                 foodType || null,
@@ -128,10 +200,7 @@ async function createRequest(req, res) {
             ]
         );
 
-        /* -------------------------------------------------
-           Mark enquiry as booking_created
-           AFTER event request is successfully created.
-        ------------------------------------------------- */
+        // Update enquiry after request creation
         if (enquiryId) {
             try {
                 await db.query(
@@ -164,21 +233,11 @@ async function createRequest(req, res) {
     }
 }
 
-
 /* =========================================================
    GET CUSTOMER REQUESTS
 ========================================================= */
 async function getCustomerRequests(req, res) {
     try {
-        /*
-         * Customer ID comes from the URL:
-         * /api/requests/customer/:customerId
-         *
-         * Example:
-         * /api/requests/customer/5
-         *
-         * Therefore we must read req.params.customerId.
-         */
         const customerId =
             req.params.customerId ||
             req.query.customerId ||
@@ -235,9 +294,8 @@ async function getCustomerRequests(req, res) {
     }
 }
 
-
 /* =========================================================
-   GET ALL / CATERER REQUESTS
+   GET ALL OR CATERER REQUESTS
 ========================================================= */
 async function getRequests(req, res) {
     try {
@@ -276,13 +334,10 @@ async function getRequests(req, res) {
             query += `
                 WHERE LOWER(er.caterer_email) = LOWER(?)
             `;
-
             params.push(catererEmail);
         }
 
-        query += `
-            ORDER BY er.created_at DESC
-        `;
+        query += " ORDER BY er.created_at DESC";
 
         const [rows] = await db.query(query, params);
 
@@ -300,13 +355,14 @@ async function getRequests(req, res) {
     }
 }
 
-
 /* =========================================================
    GET CATERER EVENTS
 ========================================================= */
 async function getCatererEvents(req, res) {
     try {
         const catererEmail =
+            req.params.email ||
+            req.params.catererEmail ||
             req.query.catererEmail ||
             req.query.email ||
             req.user?.email;
@@ -340,7 +396,12 @@ async function getCatererEvents(req, res) {
                 er.created_at
              FROM event_request er
              WHERE LOWER(er.caterer_email) = LOWER(?)
-             AND er.status IN ('accepted', 'payment_pending', 'confirmed', 'completed')
+             AND er.status IN (
+                'accepted',
+                'payment_pending',
+                'confirmed',
+                'completed'
+             )
              ORDER BY er.event_date ASC, er.created_at DESC`,
             [catererEmail]
         );
@@ -359,7 +420,6 @@ async function getCatererEvents(req, res) {
     }
 }
 
-
 /* =========================================================
    UPDATE REQUEST STATUS
 ========================================================= */
@@ -368,9 +428,9 @@ async function updateRequestStatus(req, res) {
         const { id } = req.params;
         const { status, catererId } = req.body;
 
-        if (!id) {
+        if (!id || !/^\d+$/.test(String(id))) {
             return res.status(400).json({
-                message: "Request ID is required."
+                message: "A valid request ID is required."
             });
         }
 
@@ -380,12 +440,6 @@ async function updateRequestStatus(req, res) {
             });
         }
 
-        /* -------------------------------------------------
-           Get request
-           IMPORTANT:
-           No enquiry_id here because event_request
-           does not contain that column.
-        ------------------------------------------------- */
         const [requests] = await db.query(
             `SELECT
                 request_id,
@@ -409,43 +463,35 @@ async function updateRequestStatus(req, res) {
 
         const request = requests[0];
 
-        /* -------------------------------------------------
-           Optional caterer ownership verification
-        ------------------------------------------------- */
+        // Optional caterer ownership check
         if (catererId) {
-            try {
-                const [caterers] = await db.query(
-                    `SELECT caterer_id, email
-                     FROM caterers
-                     WHERE caterer_id = ?`,
-                    [catererId]
-                );
+            const [caterers] = await db.query(
+                `SELECT caterer_id, email
+                 FROM caterers
+                 WHERE caterer_id = ?`,
+                [catererId]
+            );
 
-                if (caterers.length > 0) {
-                    const caterer = caterers[0];
+            if (caterers.length === 0) {
+                return res.status(404).json({
+                    message: "Caterer not found."
+                });
+            }
 
-                    if (
-                        caterer.email &&
-                        request.caterer_email &&
-                        caterer.email.toLowerCase() !==
-                            request.caterer_email.toLowerCase()
-                    ) {
-                        return res.status(403).json({
-                            message: "This request does not belong to this caterer."
-                        });
-                    }
-                }
-            } catch (error) {
-                console.error(
-                    "Caterer ownership check failed:",
-                    error.message
-                );
+            const caterer = caterers[0];
+
+            if (
+                !caterer.email ||
+                !request.caterer_email ||
+                caterer.email.toLowerCase() !==
+                request.caterer_email.toLowerCase()
+            ) {
+                return res.status(403).json({
+                    message: "This request does not belong to this caterer."
+                });
             }
         }
 
-        /* -------------------------------------------------
-           REJECT
-        ------------------------------------------------- */
         if (status === "rejected") {
             await db.query(
                 `UPDATE event_request
@@ -455,14 +501,13 @@ async function updateRequestStatus(req, res) {
             );
 
             return res.status(200).json({
-                message: "Event request rejected successfully."
+                message: "Event request rejected successfully.",
+                requestId: Number(id),
+                status: "rejected"
             });
         }
 
-        /* -------------------------------------------------
-           ACCEPT
-           Move request to payment_pending.
-        ------------------------------------------------- */
+        // Accept request and move it to payment pending
         await db.query(
             `UPDATE event_request
              SET status = 'payment_pending'
@@ -470,13 +515,7 @@ async function updateRequestStatus(req, res) {
             [id]
         );
 
-
-        /* =================================================
-           CREATE PAYMENT RECORD
-           This is wrapped in try/catch so that an issue
-           with the optional payment table does not stop
-           the request from being accepted.
-        ================================================= */
+        // Create payment record if the payment table is available
         try {
             await db.query(
                 `INSERT INTO event_payments
@@ -500,10 +539,7 @@ async function updateRequestStatus(req, res) {
             );
         }
 
-
-        /* =================================================
-           CREATE TRACKING RECORD
-        ================================================= */
+        // Create tracking record if the tracking table is available
         try {
             await db.query(
                 `INSERT INTO event_tracking
@@ -538,11 +574,9 @@ async function updateRequestStatus(req, res) {
     }
 }
 
-
 /* =========================================================
    EXPORT FUNCTIONS
 ========================================================= */
-
 module.exports = {
     createRequest,
     getCustomerRequests,

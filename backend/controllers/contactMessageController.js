@@ -1,3 +1,4 @@
+
 const db = require("../config/db");
 const nodemailer = require("nodemailer");
 
@@ -15,50 +16,61 @@ const transporter = nodemailer.createTransport({
 
 // =====================================================
 // CREATE CONTACT MESSAGE
-// Visitor → Admin
+// Visitor -> Admin
 // =====================================================
 
 const createContactMessage = async (req, res) => {
     try {
-        const { name, email, subject, message } = req.body;
+        const {
+            customerName,
+            name,
+            phone,
+            email,
+            eventDate,
+            message,
+            subject
+        } = req.body;
 
-        if (!name || !email || !subject || !message) {
+        const cleanName = String(customerName || name || "").trim();
+        const cleanPhone = String(phone || "").trim();
+        const cleanEmail = String(email || "").trim();
+        const cleanMessage = String(message || "").trim();
+        const cleanSubject = String(
+            subject || "Contact Form Enquiry"
+        ).trim();
+
+        // Validate required fields
+        if (!cleanName || !cleanPhone || !cleanEmail || !cleanMessage) {
             return res.status(400).json({
-                message: "Please fill in all contact form fields."
+                message: "Please fill in all required contact form fields."
             });
         }
 
-        const cleanName = String(name).trim();
-        const cleanEmail = String(email).trim();
-        const cleanSubject = String(subject).trim();
-        const cleanMessage = String(message).trim();
+        // Validate email address (corrected)
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        // Validate email address
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+        if (!emailPattern.test(cleanEmail)) {
             return res.status(400).json({
                 message: "Please enter a valid email address."
             });
         }
 
-        if (!cleanName || !cleanSubject || !cleanMessage) {
-            return res.status(400).json({
-                message: "Name, subject and message cannot be empty."
-            });
+        // Validate optional event date
+        let cleanEventDate = null;
+
+        if (eventDate) {
+            const dateString = String(eventDate).trim();
+
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+                return res.status(400).json({
+                    message: "Please enter a valid event date."
+                });
+            }
+
+            cleanEventDate = dateString;
         }
 
-        /*
-         * Your current database table does not contain
-         * name or subject columns.
-         *
-         * It uses:
-         * customer_name, phone, email, event_date,
-         * message, status, admin_reply, replied_at,
-         * created_at.
-         *
-         * Since this contact form does not collect phone
-         * or event_date, use safe defaults for those fields.
-         */
-
+        // Save contact message to MySQL
         const [result] = await db.query(
             `INSERT INTO contact_messages
                 (
@@ -70,16 +82,17 @@ const createContactMessage = async (req, res) => {
                     status,
                     created_at
                 )
-             VALUES (?, ?, ?, NULL, ?, 'new', NOW())`,
+             VALUES (?, ?, ?, ?, ?, 'new', NOW())`,
             [
                 cleanName,
-                "Not provided",
+                cleanPhone,
                 cleanEmail,
+                cleanEventDate,
                 `Subject: ${cleanSubject}\n\n${cleanMessage}`
             ]
         );
 
-        // Notify admin by email
+        // Notify admin by email if email settings are configured
         try {
             if (
                 process.env.MAIL_USER &&
@@ -92,19 +105,19 @@ const createContactMessage = async (req, res) => {
                     replyTo: cleanEmail,
                     subject: `New Contact Message: ${cleanSubject}`,
                     text:
-                        `A visitor has contacted Annapriya.\n\n` +
                         `Name: ${cleanName}\n` +
+                        `Phone: ${cleanPhone}\n` +
                         `Email: ${cleanEmail}\n` +
-                        `Subject: ${cleanSubject}\n\n` +
+                        `Event Date: ${cleanEventDate || "Not provided"}\n\n` +
                         `Message:\n${cleanMessage}`
                 });
             } else {
                 console.warn(
-                    "Admin email notification skipped: " +
-                    "MAIL_USER, MAIL_PASS or ADMIN_EMAIL is missing."
+                    "Admin email notification skipped: email settings are missing."
                 );
             }
         } catch (emailError) {
+            // The message is already saved, so email failure won't undo it
             console.error(
                 "Contact notification email failed:",
                 emailError.message
@@ -120,7 +133,8 @@ const createContactMessage = async (req, res) => {
         console.error("Create contact message error:", error);
 
         return res.status(500).json({
-            message: "Could not submit your message."
+            message: "Could not submit your message.",
+            error: error.message
         });
     }
 };
@@ -156,14 +170,15 @@ const getContactMessages = async (req, res) => {
         console.error("Get contact messages error:", error);
 
         return res.status(500).json({
-            message: "Could not load contact messages."
+            message: "Could not load contact messages.",
+            error: error.message
         });
     }
 };
 
 // =====================================================
 // REPLY TO CONTACT MESSAGE
-// Admin → Visitor
+// Admin -> Visitor
 // =====================================================
 
 const replyToContactMessage = async (req, res) => {
@@ -171,25 +186,28 @@ const replyToContactMessage = async (req, res) => {
         const messageId = req.params.id;
         const { reply } = req.body;
 
+        // Validate message ID
         if (!messageId || !/^\d+$/.test(String(messageId))) {
             return res.status(400).json({
                 message: "Invalid contact message ID."
             });
         }
 
+        // Validate reply text
         if (typeof reply !== "string" || !reply.trim()) {
             return res.status(400).json({
                 message: "Please enter a reply."
             });
         }
 
+        // Email settings are required to send replies
         if (!process.env.MAIL_USER || !process.env.MAIL_PASS) {
             return res.status(500).json({
                 message: "Email configuration is missing."
             });
         }
 
-        // Find the original visitor message using the real column names
+        // Find original contact message
         const [messages] = await db.query(
             `SELECT
                 message_id AS id,
@@ -210,7 +228,7 @@ const replyToContactMessage = async (req, res) => {
 
         const contact = messages[0];
 
-        // Send the reply to the visitor
+        // Send reply to visitor
         await transporter.sendMail({
             from: process.env.MAIL_USER,
             to: contact.email,
@@ -218,10 +236,10 @@ const replyToContactMessage = async (req, res) => {
             text:
                 `Hello ${contact.name || "there"},\n\n` +
                 `${reply.trim()}\n\n` +
-                `Regards,\nAnnapriya Team`
+                "Regards,\nAnnapriya Team"
         });
 
-        // Save the reply only after the email sends successfully
+        // Save reply after email sends successfully
         await db.query(
             `UPDATE contact_messages
              SET admin_reply = ?,
@@ -239,7 +257,8 @@ const replyToContactMessage = async (req, res) => {
         console.error("Reply to contact message error:", error);
 
         return res.status(500).json({
-            message: "Could not send the reply email."
+            message: "Could not send the reply email.",
+            error: error.message
         });
     }
 };

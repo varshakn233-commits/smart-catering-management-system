@@ -280,30 +280,36 @@
  if (contactForm) {
      contactForm.addEventListener("submit", async (e) => {
          e.preventDefault();
+         
+const nameInput = contactForm.querySelector(
+    'input[placeholder="Your Name"]'
+);
 
-         const nameInput = contactForm.querySelector(
-             'input[placeholder="Your Name"]'
-         );
+const phoneInput = contactForm.querySelector(
+    'input[placeholder="Phone Number"]'
+);
 
-         const phoneInput = contactForm.querySelector(
-             'input[placeholder="Phone Number"]'
-         );
+const emailInput = contactForm.querySelector(
+    'input[placeholder="Email Address"]'
+);
 
-         const emailInput = contactForm.querySelector(
-             'input[placeholder="Email Address"]'
-         );
+const dateInput = contactForm.querySelector('input[type="date"]');
+const messageInput = contactForm.querySelector("textarea");
 
-         const dateInput = contactForm.querySelector(
-             'input[type="date"]'
-         );
+console.log("Contact form fields:", {
+    nameInput,
+    phoneInput,
+    emailInput,
+    dateInput,
+    messageInput
+});
 
-         const messageInput = contactForm.querySelector("textarea");
+const customerName = nameInput?.value.trim() || "";
+const phone = phoneInput?.value.trim() || "";
+const email = emailInput?.value.trim() || "";
+const eventDate = dateInput?.value || "";
+const message = messageInput?.value.trim() || "";
 
-         const customerName = nameInput?.value.trim() || "";
-         const phone = phoneInput?.value.trim() || "";
-         const email = emailInput?.value.trim() || "";
-         const eventDate = dateInput?.value || "";
-         const message = messageInput?.value.trim() || "";
 
          if (!customerName || !phone || !email || !message) {
              alert("Please fill in all required fields.");

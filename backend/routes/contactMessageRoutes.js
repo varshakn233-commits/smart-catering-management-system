@@ -2,19 +2,15 @@
 const express = require("express");
 const router = express.Router();
 
-const {
-    createContactMessage,
-    getContactMessages,
-    replyToContactMessage
-} = require("../controllers/contactMessageController");
+const contactController = require("../controllers/contactMessageController");
 
-// Visitor submits a Contact Us message
-router.post("/", createContactMessage);
+// Visitor submits a contact message
+router.post("/", contactController.createContactMessage);
 
-// Admin views submitted contact messages
-router.get("/", getContactMessages);
+// Admin views contact messages
+router.get("/", contactController.getContactMessages);
 
-// Admin replies to a visitor
-router.post("/:id/reply", replyToContactMessage);
+// Admin replies to a contact message
+router.post("/:id/reply", contactController.replyToContactMessage);
 
 module.exports = router;

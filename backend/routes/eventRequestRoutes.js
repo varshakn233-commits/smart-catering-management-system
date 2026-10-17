@@ -1,5 +1,5 @@
-const express = require("express");
 
+const express = require("express");
 const router = express.Router();
 
 const {
@@ -10,117 +10,43 @@ const {
     updateRequestStatus
 } = require("../controllers/eventRequestController");
 
-
-// =====================================================
-// CUSTOMER - CREATE EVENT REQUEST
-// POST /api/requests
-// =====================================================
-
+// Customer creates an event request
 router.post("/", createRequest);
 
+// Customer views their requests
+router.get("/customer/:customerId", getCustomerRequests);
 
-// =====================================================
-// CUSTOMER - GET THEIR REQUESTS
-// GET /api/requests/customer/:customerId
-// =====================================================
+// Caterer views confirmed or accepted events
+router.get("/caterer/:catererEmail/events", (req, res) => {
+    req.params.email = req.params.catererEmail;
+    return getCatererEvents(req, res);
+});
 
-router.get(
-    "/customer/:customerId",
-    getCustomerRequests
-);
+// Caterer views requests using query email
+router.get("/caterer", (req, res) => {
+    const email = req.query.catererEmail || req.query.email;
 
-
-// =====================================================
-// CATERER - GET EVENTS
-// IMPORTANT:
-// This route MUST come before /caterer/:catererEmail
-// =====================================================
-
-router.get(
-    "/caterer/:catererEmail/events",
-    getCatererEvents
-);
-
-
-// =====================================================
-// CATERER - GET REQUESTS USING QUERY EMAIL
-//
-// GET /api/requests/caterer?email=caterer@gmail.com
-// GET /api/requests/caterer?catererEmail=caterer@gmail.com
-// =====================================================
-
-router.get(
-    "/caterer",
-    (req, res) => {
-
-        const email =
-            req.query.catererEmail ||
-            req.query.email;
-
-        if (!email) {
-
-            return res.status(400).json({
-                success: false,
-                message: "Caterer email is required"
-            });
-
-        }
-
-        req.query.catererEmail = email;
-
-        return getRequests(req, res);
+    if (!email) {
+        return res.status(400).json({
+            success: false,
+            message: "Caterer email is required."
+        });
     }
-);
 
+    req.query.catererEmail = email;
+    return getRequests(req, res);
+});
 
-// =====================================================
-// CATERER - GET REQUESTS USING EMAIL IN URL
-//
-// GET /api/requests/caterer/caterer@gmail.com
-// =====================================================
+// Caterer views requests using email in URL
+router.get("/caterer/:catererEmail", (req, res) => {
+    req.query.catererEmail = req.params.catererEmail;
+    return getRequests(req, res);
+});
 
-router.get(
-    "/caterer/:catererEmail",
-    (req, res) => {
+// Get all requests
+router.get("/", getRequests);
 
-        req.query.catererEmail =
-            req.params.catererEmail;
-
-        return getRequests(req, res);
-    }
-);
-
-
-// =====================================================
-// GET ALL REQUESTS
-// GET /api/requests
-// =====================================================
-
-router.get(
-    "/",
-    getRequests
-);
-
-
-// =====================================================
-// ACCEPT / REJECT REQUEST
-//
-// PUT /api/requests/:id/status
-//
-// Example body:
-// {
-//     "status": "accepted"
-// }
-// =====================================================
-
-router.put(
-    "/:id/status",
-    updateRequestStatus
-);
-
-
-// =====================================================
-// EXPORT
-// =====================================================
+// Accept or reject a request
+router.put("/:id/status", updateRequestStatus);
 
 module.exports = router;
