@@ -43,7 +43,6 @@ button {
     cursor: pointer;
 }
 
-
 /* =====================================================
    NAVBAR
 ===================================================== */
@@ -54,66 +53,187 @@ button {
     z-index: 2000;
 
     width: 100%;
-    height: 72px;
+    height: 82px;
+    padding: 0 42px;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    padding: 0 35px;
+    background: #FFFDF9;
+    border-bottom: 1px solid #F5E9DA;
+    box-shadow: none;
+}
 
-    background: var(--maroon);
+/* LEFT SIDE: BACK BUTTON + BRAND */
 
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+}
+
+.back-button {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+
+    background: #F5E9DA;
+    color: #1C1C1C;
+
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1;
+
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.back-button:hover {
+    background: #EAD8C3;
 }
 
 .brand-logo {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 9px;
 
-    color: var(--white);
+    color: #8B1E3F;
     text-decoration: none;
 
     font-family: "Fraunces", serif;
-    font-size: 25px;
+    font-size: 30px;
     font-weight: 700;
+    line-height: 1.2;
+
+    white-space: nowrap;
+    visibility: visible;
+    opacity: 1;
 }
 
-.brand-symbol {
-    color: var(--gold);
-    font-size: 24px;
-}
+/* RIGHT SIDE: CUSTOMER AVATAR + NAME */
 
 .navbar-right {
     display: flex;
     align-items: center;
-    gap: 14px;
+    justify-content: flex-end;
+    flex-shrink: 0;
+}
+
+.profile-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    padding: 0;
+    border: none;
+    border-radius: 0;
+
+    background: transparent;
+    color: #1C1C1C;
+
+    cursor: pointer;
+}
+
+.profile-button:hover {
+    background: transparent;
+}
+
+.profile-avatar {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #8B1E3F;
+    color: #FFFFFF;
+
+    font-size: 17px;
+    font-weight: 700;
 }
 
 
-/* =====================================================
-   BACK BUTTON
-===================================================== */
-
-.back-button {
-    padding: 9px 15px;
-
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 10px;
-
-    background: rgba(255, 255, 255, 0.08);
-    color: var(--white);
-
-    font-size: 13px;
+.profile-name {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    max-width: 200px;
+    overflow: visible;
+    white-space: nowrap;
+    text-overflow: clip;
+    color: #1C1C1C !important;
+    font-size: 16px;
     font-weight: 600;
-
-    transition: 0.2s ease;
 }
 
-.back-button:hover {
-    background: rgba(255, 255, 255, 0.16);
+
+/* MOBILE NAVBAR */
+
+@media (max-width: 768px) {
+    .customer-navbar {
+        height: 68px;
+        padding: 0 16px;
+    }
+
+    .navbar-left {
+        gap: 10px;
+    }
+
+    .brand-logo {
+        font-size: 23px;
+    }
+
+    .profile-button {
+        gap: 8px;
+    }
+
+    .profile-avatar {
+        width: 38px;
+        height: 38px;
+        font-size: 15px;
+    }
+
+    .profile-name {
+    display: inline-block !important;
+    color: #1C1C1C !important;
+    max-width: 110px;
 }
+}
+
+@media (max-width: 380px) {
+    .customer-navbar {
+        padding: 0 10px;
+    }
+
+    .navbar-left {
+        gap: 8px;
+    }
+
+    .brand-logo {
+        font-size: 20px;
+    }
+
+    .profile-name {
+        max-width: 85px;
+        font-size: 12px;
+    }
+}
+
 
 
 /* =====================================================
@@ -1065,12 +1185,6 @@ button {
 
     .navbar-right {
         gap: 5px;
-    }
-
-    .back-button {
-        padding: 8px 10px;
-
-        font-size: 11px;
     }
 
     .profile-name {

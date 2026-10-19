@@ -43,18 +43,58 @@
            NAVBAR
         ========================== */
 
-        .customer-navbar {
-            height: 72px;
-            background: var(--maroon);
-            color: var(--white);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 42px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
-        }
+     .customer-navbar {
+    height: 82px;
+    width: 100%;
+    background: #FFFDF9;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 42px;
+    box-shadow: none;
+    border-bottom: 1px solid #F5E9DA;
+}     
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
 
-        .brand-logo {
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.brand-logo {
+    text-decoration: none;
+    color: #8B1E3F;
+    font-family: "Fraunces", serif;
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.profile-avatar {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #8B1E3F;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.profile-name {
+    color: #1C1C1C;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+    .brand-logo {
             text-decoration: none;
             color: var(--white);
             display: flex;
@@ -152,17 +192,29 @@
             padding: 42px 25px 60px;
         }
 
-        .back-button {
-            display: inline-block;
-            text-decoration: none;
-            color: var(--maroon);
-            font-weight: 600;
-            margin-bottom: 28px;
-        }
+     .back-button {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: #F5E9DA;
+    color: #1C1C1C;
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
 
-        .back-button:hover {
-            text-decoration: underline;
-        }
+.back-button:hover {
+    background: #EAD8C3;
+}
 
         .page-heading {
             margin-bottom: 28px;
@@ -328,63 +380,38 @@
          NAVBAR
     ========================== -->
 
-    <header class="customer-navbar">
+  
+<header class="customer-navbar">
+
+    <div class="navbar-left">
+        <button
+            type="button"
+            class="back-button"
+            onclick="window.location.href='customerdashboard.html'"
+            aria-label="Back to customer dashboard"
+            title="Back to dashboard"
+        >
+            ←
+        </button>
 
         <a href="customerdashboard.html" class="brand-logo">
-            <span class="brand-symbol">✦</span>
-            <span>Annapriya</span>
+            Annapriya
         </a>
+    </div>
 
-        <div class="navbar-right">
+    <div class="navbar-right">
+        <div class="profile-avatar" id="headerAvatar">C</div>
 
-            <button
-                type="button"
-                class="notification-button"
-                title="Notifications"
-            >
-                🔔
+        <span class="profile-name" id="headerCustomerName">
+            Customer
+        </span>
+    </div>
 
-                <span class="notification-badge">
-                    3
-                </span>
-            </button>
+</header>
 
-            <button
-                type="button"
-                class="profile-button"
-            >
 
-                <span
-                    class="profile-avatar"
-                    id="headerAvatar"
-                >
-                    C
-                </span>
 
-                <span
-                    class="profile-name"
-                    id="headerCustomerName"
-                >
-                    Customer
-                </span>
 
-                <span class="profile-chevron">
-                    ▾
-                </span>
-
-            </button>
-
-            <button
-                type="button"
-                class="menu-button"
-                title="Customer Menu"
-            >
-                ⋮
-            </button>
-
-        </div>
-
-    </header>
 
 
     <!-- =========================
@@ -392,15 +419,7 @@
     ========================== -->
 
     <main class="profile-page">
-
-        <a
-            href="customerdashboard.html"
-            class="back-button"
-        >
-            ← Back to Dashboard
-        </a>
-
-
+        
         <section class="page-heading">
 
             <p class="section-label">

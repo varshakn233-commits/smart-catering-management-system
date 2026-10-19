@@ -22,34 +22,86 @@
             min-height: 100vh;
         }
 
-        .header {
-            min-height: 85px;
-            background: #FFFDF9;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 35px;
-            border-bottom: 1px solid #eadfd3;
-        }
+.header {
+    min-height: 90px;
+    background: #FFFDF9;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 35px;
+    border-bottom: 1px solid #eadfd3;
+}
 
-        .header-left, .header-right {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-        }
+.header-left,
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
 
-        .back-button {
-            width: 44px;
-            height: 44px;
-            border: none;
-            border-radius: 50%;
-            background: #F5E9DA;
-            color: #8B1E3F;
-            font-size: 25px;
-            cursor: pointer;
-        }
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #8B1E3F;
+    text-decoration: none;
+    font-family: "Fraunces", serif;
+    font-size: 36px;
+    font-weight: 700;
+}
 
-        .brand {
+.brand-symbol {
+    color: #D4A373;
+    font-size: 28px;
+}
+
+.header-right {
+    gap: 14px;
+}
+
+.avatar {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #8B1E3F;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.profile-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1C1C1C;
+}
+.back-button {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: #F5E9DA;
+    color: #1C1C1C;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.back-button:hover {
+    background: #EAD8C3;
+}
+        
+   .brand {
             font-family: "Fraunces", serif;
             font-size: 32px;
             font-weight: 700;
@@ -386,22 +438,25 @@
 
 <header class="header">
     <div class="header-left">
-        <button class="back-button" onclick="goBack()" type="button">←</button>
-        <div class="brand">Annapriya</div>
+        <button
+            class="back-button"
+            onclick="goBack()"
+            type="button"
+            aria-label="Go back"
+            title="Go back"
+        >
+            ←
+        </button>
+
+        <a href="customerdashboard.html" class="brand-logo">
+            <span class="brand-symbol">✦</span>
+            <span>Annapriya</span>
+        </a>
     </div>
 
     <div class="header-right">
-        <button class="notification-button" onclick="showNotifications()" type="button">
-            🔔
-            <span class="notification-dot" id="notificationDot"></span>
-        </button>
-
-        <button class="profile-button" onclick="toggleMenu()" type="button">
-            <span class="avatar" id="avatar">C</span>
-            <span class="profile-name" id="catererName">Caterer</span>
-        </button>
-
-        <button class="menu-button" onclick="toggleMenu()" type="button">☰</button>
+        <div class="avatar" id="avatar">A</div>
+        <span class="profile-name" id="catererName">User</span>
     </div>
 </header>
 
