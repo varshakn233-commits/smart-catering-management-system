@@ -17,6 +17,99 @@
         href="catereraccountsettings.css"
     >
 
+<style>
+    .customer-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 5%;
+        background: #FFFDF9;
+        border-bottom: 1px solid #F0E4D8;
+        gap: 16px;
+    }
+
+    .header-left,
+    .header-right {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .brand-name {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #8B1E3F;
+        font-size: 23px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .brand-symbol {
+        color: #D4A373;
+    }
+
+    .back-button {
+        width: 40px;
+        height: 40px;
+        border: none;
+        border-radius: 50%;
+        background: #F5E9DA;
+        color: #8B1E3F;
+        font-size: 22px;
+        cursor: pointer;
+    }
+
+    .profile-button {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        color: #333;
+        font: inherit;
+    }
+
+    .avatar {
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #8B1E3F;
+        color: white;
+        font-weight: 700;
+    }
+
+    .customer-name {
+        font-weight: 600;
+    }
+
+    @media (max-width: 480px) {
+        .customer-header {
+            padding: 12px;
+        }
+
+        .brand-name {
+            font-size: 19px;
+        }
+
+        .header-left,
+        .header-right {
+            gap: 8px;
+        }
+
+        .customer-name {
+            max-width: 110px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+</style>
+
 </head>
 
 <body>
@@ -26,76 +119,40 @@
          CATERER HEADER
          ===================================================== -->
 
-    <header class="customer-header">
+    
+<header class="customer-header">
+    <div class="header-left">
+        <button
+            class="back-button"
+            id="backButton"
+            type="button"
+            title="Go Back"
+            aria-label="Go Back"
+            onclick="window.location.href='catererdashboard.html'">
+            ←
+        </button>
 
-        <div class="header-left">
+        <a href="catererdashboard.html" class="brand-name">
+            <span class="brand-symbol">✦</span>
+            <span>Annapriya</span>
+        </a>
+    </div>
 
-            <button
-    class="back-button"
-    id="backButton"
-    type="button"
-    title="Go Back"
-    onclick="window.location.href='catererdashboard.html'"
-    style="
-        width: 40px;
-        height: 40px;
-        border: none;
-        border-radius: 50%;
-        background: #F5E9DA;
-        color: #1C1C1C;
-        font-size: 22px;
-        cursor: pointer;
-    "
->
-    ←
-</button>
+    <div class="header-right">
+        <button
+            class="profile-button"
+            id="profileButton"
+            type="button">
 
-            <div class="brand-name">
-                Annapriya
-            </div>
+            <span class="avatar" id="headerAvatar">C</span>
+            <span class="customer-name" id="headerCustomerName">Caterer</span>
+        </button>
 
+        <div class="profile-menu" id="profileButtonMenu">
+            <a href="catererprofile.html">👤 My Profile</a>
         </div>
-
-
-        <div class="header-right">
-
-            <button
-                class="profile-button"
-                id="profileButton"
-                type="button"
-            >
-
-                <span
-                    class="avatar"
-                    id="headerAvatar"
-                >
-                    C
-                </span>
-
-                <span
-                    class="customer-name"
-                    id="headerCustomerName"
-                >
-                    Caterer
-                </span>
-
-            </button>
-
-
-            <div
-                class="profile-menu"
-                id="profileButtonMenu"
-            >
-
-                <a href="catererprofile.html">
-                    👤 My Profile
-                </a>
-
-            </div>
-
-        </div>
-
-    </header>
+    </div>
+</header>
 
 
 
@@ -403,7 +460,42 @@
          CATERER ACCOUNT SETTINGS JAVASCRIPT
          ===================================================== -->
 
-    <script src="catereraccountsettings.js"></script>
+  
+
+<script>
+    let savedCaterer = null;
+
+    try {
+        savedCaterer = JSON.parse(
+            localStorage.getItem("annapriya_caterer") || "null"
+        );
+    } catch (error) {
+        console.error("Could not read caterer data:", error);
+    }
+
+    const catererName =
+        savedCaterer?.head_name ||
+        savedCaterer?.headName ||
+        savedCaterer?.owner_name ||
+        savedCaterer?.ownerName ||
+        savedCaterer?.full_name ||
+        savedCaterer?.fullName ||
+        savedCaterer?.name ||
+        savedCaterer?.brand_name ||
+        savedCaterer?.brandName ||
+        "Caterer";
+
+    document.getElementById("headerCustomerName").textContent =
+        catererName;
+
+    document.getElementById("headerAvatar").textContent =
+        catererName.trim().charAt(0).toUpperCase() || "C";
+</script>
+
+<script src="catereraccountsettings.js"></script>
+
+<script src="catereraccountsettings.js"></script>
+
 
 </body>
 

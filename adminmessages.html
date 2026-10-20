@@ -426,7 +426,92 @@
             }
 
         }
+        /* NAVBAR STYLING */
+        .customer-navbar {
+            min-height: 74px;
+            padding: 12px 8%;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #FFFCF8;
+            border-bottom: 1px solid #EAD9C8;
+        }
 
+        .navbar-left,
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #8B1E3F;
+            text-decoration: none;
+            font-family: "Fraunces", serif;
+            font-size: 23px;
+            font-weight: 700;
+        }
+
+        .brand-symbol {
+            color: #D4A373;
+        }
+
+        .back-dashboard-button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: #F5E9DA;
+            color: #8B1E3F;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .navbar-user-initial {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #8B1E3F;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+
+        .navbar-user-name {
+            color: #3A302B;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 700px) {
+            .customer-navbar {
+                padding: 12px 20px;
+            }
+
+            .brand-logo {
+                font-size: 19px;
+            }
+
+            .navbar-left,
+            .navbar-right {
+                gap: 9px;
+            }
+
+            .navbar-user-name {
+                max-width: 100px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
     </style>
 
 </head>
@@ -439,49 +524,31 @@
          CATERER NAVBAR
     ===================================================== -->
 
+        <!-- NAVBAR -->
     <header class="customer-navbar">
 
-        <a
-            href="catererdashboard.html"
-            class="brand-logo"
-        >
+        <div class="navbar-left">
+            <button
+                type="button"
+                class="back-dashboard-button"
+                onclick="window.location.href='catererdashboard.html'"
+                title="Back to Dashboard"
+            >
+                ←
+            </button>
 
-            <span class="brand-symbol">
-                ✦
-            </span>
-
-            <span>
-                Annapriya
-            </span>
-
-        </a>
-
+            <a href="catererdashboard.html" class="brand-logo">
+                <span class="brand-symbol">✦</span>
+                <span>Annapriya</span>
+            </a>
+        </div>
 
         <div class="navbar-right">
-
-           <button
-    type="button"
-    class="back-dashboard-button"
-    onclick="window.location.href='catererdashboard.html'"
-    title="Back to Dashboard"
-    style="
-        width: 40px;
-        height: 40px;
-        border: none;
-        border-radius: 50%;
-        background: #F5E9DA;
-        color: #1C1C1C;
-        font-size: 22px;
-        cursor: pointer;
-    "
->
-    ←
-</button>
-
+            <div class="navbar-user-initial" id="catererInitial">C</div>
+            <span class="navbar-user-name" id="catererName">Caterer</span>
         </div>
 
     </header>
-
 
     <!-- =====================================================
          MAIN
@@ -728,7 +795,19 @@
                 // =====================================================
                 // GET CATERER ID
                 // =====================================================
+const catererDisplayName =
+    caterer?.headName ||
+    caterer?.head_name ||
+    caterer?.name ||
+    caterer?.brandName ||
+    caterer?.brand_name ||
+    "Caterer";
 
+document.getElementById("catererName").textContent =
+    catererDisplayName;
+
+document.getElementById("catererInitial").textContent =
+    catererDisplayName.trim().charAt(0).toUpperCase() || "C";
                 const catererId =
                     caterer?.id ||
                     caterer?.caterer_id ||
