@@ -121,112 +121,54 @@
                  1. CUSTOMER DETAILS
             ================================================== -->
 
-            <section class="form-section">
+<section class="form-section">
 
-                <div class="section-heading">
+    <div class="section-heading">
+        <span class="section-number">1</span>
 
-                    <span class="section-number">
-                        1
-                    </span>
+        <div>
+            <h2>Customer Details</h2>
+            <p>Your registered information</p>
+        </div>
+    </div>
 
-                    <div>
+    <div class="form-grid">
 
-                        <h2>
-                            Customer Details
-                        </h2>
+        <div class="form-group">
+            <label for="customerName">Full Name</label>
+            <input
+                type="text"
+                id="customerName"
+                name="customerName"
+                placeholder="Your registered full name"
+                readonly
+            >
+        </div>
 
-                        <p>
-                            Your registered information
-                        </p>
+        <div class="form-group">
+            <label for="customerPhone">Phone Number</label>
+            <input
+                type="tel"
+                id="customerPhone"
+                name="customerPhone"
+                readonly
+            >
+        </div>
 
-                    </div>
-
-                </div>
-
-
-                ```html
-<div class="form-grid">
-
-    <div class="form-group">
-
-        <label for="customerName">
-            Full Name
-        </label>
-
-        <input
-            type="text"
-            id="customerName"
-            name="customerName"
-            placeholder="Your registered full name"
-            readonly
-        >
+        <div class="form-group full-width">
+            <label for="customerEmail">Email Address</label>
+            <input
+                type="email"
+                id="customerEmail"
+                name="customerEmail"
+                readonly
+            >
+        </div>
 
     </div>
 
-    <div class="form-group">
+</section>
 
-        <label for="customerPhone">
-            Phone Number
-        </label>
-
-        <input
-            type="tel"
-            id="customerPhone"
-            name="customerPhone"
-            readonly
-        >
-
-    </div>
-
-    <div class="form-group full-width">
-
-        <label for="customerEmail">
-            Email Address
-        </label>
-
-        <input
-            type="email"
-            id="customerEmail"
-            name="customerEmail"
-            readonly
-        >
-
-    </div>
-
-</div>
-```
-                    <div class="form-group">
-
-                        <label for="customerPhone">
-                            Phone Number
-                        </label>
-
-                        <input
-                            type="tel"
-                            id="customerPhone"
-                            readonly
-                        >
-
-                    </div>
-
-
-                    <div class="form-group full-width">
-
-                        <label for="customerEmail">
-                            Email Address
-                        </label>
-
-                        <input
-                            type="email"
-                            id="customerEmail"
-                            readonly
-                        >
-
-                    </div>
-
-                </div>
-
-            </section>
 
 
 

@@ -5,13 +5,16 @@ const db = require("../config/db");
    CONVERT EVENT TIME TO MYSQL TIME FORMAT
 ========================================================= */
 function convertEventTime(eventTime) {
-    if (eventTime === undefined || eventTime === null || String(eventTime).trim() === "") {
+    if (
+        eventTime === undefined ||
+        eventTime === null ||
+        String(eventTime).trim() === ""
+    ) {
         return null;
     }
 
     const time = String(eventTime).trim();
 
-    // Supports 7:00 PM, 07:00 PM, and optional seconds
     const amPmMatch = time.match(
         /^(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM)$/i
     );
@@ -42,7 +45,6 @@ function convertEventTime(eventTime) {
         );
     }
 
-    // Also supports 19:00 or 19:00:00
     const twentyFourHourMatch = time.match(
         /^(\d{1,2}):(\d{2})(?::(\d{2}))?$/
     );
@@ -95,7 +97,6 @@ async function createRequest(req, res) {
             catererEmail
         } = req.body;
 
-        // Validate required fields
         if (
             !customerId ||
             !customerName ||
@@ -103,6 +104,7 @@ async function createRequest(req, res) {
             !email ||
             !eventType ||
             !eventDate ||
+            !eventTime ||
             !venueLocation ||
             !guestCount ||
             !catererEmail
@@ -112,7 +114,36 @@ async function createRequest(req, res) {
             });
         }
 
-        // Validate and convert event time
+        const parsedCustomerId = Number(customerId);
+
+        if (
+            !Number.isInteger(parsedCustomerId) ||
+            parsedCustomerId <= 0
+        ) {
+            return res.status(400).json({
+                message: "Invalid customer ID."
+            });
+        }
+
+        const parsedEnquiryId =
+            enquiryId !== undefined &&
+            enquiryId !== null &&
+            String(enquiryId).trim() !== ""
+                ? Number(enquiryId)
+                : null;
+
+        if (
+            parsedEnquiryId !== null &&
+            (
+                !Number.isInteger(parsedEnquiryId) ||
+                parsedEnquiryId <= 0
+            )
+        ) {
+            return res.status(400).json({
+                message: "Invalid enquiry ID."
+            });
+        }
+
         let formattedEventTime;
 
         try {
@@ -123,13 +154,18 @@ async function createRequest(req, res) {
             });
         }
 
-        // If booking originated from an enquiry, verify ownership
-        if (enquiryId) {
+        // Verify the original enquiry belongs to this customer
+        // and caterer before linking the booking.
+        if (parsedEnquiryId !== null) {
             const [enquiries] = await db.query(
-                `SELECT enquiry_id, customer_id, caterer_email, status
+                `SELECT
+                    enquiry_id,
+                    customer_id,
+                    caterer_email,
+                    status
                  FROM customer_enquiries
                  WHERE enquiry_id = ?`,
-                [enquiryId]
+                [parsedEnquiryId]
             );
 
             if (enquiries.length === 0) {
@@ -140,27 +176,52 @@ async function createRequest(req, res) {
 
             const enquiry = enquiries[0];
 
-            if (String(enquiry.customer_id) !== String(customerId)) {
+            if (
+                String(enquiry.customer_id) !==
+                String(parsedCustomerId)
+            ) {
                 return res.status(403).json({
-                    message: "This enquiry does not belong to this customer."
+                    message:
+                        "This enquiry does not belong to this customer."
                 });
             }
 
             if (
-                enquiry.caterer_email &&
-                enquiry.caterer_email.toLowerCase() !==
-                String(catererEmail).toLowerCase()
+                !enquiry.caterer_email ||
+                enquiry.caterer_email.trim().toLowerCase() !==
+                String(catererEmail).trim().toLowerCase()
             ) {
                 return res.status(403).json({
-                    message: "This enquiry does not belong to this caterer."
+                    message:
+                        "This enquiry does not belong to this caterer."
+                });
+            }
+
+            // Prevent a second booking for the same enquiry.
+            const [existingBookings] = await db.query(
+                `SELECT request_id, enquiry_id, status
+                 FROM event_request
+                 WHERE enquiry_id = ?
+                 LIMIT 1`,
+                [parsedEnquiryId]
+            );
+
+            if (existingBookings.length > 0) {
+                return res.status(200).json({
+                    message: "A booking already exists for this enquiry.",
+                    requestId: existingBookings[0].request_id,
+                    enquiryId: existingBookings[0].enquiry_id,
+                    status: existingBookings[0].status,
+                    alreadyExists: true
                 });
             }
         }
 
-        // Create event request
+        // Create a booking linked to its original enquiry.
         const [result] = await db.query(
             `INSERT INTO event_request
             (
+                enquiry_id,
                 customer_id,
                 customer_name,
                 phone,
@@ -179,9 +240,10 @@ async function createRequest(req, res) {
                 caterer_email,
                 status
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')`,
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')`,
             [
-                customerId,
+                parsedEnquiryId,
+                parsedCustomerId,
                 customerName,
                 phone,
                 email,
@@ -200,27 +262,20 @@ async function createRequest(req, res) {
             ]
         );
 
-        // Update enquiry after request creation
-        if (enquiryId) {
-            try {
-                await db.query(
-                    `UPDATE customer_enquiries
-                     SET status = 'booking_created'
-                     WHERE enquiry_id = ?`,
-                    [enquiryId]
-                );
-            } catch (error) {
-                console.error(
-                    "Could not update enquiry status:",
-                    error.message
-                );
-            }
+        if (parsedEnquiryId !== null) {
+            await db.query(
+                `UPDATE customer_enquiries
+                 SET status = 'booking_created'
+                 WHERE enquiry_id = ?`,
+                [parsedEnquiryId]
+            );
         }
 
         return res.status(201).json({
             message: "Event request created successfully.",
             requestId: result.insertId,
-            enquiryId: enquiryId || null
+            enquiryId: parsedEnquiryId,
+            status: "pending"
         });
 
     } catch (error) {
@@ -253,6 +308,7 @@ async function getCustomerRequests(req, res) {
         const [rows] = await db.query(
             `SELECT
                 er.request_id,
+                er.enquiry_id,
                 er.customer_id,
                 er.customer_name,
                 er.phone,
@@ -307,6 +363,7 @@ async function getRequests(req, res) {
         let query = `
             SELECT
                 er.request_id,
+                er.enquiry_id,
                 er.customer_id,
                 er.customer_name,
                 er.phone,
@@ -376,6 +433,7 @@ async function getCatererEvents(req, res) {
         const [rows] = await db.query(
             `SELECT
                 er.request_id,
+                er.enquiry_id,
                 er.customer_id,
                 er.customer_name,
                 er.phone,
@@ -400,6 +458,9 @@ async function getCatererEvents(req, res) {
                 'accepted',
                 'payment_pending',
                 'confirmed',
+                'preparing',
+                'on_the_way',
+                'event_started',
                 'completed'
              )
              ORDER BY er.event_date ASC, er.created_at DESC`,
@@ -443,6 +504,7 @@ async function updateRequestStatus(req, res) {
         const [requests] = await db.query(
             `SELECT
                 request_id,
+                enquiry_id,
                 customer_id,
                 customer_name,
                 phone,
@@ -463,7 +525,7 @@ async function updateRequestStatus(req, res) {
 
         const request = requests[0];
 
-        // Optional caterer ownership check
+        // Verify caterer ownership when catererId is provided.
         if (catererId) {
             const [caterers] = await db.query(
                 `SELECT caterer_id, email
@@ -483,11 +545,12 @@ async function updateRequestStatus(req, res) {
             if (
                 !caterer.email ||
                 !request.caterer_email ||
-                caterer.email.toLowerCase() !==
-                request.caterer_email.toLowerCase()
+                caterer.email.trim().toLowerCase() !==
+                request.caterer_email.trim().toLowerCase()
             ) {
                 return res.status(403).json({
-                    message: "This request does not belong to this caterer."
+                    message:
+                        "This request does not belong to this caterer."
                 });
             }
         }
@@ -502,12 +565,13 @@ async function updateRequestStatus(req, res) {
 
             return res.status(200).json({
                 message: "Event request rejected successfully.",
-                requestId: Number(id),
+                requestId: request.request_id,
+                enquiryId: request.enquiry_id || null,
                 status: "rejected"
             });
         }
 
-        // Accept request and move it to payment pending
+        // Accept the request and move it to payment pending.
         await db.query(
             `UPDATE event_request
              SET status = 'payment_pending'
@@ -515,23 +579,33 @@ async function updateRequestStatus(req, res) {
             [id]
         );
 
-        // Create payment record if the payment table is available
+        // Create a pending payment record if one does not exist.
         try {
-            await db.query(
-                `INSERT INTO event_payments
-                (
-                    request_id,
-                    customer_id,
-                    amount,
-                    status
-                )
-                VALUES (?, ?, ?, 'pending')`,
-                [
-                    request.request_id,
-                    request.customer_id,
-                    request.budget || 0
-                ]
+            const [payments] = await db.query(
+                `SELECT request_id
+                 FROM event_payments
+                 WHERE request_id = ?
+                 LIMIT 1`,
+                [request.request_id]
             );
+
+            if (payments.length === 0) {
+                await db.query(
+                    `INSERT INTO event_payments
+                    (
+                        request_id,
+                        customer_id,
+                        amount,
+                        payment_status
+                    )
+                    VALUES (?, ?, ?, 'pending')`,
+                    [
+                        request.request_id,
+                        request.customer_id,
+                        request.budget || 0
+                    ]
+                );
+            }
         } catch (paymentError) {
             console.error(
                 "Payment record could not be created:",
@@ -539,17 +613,27 @@ async function updateRequestStatus(req, res) {
             );
         }
 
-        // Create tracking record if the tracking table is available
+        // Add tracking only if no tracking record exists.
         try {
-            await db.query(
-                `INSERT INTO event_tracking
-                (
-                    request_id,
-                    status
-                )
-                VALUES (?, 'accepted')`,
+            const [tracking] = await db.query(
+                `SELECT request_id
+                 FROM event_tracking
+                 WHERE request_id = ?
+                 LIMIT 1`,
                 [request.request_id]
             );
+
+            if (tracking.length === 0) {
+                await db.query(
+                    `INSERT INTO event_tracking
+                    (
+                        request_id,
+                        tracking_status
+                    )
+                    VALUES (?, 'accepted')`,
+                    [request.request_id]
+                );
+            }
         } catch (trackingError) {
             console.error(
                 "Tracking record could not be created:",
@@ -560,8 +644,8 @@ async function updateRequestStatus(req, res) {
         return res.status(200).json({
             message: "Event request accepted successfully.",
             requestId: request.request_id,
-            status: "payment_pending",
-            enquiryId: null
+            enquiryId: request.enquiry_id || null,
+            status: "payment_pending"
         });
 
     } catch (error) {

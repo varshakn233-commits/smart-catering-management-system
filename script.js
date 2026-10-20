@@ -887,8 +887,8 @@ const message = messageInput?.value.trim() || "";
      catererLoginForm.addEventListener("submit", async function (event) {
          event.preventDefault();
 
-         const emailInput = catererLoginForm.querySelector('input[type="email"]');
-         const passwordInput = catererLoginForm.querySelector('input[type="password"]');
+         const emailInput = document.getElementById('brEmail');
+         const passwordInput = document.getElementById('brPassword');
 
          const email = emailInput.value.trim().toLowerCase();
          const password = passwordInput.value;

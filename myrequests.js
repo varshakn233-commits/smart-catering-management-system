@@ -17,16 +17,13 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
-
     const customerId =
         customer?.customerId ||
         customer?.customer_id ||
         customer?.id ||
         null;
 
-    const customerEmail =
-        customer?.email ||
-        "";
+    const customerEmail = customer?.email || "";
 
 
     // =====================================================
@@ -60,7 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // =====================================================
 
     function escapeHTML(value) {
-
         return String(value ?? "")
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
@@ -71,11 +67,79 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =====================================================
+    // ID HELPERS
+    // =====================================================
+
+    /*
+     * Get the database enquiry ID.
+     *
+     * Prefer enquiry_id because it is the actual
+     * database column used to connect an enquiry
+     * to its booking in event_request.
+     */
+
+    function getEnquiryId(enquiry) {
+        const id =
+            enquiry?.enquiry_id ??
+            enquiry?.enquiryId ??
+            enquiry?.source_enquiry_id ??
+            enquiry?.enquiry_request_id ??
+            enquiry?.enquiry?.enquiry_id ??
+            enquiry?.id ??
+            null;
+
+        if (
+            id === null ||
+            id === undefined ||
+            String(id).trim() === ""
+        ) {
+            return null;
+        }
+
+        return String(id).trim();
+    }
+
+
+    /*
+     * Get the enquiry ID saved on a booking.
+     * Do not use request_id as an enquiry ID.
+     */
+
+    function getLinkedEnquiryId(request) {
+        const id =
+            request?.enquiry_id ??
+            request?.enquiryId ??
+            request?.enquiry_request_id ??
+            request?.source_enquiry_id ??
+            request?.enquiry?.enquiry_id ??
+            null;
+
+        if (
+            id === null ||
+            id === undefined ||
+            String(id).trim() === ""
+        ) {
+            return null;
+        }
+
+        return String(id).trim();
+    }
+
+
+    function hasValidEnquiryId(enquiryId) {
+        return (
+            enquiryId !== null &&
+            enquiryId !== undefined &&
+            String(enquiryId).trim() !== ""
+        );
+    }
+
+
+    // =====================================================
     // LOADING
     // =====================================================
 
     function showLoading() {
-
         if (loadingMessage) {
             loadingMessage.style.display = "block";
         }
@@ -99,7 +163,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // =====================================================
 
     function showError(message) {
-
         if (loadingMessage) {
             loadingMessage.style.display = "none";
         }
@@ -128,7 +191,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // =====================================================
 
     function showEmpty() {
-
         if (loadingMessage) {
             loadingMessage.style.display = "none";
         }
@@ -152,7 +214,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // =====================================================
 
     function showRequests() {
-
         if (loadingMessage) {
             loadingMessage.style.display = "none";
         }
@@ -176,7 +237,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // =====================================================
 
     function formatDate(value) {
-
         if (!value) {
             return "—";
         }
@@ -203,7 +263,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // =====================================================
 
     function formatTime(value) {
-
         if (!value) {
             return "";
         }
@@ -229,7 +288,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // =====================================================
 
     function normalizeStatus(value) {
-
         return String(value || "")
             .trim()
             .toLowerCase()
@@ -243,31 +301,21 @@ document.addEventListener("DOMContentLoaded", () => {
     // =====================================================
 
     function getStatusClass(status) {
+        const normalized = normalizeStatus(status);
 
-        const normalized =
-            normalizeStatus(status);
-
-        if (
-            normalized.includes("confirmed")
-        ) {
+        if (normalized.includes("confirmed")) {
             return "status-confirmed";
         }
 
-        if (
-            normalized.includes("completed")
-        ) {
+        if (normalized.includes("completed")) {
             return "status-completed";
         }
 
-        if (
-            normalized.includes("accepted")
-        ) {
+        if (normalized.includes("accepted")) {
             return "status-accepted";
         }
 
-        if (
-            normalized.includes("payment")
-        ) {
+        if (normalized.includes("payment")) {
             return "status-payment";
         }
 
@@ -279,21 +327,15 @@ document.addEventListener("DOMContentLoaded", () => {
             return "status-rejected";
         }
 
-        if (
-            normalized.includes("preparing")
-        ) {
+        if (normalized.includes("preparing")) {
             return "status-preparing";
         }
 
-        if (
-            normalized.includes("on the way")
-        ) {
+        if (normalized.includes("on the way")) {
             return "status-on-the-way";
         }
 
-        if (
-            normalized.includes("event started")
-        ) {
+        if (normalized.includes("event started")) {
             return "status-event-started";
         }
 
@@ -313,55 +355,32 @@ document.addEventListener("DOMContentLoaded", () => {
     // =====================================================
 
     function getDisplayStatus(request) {
-
         const status =
             request?.status ||
             request?.request_status ||
             request?.booking_status ||
             "Pending";
 
-        const normalized =
-            normalizeStatus(status);
+        const normalized = normalizeStatus(status);
 
         if (
-            normalized === "pending"
-        ) {
-            return "Booking Request Sent";
-        }
-
-        if (
-            normalized === "requested"
-        ) {
-            return "Booking Request Sent";
-        }
-
-        if (
-            normalized === "booking requested"
-        ) {
-            return "Booking Request Sent";
-        }
-
-        if (
+            normalized === "pending" ||
+            normalized === "requested" ||
+            normalized === "booking requested" ||
             normalized === "booking request sent"
         ) {
             return "Booking Request Sent";
         }
 
-        if (
-            normalized === "accepted"
-        ) {
+        if (normalized === "accepted") {
             return "Booking Accepted";
         }
 
-        if (
-            normalized === "confirmed"
-        ) {
+        if (normalized === "confirmed") {
             return "Booking Confirmed";
         }
 
-        if (
-            normalized === "completed"
-        ) {
+        if (normalized === "completed") {
             return "Booking Completed";
         }
 
@@ -378,14 +397,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // =====================================================
 
     function getEnquiryDisplayStatus(enquiry) {
-
         const status =
             enquiry?.status ||
             enquiry?.enquiry_status ||
             "open";
 
-        const normalized =
-            normalizeStatus(status);
+        const normalized = normalizeStatus(status);
 
         if (
             normalized.includes("resolved") ||
@@ -396,14 +413,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (
             normalized.includes("accepted") ||
-            normalized.includes("confirmed")
+            normalized.includes("confirmed") ||
+            normalized.includes("booking created")
         ) {
             return "Booking Confirmed";
         }
 
         if (
             normalized.includes("responded") ||
-            normalized.includes("replied")
+            normalized.includes("replied") ||
+            normalized.includes("reply")
         ) {
             return "Caterer Responded";
         }
@@ -415,141 +434,135 @@ document.addEventListener("DOMContentLoaded", () => {
     // =====================================================
     // PROGRESS STAGE
     // =====================================================
-      
-function getProgressStage(request) {
-    const rawStatus =
-        request?.status ||
-        request?.request_status ||
-        request?.booking_status ||
-        "";
 
-    const status = normalizeStatus(rawStatus);
+    function getProgressStage(request) {
+        const rawStatus =
+            request?.status ||
+            request?.request_status ||
+            request?.booking_status ||
+            "";
 
-    // Stage 0: Enquiry Sent
-    if (
-        status.includes("enquiry sent") ||
-        status.includes("inquiry sent")
-    ) {
+        const status = normalizeStatus(rawStatus);
+
+        if (
+            status.includes("enquiry sent") ||
+            status.includes("inquiry sent")
+        ) {
+            return 0;
+        }
+
+        if (
+            status.includes("caterer responded") ||
+            status.includes("responded") ||
+            status.includes("replied")
+        ) {
+            return 1;
+        }
+
+        if (
+            status.includes("booking request sent") ||
+            status.includes("booking requested")
+        ) {
+            return 2;
+        }
+
+        if (status.includes("accepted")) {
+            return 3;
+        }
+
+        if (status.includes("payment pending")) {
+            return 4;
+        }
+
+        if (
+            status.includes("payment completed") ||
+            status.includes("payment successful") ||
+            status === "paid"
+        ) {
+            return 5;
+        }
+
+        if (status.includes("confirmed")) {
+            return 6;
+        }
+
+        if (
+            status.includes("event completed") ||
+            status === "completed"
+        ) {
+            return 7;
+        }
+
         return 0;
     }
 
-    // Stage 1: Caterer Responded
-    if (
-        status.includes("caterer responded") ||
-        status.includes("responded") ||
-        status.includes("replied")
-    ) {
-        return 1;
-    }
 
-    // Stage 2: Booking Request Sent
-    if (
-        status.includes("booking request sent") ||
-        status.includes("booking requested")
-    ) {
-        return 2;
-    }
-
-    // Stage 3: Booking Accepted
-    if (status.includes("accepted")) {
-        return 3;
-    }
-
-    // Stage 4: Payment Pending
-    if (status.includes("payment pending")) {
-        return 4;
-    }
-
-    // Stage 5: Payment Completed
-    if (
-        status.includes("payment completed") ||
-        status.includes("payment successful") ||
-        status === "paid"
-    ) {
-        return 5;
-    }
-
-    // Stage 6: Booking Confirmed
-    if (status.includes("confirmed")) {
-        return 6;
-    }
-
-    // Stage 7: Event Completed
-    if (
-        status.includes("event completed") ||
-        status === "completed"
-    ) {
-        return 7;
-    }
-
-    // Default: first dot is active
-    return 0;
-}
-
-// =====================================================
+    // =====================================================
     // CONNECTED DOT PROGRESS
     // =====================================================
 
-function getProgress(request) {
-    const currentStage = getProgressStage(request);
+    function getProgress(request) {
+        const currentStage = getProgressStage(request);
 
-    const stages = [
-        "Enquiry Sent",
-        "Caterer Responded",
-        "Booking Request Sent",
-        "Booking Accepted",
-        "Payment Pending",
-        "Payment Completed",
-        "Booking Confirmed",
-        "Booking Completed"
-    ];
+        const stages = [
+            "Enquiry Sent",
+            "Caterer Responded",
+            "Booking Request Sent",
+            "Booking Accepted",
+            "Payment Pending",
+            "Payment Completed",
+            "Booking Confirmed",
+            "Booking Completed"
+        ];
 
-    const totalStages = stages.length;
+        let html = `
+            <div class="progress-wrap">
+                <div class="progress-dots">
+        `;
 
-    let html = `
-        <div class="progress-wrap">
-            <div class="progress-dots">
-    `;
+        for (
+            let index = 0;
+            index < stages.length;
+            index++
+        ) {
+            let dotClass = "progress-dot";
 
-    for (let index = 0; index < totalStages; index++) {
-        let dotClass = "progress-dot";
+            if (index < currentStage) {
+                dotClass += " completed";
+            }
 
-        if (index < currentStage) {
-            dotClass += " completed";
-        }
+            if (index === currentStage) {
+                dotClass += " active";
+            }
 
-        if (index === currentStage) {
-            dotClass += " active";
+            html += `
+                <div class="progress-step"
+                     title="${escapeHTML(stages[index])}"
+                     aria-label="${escapeHTML(stages[index])}">
+                    <span class="${dotClass}"
+                          title="${escapeHTML(stages[index])}">
+                    </span>
+            `;
+
+            if (index < stages.length - 1) {
+                const lineClass =
+                    index < currentStage
+                        ? "progress-line completed"
+                        : "progress-line";
+
+                html += `<span class="${lineClass}"></span>`;
+            }
+
+            html += `</div>`;
         }
 
         html += `
-            <div class="progress-step"
-                 title="${stages[index]}"
-                 aria-label="${stages[index]}">
-                <span class="${dotClass}"
-                      title="${stages[index]}"></span>
+                </div>
+            </div>
         `;
 
-        if (index < totalStages - 1) {
-            const lineClass =
-                index < currentStage
-                    ? "progress-line completed"
-                    : "progress-line";
-
-            html += `<span class="${lineClass}"></span>`;
-        }
-
-        html += `</div>`;
+        return html;
     }
-
-    html += `
-            </div>
-        </div>
-    `;
-
-    return html;
-}
-
 
 
     // =====================================================
@@ -557,25 +570,22 @@ function getProgress(request) {
     // =====================================================
 
     function getPaymentButton(request) {
+        const status = normalizeStatus(
+            request?.status ||
+            request?.request_status ||
+            request?.booking_status
+        );
 
-        const status =
-            normalizeStatus(
-                request?.status ||
-                request?.request_status ||
-                request?.booking_status
-            );
-
-
-        if (
-            status.includes("payment pending")
-        ) {
-
+        if (status.includes("payment pending")) {
             const requestId =
                 request?.request_id ||
                 request?.id ||
                 request?.event_request_id ||
                 "";
 
+            if (!requestId) {
+                return "";
+            }
 
             return `
                 <button
@@ -588,7 +598,6 @@ function getProgress(request) {
             `;
         }
 
-
         return "";
     }
 
@@ -598,14 +607,11 @@ function getProgress(request) {
     // =====================================================
 
     function getTrackingButton(request) {
-
-        const status =
-            normalizeStatus(
-                request?.status ||
-                request?.request_status ||
-                request?.booking_status
-            );
-
+        const status = normalizeStatus(
+            request?.status ||
+            request?.request_status ||
+            request?.booking_status
+        );
 
         if (
             status.includes("confirmed") ||
@@ -614,13 +620,15 @@ function getProgress(request) {
             status.includes("on the way") ||
             status.includes("event started")
         ) {
-
             const requestId =
                 request?.request_id ||
                 request?.id ||
                 request?.event_request_id ||
                 "";
 
+            if (!requestId) {
+                return "";
+            }
 
             return `
                 <button
@@ -633,7 +641,6 @@ function getProgress(request) {
             `;
         }
 
-
         return "";
     }
 
@@ -643,20 +650,11 @@ function getProgress(request) {
     // =====================================================
 
     function getRequestAction(request) {
-
-        const status =
-            normalizeStatus(
-                request?.status ||
-                request?.request_status ||
-                request?.booking_status
-            );
-
-
-        /*
-         * CONFIRMED / COMPLETED / EVENT PROCESS
-         * ---------------------------------------
-         * Show Track.
-         */
+        const status = normalizeStatus(
+            request?.status ||
+            request?.request_status ||
+            request?.booking_status
+        );
 
         if (
             status.includes("confirmed") ||
@@ -665,37 +663,12 @@ function getProgress(request) {
             status.includes("on the way") ||
             status.includes("event started")
         ) {
-
             return getTrackingButton(request);
         }
 
-
-        /*
-         * PAYMENT PENDING
-         * ---------------
-         * Preserve payment functionality.
-         */
-
-        if (
-            status.includes("payment pending")
-        ) {
-
+        if (status.includes("payment pending")) {
             return getPaymentButton(request);
         }
-
-
-        /*
-         * ALL PENDING BOOKING REQUESTS
-         * ----------------------------
-         *
-         * This is the important fix.
-         *
-         * The second row must NOT show "—".
-         * Any booking request that is still waiting
-         * for the caterer's response shows:
-         *
-         * Waiting for reply
-         */
 
         return `
             <span class="waiting-text">
@@ -710,33 +683,25 @@ function getProgress(request) {
     // =====================================================
 
     async function loadCustomerEnquiries() {
-
         if (!customerId) {
             return [];
         }
-
 
         const response = await fetch(
             `http://localhost:5000/api/enquiries/customer/${encodeURIComponent(customerId)}`
         );
 
-
         if (!response.ok) {
-
             throw new Error(
                 `Failed to load enquiries. Server returned ${response.status}.`
             );
         }
 
-
-        const data =
-            await response.json();
-
+        const data = await response.json();
 
         if (Array.isArray(data)) {
             return data;
         }
-
 
         return (
             data.enquiries ||
@@ -751,14 +716,21 @@ function getProgress(request) {
     // OPEN BOOKING FROM ENQUIRY
     // =====================================================
 
-    window.openBookingFromEnquiry =
-        function(enquiryId) {
+    window.openBookingFromEnquiry = function(enquiryId) {
+        if (!hasValidEnquiryId(enquiryId)) {
+            alert(
+                "The enquiry ID is missing. Please refresh My Requests and try again."
+            );
+            return;
+        }
 
-            const url =
-                `bookevent.html?enquiryId=${encodeURIComponent(enquiryId)}`;
+        const url =
+            `bookmyevents.html?enquiryId=${encodeURIComponent(
+                String(enquiryId).trim()
+            )}`;
 
-            window.location.href = url;
-        };
+        window.location.href = url;
+    };
 
 
     // =====================================================
@@ -766,13 +738,12 @@ function getProgress(request) {
     // =====================================================
 
     function createEnquiryRow(enquiry) {
+        /*
+         * IMPORTANT:
+         * Use the actual enquiry ID, not a booking ID.
+         */
 
-        const enquiryId =
-            enquiry?.enquiry_id ||
-            enquiry?.id ||
-            enquiry?.request_id ||
-            "";
-
+        const enquiryId = getEnquiryId(enquiry);
 
         const catererName =
             enquiry?.caterer_name ||
@@ -781,13 +752,11 @@ function getProgress(request) {
             enquiry?.business_name ||
             "Caterer";
 
-
         const eventType =
             enquiry?.event_type ||
             enquiry?.eventType ||
             enquiry?.event_name ||
             "Event";
-
 
         const eventDate =
             enquiry?.event_date ||
@@ -795,31 +764,17 @@ function getProgress(request) {
             enquiry?.date ||
             null;
 
-
         const guestCount =
-            enquiry?.guest_count ||
-            enquiry?.guestCount ||
-            enquiry?.guests ||
+            enquiry?.guest_count ??
+            enquiry?.guestCount ??
+            enquiry?.guests ??
             "—";
-
 
         const displayStatus =
             getEnquiryDisplayStatus(enquiry);
 
-
         const statusClass =
             getStatusClass(displayStatus);
-
-
-        /*
-         * ENQUIRY ACTION
-         *
-         * If caterer has not responded:
-         * Waiting for reply
-         *
-         * If caterer has responded:
-         * Book Event
-         */
 
         const catererReply =
             enquiry?.caterer_reply ||
@@ -827,12 +782,12 @@ function getProgress(request) {
             enquiry?.reply ||
             "";
 
-
         let actionHTML;
 
-
-        if (catererReply) {
-
+        if (
+            catererReply &&
+            hasValidEnquiryId(enquiryId)
+        ) {
             actionHTML = `
                 <button
                     type="button"
@@ -842,9 +797,13 @@ function getProgress(request) {
                     Book Event
                 </button>
             `;
-
+        } else if (catererReply) {
+            actionHTML = `
+                <span class="waiting-text">
+                    Enquiry ID unavailable
+                </span>
+            `;
         } else {
-
             actionHTML = `
                 <span class="waiting-text">
                     Waiting for reply
@@ -852,52 +811,36 @@ function getProgress(request) {
             `;
         }
 
-
         const requestObject = {
-
             ...enquiry,
-
-            status:
-                catererReply
-                    ? "caterer responded"
-                    : "enquiry sent"
+            status: catererReply
+                ? "caterer responded"
+                : "enquiry sent"
         };
-
 
         return `
             <tr>
-
                 <td>
-
                     <strong class="linked-enquiry">
-                        Enquiry ${escapeHTML(enquiryId)}
+                        Enquiry ${escapeHTML(enquiryId ?? "—")}
                     </strong>
 
                     <small>
                         ${escapeHTML(eventType)}
                     </small>
-
                 </td>
 
-
                 <td>
-
                     <strong>
                         ${escapeHTML(catererName)}
                     </strong>
-
                 </td>
 
-
                 <td>
-
                     ${escapeHTML(eventType)}
-
                 </td>
 
-
                 <td>
-
                     <strong>
                         ${formatDate(eventDate)}
                     </strong>
@@ -911,41 +854,25 @@ function getProgress(request) {
                             `
                             : ""
                     }
-
                 </td>
 
-
                 <td>
-
                     ${escapeHTML(guestCount)}
-
                 </td>
 
-
                 <td>
-
-                    <span
-                        class="status ${statusClass}"
-                    >
+                    <span class="status ${statusClass}">
                         ${escapeHTML(displayStatus)}
                     </span>
-
                 </td>
 
-
                 <td>
-
                     ${getProgress(requestObject)}
-
                 </td>
-
 
                 <td>
-
                     ${actionHTML}
-
                 </td>
-
             </tr>
         `;
     }
@@ -956,13 +883,11 @@ function getProgress(request) {
     // =====================================================
 
     function createRequestRow(request) {
-
         const requestId =
             request?.request_id ||
             request?.event_request_id ||
             request?.id ||
             "";
-
 
         const catererName =
             request?.caterer_name ||
@@ -971,13 +896,11 @@ function getProgress(request) {
             request?.business_name ||
             "Caterer";
 
-
         const eventType =
             request?.event_type ||
             request?.eventType ||
             request?.event_name ||
             "Event";
-
 
         const eventDate =
             request?.event_date ||
@@ -986,45 +909,25 @@ function getProgress(request) {
             request?.date ||
             null;
 
-
         const guestCount =
-            request?.guest_count ||
-            request?.guestCount ||
-            request?.number_of_guests ||
-            request?.guests ||
+            request?.guest_count ??
+            request?.guestCount ??
+            request?.number_of_guests ??
+            request?.guests ??
             "—";
-
 
         const displayStatus =
             getDisplayStatus(request);
 
-
         const statusClass =
             getStatusClass(displayStatus);
-
-
-        /*
-         * IMPORTANT:
-         *
-         * Pending rows:
-         * Waiting for reply
-         *
-         * Confirmed rows:
-         * Track
-         *
-         * Payment pending:
-         * Pay Now
-         */
 
         const actionHTML =
             getRequestAction(request);
 
-
         return `
             <tr>
-
                 <td>
-
                     <strong>
                         Request ${escapeHTML(requestId)}
                     </strong>
@@ -1032,28 +935,19 @@ function getProgress(request) {
                     <small>
                         ${escapeHTML(eventType)}
                     </small>
-
                 </td>
 
-
                 <td>
-
                     <strong>
                         ${escapeHTML(catererName)}
                     </strong>
-
                 </td>
 
-
                 <td>
-
                     ${escapeHTML(eventType)}
-
                 </td>
 
-
                 <td>
-
                     <strong>
                         ${formatDate(eventDate)}
                     </strong>
@@ -1067,41 +961,25 @@ function getProgress(request) {
                             `
                             : ""
                     }
-
                 </td>
 
-
                 <td>
-
                     ${escapeHTML(guestCount)}
-
                 </td>
 
-
                 <td>
-
-                    <span
-                        class="status ${statusClass}"
-                    >
+                    <span class="status ${statusClass}">
                         ${escapeHTML(displayStatus)}
                     </span>
-
                 </td>
 
-
                 <td>
-
                     ${getProgress(request)}
-
                 </td>
-
 
                 <td>
-
                     ${actionHTML}
-
                 </td>
-
             </tr>
         `;
     }
@@ -1111,34 +989,28 @@ function getProgress(request) {
     // OPEN PAYMENT
     // =====================================================
 
-    window.openPayment =
-        function(requestId) {
+    window.openPayment = function(requestId) {
+        if (!requestId) {
+            return;
+        }
 
-            if (!requestId) {
-                return;
-            }
-
-
-            window.location.href =
-                `payment.html?requestId=${encodeURIComponent(requestId)}`;
-        };
+        window.location.href =
+            `payment.html?requestId=${encodeURIComponent(requestId)}`;
+    };
 
 
     // =====================================================
     // OPEN TRACKING
     // =====================================================
 
-    window.openTracking =
-        function(requestId) {
+    window.openTracking = function(requestId) {
+        if (!requestId) {
+            return;
+        }
 
-            if (!requestId) {
-                return;
-            }
-
-
-            window.location.href =
-                `tracking.html?requestId=${encodeURIComponent(requestId)}`;
-        };
+        window.location.href =
+            `tracking.html?requestId=${encodeURIComponent(requestId)}`;
+    };
 
 
     // =====================================================
@@ -1146,52 +1018,37 @@ function getProgress(request) {
     // =====================================================
 
     async function loadRequests() {
-
         try {
-
             showLoading();
 
-
             if (!customerId) {
-
                 throw new Error(
                     "Customer ID is required."
                 );
             }
 
-
             /*
-             * LOAD BOTH:
-             *
-             * 1. Event requests
-             * 2. Customer enquiries
+             * Load both event bookings and enquiries.
              */
 
             const [
                 requestsResponse,
                 enquiries
             ] = await Promise.all([
-
                 fetch(
                     `http://localhost:5000/api/requests/customer/${encodeURIComponent(customerId)}`
                 ),
-
                 loadCustomerEnquiries()
-
             ]);
 
-
             if (!requestsResponse.ok) {
-
                 throw new Error(
                     `Failed to load requests. Server returned ${requestsResponse.status}.`
                 );
             }
 
-
             const requestsData =
                 await requestsResponse.json();
-
 
             let requests =
                 requestsData.requests ||
@@ -1199,11 +1056,9 @@ function getProgress(request) {
                 requestsData ||
                 [];
 
-
             if (!Array.isArray(requests)) {
                 requests = [];
             }
-
 
             let enquiryList =
                 Array.isArray(enquiries)
@@ -1211,64 +1066,58 @@ function getProgress(request) {
                     : [];
 
 
+            // =================================================
+            // REMOVE ENQUIRIES ALREADY LINKED TO BOOKINGS
+            // =================================================
+
             /*
-             * REMOVE ENQUIRIES THAT ARE ALREADY LINKED
-             * TO A REQUEST.
+             * The booking's enquiry_id must match the
+             * original enquiry's enquiry_id.
+             *
+             * Example:
+             * Booking Request 61 -> enquiry_id = 8
+             * Enquiry 8          -> hidden from enquiry rows
+             *
+             * The booking itself remains visible.
              */
 
-            const linkedEnquiryIds =
-                new Set();
-
+            const linkedEnquiryIds = new Set();
 
             requests.forEach(request => {
-
                 const enquiryId =
-                    request?.enquiry_id ||
-                    request?.enquiryId ||
-                    request?.enquiry_request_id ||
-                    null;
+                    getLinkedEnquiryId(request);
 
-
-                if (enquiryId) {
-
-                    linkedEnquiryIds.add(
-                        String(enquiryId)
-                    );
+                if (enquiryId !== null) {
+                    linkedEnquiryIds.add(enquiryId);
                 }
             });
 
+            enquiryList = enquiryList.filter(enquiry => {
+                const enquiryId =
+                    getEnquiryId(enquiry);
 
-            enquiryList =
-                enquiryList.filter(enquiry => {
+                /*
+                 * If the enquiry has no usable ID, do not
+                 * accidentally hide it by matching a blank ID.
+                 */
 
-                    const enquiryId =
-                        enquiry?.enquiry_id ||
-                        enquiry?.id ||
-                        null;
+                if (enquiryId === null) {
+                    return true;
+                }
+
+                return !linkedEnquiryIds.has(enquiryId);
+            });
 
 
-                    if (!enquiryId) {
-                        return true;
-                    }
-
-
-                    return !linkedEnquiryIds.has(
-                        String(enquiryId)
-                    );
-                });
-
+            // =================================================
+            // EMPTY STATE
+            // =================================================
 
             const totalItems =
                 requests.length +
                 enquiryList.length;
 
-
-            /*
-             * EMPTY
-             */
-
             if (totalItems === 0) {
-
                 showEmpty();
 
                 if (requestCount) {
@@ -1279,120 +1128,70 @@ function getProgress(request) {
             }
 
 
-            /*
-             * TABLE
-             */
+            // =================================================
+            // TABLE
+            // =================================================
 
             let tableHTML = `
-
                 <div class="table-scroll">
-
                     <table class="requests-table">
-
                         <thead>
-
                             <tr>
-
-                                <th>
-                                    Request
-                                </th>
-
-                                <th>
-                                    Caterer
-                                </th>
-
-                                <th>
-                                    Event
-                                </th>
-
-                                <th>
-                                    Date &amp; Time
-                                </th>
-
-                                <th>
-                                    Guests
-                                </th>
-
-                                <th>
-                                    Status
-                                </th>
-
-                                <th>
-                                    Progress
-                                </th>
-
-                                <th>
-                                    Action
-                                </th>
-
+                                <th>Request</th>
+                                <th>Caterer</th>
+                                <th>Event</th>
+                                <th>Date &amp; Time</th>
+                                <th>Guests</th>
+                                <th>Status</th>
+                                <th>Progress</th>
+                                <th>Action</th>
                             </tr>
-
                         </thead>
 
                         <tbody>
             `;
 
 
-            /*
-             * ENQUIRIES FIRST
-             */
+            // =================================================
+            // ENQUIRIES FIRST
+            // =================================================
 
             enquiryList.forEach(enquiry => {
-
-                tableHTML +=
-                    createEnquiryRow(
-                        enquiry
-                    );
+                tableHTML += createEnquiryRow(enquiry);
             });
 
 
-            /*
-             * REQUESTS
-             */
+            // =================================================
+            // BOOKINGS
+            // =================================================
 
             requests.forEach(request => {
-
-                tableHTML +=
-                    createRequestRow(
-                        request
-                    );
+                tableHTML += createRequestRow(request);
             });
 
 
             tableHTML += `
-
                         </tbody>
-
                     </table>
-
                 </div>
             `;
 
-
             if (requestsList) {
-
-                requestsList.innerHTML =
-                    tableHTML;
+                requestsList.innerHTML = tableHTML;
             }
 
-
             if (requestCount) {
-
                 requestCount.textContent =
                     String(totalItems);
             }
 
-
             showRequests();
 
-
         } catch (error) {
-
             console.error(
                 "Load requests error:",
                 error
             );
-
 
             showError(
                 error?.message ||
@@ -1406,8 +1205,7 @@ function getProgress(request) {
     // GLOBAL LOAD FUNCTION
     // =====================================================
 
-    window.loadRequests =
-        loadRequests;
+    window.loadRequests = loadRequests;
 
 
     // =====================================================
