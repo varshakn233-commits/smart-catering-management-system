@@ -709,10 +709,7 @@ async function getPaymentSummary(req, res) {
 
 async function listPayments(req, res) {
     try {
-        const {
-            search,
-            status
-        } = req.query;
+        const { search, status } = req.query;
 
         let query = `
             SELECT
@@ -725,37 +722,60 @@ async function listPayments(req, res) {
                 ep.transaction_id,
                 ep.paid_at,
                 ep.created_at,
+                ep.processing_at,
+                ep.failed_at,
+                ep.refund_status,
+                ep.refund_requested_at,
+                ep.refunded_at,
+                ep.refund_amount,
 
                 c.full_name AS customer_name,
-                c.email AS customer_email
+                c.email AS customer_email,
+                c.phone AS customer_phone,
+
+                er.event_type,
+                er.event_date,
+                er.event_time,
+                er.package_name,
+                er.catering_service,
+                er.caterer_email,
+
+                ca.brand_name AS caterer_name
 
             FROM event_payments ep
 
             LEFT JOIN customers c
                 ON ep.customer_id = c.customer_id
 
+            LEFT JOIN event_request er
+                ON ep.request_id = er.request_id
+
+            LEFT JOIN caterers ca
+                ON LOWER(TRIM(er.caterer_email))
+                 = LOWER(TRIM(ca.email))
+
             WHERE 1 = 1
         `;
 
         const params = [];
 
-        if (
-            search &&
-            search.trim()
-        ) {
+        if (search && search.trim()) {
             query += `
                 AND (
                     c.full_name LIKE ?
                     OR c.email LIKE ?
                     OR ep.transaction_id LIKE ?
                     OR CAST(ep.payment_id AS CHAR) LIKE ?
+                    OR CAST(ep.request_id AS CHAR) LIKE ?
+                    OR ca.brand_name LIKE ?
                 )
             `;
 
-            const value =
-                `%${search.trim()}%`;
+            const value = `%${search.trim()}%`;
 
             params.push(
+                value,
+                value,
                 value,
                 value,
                 value,
@@ -763,11 +783,15 @@ async function listPayments(req, res) {
             );
         }
 
-        if (
-            status === "paid" ||
-            status === "pending" ||
-            status === "failed"
-        ) {
+        const allowedStatuses = [
+            "pending",
+            "processing",
+            "paid",
+            "failed",
+            "refunded"
+        ];
+
+        if (allowedStatuses.includes(status)) {
             query += `
                 AND ep.payment_status = ?
             `;
@@ -776,66 +800,84 @@ async function listPayments(req, res) {
         }
 
         query += `
-            ORDER BY ep.created_at DESC
+            ORDER BY ep.created_at DESC,
+                     ep.payment_id DESC
         `;
 
-        const [rows] =
-            await db.query(
-                query,
-                params
-            );
+        const [rows] = await db.query(query, params);
 
         return res.status(200).json({
             payments: rows
         });
 
     } catch (error) {
-        console.error(
-            "List payments error:",
-            error
-        );
+        console.error("List payments error:", error);
 
         return res.status(500).json({
-            message:
-                "Could not load payments."
+            message: "Could not load payments."
         });
     }
 }
+
+
 
 async function getPaymentDetails(req, res) {
     try {
         const { id } = req.params;
 
-        const [rows] =
-            await db.query(
-                `SELECT
-                    ep.payment_id,
-                    ep.request_id,
-                    ep.customer_id,
-                    ep.amount,
-                    ep.payment_status,
-                    ep.payment_method,
-                    ep.transaction_id,
-                    ep.paid_at,
-                    ep.created_at,
+        const [rows] = await db.query(
+            `SELECT
+                ep.payment_id,
+                ep.request_id,
+                ep.customer_id,
+                ep.amount,
+                ep.payment_status,
+                ep.payment_method,
+                ep.transaction_id,
+                ep.paid_at,
+                ep.created_at,
 
-                    c.full_name AS customer_name,
-                    c.email AS customer_email,
-                    c.phone AS customer_phone
+                ep.processing_at,
+                ep.failed_at,
+                ep.refund_status,
+                ep.refund_requested_at,
+                ep.refunded_at,
+                ep.refund_amount,
 
-                 FROM event_payments ep
+                c.full_name AS customer_name,
+                c.email AS customer_email,
+                c.phone AS customer_phone,
 
-                 LEFT JOIN customers c
-                    ON ep.customer_id = c.customer_id
+                er.event_type,
+                er.event_date,
+                er.event_time,
+                er.venue_location,
+                er.guest_count,
+                er.package_name,
+                er.catering_service,
+                er.caterer_email,
 
-                 WHERE ep.payment_id = ?`,
-                [id]
-            );
+                ca.brand_name AS caterer_name
+
+             FROM event_payments ep
+
+             LEFT JOIN customers c
+                ON ep.customer_id = c.customer_id
+
+             LEFT JOIN event_request er
+                ON ep.request_id = er.request_id
+
+             LEFT JOIN caterers ca
+                ON LOWER(TRIM(er.caterer_email))
+                 = LOWER(TRIM(ca.email))
+
+             WHERE ep.payment_id = ?`,
+            [id]
+        );
 
         if (rows.length === 0) {
             return res.status(404).json({
-                message:
-                    "Payment not found."
+                message: "Payment not found."
             });
         }
 
@@ -850,8 +892,7 @@ async function getPaymentDetails(req, res) {
         );
 
         return res.status(500).json({
-            message:
-                "Could not load payment details."
+            message: "Could not load payment details."
         });
     }
 }
@@ -862,107 +903,50 @@ async function getPaymentDetails(req, res) {
 
 async function getReviewSummary(req, res) {
     try {
-        const [rows] =
-            await db.query(
-                `SELECT
-                    COUNT(*) AS totalReviews,
+        const [rows] = await db.query(`
+            SELECT
+                COUNT(*) AS totalReviews,
 
-                    COALESCE(
-                        ROUND(AVG(rating), 1),
-                        0
-                    ) AS averageRating,
+                COALESCE(ROUND(AVG(rating), 1), 0)
+                    AS averageRating,
 
-                    SUM(
-                        CASE
-                            WHEN rating = 5
-                            THEN 1
-                            ELSE 0
-                        END
-                    ) AS fiveStar,
+                COALESCE(SUM(CASE WHEN rating = 5 THEN 1 ELSE 0 END), 0)
+                    AS fiveStarReviews,
 
-                    SUM(
-                        CASE
-                            WHEN rating = 4
-                            THEN 1
-                            ELSE 0
-                        END
-                    ) AS fourStar,
+                COALESCE(SUM(CASE WHEN rating = 4 THEN 1 ELSE 0 END), 0)
+                    AS fourStarReviews,
 
-                    SUM(
-                        CASE
-                            WHEN rating = 3
-                            THEN 1
-                            ELSE 0
-                        END
-                    ) AS threeStar,
+                COALESCE(SUM(CASE WHEN rating = 3 THEN 1 ELSE 0 END), 0)
+                    AS threeStarReviews,
 
-                    SUM(
-                        CASE
-                            WHEN rating = 2
-                            THEN 1
-                            ELSE 0
-                        END
-                    ) AS twoStar,
+                COALESCE(SUM(CASE WHEN rating = 2 THEN 1 ELSE 0 END), 0)
+                    AS twoStarReviews,
 
-                    SUM(
-                        CASE
-                            WHEN rating = 1
-                            THEN 1
-                            ELSE 0
-                        END
-                    ) AS oneStar
+                COALESCE(SUM(CASE WHEN rating = 1 THEN 1 ELSE 0 END), 0)
+                    AS oneStarReviews
 
-                 FROM reviews`
-            );
+            FROM reviews
+        `);
+
+        const summary = rows[0];
 
         return res.status(200).json({
             summary: {
-                totalReviews:
-                    Number(
-                        rows[0].totalReviews || 0
-                    ),
-
-                averageRating:
-                    Number(
-                        rows[0].averageRating || 0
-                    ),
-
-                fiveStar:
-                    Number(
-                        rows[0].fiveStar || 0
-                    ),
-
-                fourStar:
-                    Number(
-                        rows[0].fourStar || 0
-                    ),
-
-                threeStar:
-                    Number(
-                        rows[0].threeStar || 0
-                    ),
-
-                twoStar:
-                    Number(
-                        rows[0].twoStar || 0
-                    ),
-
-                oneStar:
-                    Number(
-                        rows[0].oneStar || 0
-                    )
+                totalReviews: Number(summary.totalReviews || 0),
+                averageRating: Number(summary.averageRating || 0),
+                fiveStarReviews: Number(summary.fiveStarReviews || 0),
+                fourStarReviews: Number(summary.fourStarReviews || 0),
+                threeStarReviews: Number(summary.threeStarReviews || 0),
+                twoStarReviews: Number(summary.twoStarReviews || 0),
+                oneStarReviews: Number(summary.oneStarReviews || 0)
             }
         });
 
     } catch (error) {
-        console.error(
-            "Review summary error:",
-            error
-        );
+        console.error("Review summary error:", error);
 
         return res.status(500).json({
-            message:
-                "Could not load review summary."
+            message: "Could not load review summary."
         });
     }
 }
@@ -1133,557 +1117,732 @@ async function getReviewDetails(req, res) {
 // REPORTS & ANALYTICS
 // =====================================================
 
+
+/* =====================================================
+   REPORT FILTER HELPERS
+===================================================== */
+
+function getBookingReportFilters(req, alias = "er") {
+    const clauses = [];
+    const params = [];
+
+    const {
+        year,
+        month,
+        eventType,
+        status,
+        startDate,
+        endDate
+    } = req.query;
+
+    if (year && /^\d{4}$/.test(String(year))) {
+        clauses.push(`YEAR(${alias}.event_date) = ?`);
+        params.push(Number(year));
+    }
+
+    if (
+        month &&
+        /^\d{1,2}$/.test(String(month)) &&
+        Number(month) >= 1 &&
+        Number(month) <= 12
+    ) {
+        clauses.push(`MONTH(${alias}.event_date) = ?`);
+        params.push(Number(month));
+    }
+
+    if (eventType && String(eventType).trim()) {
+        clauses.push(`${alias}.event_type = ?`);
+        params.push(String(eventType).trim());
+    }
+
+    const allowedBookingStatuses = [
+        "pending",
+        "accepted",
+        "payment_pending",
+        "confirmed",
+        "preparing",
+        "on_the_way",
+        "event_started",
+        "completed",
+        "rejected"
+    ];
+
+    if (allowedBookingStatuses.includes(status)) {
+        clauses.push(`${alias}.status = ?`);
+        params.push(status);
+    }
+
+    const validDate = /^\d{4}-\d{2}-\d{2}$/;
+
+    if (startDate && validDate.test(String(startDate))) {
+        clauses.push(`DATE(${alias}.event_date) >= ?`);
+        params.push(startDate);
+    }
+
+    if (endDate && validDate.test(String(endDate))) {
+        clauses.push(`DATE(${alias}.event_date) <= ?`);
+        params.push(endDate);
+    }
+
+    return {
+        sql: clauses.length ? ` AND ${clauses.join(" AND ")}` : "",
+        params
+    };
+}
+
+
+/* =====================================================
+   RETAINED REVENUE EXPRESSION
+
+   - Paid, not refunded: retain payment amount.
+   - Processed refund: subtract refund amount.
+   - Missing refund amount for processed refund:
+     conservatively treat as a full refund.
+   - Other payment statuses: zero retained revenue.
+===================================================== */
+
+const retainedRevenueSQL = `
+    CASE
+        WHEN ep.refund_status = 'processed'
+        THEN GREATEST(
+            ep.amount - COALESCE(ep.refund_amount, ep.amount),
+            0
+        )
+
+        WHEN ep.payment_status = 'paid'
+        THEN ep.amount
+
+        ELSE 0
+    END
+`;
+
+
+/* =====================================================
+   REPORTS OVERVIEW
+===================================================== */
+
 async function getReportsOverview(req, res) {
     try {
-        const [
-            customerRows
-        ] = await db.query(
-            `SELECT COUNT(*) AS totalCustomers
-             FROM customers`
+        const filters = getBookingReportFilters(req);
+
+        const [[customerRow]] = await db.query(`
+            SELECT COUNT(*) AS totalCustomers
+            FROM customers
+        `);
+
+        const [[catererRow]] = await db.query(`
+            SELECT COUNT(*) AS totalCaterers
+            FROM caterers
+        `);
+
+        const [[bookingRow]] = await db.query(
+            `
+            SELECT COUNT(*) AS totalBookings
+            FROM event_request er
+            WHERE 1 = 1
+            ${filters.sql}
+            `,
+            filters.params
         );
 
-        const [
-            catererRows
-        ] = await db.query(
-            `SELECT COUNT(*) AS totalCaterers
-             FROM caterers`
+        const [[revenueRow]] = await db.query(
+            `
+            SELECT COALESCE(SUM(${retainedRevenueSQL}), 0)
+                AS totalRevenue
+            FROM event_payments ep
+            INNER JOIN event_request er
+                ON er.request_id = ep.request_id
+            WHERE 1 = 1
+            ${filters.sql}
+            `,
+            filters.params
         );
 
-        const [
-            bookingRows
-        ] = await db.query(
-            `SELECT COUNT(*) AS totalBookings
-             FROM event_request`
-        );
-
-        const [
-            revenueRows
-        ] = await db.query(
-            `SELECT COALESCE(
-                SUM(
-                    CASE
-                        WHEN payment_status = 'paid'
-                        THEN amount
-                        ELSE 0
-                    END
-                ),
-                0
-             ) AS totalRevenue
-             FROM event_payments`
-        );
-
-        const [
-            reviewRows
-        ] = await db.query(
-            `SELECT
+        const [[reviewRow]] = await db.query(`
+            SELECT
                 COUNT(*) AS totalReviews,
-                COALESCE(
-                    ROUND(AVG(rating), 1),
-                    0
-                ) AS averageRating
-             FROM reviews`
-        );
+                COALESCE(ROUND(AVG(rating), 1), 0)
+                    AS averageRating
+            FROM reviews
+        `);
 
         return res.status(200).json({
-            totalCustomers:
-                Number(
-                    customerRows[0].totalCustomers || 0
-                ),
-
-            totalCaterers:
-                Number(
-                    catererRows[0].totalCaterers || 0
-                ),
-
-            totalBookings:
-                Number(
-                    bookingRows[0].totalBookings || 0
-                ),
-
-            totalEvents:
-                Number(
-                    bookingRows[0].totalBookings || 0
-                ),
-
-            totalRevenue:
-                Number(
-                    revenueRows[0].totalRevenue || 0
-                ),
-
-            totalReviews:
-                Number(
-                    reviewRows[0].totalReviews || 0
-                ),
-
-            averageRating:
-                Number(
-                    reviewRows[0].averageRating || 0
-                ),
-
-            openEnquiries: null
+            totalCustomers: Number(customerRow.totalCustomers || 0),
+            totalCaterers: Number(catererRow.totalCaterers || 0),
+            totalBookings: Number(bookingRow.totalBookings || 0),
+            totalEvents: Number(bookingRow.totalBookings || 0),
+            totalRevenue: Number(revenueRow.totalRevenue || 0),
+            totalReviews: Number(reviewRow.totalReviews || 0),
+            averageRating: Number(reviewRow.averageRating || 0)
         });
-
     } catch (error) {
-        console.error(
-            "Reports overview error:",
-            error
-        );
+        console.error("Reports overview error:", error);
 
         return res.status(500).json({
-            message:
-                "Could not load reports overview."
+            message: "Could not load reports overview."
         });
     }
 }
+
+
+/* =====================================================
+   BOOKING REPORT
+===================================================== */
 
 async function getBookingReport(req, res) {
     try {
-        const [statusRows] =
-            await db.query(
-                `SELECT
-                    status,
-                    COUNT(*) AS count
-                 FROM event_request
-                 GROUP BY status
-                 ORDER BY count DESC`
-            );
+        const filters = getBookingReportFilters(req);
 
-        const [trendRows] =
-            await db.query(
-                `SELECT
-                    DATE(created_at) AS date,
-                    COUNT(*) AS count
-                 FROM event_request
-                 GROUP BY DATE(created_at)
-                 ORDER BY date ASC`
-            );
-
-        return res.status(200).json({
-            statusBreakdown:
-                statusRows,
-            trend:
-                trendRows
-        });
-
-    } catch (error) {
-        console.error(
-            "Booking report error:",
-            error
+        const [statusRows] = await db.query(
+            `
+            SELECT
+                status,
+                COUNT(*) AS count
+            FROM event_request er
+            WHERE 1 = 1
+            ${filters.sql}
+            GROUP BY status
+            `,
+            filters.params
         );
 
+        const [trendRows] = await db.query(
+            `
+            SELECT
+                DATE(er.event_date) AS date,
+                COUNT(*) AS count
+            FROM event_request er
+            WHERE 1 = 1
+            ${filters.sql}
+            GROUP BY DATE(er.event_date)
+            ORDER BY date ASC
+            `,
+            filters.params
+        );
+
+        const statusCounts = {};
+
+        for (const row of statusRows) {
+            statusCounts[row.status] = Number(row.count || 0);
+        }
+
+        return res.status(200).json({
+            statusCounts,
+            statusBreakdown: statusRows,
+            trend: trendRows
+        });
+    } catch (error) {
+        console.error("Booking report error:", error);
+
         return res.status(500).json({
-            message:
-                "Could not load booking report."
+            message: "Could not load booking report."
         });
     }
 }
+
+
+/* =====================================================
+   REVENUE AND PAYMENT REPORT
+===================================================== */
 
 async function getRevenueReport(req, res) {
     try {
-        const [statusRows] =
-            await db.query(
-                `SELECT
-                    payment_status AS status,
-                    COUNT(*) AS count,
-                    COALESCE(
-                        SUM(amount),
-                        0
-                    ) AS amount
-                 FROM event_payments
-                 GROUP BY payment_status`
-            );
+        const filters = getBookingReportFilters(req);
 
-        const [trendRows] =
-            await db.query(
-                `SELECT
-                    DATE(
-                        COALESCE(
-                            paid_at,
-                            created_at
-                        )
-                    ) AS date,
-
-                    COALESCE(
-                        SUM(
-                            CASE
-                                WHEN payment_status = 'paid'
-                                THEN amount
-                                ELSE 0
-                            END
-                        ),
-                        0
-                    ) AS revenue
-
-                 FROM event_payments
-
-                 GROUP BY DATE(
-                    COALESCE(
-                        paid_at,
-                        created_at
-                    )
-                 )
-
-                 ORDER BY date ASC`
-            );
-
-        return res.status(200).json({
-            statusBreakdown:
-                statusRows,
-
-            trend:
-                trendRows
-        });
-
-    } catch (error) {
-        console.error(
-            "Revenue report error:",
-            error
+        const [statusRows] = await db.query(
+            `
+            SELECT
+                ep.payment_status AS status,
+                COUNT(*) AS count,
+                COALESCE(SUM(ep.amount), 0) AS amount,
+                COALESCE(SUM(${retainedRevenueSQL}), 0)
+                    AS retainedRevenue
+            FROM event_payments ep
+            INNER JOIN event_request er
+                ON er.request_id = ep.request_id
+            WHERE 1 = 1
+            ${filters.sql}
+            GROUP BY ep.payment_status
+            `,
+            filters.params
         );
 
+        const [trendRows] = await db.query(
+            `
+            SELECT
+                DATE(er.event_date) AS date,
+                COALESCE(SUM(${retainedRevenueSQL}), 0)
+                    AS revenue
+            FROM event_payments ep
+            INNER JOIN event_request er
+                ON er.request_id = ep.request_id
+            WHERE 1 = 1
+            ${filters.sql}
+            GROUP BY DATE(er.event_date)
+            ORDER BY date ASC
+            `,
+            filters.params
+        );
+
+        const paymentCounts = {
+            paidCount: 0,
+            pendingCount: 0,
+            processingCount: 0,
+            failedCount: 0,
+            refundedCount: 0
+        };
+
+        for (const row of statusRows) {
+            const count = Number(row.count || 0);
+
+            if (row.status === "paid") {
+                paymentCounts.paidCount = count;
+            } else if (row.status === "pending") {
+                paymentCounts.pendingCount = count;
+            } else if (row.status === "processing") {
+                paymentCounts.processingCount = count;
+            } else if (row.status === "failed") {
+                paymentCounts.failedCount = count;
+            } else if (row.status === "refunded") {
+                paymentCounts.refundedCount = count;
+            }
+        }
+
+        return res.status(200).json({
+            ...paymentCounts,
+            statusBreakdown: statusRows,
+            trend: trendRows
+        });
+    } catch (error) {
+        console.error("Revenue report error:", error);
+
         return res.status(500).json({
-            message:
-                "Could not load revenue report."
+            message: "Could not load revenue report."
         });
     }
 }
 
+
+/* =====================================================
+   CUSTOMER REPORT
+===================================================== */
+
 async function getCustomerReport(req, res) {
     try {
-        const [summaryRows] =
-            await db.query(
-                `SELECT
-                    COUNT(*) AS totalCustomers,
+        const { year, month, startDate, endDate } = req.query;
 
-                    SUM(
-                        CASE
-                            WHEN status = 'active'
-                            THEN 1
-                            ELSE 0
-                        END
-                    ) AS activeCustomers,
+        const clauses = [];
+        const params = [];
 
-                    SUM(
-                        CASE
-                            WHEN status = 'blocked'
-                            THEN 1
-                            ELSE 0
-                        END
-                    ) AS blockedCustomers
-                 FROM customers`
-            );
+        if (year && /^\d{4}$/.test(String(year))) {
+            clauses.push("YEAR(created_at) = ?");
+            params.push(Number(year));
+        }
 
-        const [
-            bookingCustomerRows
-        ] = await db.query(
-            `SELECT
-                COUNT(
-                    DISTINCT customer_id
-                ) AS customersWithBookings
-             FROM event_request
-             WHERE customer_id IS NOT NULL`
+        if (
+            month &&
+            /^\d{1,2}$/.test(String(month)) &&
+            Number(month) >= 1 &&
+            Number(month) <= 12
+        ) {
+            clauses.push("MONTH(created_at) = ?");
+            params.push(Number(month));
+        }
+
+        const validDate = /^\d{4}-\d{2}-\d{2}$/;
+
+        if (startDate && validDate.test(String(startDate))) {
+            clauses.push("DATE(created_at) >= ?");
+            params.push(startDate);
+        }
+
+        if (endDate && validDate.test(String(endDate))) {
+            clauses.push("DATE(created_at) <= ?");
+            params.push(endDate);
+        }
+
+        const whereSQL = clauses.length
+            ? `WHERE ${clauses.join(" AND ")}`
+            : "";
+
+        const [[summary]] = await db.query(
+            `
+            SELECT
+                COUNT(*) AS totalCustomers,
+                COALESCE(SUM(status = 'active'), 0)
+                    AS activeCustomers,
+                COALESCE(SUM(status = 'blocked'), 0)
+                    AS blockedCustomers
+            FROM customers
+            ${whereSQL}
+            `,
+            params
         );
 
-        const [
-            registrationRows
-        ] = await db.query(
-            `SELECT
+        const [[bookingCustomerRow]] = await db.query(`
+            SELECT COUNT(DISTINCT customer_id)
+                AS customersWithBookings
+            FROM event_request
+            WHERE customer_id IS NOT NULL
+        `);
+
+        const [registrationTrend] = await db.query(
+            `
+            SELECT
                 DATE(created_at) AS date,
                 COUNT(*) AS count
-             FROM customers
-             GROUP BY DATE(created_at)
-             ORDER BY date ASC`
-        );
-
-        const [
-            newCustomerRows
-        ] = await db.query(
-            `SELECT COUNT(*) AS count
-             FROM customers
-             WHERE created_at >=
-                DATE_SUB(
-                    NOW(),
-                    INTERVAL 30 DAY
-                )`
+            FROM customers
+            ${whereSQL}
+            GROUP BY DATE(created_at)
+            ORDER BY date ASC
+            `,
+            params
         );
 
         return res.status(200).json({
             summary: {
-                totalCustomers:
-                    Number(
-                        summaryRows[0].totalCustomers || 0
-                    ),
+                totalCustomers: Number(summary.totalCustomers || 0),
+                activeCustomers: Number(summary.activeCustomers || 0),
+                blockedCustomers: Number(summary.blockedCustomers || 0),
+                customersWithBookings: Number(
+                    bookingCustomerRow.customersWithBookings || 0
+                ),
+                newCustomersLast30Days: registrationTrend.reduce(
+                    (total, row) => {
+                        const date = new Date(row.date);
+                        const now = new Date();
+                        const cutoff = new Date();
+                        cutoff.setDate(now.getDate() - 30);
 
-                activeCustomers:
-                    Number(
-                        summaryRows[0].activeCustomers || 0
-                    ),
-
-                blockedCustomers:
-                    Number(
-                        summaryRows[0].blockedCustomers || 0
-                    ),
-
-                customersWithBookings:
-                    Number(
-                        bookingCustomerRows[0]
-                            .customersWithBookings || 0
-                    ),
-
-                newCustomersLast30Days:
-                    Number(
-                        newCustomerRows[0].count || 0
-                    )
+                        return date >= cutoff && date <= now
+                            ? total + Number(row.count || 0)
+                            : total;
+                    },
+                    0
+                )
             },
-
-            registrationTrend:
-                registrationRows
+            registrationTrend
         });
-
     } catch (error) {
-        console.error(
-            "Customer report error:",
-            error
-        );
+        console.error("Customer report error:", error);
 
         return res.status(500).json({
-            message:
-                "Could not load customer report."
+            message: "Could not load customer report."
         });
     }
 }
+
+
+/* =====================================================
+   CATERER APPROVAL REPORT
+===================================================== */
 
 async function getCatererReport(req, res) {
     try {
-        const [rows] =
-            await db.query(
-                `SELECT
-                    COUNT(*) AS totalCaterers,
-
-                    SUM(
-                        CASE
-                            WHEN status = 'approved'
-                            THEN 1
-                            ELSE 0
-                        END
-                    ) AS approvedCaterers,
-
-                    SUM(
-                        CASE
-                            WHEN status = 'pending'
-                            THEN 1
-                            ELSE 0
-                        END
-                    ) AS pendingCaterers,
-
-                    SUM(
-                        CASE
-                            WHEN status = 'rejected'
-                            THEN 1
-                            ELSE 0
-                        END
-                    ) AS rejectedCaterers
-
-                 FROM caterers`
-            );
+        const [[row]] = await db.query(`
+            SELECT
+                COUNT(*) AS totalCaterers,
+                COALESCE(SUM(status = 'approved'), 0)
+                    AS approvedCaterers,
+                COALESCE(SUM(status = 'pending'), 0)
+                    AS pendingCaterers,
+                COALESCE(SUM(status = 'rejected'), 0)
+                    AS rejectedCaterers
+            FROM caterers
+        `);
 
         return res.status(200).json({
-            totalCaterers:
-                Number(
-                    rows[0].totalCaterers || 0
-                ),
-
-            approvedCaterers:
-                Number(
-                    rows[0].approvedCaterers || 0
-                ),
-
-            pendingCaterers:
-                Number(
-                    rows[0].pendingCaterers || 0
-                ),
-
-            rejectedCaterers:
-                Number(
-                    rows[0].rejectedCaterers || 0
-                ),
-
-            blockedCaterers: null,
-            activeCaterers: null
+            totalCaterers: Number(row.totalCaterers || 0),
+            approvedCaterers: Number(row.approvedCaterers || 0),
+            pendingCaterers: Number(row.pendingCaterers || 0),
+            rejectedCaterers: Number(row.rejectedCaterers || 0)
         });
-
     } catch (error) {
-        console.error(
-            "Caterer report error:",
-            error
-        );
+        console.error("Caterer report error:", error);
 
         return res.status(500).json({
-            message:
-                "Could not load caterer report."
+            message: "Could not load caterer report."
         });
     }
 }
 
+
+/* =====================================================
+   EVENT TYPE REPORT
+===================================================== */
+
 async function getEventTypeReport(req, res) {
     try {
-        const [rows] =
-            await db.query(
-                `SELECT
-                    event_type,
-                    COUNT(*) AS count
-                 FROM event_request
-                 GROUP BY event_type
-                 ORDER BY count DESC`
-            );
+        const filters = getBookingReportFilters(req);
+
+        const [rows] = await db.query(
+            `
+            SELECT
+                er.event_type,
+                COUNT(*) AS count
+            FROM event_request er
+            WHERE 1 = 1
+            ${filters.sql}
+            GROUP BY er.event_type
+            ORDER BY count DESC
+            `,
+            filters.params
+        );
 
         return res.status(200).json({
             eventTypes: rows
         });
-
     } catch (error) {
-        console.error(
-            "Event type report error:",
-            error
-        );
+        console.error("Event type report error:", error);
 
         return res.status(500).json({
-            message:
-                "Could not load event type report."
+            message: "Could not load event type report."
         });
     }
 }
+
+
+/* =====================================================
+   REVIEW REPORT
+===================================================== */
 
 async function getReviewReport(req, res) {
     try {
-        const [summaryRows] =
-            await db.query(
-                `SELECT
-                    COUNT(*) AS totalReviews,
-                    COALESCE(
-                        ROUND(AVG(rating), 1),
-                        0
-                    ) AS averageRating
-                 FROM reviews`
-            );
+        const [distribution] = await db.query(`
+            SELECT
+                rating,
+                COUNT(*) AS count
+            FROM reviews
+            GROUP BY rating
+            ORDER BY rating DESC
+        `);
 
-        const [distributionRows] =
-            await db.query(
-                `SELECT
-                    rating,
-                    COUNT(*) AS count
-                 FROM reviews
-                 GROUP BY rating
-                 ORDER BY rating DESC`
-            );
+        const [[summary]] = await db.query(`
+            SELECT
+                COUNT(*) AS totalReviews,
+                COALESCE(ROUND(AVG(rating), 1), 0)
+                    AS averageRating
+            FROM reviews
+        `);
+
+        const counts = {
+            fiveStar: 0,
+            fourStar: 0,
+            threeStar: 0,
+            lowStar: 0
+        };
+
+        for (const row of distribution) {
+            const rating = Number(row.rating);
+            const count = Number(row.count || 0);
+
+            if (rating === 5) counts.fiveStar = count;
+            if (rating === 4) counts.fourStar = count;
+            if (rating === 3) counts.threeStar = count;
+            if (rating === 1 || rating === 2) {
+                counts.lowStar += count;
+            }
+        }
 
         return res.status(200).json({
-            summary: {
-                totalReviews:
-                    Number(
-                        summaryRows[0].totalReviews || 0
-                    ),
-
-                averageRating:
-                    Number(
-                        summaryRows[0].averageRating || 0
-                    )
-            },
-
-            distribution:
-                distributionRows
+            totalReviews: Number(summary.totalReviews || 0),
+            averageRating: Number(summary.averageRating || 0),
+            ...counts,
+            distribution
         });
-
     } catch (error) {
-        console.error(
-            "Review report error:",
-            error
-        );
+        console.error("Review report error:", error);
 
         return res.status(500).json({
-            message:
-                "Could not load review report."
+            message: "Could not load review report."
         });
     }
 }
+
+
+/* =====================================================
+   CATERER PERFORMANCE REPORT
+===================================================== */
 
 async function getCatererPerformance(req, res) {
     try {
-        const [rows] =
-            await db.query(
-                `SELECT
-                    c.caterer_id,
-                    c.brand_name,
-                    c.head_name,
-                    c.email,
-                    c.status,
+        const bookingFilters = getBookingReportFilters(req);
+        const revenueFilters = getBookingReportFilters(req, "er2");
 
-                    (
-                        SELECT COUNT(*)
-                        FROM event_request er
-                        WHERE er.caterer_email = c.email
-                    ) AS totalBookings,
+        // Map test booking emails to their correct caterer IDs.
+        const catererEmailMap = {
+            "saraswathi.test@gmail.com": 60,
+            "meenakshi.test@gmail.com": 61,
+            "royal.test@gmail.com": 62,
+            "lakshmi.test@gmail.com": 63,
+            "naveen.test@gmail.com": 64,
+            "farhan.test@gmail.com": 65,
+            "bengaluru.royal.test@gmail.com": 66,
+            "annapoorna.test@gmail.com": 67,
+            "greenleaf.test@gmail.com": 68,
+            "royalfeast.test@gmail.com": 69
+        };
 
-                    (
-                        SELECT COALESCE(
-                            SUM(
-                                CASE
-                                    WHEN ep.payment_status = 'paid'
-                                    THEN ep.amount
-                                    ELSE 0
-                                END
-                            ),
-                            0
-                        )
-                        FROM event_request er
-                        INNER JOIN event_payments ep
-                            ON ep.request_id = er.request_id
-                        WHERE er.caterer_email = c.email
-                    ) AS totalRevenue,
+        const emailMappingSQL = `
+            CASE LOWER(TRIM(caterer_email))
+                WHEN 'saraswathi.test@gmail.com' THEN 60
+                WHEN 'meenakshi.test@gmail.com' THEN 61
+                WHEN 'royal.test@gmail.com' THEN 62
+                WHEN 'lakshmi.test@gmail.com' THEN 63
+                WHEN 'naveen.test@gmail.com' THEN 64
+                WHEN 'farhan.test@gmail.com' THEN 65
+                WHEN 'bengaluru.royal.test@gmail.com' THEN 66
+                WHEN 'annapoorna.test@gmail.com' THEN 67
+                WHEN 'greenleaf.test@gmail.com' THEN 68
+                WHEN 'royalfeast.test@gmail.com' THEN 69
+                ELSE NULL
+            END
+        `;
 
-                    (
-                        SELECT COUNT(*)
-                        FROM reviews r
-                        WHERE r.caterer_id = c.caterer_id
-                    ) AS totalReviews,
+        const query = `
+            SELECT
+                c.caterer_id,
+                c.brand_name,
+                c.head_name,
+                c.email,
+                c.status,
 
-                    (
-                        SELECT COALESCE(
-                            ROUND(
-                                AVG(r.rating),
-                                1
-                            ),
-                            0
-                        )
-                        FROM reviews r
-                        WHERE r.caterer_id = c.caterer_id
-                    ) AS averageRating
+                COALESCE(b.requests, 0) AS requests,
+                COALESCE(b.confirmed, 0) AS confirmed,
+                COALESCE(b.completed, 0) AS completed,
 
-                 FROM caterers c
+                COALESCE(r.reviews, 0) AS reviews,
+                COALESCE(r.rating, 0) AS rating,
 
-                 ORDER BY totalBookings DESC`
-            );
+                COALESCE(rv.totalRevenue, 0) AS totalRevenue
+
+            FROM caterers c
+
+            LEFT JOIN (
+                SELECT
+                    ${emailMappingSQL} AS mapped_caterer_id,
+                    COUNT(*) AS requests,
+                    SUM(er.status = 'confirmed') AS confirmed,
+                    SUM(er.status = 'completed') AS completed
+                FROM event_request er
+                WHERE 1 = 1
+                ${bookingFilters.sql}
+                GROUP BY mapped_caterer_id
+            ) b
+                ON b.mapped_caterer_id = c.caterer_id
+
+            LEFT JOIN (
+                SELECT
+                    caterer_id,
+                    COUNT(*) AS reviews,
+                    ROUND(AVG(rating), 1) AS rating
+                FROM reviews
+                GROUP BY caterer_id
+            ) r
+                ON r.caterer_id = c.caterer_id
+
+            LEFT JOIN (
+                SELECT
+                    ${emailMappingSQL.replaceAll("caterer_email", "er2.caterer_email")} AS mapped_caterer_id,
+                    SUM(${retainedRevenueSQL}) AS totalRevenue
+                FROM event_payments ep
+                INNER JOIN event_request er2
+                    ON er2.request_id = ep.request_id
+                WHERE 1 = 1
+                ${revenueFilters.sql}
+                GROUP BY mapped_caterer_id
+            ) rv
+                ON rv.mapped_caterer_id = c.caterer_id
+
+            ORDER BY requests DESC, c.brand_name ASC
+        `;
+
+        const [rows] = await db.query(query, [
+            ...bookingFilters.params,
+            ...revenueFilters.params
+        ]);
 
         return res.status(200).json({
-            caterers:
-                rows
+            performance: rows
         });
 
     } catch (error) {
-        console.error(
-            "Caterer performance error:",
-            error
-        );
+        console.error("Caterer performance error:", error);
 
         return res.status(500).json({
-            message:
-                "Could not load caterer performance."
+            message: "Could not load caterer performance."
         });
     }
 }
 
+
 // =====================================================
-// EXPORTS
+// BOOKING STATUS MANAGEMENT
 // =====================================================
+
+async function updateBookingStatus(req, res) {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+
+        const allowedStatuses = [
+            "pending",
+            "accepted",
+            "payment_pending",
+            "confirmed",
+            "completed",
+            "rejected"
+        ];
+
+        if (!id || !/^\d+$/.test(String(id))) {
+            return res.status(400).json({
+                message: "A valid booking ID is required."
+            });
+        }
+
+        if (!allowedStatuses.includes(status)) {
+            return res.status(400).json({
+                message: "Invalid booking status."
+            });
+        }
+
+        // Check that the booking exists.
+        const [bookings] = await db.query(
+            "SELECT request_id FROM event_request WHERE request_id = ?",
+            [id]
+        );
+
+        if (bookings.length === 0) {
+            return res.status(404).json({
+                message: "Booking not found."
+            });
+        }
+
+        // Update the booking status in MySQL.
+        await db.query(
+            "UPDATE event_request SET status = ? WHERE request_id = ?",
+            [status, id]
+        );
+
+        return res.status(200).json({
+            message: "Booking status updated successfully.",
+            requestId: Number(id),
+            status
+        });
+
+    } catch (error) {
+        console.error("Update booking status error:", error);
+
+        return res.status(500).json({
+            message: "Could not update booking status."
+        });
+    }
+}
+
+
+ // =====================================================
+ // EXPORTS
+ // =====================================================
 
 module.exports = {
     login,
@@ -1717,5 +1876,8 @@ module.exports = {
     getCatererReport,
     getEventTypeReport,
     getReviewReport,
-    getCatererPerformance
+    getCatererPerformance,
+
+    // BOOKINGS
+    updateBookingStatus
 };

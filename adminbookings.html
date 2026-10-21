@@ -498,17 +498,12 @@
         ===================================================== */
 
         .stats {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(6, 1fr);
-
-            gap: 16px;
-
-            margin-bottom: 25px;
-
-        }
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    width: 100%;
+    margin-bottom: 24px;
+}
 
 
         .stat-card {
@@ -2106,108 +2101,34 @@
              SUMMARY
         ================================================= -->
 
-        <section class="stats">
+      
+<section class="stats">
 
+    <!-- 1. TOTAL BOOKINGS -->
+    <div class="stat-card">
+        <div class="stat-title">TOTAL BOOKINGS</div>
+        <div class="stat-number" id="totalBookings">0</div>
+    </div>
 
-            <div class="stat-card">
+    <!-- 2. PAYMENT PENDING -->
+    <div class="stat-card payment">
+        <div class="stat-title">PAYMENT PENDING</div>
+        <div class="stat-number" id="paymentBookings">0</div>
+    </div>
 
-                <div class="stat-title">
-                    TOTAL BOOKINGS
-                </div>
+    <!-- 3. REJECTED -->
+    <div class="stat-card rejected">
+        <div class="stat-title">REJECTED</div>
+        <div class="stat-number" id="rejectedBookings">0</div>
+    </div>
 
-                <div
-                    class="stat-number"
-                    id="totalBookings"
-                >
-                    0
-                </div>
+    <!-- 4. CONFIRMED -->
+    <div class="stat-card confirmed">
+        <div class="stat-title">CONFIRMED</div>
+        <div class="stat-number" id="confirmedBookings">0</div>
+    </div>
 
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-title">
-                    PENDING
-                </div>
-
-                <div
-                    class="stat-number"
-                    id="pendingBookings"
-                >
-                    0
-                </div>
-
-            </div>
-
-
-            <div class="stat-card accepted">
-
-                <div class="stat-title">
-                    ACCEPTED
-                </div>
-
-                <div
-                    class="stat-number"
-                    id="acceptedBookings"
-                >
-                    0
-                </div>
-
-            </div>
-
-
-            <div class="stat-card payment">
-
-                <div class="stat-title">
-                    PAYMENT PENDING
-                </div>
-
-                <div
-                    class="stat-number"
-                    id="paymentBookings"
-                >
-                    0
-                </div>
-
-            </div>
-
-
-            <div class="stat-card confirmed">
-
-                <div class="stat-title">
-                    CONFIRMED
-                </div>
-
-                <div
-                    class="stat-number"
-                    id="confirmedBookings"
-                >
-                    0
-                </div>
-
-            </div>
-
-
-            <div class="stat-card completed">
-
-                <div class="stat-title">
-                    COMPLETED
-                </div>
-
-                <div
-                    class="stat-number"
-                    id="completedBookings"
-                >
-                    0
-                </div>
-
-            </div>
-
-
-        </section>
-
-
+</section>
 
         <!-- =================================================
              SEARCH / FILTERS
@@ -2253,48 +2174,10 @@
                 <select
                     id="statusFilter"
                     class="filter-select"
-                >
-
-                    <option value="">
-                        All Status
-                    </option>
-
-                    <option value="pending">
-                        Pending
-                    </option>
-
-                    <option value="accepted">
-                        Accepted
-                    </option>
-
-                    <option value="payment_pending">
-                        Payment Pending
-                    </option>
-
-                    <option value="confirmed">
-                        Confirmed
-                    </option>
-
-                    <option value="preparing">
-                        Preparing
-                    </option>
-
-                    <option value="on_the_way">
-                        On the Way
-                    </option>
-
-                    <option value="event_started">
-                        Event Started
-                    </option>
-
-                    <option value="completed">
-                        Completed
-                    </option>
-
-                    <option value="rejected">
-                        Rejected
-                    </option>
-
+                >   <option value="">All Status</option>
+                    <option value="payment_pending">Payment Pending</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="rejected">Rejected</option>
                 </select>
 
 
@@ -2303,34 +2186,15 @@
                     class="filter-select"
                 >
 
-                    <option value="">
-                        All Event Types
-                    </option>
-
-                    <option value="wedding">
-                        Wedding
-                    </option>
-
-                    <option value="birthday">
-                        Birthday
-                    </option>
-
-                    <option value="reception">
-                        Reception
-                    </option>
-
-                    <option value="engagement">
-                        Engagement
-                    </option>
-
-                    <option value="corporate">
-                        Corporate
-                    </option>
-
-                    <option value="other">
-                        Other
-                    </option>
-
+                    <option value="">All Event Types</option>
+                    <option value="Wedding">Wedding</option>
+                    <option value="Birthday">Birthday</option>
+                    <option value="Reception">Reception</option>
+                    <option value="Engagement">Engagement</option>
+                    <option value="Corporate">Corporate Event</option>
+                    <option value="Anniversary">Anniversary</option>
+                    <option value="House Warming">House Warming</option>
+                    
                 </select>
 
 
@@ -3258,310 +3122,159 @@
        SUMMARY
     ===================================================== */
 
-    function updateSummary() {
+    
+function updateSummary() {
 
-        const count =
-            status =>
-                allBookings.filter(
-                    booking =>
-                        String(
-                            booking.status ||
-                            ""
-                        ).toLowerCase() ===
-                        status
-                ).length;
+    const count = (status) =>
+        allBookings.filter(
+            booking =>
+                String(booking.status || "")
+                    .trim()
+                    .toLowerCase() === status
+        ).length;
 
+    // 1. Total bookings
+    document.getElementById("totalBookings").textContent =
+        allBookings.length;
 
-        document.getElementById(
-            "totalBookings"
-        ).textContent =
-            allBookings.length;
+    // 2. Payment pending
+    document.getElementById("paymentBookings").textContent =
+        count("payment_pending");
 
+    // 3. Rejected
+    document.getElementById("rejectedBookings").textContent =
+        count("rejected");
 
-        document.getElementById(
-            "pendingBookings"
-        ).textContent =
-            count("pending");
-
-
-        document.getElementById(
-            "acceptedBookings"
-        ).textContent =
-            count("accepted");
-
-
-        document.getElementById(
-            "paymentBookings"
-        ).textContent =
-            count("payment_pending");
-
-
-        document.getElementById(
-            "confirmedBookings"
-        ).textContent =
-            count("confirmed");
-
-
-        document.getElementById(
-            "completedBookings"
-        ).textContent =
-            count("completed");
-
-    }
-
-
+    // 4. Confirmed
+    document.getElementById("confirmedBookings").textContent =
+        count("confirmed");
+}
 
     /* =====================================================
        FILTER
     ===================================================== */
 
-    function applyFilters() {
-
-        const search =
-            document.getElementById(
-                "searchInput"
-            ).value
-                .trim()
-                .toLowerCase();
-
-
-        const status =
-            document.getElementById(
-                "statusFilter"
-            ).value
-                .toLowerCase();
-
-
-        const eventType =
-            document.getElementById(
-                "eventFilter"
-            ).value
-                .toLowerCase();
-
-
-        const dateFilter =
-            document.getElementById(
-                "dateFilter"
-            ).value;
-
-
-        const today =
-            new Date();
-
-
-        today.setHours(
-            0,
-            0,
-            0,
-            0
-        );
-
-
-        filteredBookings =
-            allBookings.filter(
-                booking => {
-
-
-                    /* SEARCH */
-
-                    const searchText = (
-
-                        String(
-                            booking.request_id ||
-                            ""
-                        ) +
-
-                        " " +
-
-                        String(
-                            booking.customer_name ||
-                            ""
-                        ) +
-
-                        " " +
-
-                        String(
-                            booking.email ||
-                            ""
-                        ) +
-
-                        " " +
-
-                        String(
-                            booking.phone ||
-                            ""
-                        ) +
-
-                        " " +
-
-                        String(
-                            booking.caterer_name ||
-                            ""
-                        ) +
-
-                        " " +
-
-                        String(
-                            booking.caterer_email ||
-                            ""
-                        ) +
-
-                        " " +
-
-                        String(
-                            booking.event_type ||
-                            ""
-                        )
-
-                    ).toLowerCase();
-
-
-                    if (
-                        search &&
-                        !searchText.includes(
-                            search
-                        )
-                    ) {
-
-                        return false;
-
-                    }
-
-
-                    /* STATUS */
-
-                    if (
-                        status &&
-                        String(
-                            booking.status ||
-                            ""
-                        ).toLowerCase() !==
-                        status
-                    ) {
-
-                        return false;
-
-                    }
-
-
-                    /* EVENT TYPE */
-
-                    if (
-                        eventType
-                    ) {
-
-                        const currentEvent =
-                            String(
-                                booking.event_type ||
-                                ""
-                            ).toLowerCase();
-
-
-                        if (
-                            currentEvent !==
-                            eventType
-                        ) {
-
-                            return false;
-
-                        }
-
-                    }
-
-
-                    /* DATE */
-
-                    if (
-                        dateFilter
-                    ) {
-
-                        const eventDate =
-                            new Date(
-                                booking.event_date
-                            );
-
-
-                        eventDate.setHours(
-                            0,
-                            0,
-                            0,
-                            0
-                        );
-
-
-                        if (
-                            isNaN(
-                                eventDate.getTime()
-                            )
-                        ) {
-
-                            return false;
-
-                        }
-
-
-                        if (
-                            dateFilter ===
-                            "today"
-                        ) {
-
-                            if (
-                                eventDate.getTime() !==
-                                today.getTime()
-                            ) {
-
-                                return false;
-
-                            }
-
-                        }
-
-
-                        if (
-                            dateFilter ===
-                            "upcoming"
-                        ) {
-
-                            if (
-                                eventDate <
-                                today
-                            ) {
-
-                                return false;
-
-                            }
-
-                        }
-
-
-                        if (
-                            dateFilter ===
-                            "past"
-                        ) {
-
-                            if (
-                                eventDate >=
-                                today
-                            ) {
-
-                                return false;
-
-                            }
-
-                        }
-
-                    }
-
-
-                    return true;
-
-                }
-            );
-
-
-        renderBookings();
-
+   
+
+function applyFilters() {
+    const search = document.getElementById("searchInput")
+        .value.trim().toLowerCase();
+
+    const status = document.getElementById("statusFilter")
+        .value.trim().toLowerCase();
+
+    const eventType = document.getElementById("eventFilter")
+        .value.trim().toLowerCase();
+
+    const dateFilter = document.getElementById("dateFilter").value;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Normalize status values:
+    // payment_pending -> payment pending
+    // Payment Pending -> payment pending
+    // payment-pending -> payment pending
+    function normalize(value) {
+        return String(value || "")
+            .trim()
+            .toLowerCase()
+            .replace(/[_-]+/g, " ")
+            .replace(/\s+/g, " ");
     }
+
+    function normalizeStatus(value) {
+        const normalized = normalize(value);
+
+        const aliases = {
+            "reject": "rejected",
+            "accept": "accepted",
+            "complete": "completed"
+        };
+
+        return aliases[normalized] || normalized;
+    }
+
+    function normalizeEvent(value) {
+        const event = normalize(value);
+
+        const aliases = {
+            "corporate": "corporate event",
+            "house warming": "housewarming"
+        };
+
+        return aliases[event] || event;
+    }
+
+    filteredBookings = allBookings.filter(booking => {
+
+        // SEARCH FILTER
+        const searchText = [
+            booking.request_id,
+            booking.customer_name,
+            booking.email,
+            booking.phone,
+            booking.caterer_name,
+            booking.caterer_email,
+            booking.event_type
+        ]
+            .map(value => String(value || "").toLowerCase())
+            .join(" ");
+
+        if (search && !searchText.includes(search)) {
+            return false;
+        }
+
+        // STATUS FILTER
+        if (status) {
+            const selectedStatus = normalizeStatus(status);
+            const actualStatus = normalizeStatus(booking.status);
+
+            if (actualStatus !== selectedStatus) {
+                return false;
+            }
+        }
+
+        // EVENT TYPE FILTER
+        if (
+            eventType &&
+            normalizeEvent(booking.event_type) !==
+            normalizeEvent(eventType)
+        ) {
+            return false;
+        }
+
+        // DATE FILTER
+        if (dateFilter) {
+            const eventDate = new Date(booking.event_date);
+
+            if (isNaN(eventDate.getTime())) {
+                return false;
+            }
+
+            eventDate.setHours(0, 0, 0, 0);
+
+            if (
+                dateFilter === "today" &&
+                eventDate.getTime() !== today.getTime()
+            ) {
+                return false;
+            }
+
+            if (dateFilter === "upcoming" && eventDate < today) {
+                return false;
+            }
+
+            if (dateFilter === "past" && eventDate >= today) {
+                return false;
+            }
+        }
+
+        return true;
+    });
+
+    renderBookings();
+}
 
 
 

@@ -485,6 +485,8 @@ async function getCatererEvents(req, res) {
    UPDATE REQUEST STATUS
 ========================================================= */
 async function updateRequestStatus(req, res) {
+    const connection = await db.getConnection();
+
     try {
         const { id } = req.params;
         const { status, catererId } = req.body;
@@ -501,7 +503,10 @@ async function updateRequestStatus(req, res) {
             });
         }
 
-        const [requests] = await db.query(
+        await connection.beginTransaction();
+
+        // Get and lock the booking.
+        const [requests] = await connection.query(
             `SELECT
                 request_id,
                 enquiry_id,
@@ -513,11 +518,14 @@ async function updateRequestStatus(req, res) {
                 budget,
                 status
              FROM event_request
-             WHERE request_id = ?`,
+             WHERE request_id = ?
+             FOR UPDATE`,
             [id]
         );
 
         if (requests.length === 0) {
+            await connection.rollback();
+
             return res.status(404).json({
                 message: "Event request not found."
             });
@@ -527,7 +535,7 @@ async function updateRequestStatus(req, res) {
 
         // Verify caterer ownership when catererId is provided.
         if (catererId) {
-            const [caterers] = await db.query(
+            const [caterers] = await connection.query(
                 `SELECT caterer_id, email
                  FROM caterers
                  WHERE caterer_id = ?`,
@@ -535,6 +543,8 @@ async function updateRequestStatus(req, res) {
             );
 
             if (caterers.length === 0) {
+                await connection.rollback();
+
                 return res.status(404).json({
                     message: "Caterer not found."
                 });
@@ -546,22 +556,37 @@ async function updateRequestStatus(req, res) {
                 !caterer.email ||
                 !request.caterer_email ||
                 caterer.email.trim().toLowerCase() !==
-                request.caterer_email.trim().toLowerCase()
+                    request.caterer_email.trim().toLowerCase()
             ) {
+                await connection.rollback();
+
                 return res.status(403).json({
-                    message:
-                        "This request does not belong to this caterer."
+                    message: "This request does not belong to this caterer."
                 });
             }
         }
 
+        // Only new pending bookings can be accepted or rejected.
+        if (request.status !== "pending") {
+            await connection.rollback();
+
+            return res.status(400).json({
+                message:
+                    `This booking is already ${request.status} and cannot be accepted or rejected again.`,
+                currentStatus: request.status
+            });
+        }
+
+        // Reject the booking.
         if (status === "rejected") {
-            await db.query(
+            await connection.query(
                 `UPDATE event_request
                  SET status = 'rejected'
                  WHERE request_id = ?`,
                 [id]
             );
+
+            await connection.commit();
 
             return res.status(200).json({
                 message: "Event request rejected successfully.",
@@ -571,75 +596,91 @@ async function updateRequestStatus(req, res) {
             });
         }
 
-        // Accept the request and move it to payment pending.
-        await db.query(
+        // Before acceptance, check for any existing payment.
+        const [payments] = await connection.query(
+            `SELECT payment_id, payment_status
+             FROM event_payments
+             WHERE request_id = ?
+             ORDER BY payment_id DESC
+             LIMIT 1
+             FOR UPDATE`,
+            [request.request_id]
+        );
+
+        // A previous paid or refunded payment must not be reused.
+        if (
+            payments.length > 0 &&
+            ["paid", "refunded"].includes(payments[0].payment_status)
+        ) {
+            await connection.rollback();
+
+            return res.status(409).json({
+                message:
+                    "This booking has an existing paid or refunded payment and needs review.",
+                paymentStatus: payments[0].payment_status
+            });
+        }
+
+        // Accept the booking and move it to payment_pending.
+        await connection.query(
             `UPDATE event_request
              SET status = 'payment_pending'
              WHERE request_id = ?`,
             [id]
         );
 
-        // Create a pending payment record if one does not exist.
-        try {
-            const [payments] = await db.query(
-                `SELECT request_id
-                 FROM event_payments
-                 WHERE request_id = ?
-                 LIMIT 1`,
-                [request.request_id]
+        // Create a payment record if one does not already exist.
+        if (payments.length === 0) {
+            await connection.query(
+                `INSERT INTO event_payments
+                (
+                    request_id,
+                    customer_id,
+                    amount,
+                    payment_status
+                )
+                VALUES (?, ?, ?, 'pending')`,
+                [
+                    request.request_id,
+                    request.customer_id,
+                    request.budget || 0
+                ]
             );
-
-            if (payments.length === 0) {
-                await db.query(
-                    `INSERT INTO event_payments
-                    (
-                        request_id,
-                        customer_id,
-                        amount,
-                        payment_status
-                    )
-                    VALUES (?, ?, ?, 'pending')`,
-                    [
-                        request.request_id,
-                        request.customer_id,
-                        request.budget || 0
-                    ]
+        } else {
+            // Allow a failed payment to be retried.
+            if (payments[0].payment_status === "failed") {
+                await connection.query(
+                    `UPDATE event_payments
+                     SET payment_status = 'pending',
+                         failed_at = NULL
+                     WHERE payment_id = ?`,
+                    [payments[0].payment_id]
                 );
             }
-        } catch (paymentError) {
-            console.error(
-                "Payment record could not be created:",
-                paymentError.message
+        }
+
+        // Create tracking if no record exists.
+        const [tracking] = await connection.query(
+            `SELECT tracking_id
+             FROM event_tracking
+             WHERE request_id = ?
+             LIMIT 1`,
+            [request.request_id]
+        );
+
+        if (tracking.length === 0) {
+            await connection.query(
+                `INSERT INTO event_tracking
+                (
+                    request_id,
+                    tracking_status
+                )
+                VALUES (?, 'accepted')`,
+                [request.request_id]
             );
         }
 
-        // Add tracking only if no tracking record exists.
-        try {
-            const [tracking] = await db.query(
-                `SELECT request_id
-                 FROM event_tracking
-                 WHERE request_id = ?
-                 LIMIT 1`,
-                [request.request_id]
-            );
-
-            if (tracking.length === 0) {
-                await db.query(
-                    `INSERT INTO event_tracking
-                    (
-                        request_id,
-                        tracking_status
-                    )
-                    VALUES (?, 'accepted')`,
-                    [request.request_id]
-                );
-            }
-        } catch (trackingError) {
-            console.error(
-                "Tracking record could not be created:",
-                trackingError.message
-            );
-        }
+        await connection.commit();
 
         return res.status(200).json({
             message: "Event request accepted successfully.",
@@ -649,15 +690,22 @@ async function updateRequestStatus(req, res) {
         });
 
     } catch (error) {
+        try {
+            await connection.rollback();
+        } catch (rollbackError) {
+            console.error("Rollback error:", rollbackError);
+        }
+
         console.error("Update request status error:", error);
 
         return res.status(500).json({
-            message: "Could not update request status.",
-            error: error.message
+            message: "Could not update request status."
         });
+
+    } finally {
+        connection.release();
     }
 }
-
 /* =========================================================
    EXPORT FUNCTIONS
 ========================================================= */

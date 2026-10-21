@@ -1609,106 +1609,162 @@
        NORMALIZE PAYMENT DATA
     ===================================================== */
 
-    function normalizePayment(payment) {
+   
+function normalizePayment(payment) {
 
-        return {
+    return {
 
-            paymentId:
-                payment.payment_id ??
-                payment.paymentId ??
-                payment.id ??
-                payment.id_payment ??
-                "-",
+        paymentId:
+            payment.payment_id ??
+            payment.paymentId ??
+            payment.id ??
+            payment.id_payment ??
+            "-",
 
-            bookingId:
-                payment.request_id ??
-                payment.requestId ??
-                payment.booking_id ??
-                payment.bookingId ??
-                "-",
+        bookingId:
+            payment.request_id ??
+            payment.requestId ??
+            payment.booking_id ??
+            payment.bookingId ??
+            "-",
 
-            customerName:
-                payment.customer_name ??
-                payment.customerName ??
-                payment.full_name ??
-                payment.name ??
-                "-",
+        customerName:
+            payment.customer_name ??
+            payment.customerName ??
+            payment.full_name ??
+            payment.name ??
+            "-",
 
-            customerEmail:
-                payment.customer_email ??
-                payment.customerEmail ??
-                payment.email ??
-                "-",
+        customerEmail:
+            payment.customer_email ??
+            payment.customerEmail ??
+            payment.email ??
+            "-",
 
-            customerPhone:
-                payment.customer_phone ??
-                payment.customerPhone ??
-                payment.phone ??
-                "-",
+        customerPhone:
+            payment.customer_phone ??
+            payment.customerPhone ??
+            payment.phone ??
+            "-",
 
-            catererName:
-                payment.brand_name ??
-                payment.caterer_name ??
-                payment.catererName ??
-                payment.caterer_email ??
-                "-",
+        catererName:
+            payment.caterer_name ??
+            payment.brand_name ??
+            payment.catererName ??
+            payment.caterer_email ??
+            "-",
 
-            catererEmail:
-                payment.caterer_email ??
-                payment.catererEmail ??
-                "-",
+        catererEmail:
+            payment.caterer_email ??
+            payment.catererEmail ??
+            "-",
 
-            amount:
-                Number(
-                    payment.amount ??
-                    payment.payment_amount ??
-                    payment.total_amount ??
-                    0
-                ),
+        amount:
+            Number(
+                payment.amount ??
+                payment.payment_amount ??
+                payment.total_amount ??
+                0
+            ),
 
-            method:
-                payment.payment_method ??
-                payment.paymentMethod ??
-                payment.method ??
-                "-",
+        method:
+            payment.payment_method ??
+            payment.paymentMethod ??
+            payment.method ??
+            "-",
 
-            transactionId:
-                payment.transaction_id ??
-                payment.transactionId ??
-                "-",
+        transactionId:
+            payment.transaction_id ??
+            payment.transactionId ??
+            "-",
 
-            status:
-                String(
-                    payment.status ??
-                    payment.payment_status ??
-                    "pending"
-                ).toLowerCase(),
+        status:
+            String(
+                payment.payment_status ??
+                payment.status ??
+                "pending"
+            ).toLowerCase(),
 
-            paymentDate:
-                payment.payment_date ??
-                payment.paid_at ??
-                payment.created_at ??
-                payment.createdAt ??
-                null,
+        // Payment dates
+        createdAt:
+            payment.created_at ??
+            payment.createdAt ??
+            null,
 
-            eventType:
-                payment.event_type ??
-                payment.eventType ??
-                "-",
+        paymentDate:
+            payment.paid_at ??
+            payment.payment_date ??
+            payment.paidAt ??
+            null,
 
-            eventDate:
-                payment.event_date ??
-                payment.eventDate ??
-                null,
+        processingAt:
+            payment.processing_at ??
+            payment.processingAt ??
+            null,
 
-            packageName:
-                payment.package_name ??
-                payment.packageName ??
-                "-"
+        failedAt:
+            payment.failed_at ??
+            payment.failedAt ??
+            null,
 
-        };
+        // Refund information
+        refundStatus:
+            String(
+                payment.refund_status ??
+                payment.refundStatus ??
+                "not_requested"
+            ).toLowerCase(),
 
-    }
+        refundRequestedAt:
+            payment.refund_requested_at ??
+            payment.refundRequestedAt ??
+            null,
+
+        refundedAt:
+            payment.refunded_at ??
+            payment.refundedAt ??
+            null,
+
+        refundAmount:
+            payment.refund_amount ??
+            payment.refundAmount ??
+            null,
+
+        // Booking information
+        eventType:
+            payment.event_type ??
+            payment.eventType ??
+            "-",
+
+        eventDate:
+            payment.event_date ??
+            payment.eventDate ??
+            null,
+
+        eventTime:
+            payment.event_time ??
+            payment.eventTime ??
+            "-",
+
+        venueLocation:
+            payment.venue_location ??
+            payment.venueLocation ??
+            "-",
+
+        guestCount:
+            payment.guest_count ??
+            payment.guestCount ??
+            null,
+
+        packageName:
+            payment.package_name ??
+            payment.packageName ??
+            "-"
+
+    };
+
+}
+
 
 
 
@@ -2364,249 +2420,204 @@
        PAYMENT MODAL
     ===================================================== */
 
-    function openPaymentModal(payment) {
+  
+function openPaymentModal(payment) {
 
-        const modal =
-            document.getElementById(
-                "paymentModal"
-            );
+    const modal = document.getElementById("paymentModal");
+    const body = document.getElementById("paymentModalBody");
 
+    // Display a readable value when a field is empty.
+    const showValue = (value) => {
+        return value !== null && value !== undefined && value !== ""
+            ? escapeHtml(value)
+            : "Not available";
+    };
 
-        const body =
-            document.getElementById(
-                "paymentModalBody"
-            );
+    // Display a date only when one exists.
+    const showDate = (value) => {
+        return value ? formatDate(value) : "Not available";
+    };
 
+    body.innerHTML = `
 
-        body.innerHTML = `
+        <h3 class="section-heading">
+            Payment Information
+        </h3>
 
-            <h3 class="section-heading">
-                Payment Information
-            </h3>
+        <div class="detail-grid">
 
-
-            <div class="detail-grid">
-
-                <div class="detail-box">
-                    <div class="detail-label">
-                        Payment ID
-                    </div>
-
-                    <div class="detail-value">
-                        ${escapeHtml(payment.paymentId)}
-                    </div>
-                </div>
-
-
-                <div class="detail-box">
-                    <div class="detail-label">
-                        Transaction ID
-                    </div>
-
-                    <div class="detail-value">
-                        ${escapeHtml(payment.transactionId)}
-                    </div>
-                </div>
-
-
-                <div class="detail-box">
-                    <div class="detail-label">
-                        Amount
-                    </div>
-
-                    <div class="detail-value">
-                        ${formatCurrency(payment.amount)}
-                    </div>
-                </div>
-
-
-                <div class="detail-box">
-                    <div class="detail-label">
-                        Payment Method
-                    </div>
-
-                    <div class="detail-value">
-                        ${escapeHtml(payment.method)}
-                    </div>
-                </div>
-
-
-                <div class="detail-box">
-                    <div class="detail-label">
-                        Payment Date
-                    </div>
-
-                    <div class="detail-value">
-                        ${formatDate(payment.paymentDate)}
-                    </div>
-                </div>
-
-
-                <div class="detail-box">
-                    <div class="detail-label">
-                        Payment Status
-                    </div>
-
-                    <div class="detail-value">
-                        ${escapeHtml(
-                            formatStatus(payment.status)
-                        )}
-                    </div>
-                </div>
-
+            <div class="detail-box">
+                <div class="detail-label">Payment ID</div>
+                <div class="detail-value">${showValue(payment.paymentId)}</div>
             </div>
 
-
-            <h3 class="section-heading">
-                Customer Details
-            </h3>
-
-
-            <div class="detail-grid">
-
-                <div class="detail-box">
-
-                    <div class="detail-label">
-                        Customer Name
-                    </div>
-
-                    <div class="detail-value">
-                        ${escapeHtml(payment.customerName)}
-                    </div>
-
-                </div>
-
-
-                <div class="detail-box">
-
-                    <div class="detail-label">
-                        Email
-                    </div>
-
-                    <div class="detail-value">
-                        ${escapeHtml(payment.customerEmail)}
-                    </div>
-
-                </div>
-
-
-                <div class="detail-box">
-
-                    <div class="detail-label">
-                        Phone
-                    </div>
-
-                    <div class="detail-value">
-                        ${escapeHtml(payment.customerPhone)}
-                    </div>
-
-                </div>
-
+            <div class="detail-box">
+                <div class="detail-label">Request / Booking ID</div>
+                <div class="detail-value">${showValue(payment.bookingId)}</div>
             </div>
 
-
-            <h3 class="section-heading">
-                Caterer Details
-            </h3>
-
-
-            <div class="detail-grid">
-
-                <div class="detail-box">
-
-                    <div class="detail-label">
-                        Caterer / Brand
-                    </div>
-
-                    <div class="detail-value">
-                        ${escapeHtml(payment.catererName)}
-                    </div>
-
-                </div>
-
-
-                <div class="detail-box">
-
-                    <div class="detail-label">
-                        Caterer Email
-                    </div>
-
-                    <div class="detail-value">
-                        ${escapeHtml(payment.catererEmail)}
-                    </div>
-
-                </div>
-
+            <div class="detail-box">
+                <div class="detail-label">Transaction ID</div>
+                <div class="detail-value">${showValue(payment.transactionId)}</div>
             </div>
 
-
-            <h3 class="section-heading">
-                Booking Details
-            </h3>
-
-
-            <div class="detail-grid">
-
-                <div class="detail-box">
-
-                    <div class="detail-label">
-                        Request / Booking ID
-                    </div>
-
-                    <div class="detail-value">
-                        ${escapeHtml(payment.bookingId)}
-                    </div>
-
-                </div>
-
-
-                <div class="detail-box">
-
-                    <div class="detail-label">
-                        Event Type
-                    </div>
-
-                    <div class="detail-value">
-                        ${escapeHtml(payment.eventType)}
-                    </div>
-
-                </div>
-
-
-                <div class="detail-box">
-
-                    <div class="detail-label">
-                        Event Date
-                    </div>
-
-                    <div class="detail-value">
-                        ${formatDate(payment.eventDate)}
-                    </div>
-
-                </div>
-
-
-                <div class="detail-box">
-
-                    <div class="detail-label">
-                        Package
-                    </div>
-
-                    <div class="detail-value">
-                        ${escapeHtml(payment.packageName)}
-                    </div>
-
-                </div>
-
+            <div class="detail-box">
+                <div class="detail-label">Amount</div>
+                <div class="detail-value">${formatCurrency(payment.amount)}</div>
             </div>
 
-        `;
+            <div class="detail-box">
+                <div class="detail-label">Payment Method</div>
+                <div class="detail-value">${showValue(payment.method)}</div>
+            </div>
 
+            <div class="detail-box">
+                <div class="detail-label">Payment Status</div>
+                <div class="detail-value">
+                    ${showValue(formatStatus(payment.status))}
+                </div>
+            </div>
 
-        modal.classList.add("show");
+            <div class="detail-box">
+                <div class="detail-label">Created Date</div>
+                <div class="detail-value">${showDate(payment.createdAt)}</div>
+            </div>
 
-    }
+            <div class="detail-box">
+                <div class="detail-label">Payment Completed Date</div>
+                <div class="detail-value">${showDate(payment.paymentDate)}</div>
+            </div>
 
+            <div class="detail-box">
+                <div class="detail-label">Processing Date</div>
+                <div class="detail-value">${showDate(payment.processingAt)}</div>
+            </div>
+
+            <div class="detail-box">
+                <div class="detail-label">Payment Failed Date</div>
+                <div class="detail-value">${showDate(payment.failedAt)}</div>
+            </div>
+
+        </div>
+
+        <h3 class="section-heading">
+            Refund Details
+        </h3>
+
+        <div class="detail-grid">
+
+            <div class="detail-box">
+                <div class="detail-label">Refund Status</div>
+                <div class="detail-value">
+                    ${showValue(formatStatus(payment.refundStatus))}
+                </div>
+            </div>
+
+            <div class="detail-box">
+                <div class="detail-label">Refund Requested Date</div>
+                <div class="detail-value">${showDate(payment.refundRequestedAt)}</div>
+            </div>
+
+            <div class="detail-box">
+                <div class="detail-label">Refund Completed Date</div>
+                <div class="detail-value">${showDate(payment.refundedAt)}</div>
+            </div>
+
+            <div class="detail-box">
+                <div class="detail-label">Refund Amount</div>
+                <div class="detail-value">
+                    ${payment.refundAmount !== null &&
+                      payment.refundAmount !== undefined
+                        ? formatCurrency(payment.refundAmount)
+                        : "Not available"}
+                </div>
+            </div>
+
+        </div>
+
+        <h3 class="section-heading">
+            Customer Details
+        </h3>
+
+        <div class="detail-grid">
+
+            <div class="detail-box">
+                <div class="detail-label">Customer Name</div>
+                <div class="detail-value">${showValue(payment.customerName)}</div>
+            </div>
+
+            <div class="detail-box">
+                <div class="detail-label">Email</div>
+                <div class="detail-value">${showValue(payment.customerEmail)}</div>
+            </div>
+
+            <div class="detail-box">
+                <div class="detail-label">Phone</div>
+                <div class="detail-value">${showValue(payment.customerPhone)}</div>
+            </div>
+
+        </div>
+
+        <h3 class="section-heading">
+            Caterer Details
+        </h3>
+
+        <div class="detail-grid">
+
+            <div class="detail-box">
+                <div class="detail-label">Caterer / Brand</div>
+                <div class="detail-value">${showValue(payment.catererName)}</div>
+            </div>
+
+            <div class="detail-box">
+                <div class="detail-label">Caterer Email</div>
+                <div class="detail-value">${showValue(payment.catererEmail)}</div>
+            </div>
+
+        </div>
+
+        <h3 class="section-heading">
+            Booking Details
+        </h3>
+
+        <div class="detail-grid">
+
+            <div class="detail-box">
+                <div class="detail-label">Event Type</div>
+                <div class="detail-value">${showValue(payment.eventType)}</div>
+            </div>
+
+            <div class="detail-box">
+                <div class="detail-label">Event Date</div>
+                <div class="detail-value">${showDate(payment.eventDate)}</div>
+            </div>
+
+            <div class="detail-box">
+                <div class="detail-label">Event Time</div>
+                <div class="detail-value">${showValue(payment.eventTime)}</div>
+            </div>
+
+            <div class="detail-box">
+                <div class="detail-label">Venue</div>
+                <div class="detail-value">${showValue(payment.venueLocation)}</div>
+            </div>
+
+            <div class="detail-box">
+                <div class="detail-label">Guest Count</div>
+                <div class="detail-value">${showValue(payment.guestCount)}</div>
+            </div>
+
+            <div class="detail-box">
+                <div class="detail-label">Package</div>
+                <div class="detail-value">${showValue(payment.packageName)}</div>
+            </div>
+
+        </div>
+
+    `;
+
+    modal.classList.add("show");
+}
 
 
     /* =====================================================
