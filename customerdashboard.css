@@ -1342,3 +1342,88 @@ button.quick-action-card {
     }
 
 }
+
+/* =====================================================
+   ML RECOMMENDED CATERERS
+===================================================== */
+
+.recommendations-section {
+    margin-top: 28px;
+}
+
+.recommendations-message {
+    color: #6b625d;
+    font-size: 14px;
+    padding: 14px 0;
+}
+
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.recommendation-card {
+    background: #fff;
+    border: 1px solid rgba(139, 30, 63, 0.12);
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: 0 6px 22px rgba(28, 28, 28, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+}
+
+.recommendation-number {
+    color: #8B1E3F;
+    background: #F5E9DA;
+    border-radius: 9px;
+    padding: 7px 11px;
+    font-size: 12px;
+    font-weight: 700;
+    align-self: flex-start;
+}
+
+.recommendation-card h3 {
+    color: #1C1C1C;
+    font-family: "Fraunces", serif;
+    font-size: 20px;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.recommendation-description {
+    color: #6b625d;
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.recommendation-button {
+    margin-top: auto;
+    border: none;
+    border-radius: 9px;
+    padding: 12px 15px;
+    background: #8B1E3F;
+    color: #fff;
+    font-family: "Work Sans", sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.recommendation-button:hover {
+    background: #6f1832;
+}
+
+@media (max-width: 800px) {
+    .recommendations-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 520px) {
+    .recommendations-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -449,6 +449,117 @@ document.addEventListener("DOMContentLoaded", () => {
         notificationBadge.textContent = "3";
     }
 
+     
+    /* =====================================================
+       ML-BASED CATERER RECOMMENDATIONS
+    ====================================================== */
+
+    async function loadRecommendedCaterers() {
+
+        const messageElement =
+            document.getElementById("recommendationsMessage");
+
+        const recommendationsList =
+            document.getElementById("recommendationsList");
+
+        if (!messageElement || !recommendationsList) {
+            return;
+        }
+
+        // Recommendations require the logged-in customer's token.
+        if (!token) {
+            messageElement.textContent =
+                "Please log in to view your personalized recommendations.";
+            return;
+        }
+
+        messageElement.textContent =
+            "Finding the best caterers for you...";
+
+        recommendationsList.replaceChildren();
+
+        try {
+
+        const response = await fetch(
+            "http://localhost:5000/api/recommendations",
+            {
+                method: "GET",
+                headers: {
+                "Authorization": `Bearer ${token}`
+        }
+    }
+);
+
+
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    data.error ||
+                    data.message ||
+                    "Unable to load recommendations."
+                );
+            }
+
+            const recommendations = data.recommendations || [];
+
+            if (recommendations.length === 0) {
+                messageElement.textContent =
+                    "No recommendations are available right now. Please try again later.";
+                return;
+            }
+
+            recommendationsList.replaceChildren();
+
+            recommendations.forEach((caterer, index) => {
+
+                const card = document.createElement("article");
+                card.className = "recommendation-card";
+
+                const rank = document.createElement("span");
+                rank.className = "recommendation-number";
+                rank.textContent = `Recommended ${index + 1}`;
+
+                const heading = document.createElement("h3");
+                heading.textContent =
+                    caterer.brand_name || "Approved Caterer";
+
+                const description = document.createElement("p");
+                description.className = "recommendation-description";
+                description.textContent =
+                    "Discover this catering service for your next special event.";
+
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = "recommendation-button";
+                button.textContent = "Explore Caterers →";
+
+                button.addEventListener("click", () => {
+                    window.location.href = "customercaterers.html";
+                });
+
+                card.append(rank, heading, description, button);
+                recommendationsList.appendChild(card);
+
+            });
+
+            
+        } catch (error) {
+
+            console.error(
+                "Error loading caterer recommendations:",
+                error
+            );
+
+            messageElement.textContent =
+                "We couldn't load recommendations right now. Please check that the backend is running and try refreshing.";
+
+        }
+    }
+
+    // Load recommendations automatically when the dashboard opens.
+    loadRecommendedCaterers();
 
 
     /* =====================================================

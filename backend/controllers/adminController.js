@@ -1,6 +1,8 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const db = require("../config/db");
+const { execFile } = require("child_process");
+const path = require("path");
 
 // =====================================================
 // ADMIN LOGIN
@@ -1113,6 +1115,101 @@ async function getReviewDetails(req, res) {
     }
 }
 
+/* =====================================================
+   SENTIMENT ANALYSIS
+   Text-based lexicon sentiment scoring
+===================================================== */
+
+
+async function getSentimentAnalysis(req, res) {
+    const projectRoot = path.resolve(__dirname, "..", "..");
+
+    const scriptPath = path.join(
+        projectRoot,
+        "ml",
+        "sentiment_analysis.py"
+    );
+
+    execFile(
+        "python",
+        [scriptPath],
+        {
+            cwd: projectRoot,
+            windowsHide: true,
+            maxBuffer: 10 * 1024 * 1024
+        },
+        (error, stdout, stderr) => {
+            if (error) {
+                console.error(
+                    "Python sentiment analysis error:",
+                    stderr || error.message
+                );
+
+                return res.status(500).json({
+                    message:
+                        "Could not run Python sentiment analysis. Check Python and database configuration."
+                });
+            }
+
+            try {
+                const result = JSON.parse(stdout);
+
+                const counts = result.sentiment_counts || {};
+                const percentages =
+                    result.sentiment_percentages || {};
+
+                const reviews = (result.reviews || []).map(
+                    review => ({
+                        ...review,
+                        rating: Number(review.rating || 0),
+                        sentimentScore: Number(review.score || 0)
+                    })
+                );
+
+                return res.status(200).json({
+                    method: result.method,
+
+                    summary: {
+                        totalReviews:
+                            Number(result.total_reviews_analyzed || 0),
+
+                        totalReviewsInDatabase:
+                            Number(result.total_reviews_in_database || 0),
+
+                        emptyReviewsSkipped:
+                            Number(result.empty_reviews_skipped || 0),
+
+                        positive: Number(counts.Positive || 0),
+                        neutral: Number(counts.Neutral || 0),
+                        negative: Number(counts.Negative || 0),
+
+                        positivePercentage:
+                            Number(percentages.Positive || 0),
+
+                        neutralPercentage:
+                            Number(percentages.Neutral || 0),
+
+                        negativePercentage:
+                            Number(percentages.Negative || 0)
+                    },
+
+                    reviews
+                });
+            } catch (parseError) {
+                console.error(
+                    "Could not parse sentiment JSON:",
+                    parseError.message
+                );
+
+                return res.status(500).json({
+                    message: "Python returned invalid sentiment data."
+                });
+            }
+        }
+    );
+}
+
+
 // =====================================================
 // REPORTS & ANALYTICS
 // =====================================================
@@ -1840,35 +1937,27 @@ async function updateBookingStatus(req, res) {
 }
 
 
- // =====================================================
- // EXPORTS
- // =====================================================
-
-module.exports = {
+ module.exports = {
     login,
     changeAdminPassword,
 
-    // CATERERS
     listCaterers,
     updateCatererStatus,
 
-    // CUSTOMERS
     getCustomerSummary,
     listCustomers,
     getCustomerDetails,
     updateCustomerStatus,
 
-    // PAYMENTS
     getPaymentSummary,
     listPayments,
     getPaymentDetails,
 
-    // REVIEWS
     getReviewSummary,
     listReviews,
     getReviewDetails,
+    getSentimentAnalysis,
 
-    // REPORTS
     getReportsOverview,
     getBookingReport,
     getRevenueReport,
@@ -1876,8 +1965,5 @@ module.exports = {
     getCatererReport,
     getEventTypeReport,
     getReviewReport,
-    getCatererPerformance,
-
-    // BOOKINGS
-    updateBookingStatus
+    getCatererPerformance
 };

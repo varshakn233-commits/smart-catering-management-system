@@ -1,3 +1,15 @@
 node_modules/
 backend/node_modules/
 backend/.env
+
+# Project documents excluded from GitHub
+/INDEX.docx
+/Project_Synopsis.pdf
+/project report.docx
+/project report2.docx
+
+# Project documents excluded from GitHub
+/INDEX.docx
+/Project_Synopsis.pdf
+/project report.docx
+/project report2.docx

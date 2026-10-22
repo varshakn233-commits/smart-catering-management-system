@@ -22,6 +22,8 @@ const trackingRoutes = require("./routes/trackingRoutes");
 const enquiryRoutes = require("./routes/enquiryRoutes");
 const complaintRoutes = require("./routes/complaintRoutes");
 const contactMessageRoutes = require("./routes/contactMessageRoutes");
+const recommendationRoutes =
+    require("./routes/recommendationRoutes");
 
 const adminCatererMessageRoutes =
     require("./routes/adminCatererMessageRoutes");
@@ -41,147 +43,31 @@ app.use(express.json());
 // =====================================================
 // SERVE FRONTEND FILES
 // =====================================================
-
-// Project root folder
-// server.js is inside:
-// project/backend/
-//
-// So ".." points to:
-// project/
-
 app.use(
     express.static(
         path.join(__dirname, "..")
     )
 );
-
-
 // =====================================================
 // API ROUTES
 // =====================================================
 
-app.use(
-    "/api/customer",
-    customerAuthRoutes
-);
-
-
-app.use(
-    "/api/caterer",
-    catererAuthRoutes
-);
-
-
-app.use(
-    "/api/admin",
-    adminRoutes
-);
-
-
-app.use(
-    "/api/forgot-password",
-    forgotPasswordRoutes
-);
-
-
-app.use(
-    "/api/requests",
-    eventRequestRoutes
-);
-
-
-app.use(
-    "/api/customer/saved-caterers",
-    savedCatererRoutes
-);
-
-
-app.use(
-    "/api/customer/caterers",
-    customerCatererRoutes
-);
-
-
-// =====================================================
-// CUSTOMER REVIEWS
-// =====================================================
-//
-// Existing customer review API remains unchanged.
-//
-// Customer page can use:
-//
-// GET
-// /api/customer/reviews/:customerId
-//
-// POST
-// /api/customer/reviews
-//
-// DELETE
-// /api/customer/reviews/:id
-//
-// =====================================================
-
-app.use(
-    "/api/customer/reviews",
-    reviewRoutes
-);
-
-
-// =====================================================
-// CATERER REVIEWS
-// =====================================================
-//
-// Caterer page uses:
-//
-// GET
-// /api/caterer/reviews/:catererId
-//
-// This uses the SAME reviewRoutes controller,
-// but provides the caterer-specific URL.
-//
-// It does NOT use adminreviews.html.
-// It does NOT use /api/admin/reviews.
-//
-// =====================================================
-
-app.use(
-    "/api/caterer/reviews",
-    reviewRoutes
-);
-
-
-app.use(
-    "/api/payment",
-    paymentRoutes
-);
-
-
-app.use(
-    "/api/tracking",
-    trackingRoutes
-);
-
-
-app.use(
-    "/api/enquiries",
-    enquiryRoutes
-);
-
+app.use("/api/customer",customerAuthRoutes);
+app.use("/api/caterer",catererAuthRoutes);
+app.use("/api/admin",adminRoutes);
+app.use("/api/forgot-password",forgotPasswordRoutes);
+app.use("/api/requests",eventRequestRoutes);
+app.use("/api/customer/saved-caterers",savedCatererRoutes);
+app.use("/api/customer/caterers",customerCatererRoutes);
+app.use("/api/customer/reviews",reviewRoutes);
+app.use("/api/caterer/reviews",reviewRoutes);
+app.use("/api/payment",paymentRoutes);
+app.use("/api/tracking",trackingRoutes);
+app.use("/api/enquiries",enquiryRoutes);
 app.use("/api/contact-messages", contactMessageRoutes);
-
-
-app.use(
-    "/api/complaints",
-    complaintRoutes
-);
-
-
-app.use(
-    "/api/admin-caterer-messages",
-    adminCatererMessageRoutes
-);
-
-
+app.use("/api/recommendations",recommendationRoutes);
+app.use("/api/complaints",complaintRoutes);
+app.use("/api/admin-caterer-messages",adminCatererMessageRoutes);
 // =====================================================
 // TEST ROUTE
 // =====================================================

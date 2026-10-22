@@ -2,31 +2,25 @@ const express = require("express");
 
 const router = express.Router();
 
+
+const adminController = require("../controllers/adminController");
+
 const {
     login,
     changeAdminPassword,
-
-    // CATERERS
     listCaterers,
     updateCatererStatus,
-
-    // CUSTOMERS
     getCustomerSummary,
     listCustomers,
     getCustomerDetails,
     updateCustomerStatus,
-
-    // PAYMENTS
     getPaymentSummary,
     listPayments,
     getPaymentDetails,
-
-    // REVIEWS
     getReviewSummary,
     listReviews,
     getReviewDetails,
-
-    // REPORTS
+    getSentimentAnalysis,
     getReportsOverview,
     getBookingReport,
     getRevenueReport,
@@ -35,8 +29,8 @@ const {
     getEventTypeReport,
     getReviewReport,
     getCatererPerformance
+} = adminController;
 
-} = require("../controllers/adminController");
 
 
 const verifyAdminToken =
@@ -154,7 +148,11 @@ router.get(
     verifyAdminToken,
     getReviewDetails
 );
-
+router.get(
+    "/sentiment",
+    verifyAdminToken,
+    getSentimentAnalysis
+);
 
 // =====================================================
 // REPORTS & ANALYTICS
