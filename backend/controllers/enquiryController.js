@@ -47,6 +47,23 @@ async function createEnquiry(req, res) {
                 message: "Please fill all required enquiry fields."
             });
         }
+         // Verify that the caterer exists in the database
+const [caterers] = await db.query(
+    `SELECT caterer_id, brand_name, email
+     FROM caterers
+     WHERE caterer_id = ?
+     LIMIT 1`,
+    [catererId]
+);
+
+if (caterers.length === 0) {
+    return res.status(404).json({
+        success: false,
+        message: "Registered caterer not found."
+    });
+}
+
+const registeredCaterer = caterers[0];
 
         const [result] = await db.query(
             `INSERT INTO customer_enquiries
@@ -78,9 +95,9 @@ async function createEnquiry(req, res) {
                 customerPhone,
                 customerEmail,
 
-                catererId || null,
-                catererName,
-                catererEmail,
+                registeredCaterer.caterer_id,
+                registeredCaterer.brand_name,
+                registeredCaterer.email,
 
                 eventType,
                 eventDate,
@@ -174,17 +191,18 @@ async function getCustomerEnquiries(req, res) {
     }
 }
 
-
 /* =====================================================
    CATERER - GET CUSTOMER ENQUIRIES
 ===================================================== */
 
 async function getCatererEnquiries(req, res) {
     try {
-        const catererEmail =
+        const catererEmail = String(
             req.query.catererEmail ||
             req.query.email ||
-            req.params.catererEmail;
+            req.params.catererEmail ||
+            ""
+        ).trim();
 
         if (!catererEmail) {
             return res.status(400).json({
@@ -193,6 +211,25 @@ async function getCatererEnquiries(req, res) {
             });
         }
 
+        // Find the registered caterer first.
+        const [caterers] = await db.query(
+            `SELECT caterer_id, brand_name, email
+             FROM caterers
+             WHERE LOWER(TRIM(email)) = LOWER(TRIM(?))
+             LIMIT 1`,
+            [catererEmail]
+        );
+
+        if (caterers.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Registered caterer not found."
+            });
+        }
+
+        const caterer = caterers[0];
+
+        // Fetch enquiries using the registered caterer ID.
         const [rows] = await db.query(
             `SELECT
                 enquiry_id,
@@ -219,13 +256,18 @@ async function getCatererEnquiries(req, res) {
                 created_at,
                 replied_at
              FROM customer_enquiries
-             WHERE LOWER(caterer_email) = LOWER(?)
+             WHERE caterer_id = ?
              ORDER BY created_at DESC`,
-            [catererEmail.trim()]
+            [caterer.caterer_id]
         );
 
         return res.status(200).json({
             success: true,
+            caterer: {
+                catererId: caterer.caterer_id,
+                brandName: caterer.brand_name,
+                email: caterer.email
+            },
             enquiries: rows
         });
 

@@ -4002,26 +4002,29 @@
     /* =====================================================
        PRIORITY HTML
     ===================================================== */
+function getPriorityHTML(priority) {
+    const rawPriority = String(priority || "normal")
+        .trim()
+        .toLowerCase();
 
-    function getPriorityHTML(priority) {
+    const priorityMap = {
+        high: "High",
+        medium: "Normal",
+        normal: "Normal",
+        urgent: "Urgent"
+    };
 
-        const value =
-            priority ||
-            "normal";
+    const normalizedPriority =
+        priorityMap[rawPriority] ? rawPriority === "medium" ? "normal" : rawPriority : "normal";
 
+    const label = priorityMap[rawPriority] || "Normal";
 
-        const label =
-            value.charAt(0).toUpperCase() +
-            value.slice(1);
-
-
-        return `
-            <span class="priority-badge priority-${escapeHTML(value)}">
-                ${escapeHTML(label)}
-            </span>
-        `;
-
-    }
+    return `
+        <span class="priority-badge priority-${normalizedPriority}">
+            ${label}
+        </span>
+    `;
+}
 
 
 
@@ -4204,12 +4207,16 @@
                             statusValue;
 
 
-                    const matchesPriority =
-                        !priorityValue ||
-                        complaint.priority ===
-                            priorityValue;
+                  const rawPriority = String(
+    complaint.priority || "normal"
+).trim().toLowerCase();
 
+const normalizedPriority =
+    rawPriority === "medium" ? "normal" : rawPriority;
 
+const matchesPriority =
+    !priorityValue ||
+    normalizedPriority === priorityValue.toLowerCase();
                     return (
                         matchesSearch &&
                         matchesStatus &&
@@ -4403,12 +4410,27 @@
             }
 
 
-            complaints =
-                Array.isArray(
-                    data.complaints
-                )
-                    ? data.complaints
-                    : [];
+           
+complaints = Array.isArray(data.complaints)
+    ? data.complaints.map(complaint => {
+        const rawStatus = String(
+            complaint.database_status || complaint.status || "Pending"
+        ).trim().toLowerCase();
+
+        const statusMap = {
+            pending: "open",
+            open: "open",
+            "in progress": "in_progress",
+            in_progress: "in_progress",
+            resolved: "resolved"
+        };
+
+        return {
+            ...complaint,
+            status: statusMap[rawStatus] || "open"
+        };
+    })
+    : [];
 
 
             updateSummary();
@@ -4595,8 +4617,25 @@
             complaint.created_at ? new Date(complaint.created_at).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }) : "—";
         document.getElementById("detailComplaintPriority").textContent =
             complaint.priority || "Normal";
-        document.getElementById("detailComplaintStatus").textContent =
-            (complaint.status || "open").replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+       
+const rawStatus = String(
+    complaint.database_status || complaint.status || "Pending"
+).trim().toLowerCase();
+
+const statusMap = {
+    "pending": "open",
+    "open": "open",
+    "in progress": "in_progress",
+    "in_progress": "in_progress",
+    "resolved": "resolved"
+};
+
+const normalizedStatus = statusMap[rawStatus] || "open";
+
+document.getElementById("detailComplaintStatus").textContent =
+    normalizedStatus.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+
+
         document.getElementById("detailStatusSelect").value =
             ["open", "in_progress", "resolved"].includes(complaint.status) ? complaint.status : "open";
         const previousReply = complaint.admin_reply || "";

@@ -28,7 +28,9 @@ const {
     getCatererReport,
     getEventTypeReport,
     getReviewReport,
-    getCatererPerformance
+    getCatererPerformance,
+    getComplaintSummary,
+    listComplaints
 } = adminController;
 
 
@@ -206,6 +208,22 @@ router.get(
     getCatererPerformance
 );
 
+
+// =====================================================
+// COMPLAINT / CUSTOMER ENQUIRY MANAGEMENT
+// =====================================================
+
+router.get(
+    "/complaints/summary",
+    verifyAdminToken,
+    getComplaintSummary
+);
+
+router.get(
+    "/complaints",
+    verifyAdminToken,
+    listComplaints
+);
 
 // =====================================================
 // EXPORT ROUTER

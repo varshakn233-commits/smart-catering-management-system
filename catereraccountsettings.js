@@ -41,7 +41,8 @@ const logoutButton = document.getElementById("logoutButton");
 // Personal name first; business name is only a fallback.
 // =====================================================
 
-const catererName =
+
+const displayedCatererName =
     caterer?.head_name ||
     caterer?.headName ||
     caterer?.owner_name ||
@@ -54,13 +55,14 @@ const catererName =
     "Caterer";
 
 if (headerCustomerName) {
-    headerCustomerName.textContent = catererName;
+    headerCustomerName.textContent = displayedCatererName;
 }
 
 if (headerAvatar) {
     headerAvatar.textContent =
-        catererName.trim().charAt(0).toUpperCase() || "C";
+        displayedCatererName.trim().charAt(0).toUpperCase() || "C";
 }
+
 
 // =====================================================
 // BACK BUTTON
@@ -178,20 +180,20 @@ changePasswordForm?.addEventListener("submit", async function (event) {
         return;
     }
 
-    const catererId =
-        caterer?.id ||
-        caterer?.catererId ||
-        caterer?.caterer_id;
+const catererId =
+    caterer?.id ||
+    caterer?.catererId ||
+    caterer?.caterer_id;
 
-    if (!catererId) {
-        showPasswordMessage(
-            "Caterer information not found. Please login again.",
-            false
-        );
-        return;
-    }
+if (!catererId) {
+    showPasswordMessage(
+        "Caterer information not found. Please login again.",
+        false
+    );
+    return;
+}
 
-    const token = localStorage.getItem("annapriya_caterer_token");
+const token = localStorage.getItem("annapriya_caterer_token");
 
     if (!token) {
         alert("Your session has expired. Please login again.");

@@ -417,10 +417,22 @@ document.addEventListener("DOMContentLoaded", function () {
     const API_BASE = "http://localhost:5000";
 
     const eventsBody = document.getElementById("eventsBody");
-    const profileButton = document.getElementById("profileButton");
     const profileMenu = document.getElementById("profileButtonMenu");
-    const notificationButton = document.getElementById("notificationButton");
     const notificationMessage = document.getElementById("notificationMessage");
+
+
+ // Profile and notification buttons are not present in this page's HTML.
+// Close these panels when the user clicks outside them.
+document.addEventListener("click", function (event) {
+    if (profileMenu && !profileMenu.contains(event.target)) {
+        profileMenu.classList.remove("show");
+    }
+
+    if (notificationMessage &&
+        !notificationMessage.contains(event.target)) {
+        notificationMessage.classList.remove("show");
+    }
+});
 
     let caterer = null;
 
@@ -453,14 +465,7 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = "catererdashboard.html";
     });
 
-    profileButton.addEventListener("click", function (event) {
-        event.stopPropagation();
-
-        const isOpen = profileMenu.classList.toggle("show");
-
-        profileButton.setAttribute("aria-expanded", String(isOpen));
-        notificationMessage.classList.remove("show");
-    });
+    
 
     document.addEventListener("click", function (event) {
         if (!profileMenu.contains(event.target) &&
@@ -475,13 +480,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    notificationButton.addEventListener("click", function (event) {
-        event.stopPropagation();
-
-        notificationMessage.classList.toggle("show");
-        profileMenu.classList.remove("show");
-        profileButton.setAttribute("aria-expanded", "false");
-    });
+   
 
     document.getElementById("logoutButton").addEventListener("click", function () {
         if (confirm("Are you sure you want to log out?")) {

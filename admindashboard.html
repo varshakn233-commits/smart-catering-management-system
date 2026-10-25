@@ -2758,6 +2758,9 @@
                 return;
 
             }
+            if (!Array.isArray(adminNotifications)) {
+    adminNotifications = [];
+}
 
 
             adminNotifications.forEach(

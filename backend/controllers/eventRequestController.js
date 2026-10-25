@@ -415,6 +415,7 @@ async function getRequests(req, res) {
 /* =========================================================
    GET CATERER EVENTS
 ========================================================= */
+
 async function getCatererEvents(req, res) {
     try {
         const catererEmail =
@@ -453,18 +454,18 @@ async function getCatererEvents(req, res) {
                 er.status,
                 er.created_at
              FROM event_request er
-             WHERE LOWER(er.caterer_email) = LOWER(?)
-             AND er.status IN (
-                'accepted',
-                'payment_pending',
-                'confirmed',
-                'preparing',
-                'on_the_way',
-                'event_started',
-                'completed'
-             )
-             ORDER BY er.event_date ASC, er.created_at DESC`,
-            [catererEmail]
+             WHERE LOWER(TRIM(er.caterer_email)) = LOWER(TRIM(?))
+               AND er.event_date >= CURDATE()
+               AND er.status IN (
+                   'accepted',
+                   'payment_pending',
+                   'confirmed',
+                   'preparing',
+                   'on_the_way',
+                   'event_started'
+               )
+             ORDER BY er.event_date ASC, er.event_time ASC`,
+            [catererEmail.trim()]
         );
 
         return res.status(200).json({
@@ -475,8 +476,7 @@ async function getCatererEvents(req, res) {
         console.error("Get caterer events error:", error);
 
         return res.status(500).json({
-            message: "Could not fetch caterer events.",
-            error: error.message
+            message: "Could not fetch caterer events."
         });
     }
 }

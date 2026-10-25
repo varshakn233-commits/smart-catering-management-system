@@ -1766,36 +1766,6 @@ async function getCatererPerformance(req, res) {
         const bookingFilters = getBookingReportFilters(req);
         const revenueFilters = getBookingReportFilters(req, "er2");
 
-        // Map test booking emails to their correct caterer IDs.
-        const catererEmailMap = {
-            "saraswathi.test@gmail.com": 60,
-            "meenakshi.test@gmail.com": 61,
-            "royal.test@gmail.com": 62,
-            "lakshmi.test@gmail.com": 63,
-            "naveen.test@gmail.com": 64,
-            "farhan.test@gmail.com": 65,
-            "bengaluru.royal.test@gmail.com": 66,
-            "annapoorna.test@gmail.com": 67,
-            "greenleaf.test@gmail.com": 68,
-            "royalfeast.test@gmail.com": 69
-        };
-
-        const emailMappingSQL = `
-            CASE LOWER(TRIM(caterer_email))
-                WHEN 'saraswathi.test@gmail.com' THEN 60
-                WHEN 'meenakshi.test@gmail.com' THEN 61
-                WHEN 'royal.test@gmail.com' THEN 62
-                WHEN 'lakshmi.test@gmail.com' THEN 63
-                WHEN 'naveen.test@gmail.com' THEN 64
-                WHEN 'farhan.test@gmail.com' THEN 65
-                WHEN 'bengaluru.royal.test@gmail.com' THEN 66
-                WHEN 'annapoorna.test@gmail.com' THEN 67
-                WHEN 'greenleaf.test@gmail.com' THEN 68
-                WHEN 'royalfeast.test@gmail.com' THEN 69
-                ELSE NULL
-            END
-        `;
-
         const query = `
             SELECT
                 c.caterer_id,
@@ -1817,22 +1787,39 @@ async function getCatererPerformance(req, res) {
 
             LEFT JOIN (
                 SELECT
-                    ${emailMappingSQL} AS mapped_caterer_id,
-                    COUNT(*) AS requests,
-                    SUM(er.status = 'confirmed') AS confirmed,
-                    SUM(er.status = 'completed') AS completed
+                    c2.caterer_id,
+                    COUNT(er.request_id) AS requests,
+
+                    COALESCE(
+                        SUM(er.status = 'confirmed'), 0
+                    ) AS confirmed,
+
+                    COALESCE(
+                        SUM(er.status = 'completed'), 0
+                    ) AS completed
+
                 FROM event_request er
+
+                INNER JOIN caterers c2
+                    ON LOWER(TRIM(er.caterer_email))
+                     = LOWER(TRIM(c2.email))
+
                 WHERE 1 = 1
                 ${bookingFilters.sql}
-                GROUP BY mapped_caterer_id
+
+                GROUP BY c2.caterer_id
             ) b
-                ON b.mapped_caterer_id = c.caterer_id
+                ON b.caterer_id = c.caterer_id
 
             LEFT JOIN (
                 SELECT
                     caterer_id,
                     COUNT(*) AS reviews,
-                    ROUND(AVG(rating), 1) AS rating
+
+                    COALESCE(
+                        ROUND(AVG(rating), 1), 0
+                    ) AS rating
+
                 FROM reviews
                 GROUP BY caterer_id
             ) r
@@ -1840,16 +1827,27 @@ async function getCatererPerformance(req, res) {
 
             LEFT JOIN (
                 SELECT
-                    ${emailMappingSQL.replaceAll("caterer_email", "er2.caterer_email")} AS mapped_caterer_id,
-                    SUM(${retainedRevenueSQL}) AS totalRevenue
+                    c3.caterer_id,
+
+                    COALESCE(
+                        SUM(${retainedRevenueSQL}), 0
+                    ) AS totalRevenue
+
                 FROM event_payments ep
+
                 INNER JOIN event_request er2
                     ON er2.request_id = ep.request_id
+
+                INNER JOIN caterers c3
+                    ON LOWER(TRIM(er2.caterer_email))
+                     = LOWER(TRIM(c3.email))
+
                 WHERE 1 = 1
                 ${revenueFilters.sql}
-                GROUP BY mapped_caterer_id
+
+                GROUP BY c3.caterer_id
             ) rv
-                ON rv.mapped_caterer_id = c.caterer_id
+                ON rv.caterer_id = c.caterer_id
 
             ORDER BY requests DESC, c.brand_name ASC
         `;
@@ -1864,13 +1862,17 @@ async function getCatererPerformance(req, res) {
         });
 
     } catch (error) {
-        console.error("Caterer performance error:", error);
+        console.error(
+            "Caterer performance error:",
+            error
+        );
 
         return res.status(500).json({
             message: "Could not load caterer performance."
         });
     }
 }
+
 
 
 // =====================================================
@@ -1936,6 +1938,146 @@ async function updateBookingStatus(req, res) {
     }
 }
 
+ // =====================================================
+ // COMPLAINT / CUSTOMER ENQUIRY MANAGEMENT
+ // =====================================================
+
+async function getComplaintSummary(req, res) {
+    try {
+        const [rows] = await db.query(`
+            SELECT
+                COUNT(*) AS totalEnquiries,
+
+                COALESCE(SUM(
+                    CASE
+                        WHEN LOWER(status) = 'pending'
+                        THEN 1 ELSE 0
+                    END
+                ), 0) AS openEnquiries,
+
+                COALESCE(SUM(
+                    CASE
+                        WHEN LOWER(status) = 'in progress'
+                        THEN 1 ELSE 0
+                    END
+                ), 0) AS inProgressEnquiries,
+
+                COALESCE(SUM(
+                    CASE
+                        WHEN LOWER(status) = 'resolved'
+                        THEN 1 ELSE 0
+                    END
+                ), 0) AS resolvedEnquiries
+
+            FROM complaints
+        `);
+
+        const row = rows[0];
+
+        return res.status(200).json({
+            summary: {
+                totalEnquiries: Number(row.totalEnquiries || 0),
+                openEnquiries: Number(row.openEnquiries || 0),
+                inProgressEnquiries: Number(row.inProgressEnquiries || 0),
+                resolvedEnquiries: Number(row.resolvedEnquiries || 0)
+            }
+        });
+
+    } catch (error) {
+        console.error("Complaint summary error:", error);
+
+        return res.status(500).json({
+            message: "Could not load complaint summary."
+        });
+    }
+}
+
+
+async function listComplaints(req, res) {
+    try {
+        const { search, status, priority } = req.query;
+
+        let query = `
+            SELECT
+                complaint_id,
+                customer_id,
+                customer_name,
+                customer_email,
+                complaint_category,
+                caterer_name,
+                complaint_subject,
+                complaint_description,
+                priority,
+                status AS database_status,
+                CASE
+                    WHEN LOWER(status) = 'pending'
+                    THEN 'Open'
+                    ELSE status
+                END AS status,
+                admin_reply,
+                created_at,
+                updated_at
+            FROM complaints
+            WHERE 1 = 1
+        `;
+
+        const params = [];
+
+        if (search && search.trim()) {
+            const value = `%${search.trim()}%`;
+
+            query += `
+                AND (
+                    customer_name LIKE ?
+                    OR customer_email LIKE ?
+                    OR caterer_name LIKE ?
+                    OR complaint_subject LIKE ?
+                    OR CAST(complaint_id AS CHAR) LIKE ?
+                )
+            `;
+
+            params.push(value, value, value, value, value);
+        }
+
+        if (status && status !== "all") {
+            if (status.toLowerCase() === "open") {
+                query += ` AND LOWER(status) = 'pending'`;
+            } else if (
+                ["in progress", "resolved", "closed"].includes(
+                    status.toLowerCase()
+                )
+            ) {
+                query += ` AND LOWER(status) = ?`;
+                params.push(status.toLowerCase());
+            }
+        }
+
+        if (
+            priority &&
+            ["low", "medium", "high"].includes(priority.toLowerCase())
+        ) {
+            query += ` AND LOWER(priority) = ?`;
+            params.push(priority.toLowerCase());
+        }
+
+        query += ` ORDER BY created_at DESC, complaint_id DESC`;
+
+        const [rows] = await db.query(query, params);
+
+        return res.status(200).json({
+            complaints: rows
+        });
+
+    } catch (error) {
+        console.error("List complaints error:", error);
+
+        return res.status(500).json({
+            message: "Could not load complaints."
+        });
+    }
+}
+
+
 
  module.exports = {
     login,
@@ -1965,5 +2107,9 @@ async function updateBookingStatus(req, res) {
     getCatererReport,
     getEventTypeReport,
     getReviewReport,
-    getCatererPerformance
+    getCatererPerformance,
+    
+    getComplaintSummary,
+    listComplaints
+    
 };

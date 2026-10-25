@@ -536,11 +536,17 @@
         console.error("Could not read caterer data:", error);
     }
 
-    const catererEmail =
-        catererData?.email ||
-        catererData?.catererEmail ||
-        catererData?.businessEmail ||
-        "";
+    const catererEmail = String(
+    catererData?.email ||
+    catererData?.catererEmail ||
+    catererData?.businessEmail ||
+    catererData?.business_email ||
+    catererData?.caterer_email ||
+    catererData?.contact_email ||
+    ""
+).trim().toLowerCase();
+    console.log("Logged-in caterer data:", catererData);
+    console.log("Caterer email used for enquiries:", catererEmail);
 
     const displayName =
         catererData?.headName ||
@@ -549,6 +555,7 @@
         catererData?.brandName ||
         catererData?.brand_name ||
         "Caterer";
+        
 
     document.getElementById("catererName").textContent = displayName;
     document.getElementById("avatar").textContent =
@@ -615,8 +622,12 @@
                 String(enquiry.status).toLowerCase() === "enquiry_sent"
             );
 
-            document.getElementById("notificationDot").style.display =
+            const notificationDot = document.getElementById("notificationDot");
+
+                if (notificationDot) {
+                notificationDot.style.display =
                 pendingEnquiries.length > 0 ? "block" : "none";
+                }
 
         } catch (error) {
             console.error("Load enquiries error:", error);

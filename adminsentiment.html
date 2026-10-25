@@ -362,7 +362,7 @@
             color: var(--green);
         }
 
-        .neutral-number {
+        .Average-number {
             color: #AD7A20;
         }
 
@@ -429,7 +429,7 @@
             background: var(--green);
         }
 
-        .neutral-bar {
+        .Average-bar {
             background: #D4A02E;
         }
 
@@ -631,7 +631,7 @@
             color: #176A43;
         }
 
-        .badge-neutral {
+        .badge-Average {
             background: #FFF0CF;
             color: #8A6412;
         }
@@ -950,7 +950,7 @@
                 <h2>Customer Feedback Insights</h2>
                 <p>
                     Analyze written customer reviews to identify positive experiences,
-                    neutral feedback, and negative experiences. Use these insights to
+                    Average feedback, and negative experiences. Use these insights to
                     understand customer satisfaction and identify areas for improvement.
                 </p>
                 <span class="method-tag" id="methodTag">
@@ -992,11 +992,11 @@
 
             <article class="summary-card">
                 <div class="summary-top">
-                    <span class="summary-label">Neutral Reviews</span>
+                    <span class="summary-label">Average</span>
                     <span class="summary-icon">😐</span>
                 </div>
-                <div class="summary-number neutral-number" id="neutralCount">—</div>
-                <div class="summary-note" id="neutralPercentage">—% of analysed reviews</div>
+                <div class="summary-number Average-number" id="AverageCount">—</div>
+                <div class="summary-note" id="AveragePercentage">—% of analysed reviews</div>
             </article>
 
             <article class="summary-card">
@@ -1013,7 +1013,7 @@
         <div class="section-heading">
             <div>
                 <h2>Sentiment Breakdown</h2>
-                <p>Distribution of positive, neutral, and negative feedback.</p>
+                <p>Distribution of positive, Average, and negative feedback.</p>
             </div>
         </div>
 
@@ -1036,11 +1036,11 @@
 
                 <div class="bar-item">
                     <div class="bar-heading">
-                        <span>😐 Neutral</span>
-                        <strong id="neutralBarLabel">0%</strong>
+                        <span>😐 Average</span>
+                        <strong id="AverageBarLabel">0%</strong>
                     </div>
                     <div class="bar-track">
-                        <div class="bar-fill neutral-bar" id="neutralBar"></div>
+                        <div class="bar-fill Average-bar" id="AverageBar"></div>
                     </div>
                 </div>
 
@@ -1083,12 +1083,7 @@
                         <span>Empty reviews skipped</span>
                         <strong id="skippedReviews">—</strong>
                     </div>
-
-                    <div class="detail-row">
-                        <span>Analysis method</span>
-                        <strong id="analysisMethod">—</strong>
-                    </div>
-
+                     
                     <div class="detail-row">
                         <span>Last updated</span>
                         <strong id="lastUpdated">—</strong>
@@ -1123,7 +1118,7 @@
                     <select id="sentimentFilter" aria-label="Filter by sentiment">
                         <option value="all">All Sentiments</option>
                         <option value="positive">Positive</option>
-                        <option value="neutral">Neutral</option>
+                        <option value="Average">Average</option>
                         <option value="negative">Negative</option>
                     </select>
                 </div>
@@ -1343,7 +1338,7 @@
             if (sentiment === "positive") return "positive";
             if (sentiment === "negative") return "negative";
 
-            return "neutral";
+            return "Average";
         }
 
         function percentage(value) {
@@ -1427,7 +1422,7 @@
 
                 document.getElementById("totalReviews").textContent = "—";
                 document.getElementById("positiveCount").textContent = "—";
-                document.getElementById("neutralCount").textContent = "—";
+                document.getElementById("AverageCount").textContent = "—";
                 document.getElementById("negativeCount").textContent = "—";
 
                 tableBody.innerHTML = `
@@ -1457,23 +1452,24 @@
         function renderSummary(summary) {
             const total = Number(summary.totalReviews || 0);
             const positive = Number(summary.positive || 0);
-            const neutral = Number(summary.neutral || 0);
+
+            // Backend still uses "neutral" for the Average category.
+            const Average = Number(summary.neutral || 0);
             const negative = Number(summary.negative || 0);
 
             const positivePct = Number(summary.positivePercentage || 0);
-            const neutralPct = Number(summary.neutralPercentage || 0);
+            const AveragePct = Number(summary.neutralPercentage || 0);
             const negativePct = Number(summary.negativePercentage || 0);
-
             document.getElementById("totalReviews").textContent = total;
             document.getElementById("positiveCount").textContent = positive;
-            document.getElementById("neutralCount").textContent = neutral;
+            document.getElementById("AverageCount").textContent = Average;
             document.getElementById("negativeCount").textContent = negative;
 
             document.getElementById("positivePercentage").textContent =
                 percentage(positivePct) + "% of analysed reviews";
 
-            document.getElementById("neutralPercentage").textContent =
-                percentage(neutralPct) + "% of analysed reviews";
+            document.getElementById("AveragePercentage").textContent =
+                percentage(AveragePct) + "% of analysed reviews";
 
             document.getElementById("negativePercentage").textContent =
                 percentage(negativePct) + "% of analysed reviews";
@@ -1489,16 +1485,15 @@
             document.getElementById("skippedReviews").textContent =
                 Number(summary.emptyReviewsSkipped || 0);
 
-            const method = document.getElementById("methodTag").textContent;
-            document.getElementById("analysisMethod").textContent = method;
+         
 
             setBar("positive", positivePct);
-            setBar("neutral", neutralPct);
+            setBar("Average", AveragePct);
             setBar("negative", negativePct);
 
             const categories = [
                 { name: "Positive", count: positive, pct: positivePct },
-                { name: "Neutral", count: neutral, pct: neutralPct },
+                { name: "Average", count: Average, pct: AveragePct },
                 { name: "Negative", count: negative, pct: negativePct }
             ];
 
@@ -1599,7 +1594,7 @@
 
                 const badgeClass = {
                     positive: "badge-positive",
-                    neutral: "badge-neutral",
+                    Average: "badge-Average",
                     negative: "badge-negative"
                 }[sentiment];
 

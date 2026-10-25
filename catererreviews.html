@@ -825,41 +825,24 @@
         // =====================================================
         // NAVIGATION AND PROFILE MENU
         // =====================================================
+            backButton.addEventListener("click", function () {
+    if (
+        document.referrer &&
+        document.referrer.startsWith(window.location.origin)
+    ) {
+        window.history.back();
+    } else {
+        window.location.href = "catererdashboard.html";
+    }
+});
 
-        backButton.addEventListener("click", function () {
-            if (document.referrer &&
-                document.referrer.startsWith(window.location.origin)) {
-                window.history.back();
-            } else {
-                window.location.href = "catererdashboard.html";
-            }
-        });
+function logoutCaterer() {
+    localStorage.removeItem("annapriya_caterer_token");
+    localStorage.removeItem("annapriya_caterer");
+    window.location.href = "index.html";
+}
 
-        profileButton.addEventListener("click", function (event) {
-            event.stopPropagation();
-            const isOpen = profileButtonMenu.classList.toggle("show");
-            profileButton.setAttribute("aria-expanded", String(isOpen));
-        });
-
-        document.addEventListener("click", function (event) {
-            if (!profileButton.contains(event.target) &&
-                !profileButtonMenu.contains(event.target)) {
-                profileButtonMenu.classList.remove("show");
-                profileButton.setAttribute("aria-expanded", "false");
-            }
-        });
-
-        function logoutCaterer() {
-            localStorage.removeItem("annapriya_caterer_token");
-            localStorage.removeItem("annapriya_caterer");
-            window.location.href = "index.html";
-        }
-
-        logoutButton.addEventListener("click", logoutCaterer);
-
-        notificationButton.addEventListener("click", function () {
-            window.location.href = "catererrequests.html";
-        });
+logoutButton.addEventListener("click", logoutCaterer);
 
         // =====================================================
         // HELPERS
