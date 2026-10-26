@@ -641,8 +641,60 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             );
 
+            
+            /* =================================================
+               OPEN ENQUIRY FOR RECOMMENDED CATERER
+            ================================================= */
 
-        } catch (error) {
+            const params = new URLSearchParams(
+                window.location.search
+            );
+
+            const requestedCatererId =
+                params.get("catererId");
+
+            const shouldOpenEnquiry =
+                params.get("openEnquiry") === "1";
+
+            if (requestedCatererId && shouldOpenEnquiry) {
+                document.body.classList.add(
+        "recommendation-enquiry-open"
+    );
+
+                const matchingCaterer = caterers.find(
+                    (item) =>
+                        String(item.caterer_id) ===
+                        String(requestedCatererId)
+                );
+
+                if (matchingCaterer) {
+
+                    openEnquiryModal(
+                        matchingCaterer.caterer_id,
+                        matchingCaterer.brand_name ||
+                            "Unnamed Caterer",
+                        matchingCaterer.email || ""
+                    );
+
+                } else {
+
+                    alert(
+                        "The recommended caterer is not currently available."
+                    );
+
+                }
+
+                window.history.replaceState(
+                    {},
+                    document.title,
+                    window.location.pathname
+                );
+
+            }
+
+
+        }
+        catch (error) {
 
             console.error(
                 "Load caterers error:",
@@ -667,6 +719,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
     }
+
+    
 
 
     /* =================================================
@@ -744,29 +798,31 @@ document.addEventListener("DOMContentLoaded", () => {
        CLOSE ENQUIRY MODAL
     ================================================= */
 
-    function closeEnquiryModal() {
-
-        if (enquiryModal) {
-
-            enquiryModal.classList.remove(
-                "show"
-            );
-
-        }
-
+function closeEnquiryModal() {
+    if (enquiryModal) {
+        enquiryModal.classList.remove("show");
     }
 
-
-    if (closeModal) {
-
-        closeModal.addEventListener(
-            "click",
-            closeEnquiryModal
-        );
-
+    // Return to dashboard if opened from a recommendation
+    if (
+        document.body.classList.contains(
+            "recommendation-enquiry-open"
+        )
+    ) {
+        window.location.href = "customerdashboard.html";
     }
+}
+
+// CONNECT THE X BUTTON
+if (closeModal) {
+    closeModal.addEventListener(
+        "click",
+        closeEnquiryModal
+    );
+}
 
 
+    
     /* Close when clicking outside */
 
     if (enquiryModal) {

@@ -1784,7 +1784,57 @@
         }
 
 
-    </style>
+            .intervention-detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+        .intervention-field {
+            background: #FAF7F3;
+            border: 1px solid #EEE5DE;
+            border-radius: 8px;
+            padding: 12px;
+            min-width: 0;
+        }
+        .intervention-field.full { grid-column: 1 / -1; }
+        .intervention-field label {
+            display: block;
+            color: #777;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            margin-bottom: 6px;
+        }
+        .intervention-field .value {
+            color: var(--accent);
+            font-size: 13px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+        .payment-detail-card {
+            background: #FAF7F3;
+            border: 1px solid #EEE5DE;
+            border-radius: 9px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .payment-detail-card h3 {
+            color: var(--primary);
+            font: bold 15px Georgia, serif;
+            margin-bottom: 12px;
+        }
+        .intervention-note {
+            color: #766D68;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+        @media (max-width: 600px) {
+            .intervention-detail-grid { grid-template-columns: 1fr; }
+            .intervention-field.full { grid-column: auto; }
+        }
+</style>
 
 </head>
 
@@ -2866,22 +2916,10 @@
                     </button>
 
 
-                    <a
-                        href="adminenquiries.html"
-                        class="action-btn enquiry-btn"
-                        style="text-decoration:none;"
-                    >
-                        View Enquiries
-                    </a>
+                    <button type="button" class="action-btn enquiry-btn" id="viewBookingEnquiryBtn">View Enquiry</button>
 
 
-                    <a
-                        href="adminpayments.html"
-                        class="action-btn payment-btn"
-                        style="text-decoration:none;"
-                    >
-                        View Payments
-                    </a>
+                    <button type="button" class="action-btn payment-btn" id="viewBookingPaymentBtn">View Payment</button>
 
 
                 </div>
@@ -2899,6 +2937,22 @@
 </div>
 
 
+
+<div class="modal" id="interventionDetailsModal" aria-hidden="true">
+    <div class="modal-content" style="max-width:760px;">
+        <div class="modal-header">
+            <h2 id="interventionDetailsTitle">Booking details</h2>
+            <button type="button" class="close-btn" aria-label="Close details" onclick="closeInterventionDetails()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p class="intervention-note" id="interventionDetailsNote"></p>
+            <div id="interventionDetailsContent"></div>
+            <div class="modal-actions">
+                <button type="button" class="action-btn enquiry-btn" onclick="closeInterventionDetails()">Back to booking</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
 
@@ -2921,6 +2975,7 @@
 
     const REQUEST_API =
         "http://localhost:5000/api/requests";
+    const ADMIN_API = "http://localhost:5000/api/admin";
 
 
 
@@ -3576,6 +3631,7 @@ function applyFilters() {
     function viewBooking(
         requestId
     ) {
+    console.log("View button clicked. Request ID:", requestId);
 
         currentBooking =
             allBookings.find(
@@ -3761,76 +3817,192 @@ function applyFilters() {
        CONTACT BUTTONS
     ===================================================== */
 
-    function setupContactButtons(
-        booking
-    ) {
+    function setupContactButtons(booking) {
+        const customerBtn = document.getElementById("contactCustomerBtn");
+        const catererBtn = document.getElementById("contactCatererBtn");
 
-        const customerBtn =
-            document.getElementById(
-                "contactCustomerBtn"
-            );
+        customerBtn.onclick = function() {
+            if (booking.email) {
+                window.location.href = "mailto:" + booking.email;
+            } else if (booking.phone) {
+                window.location.href = "tel:" + booking.phone;
+            } else {
+                alert("Customer contact information is not available.");
+            }
+        };
 
+        catererBtn.onclick = function() {
+            if (booking.caterer_email) {
+                window.location.href = "mailto:" + booking.caterer_email;
+            } else {
+                alert("Caterer email is not available.");
+            }
+        };
 
-        const catererBtn =
-            document.getElementById(
-                "contactCatererBtn"
-            );
-
-
-        customerBtn.onclick =
-            function() {
-
-                if (
-                    booking.email
-                ) {
-
-                    window.location.href =
-                        "mailto:" +
-                        booking.email;
-
-                } else if (
-                    booking.phone
-                ) {
-
-                    window.location.href =
-                        "tel:" +
-                        booking.phone;
-
-                } else {
-
-                    alert(
-                        "Customer contact information is not available."
-                    );
-
-                }
-
-            };
-
-
-        catererBtn.onclick =
-            function() {
-
-                if (
-                    booking.caterer_email
-                ) {
-
-                    window.location.href =
-                        "mailto:" +
-                        booking.caterer_email;
-
-                } else {
-
-                    alert(
-                        "Caterer email is not available."
-                    );
-
-                }
-
-            };
-
+        document.getElementById("viewBookingEnquiryBtn").onclick =
+            function() { showBookingEnquiry(booking); };
+        document.getElementById("viewBookingPaymentBtn").onclick =
+            function() { showBookingPayment(booking); };
     }
 
 
+    function openInterventionDetails(title, note) {
+        document.getElementById("interventionDetailsTitle").textContent = title;
+        document.getElementById("interventionDetailsNote").textContent = note || "";
+        document.getElementById("interventionDetailsContent").replaceChildren();
+
+        const modal = document.getElementById("interventionDetailsModal");
+        modal.classList.add("show");
+        modal.setAttribute("aria-hidden", "false");
+    }
+
+
+    function addInterventionField(container, label, value, fullWidth) {
+        const field = document.createElement("div");
+        field.className = "intervention-field" + (fullWidth ? " full" : "");
+
+        const fieldLabel = document.createElement("label");
+        fieldLabel.textContent = label;
+
+        const fieldValue = document.createElement("div");
+        fieldValue.className = "value";
+        fieldValue.textContent =
+            value !== null && value !== undefined && value !== ""
+                ? String(value)
+                : "Not provided";
+
+        field.append(fieldLabel, fieldValue);
+        container.appendChild(field);
+    }
+
+
+    function showBookingEnquiry(booking) {
+        openInterventionDetails(
+            "Customer Enquiry · REQ" + booking.request_id,
+            "Enquiry details for the booking selected in Manage Bookings."
+        );
+
+        const grid = document.createElement("div");
+        grid.className = "intervention-detail-grid";
+
+        addInterventionField(grid, "Customer", booking.customer_name);
+        addInterventionField(grid, "Customer Email", booking.email);
+        addInterventionField(grid, "Event", booking.event_type);
+        addInterventionField(grid, "Event Date", formatDate(booking.event_date));
+        addInterventionField(grid, "Event Time", booking.event_time ? formatTime(booking.event_time) : "");
+        addInterventionField(grid, "Venue", booking.venue_location);
+        addInterventionField(grid, "Guests", booking.guest_count);
+        addInterventionField(grid, "Food Type", booking.food_type);
+        addInterventionField(grid, "Package", booking.package_name);
+        addInterventionField(grid, "Service", booking.catering_service);
+        addInterventionField(grid, "Budget", booking.budget);
+        addInterventionField(grid, "Special Requirements", booking.special_requirements, true);
+        addInterventionField(grid, "Customer Message", booking.message, true);
+
+        document.getElementById("interventionDetailsContent").appendChild(grid);
+    }
+
+
+    async function showBookingPayment(booking) {
+        const requestId = booking.request_id;
+        openInterventionDetails(
+            "Payment Details · REQ" + requestId,
+            "Payment information linked to the selected booking."
+        );
+
+        const content = document.getElementById("interventionDetailsContent");
+        const loading = document.createElement("p");
+        loading.className = "intervention-note";
+        loading.textContent = "Loading payment details…";
+        content.appendChild(loading);
+
+        const token = localStorage.getItem("adminToken") ||
+            localStorage.getItem("annapriya_admin_token");
+        if (!token) {
+            loading.textContent = "Admin login is required to load payment details.";
+            return;
+        }
+
+        try {
+            const response = await fetch(
+                ADMIN_API + "/payments?search=" + encodeURIComponent(requestId),
+                {
+                    headers: {
+                        "Authorization": "Bearer " + token,
+                        "Content-Type": "application/json"
+                    }
+                }
+            );
+
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                throw new Error(data.message || "Could not load payment details.");
+            }
+
+            const payments = Array.isArray(data.payments) ? data.payments : [];
+            const matchingPayments = payments.filter(payment =>
+                String(payment.request_id ?? payment.requestId ?? payment.booking_id ?? "") ===
+                String(requestId)
+            );
+
+            content.replaceChildren();
+
+            if (matchingPayments.length === 0) {
+                const empty = document.createElement("p");
+                empty.className = "intervention-note";
+                empty.textContent = "No payment record was found for this booking.";
+                content.appendChild(empty);
+                return;
+            }
+
+            matchingPayments.forEach((payment, index) => {
+                const card = document.createElement("section");
+                card.className = "payment-detail-card";
+
+                const heading = document.createElement("h3");
+                heading.textContent = matchingPayments.length > 1
+                    ? "Payment " + (index + 1)
+                    : "Payment";
+                card.appendChild(heading);
+
+                const grid = document.createElement("div");
+                grid.className = "intervention-detail-grid";
+                addInterventionField(grid, "Payment ID", payment.payment_id ?? payment.paymentId);
+                addInterventionField(grid, "Booking ID", payment.request_id ?? payment.requestId);
+                addInterventionField(grid, "Customer", payment.customer_name ?? payment.customerName ?? booking.customer_name);
+                addInterventionField(grid, "Amount", payment.amount);
+                addInterventionField(grid, "Payment Status", payment.payment_status ?? payment.status);
+                addInterventionField(grid, "Payment Method", payment.payment_method ?? payment.paymentMethod);
+                addInterventionField(grid, "Transaction ID", payment.transaction_id ?? payment.transactionId);
+                addInterventionField(grid, "Paid At", payment.paid_at ?? payment.paidAt);
+                addInterventionField(grid, "Refund Status", payment.refund_status ?? payment.refundStatus);
+                addInterventionField(grid, "Refund Amount", payment.refund_amount ?? payment.refundAmount);
+                card.appendChild(grid);
+                content.appendChild(card);
+            });
+        } catch (error) {
+            content.replaceChildren();
+            const message = document.createElement("p");
+            message.className = "intervention-note";
+            message.textContent = error.message || "Could not load payment details.";
+            content.appendChild(message);
+        }
+    }
+
+
+    function closeInterventionDetails() {
+        const modal = document.getElementById("interventionDetailsModal");
+        modal.classList.remove("show");
+        modal.setAttribute("aria-hidden", "true");
+    }
+
+
+    document.getElementById("interventionDetailsModal").addEventListener(
+        "click",
+        function(event) {
+            if (event.target === this) closeInterventionDetails();
+        }
+    );
 
     /* =====================================================
        TIMELINE

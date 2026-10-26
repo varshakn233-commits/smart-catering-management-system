@@ -1294,3 +1294,22 @@ button {
     }
 
 }
+
+
+/* =====================================================
+   RECOMMENDATION ENQUIRY - HIDE BACKGROUND CONTENT
+===================================================== */
+
+body.recommendation-enquiry-open .customer-navbar,
+body.recommendation-enquiry-open .customer-main .page-header,
+body.recommendation-enquiry-open .customer-main .caterer-tools,
+body.recommendation-enquiry-open .customer-main .loading-section,
+body.recommendation-enquiry-open .customer-main .message-section,
+body.recommendation-enquiry-open .customer-main .table-section,
+body.recommendation-enquiry-open .customer-main .info-section,
+body.recommendation-enquiry-open #loadingSection,
+body.recommendation-enquiry-open #errorSection,
+body.recommendation-enquiry-open #emptySection,
+body.recommendation-enquiry-open #tableSection {
+    display: none !important;
+}

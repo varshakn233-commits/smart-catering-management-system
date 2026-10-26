@@ -29,7 +29,7 @@
 
 body {
     font-family: "Segoe UI", Arial, sans-serif;
-    background: #F8F5F1;
+    background: var(--secondary);
     color: var(--accent);
     min-height: 100vh;
 }
@@ -277,7 +277,7 @@ button {
     color: white;
 }
 
-.btn-primary:hover { background: #70152F; }
+.btn-primary:hover { background: var(--primary); }
 
 .btn-light {
     background: white;
@@ -285,7 +285,7 @@ button {
     border: 1px solid var(--border);
 }
 
-.btn-light:hover { background: #FFF7F0; }
+.btn-light:hover { background: var(--soft-white); }
 
 .error-message,
 .info-message {
@@ -303,8 +303,8 @@ button {
 }
 
 .info-message {
-    background: #FFF8EF;
-    color: #76532D;
+    background: var(--secondary);
+    color: var(--primary);
     border: 1px solid rgba(212,163,115,0.3);
 }
 
@@ -359,7 +359,7 @@ button {
 .filter-group select {
     width: 100%;
     min-width: 0;
-    border: 1px solid #E8DED5;
+    border: 1px solid var(--border);
     border-radius: 7px;
     padding: 10px 9px;
     background: var(--soft-white);
@@ -451,7 +451,7 @@ button {
     width: 35px;
     height: 35px;
     border-radius: 9px;
-    background: #FBF1E6;
+    background: rgba(212, 163, 115, 0.16);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -515,7 +515,7 @@ button {
 }
 
 .panel-tag {
-    background: #FBF1E6;
+    background: rgba(212, 163, 115, 0.16);
     color: var(--primary);
     border-radius: 20px;
     padding: 5px 9px;
@@ -555,7 +555,7 @@ button {
 }
 
 .status-item {
-    background: #FFFCF8;
+    background: var(--soft-white);
     border: 1px solid var(--border);
     border-radius: 9px;
     padding: 14px 8px;
@@ -608,7 +608,7 @@ button {
 }
 
 .performance-table th {
-    background: #FBF5EE;
+    background: var(--secondary);
     color: var(--primary);
     font-size: 11px;
     font-weight: 700;
@@ -621,15 +621,15 @@ button {
     border-top: 1px solid var(--border);
     padding: 13px 16px;
     font-size: 12px;
-    color: #4A403B;
+    color: var(--accent);
 }
 
 .performance-table tbody tr:hover {
-    background: #FFFCF8;
+    background: var(--soft-white);
 }
 
 .rating-text {
-    color: #9B6B25;
+    color: var(--primary);
     font-weight: 700;
 }
 
@@ -1192,8 +1192,8 @@ const chartColors = [
     "#2F7D4A",
     "#B42318",
     "#766D68",
-    "#B76E79",
-    "#E8C9A8"
+    "#8B1E3F",
+    "#D4A373"
 ];
 
 /* AUTHENTICATION */

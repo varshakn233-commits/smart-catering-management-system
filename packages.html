@@ -1,94 +1,620 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Packages | Annapriya</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+
+    <title>Catering Packages | Annapriya</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Reuse the same stylesheet as Approved Caterers -->
+    <link rel="stylesheet" href="customercaterers.css">
+
     <style>
-        .subpage-header {
-            background: #1C1C1C;
-            color: #FFFDF9;
-            padding: 22px 6%;
+        :root {
+            --maroon: #8B1E3F;
+            --beige: #F5E9DA;
+            --black: #1C1C1C;
+            --gold: #D4A373;
+            --white: #FFFFFF;
+            --muted: #746C68;
+            --border: rgba(139, 30, 63, 0.12);
+            --card-shadow: 0 8px 24px rgba(28, 28, 28, 0.07);
+        }
+
+        /* Keep shared navbar and page-header styles from customercaterers.css */
+
+        .packages-tools {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin: 28px 0 22px;
+            padding: 18px 22px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+
+        .packages-tools strong {
+            display: block;
+            color: var(--black);
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .packages-tools small {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .package-count {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 12px;
         }
-        .subpage-header .logo { display: flex; align-items: center; gap: 10px; }
-        .subpage-header .logo h2 { font-family: "Fraunces", serif; font-weight: 600; font-size: 20px; }
-        .subpage-header nav { display: flex; gap: 24px; font-size: 14px; font-weight: 500; }
-        .subpage-header nav a { color: #FFFDF9; }
-        .subpage-header nav a:hover { color: #D4A373; }
+
+        .package-count-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            border-radius: 12px;
+            background: var(--beige);
+            color: var(--maroon);
+            font-size: 20px;
+        }
+
+        /* PACKAGE GRID */
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+            width: 100%;
+        }
+
+        .package-card {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            padding: 26px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .package-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 13px 28px rgba(28, 28, 28, 0.11);
+        }
+
+        .package-card.featured {
+            border: 2px solid var(--maroon);
+        }
+
+        .package-badge {
+            align-self: flex-start;
+            display: inline-block;
+            margin-bottom: 14px;
+            padding: 7px 12px;
+            border-radius: 20px;
+            background: var(--gold);
+            color: var(--black);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+        }
+
+        .package-category {
+            color: var(--maroon);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+        }
+
+        .package-title {
+            margin: 10px 0;
+            color: var(--black);
+            font-family: "Fraunces", serif;
+            font-size: 30px;
+            font-weight: 600;
+        }
+
+        .package-price {
+            margin: 4px 0 8px;
+            color: var(--maroon);
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .package-price-note {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .package-partner {
+            margin: 15px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.65;
+        }
+
+        .package-divider {
+            height: 1px;
+            margin: 20px 0 8px;
+            border: 0;
+            background: var(--beige);
+        }
+
+        .package-meals {
+            flex: 1;
+            margin: 0 0 24px;
+            padding: 0;
+            list-style: none;
+        }
+
+        .package-meals li {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 13px 0;
+            border-bottom: 1px solid var(--beige);
+            color: var(--black);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .package-meals li span {
+            min-width: 0;
+        }
+
+        .package-meals li strong {
+            color: var(--maroon);
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .package-button {
+            width: 100%;
+            min-height: 46px;
+            padding: 12px 16px;
+            border: 1px solid var(--maroon);
+            border-radius: 9px;
+            font-family: "Work Sans", sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .package-button.secondary {
+            background: var(--white);
+            color: var(--maroon);
+        }
+
+        .package-button.secondary:hover {
+            background: var(--beige);
+        }
+
+        .package-button.primary {
+            background: var(--maroon);
+            color: var(--white);
+        }
+
+        .package-button.primary:hover {
+            background: #701631;
+        }
+
+        /* INFORMATION SECTION */
+
+        .package-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-top: 28px;
+            padding: 22px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+
+        .package-info-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            background: var(--beige);
+            border-radius: 12px;
+            font-size: 20px;
+        }
+
+        .package-info h3 {
+            margin: 2px 0 8px;
+            color: var(--black);
+            font-size: 16px;
+        }
+
+        .package-info p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.75;
+        }
+
+        @media (max-width: 1000px) {
+            .packages-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 650px) {
+            .packages-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .package-card {
+                padding: 22px;
+            }
+
+            .packages-tools {
+                padding: 15px;
+            }
+
+            .package-info {
+                padding: 17px;
+            }
+        }
     </style>
 </head>
+
 <body>
 
-    <header class="subpage-header">
-        <div class="logo"><span>🪔</span><h2>Annapriya</h2></div>
-        <nav>
-            <a href="customerdashboard.html">← Dashboard</a>
-            <a href="index.html">Home</a>
-        </nav>
+    <!-- SAME NAVBAR AS APPROVED CATERERS -->
+
+    <header class="customer-navbar">
+        <div class="navbar-left">
+            <button
+                type="button"
+                class="back-button"
+                id="backButton"
+                aria-label="Back"
+                title="Back"
+            >←</button>
+        </div>
+
+        <div class="navbar-right">
+            <button
+                type="button"
+                class="profile-button"
+                id="profileButton"
+                title="My Profile"
+            >
+                <span class="profile-avatar" id="headerAvatar">C</span>
+                <span class="profile-name" id="headerCustomerName">Customer</span>
+            </button>
+        </div>
     </header>
 
-    <section id="packages" class="packages-section">
-        <div class="section-heading center">
-            <p class="section-label">Catering Packages</p>
-            <h2>Pick a tier, <span>then a full day of food</span></h2>
-            <p>Each package covers morning tiffin through night dinner. Pricing matches the caterer paired with it above.</p>
-        </div>
+    <!-- SAME PROFILE MENU STRUCTURE -->
 
-        <div class="tier-grid">
+    <div class="profile-button-menu" id="profileButtonMenu">
+        <a href="myprofile.html" class="profile-button-menu-item">
+            <span class="menu-icon">👤</span>
+            <span>My Profile</span>
+        </a>
+    </div>
 
-            <div class="tier-card">
-                <div class="tier-head">
-                    <span class="tier-label">Bronze</span>
-                    <h3>₹10,000<small> / event</small></h3>
-                    <p class="tier-partner">Paired with Saraswathi Catering</p>
-                </div>
-                <ul class="tier-meals">
-                    <li><span>Morning Tiffin</span><em>₹150 / plate</em></li>
-                    <li><span>Afternoon Lunch</span><em>₹250 / plate</em></li>
-                    <li><span>Evening Snacks</span><em>₹120 / plate</em></li>
-                    <li><span>Night Dinner</span><em>₹280 / plate</em></li>
-                </ul>
-                <button class="outline-btn full">Choose Bronze</button>
+    <!-- MAIN CONTENT USES THE SAME SHARED PAGE STRUCTURE -->
+
+    <main class="customer-main">
+
+        <!-- PAGE HEADER -->
+
+        <section class="page-header">
+            <div class="page-header-content">
+                <p class="page-label">ANNAPRIYA</p>
+
+                <h1>Choose the Perfect Feast</h1>
+
+                <p class="page-description">
+                    Explore our carefully curated catering packages
+                    and choose the right feast for your special event.
+                    From everyday gatherings to grand celebrations,
+                    find a package that suits your occasion and budget.
+                </p>
             </div>
 
-            <div class="tier-card featured">
-                <span class="tier-tag">Most Booked</span>
-                <div class="tier-head">
-                    <span class="tier-label">Silver</span>
-                    <h3>₹12,500<small> / event</small></h3>
-                    <p class="tier-partner">Paired with Meenakshi Grand Catering</p>
-                </div>
-                <ul class="tier-meals">
-                    <li><span>Morning Tiffin</span><em>₹200 / plate</em></li>
-                    <li><span>Afternoon Lunch</span><em>₹320 / plate</em></li>
-                    <li><span>Evening Snacks</span><em>₹160 / plate</em></li>
-                    <li><span>Night Dinner</span><em>₹360 / plate</em></li>
-                </ul>
-                <button class="primary-btn full">Choose Silver</button>
-            </div>
+            <div class="page-header-icon">🍽️</div>
+        </section>
 
-            <div class="tier-card">
-                <div class="tier-head">
-                    <span class="tier-label">Gold</span>
-                    <h3>₹16,000<small> / event</small></h3>
-                    <p class="tier-partner">Paired with Royal Thanjavur Feast</p>
-                </div>
-                <ul class="tier-meals">
-                    <li><span>Morning Tiffin</span><em>₹280 / plate</em></li>
-                    <li><span>Afternoon Lunch</span><em>₹420 / plate</em></li>
-                    <li><span>Evening Snacks</span><em>₹220 / plate</em></li>
-                    <li><span>Night Dinner</span><em>₹480 / plate</em></li>
-                </ul>
-                <button class="outline-btn full">Choose Gold</button>
-            </div>
+        <!-- PACKAGE COUNT BAR -->
 
-        </div>
-    </section>
+        <section class="packages-tools">
+            <div class="package-count">
+                <div class="package-count-icon">✓</div>
+                <div>
+                    <strong>3 Catering Packages</strong>
+                    <small>Choose the package that suits your event</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- PACKAGES -->
+
+        <section class="packages-grid" aria-label="Catering packages">
+
+            <!-- BRONZE -->
+
+            <article class="package-card">
+                <span class="package-category">Essential</span>
+
+                <h2 class="package-title">Bronze</h2>
+
+                <p class="package-price">₹10,000</p>
+                <p class="package-price-note">Starting package price</p>
+
+                <p class="package-partner">
+                    Catering partner: Saraswathi Catering
+                </p>
+
+                <hr class="package-divider">
+
+                <ul class="package-meals">
+                    <li>
+                        <span>Morning Tiffin</span>
+                        <strong>₹150/plate</strong>
+                    </li>
+                    <li>
+                        <span>Afternoon Lunch</span>
+                        <strong>₹250/plate</strong>
+                    </li>
+                    <li>
+                        <span>Evening Snacks</span>
+                        <strong>₹120/plate</strong>
+                    </li>
+                    <li>
+                        <span>Night Dinner</span>
+                        <strong>₹280/plate</strong>
+                    </li>
+                </ul>
+
+                <button
+                    type="button"
+                    class="package-button secondary"
+                    data-package="Bronze"
+                    data-price="10000"
+                    onclick="choosePackage(this)"
+                >
+                    Choose Bronze
+                </button>
+            </article>
+
+            <!-- SILVER -->
+
+            <article class="package-card featured">
+                <span class="package-badge">★ Most Booked</span>
+
+                <span class="package-category">Popular Choice</span>
+
+                <h2 class="package-title">Silver</h2>
+
+                <p class="package-price">₹12,500</p>
+                <p class="package-price-note">Starting package price</p>
+
+                <p class="package-partner">
+                    Catering partner: Meenakshi Grand Catering
+                </p>
+
+                <hr class="package-divider">
+
+                <ul class="package-meals">
+                    <li>
+                        <span>Morning Tiffin</span>
+                        <strong>₹200/plate</strong>
+                    </li>
+                    <li>
+                        <span>Afternoon Lunch</span>
+                        <strong>₹320/plate</strong>
+                    </li>
+                    <li>
+                        <span>Evening Snacks</span>
+                        <strong>₹160/plate</strong>
+                    </li>
+                    <li>
+                        <span>Night Dinner</span>
+                        <strong>₹360/plate</strong>
+                    </li>
+                </ul>
+
+                <button
+                    type="button"
+                    class="package-button primary"
+                    data-package="Silver"
+                    data-price="12500"
+                    onclick="choosePackage(this)"
+                >
+                    Choose Silver
+                </button>
+            </article>
+
+            <!-- GOLD -->
+
+            <article class="package-card">
+                <span class="package-category">Premium Experience</span>
+
+                <h2 class="package-title">Gold</h2>
+
+                <p class="package-price">₹16,000</p>
+                <p class="package-price-note">Starting package price</p>
+
+                <p class="package-partner">
+                    Catering partner: Royal Thanjavur Feast
+                </p>
+
+                <hr class="package-divider">
+
+                <ul class="package-meals">
+                    <li>
+                        <span>Morning Tiffin</span>
+                        <strong>₹280/plate</strong>
+                    </li>
+                    <li>
+                        <span>Afternoon Lunch</span>
+                        <strong>₹420/plate</strong>
+                    </li>
+                    <li>
+                        <span>Evening Snacks</span>
+                        <strong>₹220/plate</strong>
+                    </li>
+                    <li>
+                        <span>Night Dinner</span>
+                        <strong>₹480/plate</strong>
+                    </li>
+                </ul>
+
+                <button
+                    type="button"
+                    class="package-button secondary"
+                    data-package="Gold"
+                    data-price="16000"
+                    onclick="choosePackage(this)"
+                >
+                    Choose Gold
+                </button>
+            </article>
+
+        </section>
+
+        <!-- INFORMATION SECTION -->
+
+        <section class="package-info">
+            <div class="package-info-icon">💡</div>
+
+            <div>
+                <h3>How do you choose a package?</h3>
+                <p>
+                    Compare the available packages and their meal prices.
+                    Select a package to continue to your booking or enquiry
+                    page. Final costs may depend on guest count, menu
+                    selection, event location, and additional requirements.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let customer = {};
+
+            try {
+                customer = JSON.parse(
+                    localStorage.getItem("annapriya_customer") || "{}"
+                );
+            } catch (error) {
+                console.error("Unable to read customer details:", error);
+            }
+
+            const customerName =
+                customer.fullName ||
+                customer.full_name ||
+                customer.name ||
+                "Customer";
+
+            document.getElementById("headerCustomerName").textContent =
+                customerName;
+
+            document.getElementById("headerAvatar").textContent =
+                customerName.trim().charAt(0).toUpperCase() || "C";
+
+            document.getElementById("backButton").addEventListener(
+                "click",
+                function () {
+                    window.location.href = "customerdashboard.html";
+                }
+            );
+
+            const profileButton =
+                document.getElementById("profileButton");
+
+            const profileMenu =
+                document.getElementById("profileButtonMenu");
+
+            profileButton.addEventListener("click", function (event) {
+                event.stopPropagation();
+                profileMenu.classList.toggle("show");
+            });
+
+            document.addEventListener("click", function (event) {
+                if (
+                    !profileButton.contains(event.target) &&
+                    !profileMenu.contains(event.target)
+                ) {
+                    profileMenu.classList.remove("show");
+                }
+            });
+
+            document.addEventListener("keydown", function (event) {
+                if (event.key === "Escape") {
+                    profileMenu.classList.remove("show");
+                }
+            });
+        });
+
+        function choosePackage(button) {
+            let customer = {};
+
+            try {
+                customer = JSON.parse(
+                    localStorage.getItem("annapriya_customer") || "{}"
+                );
+            } catch (error) {
+                console.error("Unable to read customer details:", error);
+            }
+
+            if (
+                !customer.email &&
+                !customer.customer_id &&
+                !customer.customerId
+            ) {
+                alert("Please log in to choose a catering package.");
+                window.location.href = "customerdashboard.html";
+                return;
+            }
+
+            const selectedPackage = {
+                packageName: button.dataset.package,
+                packagePrice: Number(button.dataset.price),
+                selectedAt: new Date().toISOString()
+            };
+
+            localStorage.setItem(
+                "annapriya_selected_package",
+                JSON.stringify(selectedPackage)
+            );
+
+            // Update this filename if your actual booking page differs.
+            window.location.href =
+                "customerbooking.html?package=" +
+                encodeURIComponent(selectedPackage.packageName);
+        }
+    </script>
 
 </body>
 </html>

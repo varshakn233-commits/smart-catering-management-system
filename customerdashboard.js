@@ -533,11 +533,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 const button = document.createElement("button");
                 button.type = "button";
                 button.className = "recommendation-button";
-                button.textContent = "Explore Caterers →";
+                button.textContent = "Send Enquiry →";
 
-                button.addEventListener("click", () => {
-                    window.location.href = "customercaterers.html";
-                });
+button.addEventListener("click", () => {
+    const catererId =
+        caterer.caterer_id ||
+        caterer.catererId ||
+        caterer.id;
+
+    if (!catererId) {
+        alert("Caterer information is missing. Please refresh and try again.");
+        return;
+    }
+
+    window.location.href =
+        `customercaterers.html?catererId=${encodeURIComponent(catererId)}&openEnquiry=1`;
+});
 
                 card.append(rank, heading, description, button);
                 recommendationsList.appendChild(card);
