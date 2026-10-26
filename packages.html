@@ -577,43 +577,61 @@
             });
         });
 
-        function choosePackage(button) {
-            let customer = {};
+       function choosePackage(button) {
+    let customer = {};
 
-            try {
-                customer = JSON.parse(
-                    localStorage.getItem("annapriya_customer") || "{}"
-                );
-            } catch (error) {
-                console.error("Unable to read customer details:", error);
-            }
+    try {
+        customer = JSON.parse(
+            localStorage.getItem("annapriya_customer") || "{}"
+        );
+    } catch (error) {
+        console.error("Unable to read customer details:", error);
+    }
 
-            if (
-                !customer.email &&
-                !customer.customer_id &&
-                !customer.customerId
-            ) {
-                alert("Please log in to choose a catering package.");
-                window.location.href = "customerdashboard.html";
-                return;
-            }
+    // Ensure the customer is logged in.
+    if (
+        !customer.email &&
+        !customer.customer_id &&
+        !customer.customerId &&
+        !customer.id
+    ) {
+        alert("Please log in to choose a catering package.");
 
-            const selectedPackage = {
-                packageName: button.dataset.package,
-                packagePrice: Number(button.dataset.price),
-                selectedAt: new Date().toISOString()
-            };
+        window.location.href = "customerdashboard.html";
+        return;
+    }
 
-            localStorage.setItem(
-                "annapriya_selected_package",
-                JSON.stringify(selectedPackage)
-            );
+    // Get the selected package from the clicked card.
+    const selectedPackage = {
+        packageName: button.dataset.package,
+        packagePrice: Number(button.dataset.price),
+        selectedAt: new Date().toISOString()
+    };
 
-            // Update this filename if your actual booking page differs.
-            window.location.href =
-                "customerbooking.html?package=" +
-                encodeURIComponent(selectedPackage.packageName);
-        }
+    // Save the selection for the booking page.
+    localStorage.setItem(
+        "annapriya_selected_package",
+        JSON.stringify(selectedPackage)
+    );
+
+    // Pass the selected package and price to the existing booking page.
+    const bookingURL = new URL(
+        "bookmyevents.html",
+        window.location.href
+    );
+
+    bookingURL.searchParams.set(
+        "package",
+        selectedPackage.packageName
+    );
+
+    bookingURL.searchParams.set(
+        "price",
+        String(selectedPackage.packagePrice)
+    );
+
+    window.location.href = bookingURL.toString();
+}
     </script>
 
 </body>

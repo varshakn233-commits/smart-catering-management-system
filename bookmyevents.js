@@ -81,6 +81,79 @@ const submitButton =
 const packageSelect = document.getElementById("packageName");
 const cateringServiceSelect = document.getElementById("cateringService");
 
+// =====================================================
+// PART A: LOAD SELECTED PACKAGE FROM PACKAGES PAGE
+// =====================================================
+
+(function loadSelectedPackage() {
+    const params = new URLSearchParams(
+        window.location.search
+    );
+
+    const packageFromURL = params.get("package");
+    const priceFromURL = params.get("price");
+
+    let savedPackage = null;
+
+    try {
+        savedPackage = JSON.parse(
+            localStorage.getItem("annapriya_selected_package") || "null"
+        );
+    } catch (error) {
+        console.error("Unable to read selected package:", error);
+    }
+
+    // Prefer the package passed in the URL.
+    const packageName =
+        packageFromURL ||
+        savedPackage?.packageName ||
+        "";
+
+    if (!packageName) {
+        return;
+    }
+
+    const validPackages = [
+        "Bronze",
+        "Silver",
+        "Gold",
+        "Custom"
+    ];
+
+    if (!validPackages.includes(packageName)) {
+        console.warn("Invalid package selection:", packageName);
+        return;
+    }
+
+    // Preselect the package in the existing form.
+    if (packageSelect) {
+        packageSelect.value = packageName;
+    }
+
+    // Fill the existing budget field with the package starting price.
+    const budgetInput = document.getElementById("budget");
+
+    const savedPrice = Number(savedPackage?.packagePrice);
+
+    const urlPrice = Number(priceFromURL);
+
+    const packagePrice =
+        priceFromURL !== null &&
+        priceFromURL.trim() !== "" &&
+        Number.isFinite(urlPrice) &&
+        urlPrice >= 0
+            ? urlPrice
+            : savedPrice;
+
+    if (
+        budgetInput &&
+        Number.isFinite(packagePrice) &&
+        packagePrice > 0
+    ) {
+        budgetInput.value = packagePrice;
+    }
+})();
+
 const customOptionsContainer = document.createElement("div");
 customOptionsContainer.id = "customOptionsContainer";
 

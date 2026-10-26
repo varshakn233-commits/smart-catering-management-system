@@ -1131,7 +1131,7 @@ async function getSentimentAnalysis(req, res) {
     );
 
     execFile(
-        "python",
+        "py",
         [scriptPath],
         {
             cwd: projectRoot,

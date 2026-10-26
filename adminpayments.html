@@ -1891,17 +1891,16 @@ function normalizePayment(payment) {
                     ])
             ).length;
 
-
-        const pending =
-            allPayments.filter(
-                payment =>
-                    isStatus(payment.status, [
-                        "pending",
-                        "payment_pending"
-                    ])
-            ).length;
-
-
+const pending =
+    allPayments.filter(
+        payment =>
+            isStatus(payment.status, [
+                "pending",
+                "payment_pending",
+                "processing"
+            ])
+    ).length;
+    
         const failed =
             allPayments.filter(
                 payment =>

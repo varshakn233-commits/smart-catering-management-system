@@ -25,7 +25,7 @@ router.get("/", verifyCustomerToken, (req, res) => {
     }
 
     const pythonCommand =
-        process.env.PYTHON_EXECUTABLE || "python";
+        process.env.PYTHON_EXECUTABLE || "py";
 
     execFile(
         pythonCommand,
